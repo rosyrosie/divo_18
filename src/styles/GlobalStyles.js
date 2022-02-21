@@ -5,11 +5,11 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
   *{
     box-sizing: 'border-box';
-    font-family: 'Gothic A1';
+    font-family: 'SUIT';
   }
   html, body, #root{
     height: 100%;
-    font-family: 'Gothic A1' !important;
+    font-family: 'SUIT' !important;
   }
 `;
 
