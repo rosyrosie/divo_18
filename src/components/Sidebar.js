@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default function Sidebar(){
   return (
     <S.Sidebar>
-      <S.Divo>DIVO</S.Divo>
+      <S.Divo>Divo</S.Divo>
       <S.Menu>
         <S.Icon>
           <i class="fab fa-google-drive"></i>
@@ -29,9 +29,10 @@ export default function Sidebar(){
 const S = {};
 
 S.Sidebar = styled.div`
-  background: #f6f6f6;
-  width: 10%;
-  padding: 25px;
+  width: 150px;
+  padding: 40px;
+  color: #bbc3ce;
+  background: white;
 `;
 
 S.Divo = styled.div`
@@ -41,13 +42,14 @@ S.Divo = styled.div`
 `;
 
 S.Menu = styled.div`
-  font-weight: bold;
   display: flex;
+  font-weight: bold;
   align-items: center;
   padding-bottom: 50px;
 `;
 
 S.Icon = styled.div`
   width: 25px;
-  margin-right: 15px;
+  margin-right: 20px;
+  font-size: 20px;
 `;

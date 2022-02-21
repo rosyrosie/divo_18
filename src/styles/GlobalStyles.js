@@ -10,6 +10,10 @@ const GlobalStyles = createGlobalStyle`
   html, body, #root{
     height: 100%;
     font-family: 'SUIT' !important;
+    -webkit-user-select: none; 
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 `;
 
