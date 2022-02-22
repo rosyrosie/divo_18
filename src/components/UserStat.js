@@ -1,5 +1,45 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+);
+
+ChartJS.defaults.font.family = 'SUIT';
+
+const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+};
+
+const data = {
+  labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+  datasets: [
+    {
+      label: 'PC',
+      data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
+      borderColor: '#0063b2', 
+      backgroundColor: '#0063b2'
+    },
+    {
+      label: '모바일',
+      data: [90, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+      borderColor: '#9cc3d5',
+      backgroundColor: '#9cc3d5'
+    },
+  ]
+};
 
 export default function UserStat({ userRef }){
   const [ tab, setTab ] = useState(0);
@@ -15,6 +55,31 @@ export default function UserStat({ userRef }){
             <S.Tab onClick={() => setTab(3)} isSelected={tab===3}>월별</S.Tab>
             <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
           </S.Tabs>
+          <S.Chart>
+            <Line options={options} data={data} />
+          </S.Chart>
+          <S.Stats>
+            <S.Stat>
+              <S.Title>최근 30일 모바일 비율</S.Title>
+              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
+              <S.Data>85%</S.Data>
+            </S.Stat>
+            <S.Stat>
+              <S.Title>최근 3개월 모바일 비율</S.Title>
+              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
+              <S.Data>85%</S.Data>
+            </S.Stat>
+            <S.Stat>
+              <S.Title>최근 6개월 모바일 비율</S.Title>
+              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
+              <S.Data>85%</S.Data>
+            </S.Stat>
+            <S.Stat last={true}>
+              <S.Title>전체 모바일 비율</S.Title>
+              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
+              <S.Data>85%</S.Data>
+            </S.Stat>
+          </S.Stats> 
         </S.Box>
       </S.Section>
   );
@@ -73,4 +138,42 @@ S.Comment = styled.div`
   color: #7f7f7f;
   margin: 10px 0;
   ${props => props.isWhite ? 'color: white;' : ''}
+`;
+
+S.Chart = styled.div`
+  margin-top: 50px;
+  width: 85%;
+  padding: 0 100px;
+`;
+
+S.Stats = styled.div`
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+`;
+
+S.Stat = styled.div`
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-flow: column;
+  ${props => props.last ? '' : 'border-right: 1.5px solid #eaeaea;'}
+`;
+
+S.Title = styled.div`
+  font-weight: bold;
+  font-size: 18px;
+`;
+
+S.Date = styled.div`
+  color: #aaaaaa;
+  font-size: 14px;
+  margin-top: 15px;
+`;
+
+S.Data = styled.div`
+  margin-top: 30px;
+  font-weight: bold;
+  font-size: 32px;
+  font-family: 'Montserrat';
 `;

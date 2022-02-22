@@ -57,7 +57,7 @@ S.Title = styled.div`
 S.Comment = styled.div`
   color: #7f7f7f;
   margin: 10px 0;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  color: white;
 `;
 
 S.Col = styled.div`
@@ -66,16 +66,13 @@ S.Col = styled.div`
   flex: 1;
   padding-left: 30px;
   padding-bottom: 30px;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
   ${props => props.index===1 ? 'margin: 0 40px;' : ''}
-  ${props => props.isWhite ? 'background: none; box-shadow: none;' : ''}
+  ${props => props.index===2 ? '' : 'border-right: 1px solid rgba(255, 255, 255, 0.2);'}
 `;
 
 S.Stats = styled.div`
   display: flex;
-  ${props => props.isWhite ? 'margin-top: 40px;' : ''}
+  margin-top: 40px;
 `;
 
 S.Day = styled.div`
@@ -90,7 +87,7 @@ S.Date = styled.div`
   display: flex;
   color: #aaaaaa;
   margin-bottom: 40px;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  color: white;
   //justify-content: center;
 `;
 
@@ -98,9 +95,7 @@ S.Stat = styled.div`
   display: flex;
   font-size: 48px;
   font-weight: bold;
-  margin-bottom: 40px;
   font-family: 'Montserrat';
   display: flex;
   align-items: end;
-  ${props => props.isWhite ? 'margin: 0;' : ''}
 `;

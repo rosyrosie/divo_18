@@ -4,22 +4,21 @@ import styled from 'styled-components';
 import { menuList, subMenuList, subMenuUrlList } from '../environments/Variables';
 
 export default function Header(){
-
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
-  const [ menu, setMenu ] = useState(-1);
+  //const [ menu, setMenu ] = useState(-1);
 
   const navigate = useNavigate();
 
   return (
-    <S.Flex onMouseLeave={() => setMenu(-1)}>
+    <S.Flex>
       {!isSearching ? 
       <S.Header>
         <S.Logo onClick={() => navigate('/')}>Divo</S.Logo>
-        {menuList.map((menu, i) => (
-          <S.Menu key={menu} onMouseEnter={() => setMenu(i)}>{menu}</S.Menu>
+        {menuList.map((menuObj, i) => (
+          <S.Menu key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
         ))}
-        <S.Logo onClick={() => {setIsSearching(true); setMenu(-1);}}><i className="fas fa-search"></i></S.Logo>
+        <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
         <S.Logo><i className="fas fa-user"></i></S.Logo>
       </S.Header> :
       <S.Header>
@@ -27,12 +26,12 @@ export default function Header(){
         <S.Input placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)}/>
         <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
       </S.Header>}
-      {menu>=0 && 
+      {/* {menu>=0 && 
       <S.SubMenus>
         {subMenuList[menu].map((subMenu, i) => (
           <S.SubMenu key={subMenu} onClick={() => navigate(subMenuUrlList[menu][i])}>{subMenu}</S.SubMenu>
         ))}
-      </S.SubMenus>}
+      </S.SubMenus>} */}
     </S.Flex>  
   );
 }

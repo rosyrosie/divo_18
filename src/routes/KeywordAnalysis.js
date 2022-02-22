@@ -8,11 +8,10 @@ export default function KeywordAnalysis(){
 
   const [ keyword, setKeyword ] = useState('');
   const [ input, setInput ] = useState('');
-  const [ tab, setTab ] = useState(0);
-  const [ qtyRef, qtyInView] = useInView();
-  const [ ctRef, ctInView ] = useInView();
-  const [ userRef, userInView ] = useInView();
-  const [ mktRef, mktInView ] = useInView();
+  const [ qtyRef, qtyInView] = useInView({ threshold: 0.01 });
+  const [ ctRef, ctInView ] = useInView({ threshold: 0.01 });
+  const [ userRef, userInView ] = useInView({ threshold: 0.01 });
+  const [ mktRef, mktInView ] = useInView({ threshold: 0.01 });
 
   const activeTab = () => {
     if(qtyInView) return 0;
@@ -20,10 +19,6 @@ export default function KeywordAnalysis(){
     else if(userInView) return 2;
     else if(mktInView) return 3;
   }
-
-  useEffect(() => {
-    setTab(activeTab)
-  }, [activeTab]);
 
   return (
     <S.Body>
@@ -36,10 +31,10 @@ export default function KeywordAnalysis(){
       </S.Search>
       <S.TabBox>
         <S.Tabs>
-          <S.Tab onClick={() => setTab(0)} isSelected={tab===0}><S.Link href="#search-qty">키워드 검색량</S.Link></S.Tab>
-          <S.Tab onClick={() => setTab(1)} isSelected={tab===1}><S.Link href="#ctn-published">컨텐츠 발행량</S.Link></S.Tab>
-          <S.Tab onClick={() => setTab(2)} isSelected={tab===2}><S.Link href="#user-stat">검색자 특성</S.Link></S.Tab>
-          <S.Tab onClick={() => setTab(3)} isSelected={tab===3}><S.Link href="#mkt-index">마케팅 지표</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===0}><S.Link href="#search-qty">키워드 검색량</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===1}><S.Link href="#ctn-published">컨텐츠 발행량</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===2}><S.Link href="#user-stat">검색자 특성</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===3}><S.Link href="#mkt-index">마케팅 지표</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
       <S.ContentBox>
@@ -129,7 +124,6 @@ S.Tab = styled.div`
   opacity: .8;
   transition: opacity 0.3s;
   &:hover{
-    cursor: pointer;
     opacity: 1;
   }
   ${props => props.isSelected ? 'border-bottom: 1px solid black; opacity: 1;' : ''}
