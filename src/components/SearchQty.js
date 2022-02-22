@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { keywordCommentList } from '../environments/Variables';
 import CommentSection from './CommentSection';
 
-export default function SearchQty(){
+export default function SearchQty({ qtyRef }){
   return (
-    <>
+    <div ref={qtyRef} id="search-qty">
       <CommentSection comment={keywordCommentList[0]} />
       <S.Section color={'#f5f5f7'}>
         <S.Width>
@@ -84,7 +84,7 @@ export default function SearchQty(){
           </S.Stats>
         </S.Width>
       </S.Section>
-    </>
+    </div>
   );
 }
 

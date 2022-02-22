@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function UserStat(){
+export default function UserStat({ userRef }){
   const [ tab, setTab ] = useState(0);
   return (
-    <S.Section color={'#f5f5f7'}>
+    <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
         <S.Box>
           <S.BoxTitle>검색자 특성</S.BoxTitle>
           <S.Comment>검색자들이 이용하는 키워드 유형과 연령, 성별에 따라 기기의 비중이 달라집니다.</S.Comment>

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export default function ContentPublished(){
+export default function ContentPublished({ ctRef }){
   return (
-    <S.Section color={'#7d95b9'} isWhite={true}>
+    <S.Section color={'#7d95b9'} isWhite={true} ref={ctRef} id="ctn-published">
       <S.Width>
         <S.Title>컨텐츠 발행량</S.Title>
         <S.Comment isWhite={true}>점포의 매출액 상승을 위해서는 고객의 자발적 컨텐츠 발행이 늘어나야 합니다.</S.Comment> 

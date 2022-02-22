@@ -4,12 +4,12 @@ import ContentPublished from './ContentPublished';
 import SearchQty from './SearchQty';
 import UserStat from './UserStat';
 
-export default function KeywordReport(){
+export default function KeywordReport({ qtyRef, ctRef, userRef, mktRef }){
   return (
     <S.Column>
-      <SearchQty />
-      <ContentPublished />
-      <UserStat />
+      <SearchQty qtyRef={qtyRef} />
+      <ContentPublished ctRef={ctRef} />
+      <UserStat userRef={userRef} />
     </S.Column>
   );
 }

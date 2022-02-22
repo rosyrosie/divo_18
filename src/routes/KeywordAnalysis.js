@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import styled from "styled-components";
 import Header from "../components/Header";
 import KeywordReport from "../components/KeywordReport";
@@ -8,6 +9,21 @@ export default function KeywordAnalysis(){
   const [ keyword, setKeyword ] = useState('');
   const [ input, setInput ] = useState('');
   const [ tab, setTab ] = useState(0);
+  const [ qtyRef, qtyInView] = useInView();
+  const [ ctRef, ctInView ] = useInView();
+  const [ userRef, userInView ] = useInView();
+  const [ mktRef, mktInView ] = useInView();
+
+  const activeTab = () => {
+    if(qtyInView) return 0;
+    else if(ctInView) return 1;
+    else if(userInView) return 2;
+    else if(mktInView) return 3;
+  }
+
+  useEffect(() => {
+    setTab(activeTab)
+  }, [activeTab]);
 
   return (
     <S.Body>
@@ -20,16 +36,21 @@ export default function KeywordAnalysis(){
       </S.Search>
       <S.TabBox>
         <S.Tabs>
-          <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>키워드 검색량</S.Tab>
-          <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>컨텐츠 발행량</S.Tab>
-          <S.Tab onClick={() => setTab(2)} isSelected={tab===2}>검색자 특성</S.Tab>
-          <S.Tab onClick={() => setTab(3)} isSelected={tab===3}>마케팅 지표</S.Tab>
+          <S.Tab onClick={() => setTab(0)} isSelected={tab===0}><S.Link href="#search-qty">키워드 검색량</S.Link></S.Tab>
+          <S.Tab onClick={() => setTab(1)} isSelected={tab===1}><S.Link href="#ctn-published">컨텐츠 발행량</S.Link></S.Tab>
+          <S.Tab onClick={() => setTab(2)} isSelected={tab===2}><S.Link href="#user-stat">검색자 특성</S.Link></S.Tab>
+          <S.Tab onClick={() => setTab(3)} isSelected={tab===3}><S.Link href="#mkt-index">마케팅 지표</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
       <S.ContentBox>
         <S.Content>
           {keyword ?
-          <KeywordReport />
+          <KeywordReport 
+            qtyRef={qtyRef}
+            ctRef={ctRef}
+            userRef={userRef}
+            mktRef={mktRef}
+          />
           : 
           <S.Empty>
             분석할 키워드를 입력해주세요
@@ -41,6 +62,11 @@ export default function KeywordAnalysis(){
 }
 
 const S = {};
+
+S.Link = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;
 
 S.Body = styled.div`
   height: 100%;
