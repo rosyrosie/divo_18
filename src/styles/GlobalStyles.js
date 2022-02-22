@@ -8,12 +8,19 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'SUIT';
   }
   html, body, #root{
-    height: 100%;
     font-family: 'SUIT' !important;
     -webkit-user-select: none; 
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+  }
+  html{
+    min-height: 100%;
+    display: flex;
+  }
+  body, #root{
+    flex: 1;
+    display: flex;
   }
 `;
 
