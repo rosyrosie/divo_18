@@ -1,3 +1,5 @@
+import { registerables } from "chart.js";
+
 export const menuList = [
   {title: '키워드 분석', url: '/keyword-analysis'},
   {title: '매출액 분석', url: '/sales-analysis'},
@@ -84,13 +86,15 @@ export const lineData = [
         label: 'PC',
         data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
         borderColor: '#0063b2', 
-        backgroundColor: '#0063b2',
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
       },
       {
         label: '모바일',
         data: [90, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
         borderColor: '#9cc3d5',
-        backgroundColor: '#9cc3d5'
+        backgroundColor: 'rgba(156, 195, 213, 0.5)',
+        fill: 'origin'
       },
     ]
   },
@@ -222,6 +226,59 @@ export const radarData = {
   ]
 }
 
+export const salesRadarData = {
+  labels: ['매출액', '주말 매출 비율', '저녁 매출 비율', '결제단가', '결제건수', '재방문 매출 비율'],
+  datasets: [
+    {
+      label: '당산오돌 본점',
+      data: [3, 2, 1, 4, 5, 1],
+      backgroundColor: 'rgba(0, 99, 178, 0.5)',
+      borderColor: 'rgba(0, 99, 178)',
+      borderWidth: 2
+    },
+    {
+      label: '과거 1개월',
+      data: [1, 5, 2, 4, 4, 3],
+      backgroundColor: 'rgba(156, 195, 213, 0.5)',
+      borderColor: 'rgba(156, 195, 213)',
+      borderWidth: 2
+    },
+    {
+      label: '평균',
+      data: [1, 4, 2, 5, 4, 5],
+      backgroundColor: 'rgba(221, 221, 224, 0.2)',
+      borderColor: '#dddde0',
+      borderWidth: 2
+    },
+  ]
+}
+
+export const salesRadarOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  scales: {
+    r: {
+      min: 0,
+      pointLabels: {
+        font: {
+          size: 11
+        }
+      },
+      ticks: {
+        showLabelBackdrop: false,
+        stepSize: 1,
+        font: {
+          weight: 'bold'
+        }
+      },
+    }
+  }
+}
+
 export const radarOptions = {
   responsive: true,
   plugins: {
@@ -247,9 +304,81 @@ export const radarOptions = {
           weight: 'bold'
         }
       },
-      grid:{
-        color: 'rgba(255, 255, 255, 0.3)',
-      },
+      grid: {
+        color: 'rgba(255, 255, 255, 0.3)'
+      }
     }
   }
 }
+
+export const salesLineData = [
+  {
+    labels: ['2022.02.16', '2022.02.17', '2022.02.18', '2022.02.19', '2022.02.20', '2022.02.21', '2022.02.22'],
+    datasets: [
+      {
+        label: '매출액',
+        data: [40, 30, 20, 10, 20, 30, 40],
+        borderColor: 'rgba(0, 99, 178)', 
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
+      },
+    ]
+  },
+  {
+    labels: ['1월 1주차', '1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차', '2월 4주차', '3월 1주차', '3월 2주차', '3월 3주차'],
+    datasets: [
+      {
+        label: '매출액',
+        data: [10, 90, 30, 40, 30, 20, 30, 50, 10, 20, 30, 40],
+        borderColor: 'rgba(0, 99, 178)', 
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
+      },
+    ]
+  },
+  {
+    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+    datasets: [
+      {
+        label: '매출액',
+        data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
+        borderColor: 'rgba(0, 99, 178)', 
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
+      },
+    ]
+  },
+];
+
+export const salesLineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    },
+    filler: {
+      propagate: false
+    }
+  },
+  // scales: {
+  //   x: {
+  //     grid: {
+  //       color: 'rgba(255, 255, 255, 0.3)',
+  //       tickColor: 'rgba(255, 255, 255, 0.3)'
+  //     },
+  //     ticks: {
+  //       color: 'white'
+  //     }
+  //   },
+  //   y: {
+  //     grid: {
+  //       color: 'rgba(255, 255, 255, 0.3)',
+  //       tickColor: 'rgba(255, 255, 255, 0.3)'
+  //     },
+  //     ticks: {
+  //       color: 'white'
+  //     }
+  //   }
+  // }
+  
+};

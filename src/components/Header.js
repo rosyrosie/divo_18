@@ -74,7 +74,7 @@ S.Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  ${props => props.dark ? 'box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);' : 'box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);'}
   ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(225, 225, 227, 0.7); color: #1d1d1f;'}
 `;
 
@@ -92,7 +92,7 @@ S.Menu = styled.div`
 S.Logo = styled(S.Menu)`
   font-family: 'Montserrat';
   font-size: 17px;
-  font-weight: 
+  font-weight: bold;
 `;
 
 S.Input = styled.input`

@@ -19,10 +19,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-// ChartJS.defaults.color = 'white';
-// ChartJS.defaults.borderColor = 'rgba(255, 255, 255, 0.2)';
-
 export default function KeywordRadar({ evalRef }){
   return (
     <S.Section id="eval-radar" ref={evalRef} color={'rgba(94, 113, 106, .7)'}>
