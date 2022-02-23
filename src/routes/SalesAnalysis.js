@@ -13,6 +13,7 @@ import { Line, Radar } from 'react-chartjs-2';
 import { salesLineData, salesLineOptions, salesRadarData, salesRadarOptions } from '../environments/Variables';
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import SalesCompare from '../components/SalesCompare';
 
 ChartJS.register(
   RadialLinearScale,
@@ -94,14 +95,7 @@ export default function SalesAnalysis(){
           </S.Line>
         </S.Width>
       </S.Fill>
-      <S.Fill color={'white'}>
-        <S.Width>
-          <S.Text>
-            <S.Title>점포 특성 분석</S.Title>
-            <S.Comment>다양한 매출 지표를 통해 점포 및 방문고객 특성을 도출하여 마케팅 방향성을 제시합니다.</S.Comment>
-          </S.Text>
-        </S.Width>
-      </S.Fill>
+      <SalesCompare />
     </S.Body>
   );
 }
