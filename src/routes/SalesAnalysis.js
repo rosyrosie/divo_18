@@ -4,7 +4,7 @@ import Header from '../components/Header';
 export default function SalesAnalysis(){
   return (
     <S.Body>
-      <Header />
+      <Header dark={true}/>
     </S.Body>
   );
 }

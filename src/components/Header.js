@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { menuList, subMenuList, subMenuUrlList } from '../environments/Variables';
+import { menuList } from '../environments/Variables';
 
-export default function Header(){
+export default function Header({ dark = false }){
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
   //const [ menu, setMenu ] = useState(-1);
@@ -13,17 +13,17 @@ export default function Header(){
   return (
     <S.Flex>
       {!isSearching ? 
-      <S.Header>
+      <S.Header dark={dark}>
         <S.Logo onClick={() => navigate('/')}>Divo</S.Logo>
         {menuList.map((menuObj, i) => (
-          <S.Menu key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
+          <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
         ))}
         <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
         <S.Logo><i className="fas fa-user"></i></S.Logo>
       </S.Header> :
-      <S.Header>
+      <S.Header dark={dark}>
         <S.Logo><i className="fas fa-search"></i></S.Logo>
-        <S.Input placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
+        <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
         <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
       </S.Header>}
       {/* {menu>=0 && 
@@ -70,15 +70,12 @@ S.Header = styled.div`
   height: 48px;
   min-height: 48px;
   flex: 1;
-  //background: rgba(0, 0, 0, 0.7);
-  background: rgba(225, 225, 227, 0.7);
-  //color: #f5f5f7;
-  color: #1d1d1f;
   font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(225, 225, 227, 0.7); color: #1d1d1f;'}
 `;
 
 S.Menu = styled.div`
@@ -88,7 +85,6 @@ S.Menu = styled.div`
   font-weight: bold;
   &:hover{
     cursor: pointer;
-    color: black;
     opacity: 1;
   }
 `;
@@ -115,4 +111,5 @@ S.Input = styled.input`
     font-size: 14px;
   }
   font-size: 16px;
+  ${props => props.dark ? 'color: white; &::placeholder{color:#f5f5f7;}' : ''}
 `;

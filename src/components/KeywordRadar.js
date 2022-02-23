@@ -25,7 +25,7 @@ ChartJS.register(
 
 export default function KeywordRadar({ evalRef }){
   return (
-    <S.Section ref={evalRef} color={'rgba(94, 113, 106, .7)'}>
+    <S.Section id="eval-radar" ref={evalRef} color={'rgba(94, 113, 106, .7)'}>
       <S.Width>
         <S.Flex>
           <S.Title isWhite={true}>키워드 평가</S.Title>
