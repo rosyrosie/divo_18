@@ -114,7 +114,7 @@ S.Col = styled.div`
   padding-bottom: 30px;
   background: white;
   border-radius: 20px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   ${props => props.index===1 ? 'margin: 0 40px;' : ''}
   ${props => props.isWhite ? 'background: none; box-shadow: none;' : ''}
 `;

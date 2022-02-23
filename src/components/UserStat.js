@@ -60,7 +60,7 @@ S.Box = styled.div`
   flex-flow: column;
   padding: 40px;
   border-radius: 20px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   justify-content: center;
   align-items: center;
 `;
