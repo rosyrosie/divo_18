@@ -116,8 +116,9 @@ S.TabBox = styled.div`
   border-bottom: 1px solid #aaaaaa;
   position: sticky;
   top: 0;
-  //backdrop-filter: blur(3px);
-  background: white;
+  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255, 255, 255, 0.72);
+  //background: white;
 `;
 
 S.Tabs = styled.div`
