@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 import KeywordReport from "../components/KeywordReport";
 
 export default function KeywordAnalysis(){
 
-  const [ keyword, setKeyword ] = useState('');
-  const [ input, setInput ] = useState('');
+  const { keyword } = useParams();
+  const [ input, setInput ] = useState(keyword);
   const [ evalRef, evalInView ] = useInView({ threshold: 0.01 });
   const [ qtyRef, qtyInView] = useInView({ threshold: 0.01 });
   const [ ctRef, ctInView ] = useInView({ threshold: 0.01 });
   const [ userRef, userInView ] = useInView({ threshold: 0.01 });
   const [ mktRef, mktInView ] = useInView({ threshold: 0.01 });
+  const navigate = useNavigate();
+
+  useEffect(() => setInput(keyword), [keyword]);
 
   const activeTab = () => {
     if(evalInView) return 0;
@@ -29,7 +33,7 @@ export default function KeywordAnalysis(){
       <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
-          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? setKeyword(input) : null}/>
+          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
         </S.InputBox>
       </S.Search>
       <S.TabBox>

@@ -23,7 +23,7 @@ export default function Header(){
       </S.Header> :
       <S.Header>
         <S.Logo><i className="fas fa-search"></i></S.Logo>
-        <S.Input placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)}/>
+        <S.Input placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
         <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
       </S.Header>}
       {/* {menu>=0 && 
