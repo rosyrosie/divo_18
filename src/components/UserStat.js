@@ -69,6 +69,7 @@ S.BoxTitle = styled.div`
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 15px;
+  color: #1d1d1f;
 `;
 
 S.Tabs = styled.div`
@@ -91,9 +92,8 @@ S.Tab = styled.div`
 `;
 
 S.Comment = styled.div`
-  color: #7f7f7f;
+  color: #515154;
   margin: 10px 0;
-  ${props => props.isWhite ? 'color: white;' : ''}
 `;
 
 S.Chart = styled.div`

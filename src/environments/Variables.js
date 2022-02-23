@@ -210,14 +210,14 @@ export const radarData = {
   labels: ['일 검색량', '주말 검색 비율', 'MZ 검색 비율', '여성 검색 비율', '모바일 검색 비율'],
   datasets: [
     {
-      label: '평균',
+      label: '당산오돌 본점',
       data: [1, 4, 2, 5, 4],
       backgroundColor: 'rgba(255, 255, 255, 0.2)',
       borderColor: 'white',
       borderWidth: 2
     },
     {
-      label: '당산오돌 본점',
+      label: '평균',
       data: [3, 2, 1, 4, 5],
       backgroundColor: 'rgba(18, 31, 17, 0.2)',
       borderColor: 'rgba(18, 31, 17)',
@@ -286,26 +286,26 @@ export const radarOptions = {
       position: 'bottom',
     },
   },
-  color: 'white',
+  color: '#f5f5f7',
   scales: {
     r: {
       min: 0,
       pointLabels: {
-        color: 'white',
+        color: '#f5f5f7',
         font: {
-          size: 11
+          size: 12
         }
       },
       ticks: {
         showLabelBackdrop: false,
         stepSize: 1,
-        color: 'white',
+        color: '#f5f5f7',
         font: {
           weight: 'bold'
         }
       },
       grid: {
-        color: 'rgba(255, 255, 255, 0.3)'
+        color: 'rgba(245, 245, 247, 0.3)'
       }
     }
   }
@@ -317,7 +317,7 @@ export const salesLineData = [
     datasets: [
       {
         label: '매출액',
-        data: [40, 30, 20, 10, 20, 30, 40],
+        data: [40, 30, 40, 50, 30, 20, 40],
         borderColor: 'rgba(0, 99, 178)', 
         backgroundColor: 'rgba(0, 99, 178, 0.5)',
         fill: 'origin'

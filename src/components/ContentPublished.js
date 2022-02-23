@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export default function ContentPublished({ ctRef }){
   return (
-    <S.Section color={'#7d95b9'} isWhite={true} ref={ctRef} id="ctn-published">
+    <S.Section color={'#2a3142'} isWhite={true} ref={ctRef} id="ctn-published">
       <S.Width>
         <S.Title>컨텐츠 발행량</S.Title>
         <S.Comment isWhite={true}>점포의 매출액 상승을 위해서는 고객의 자발적 컨텐츠 발행이 늘어나야 합니다.</S.Comment> 
@@ -37,7 +37,7 @@ S.Section = styled.div`
   ${props => `background: ${props.color};`}
   display: flex;
   justify-content: center;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  ${props => props.isWhite ? 'color: #f5f5f7;' : ''}
 `;
 
 S.Width = styled.div`
@@ -55,9 +55,8 @@ S.Title = styled.div`
 `;
 
 S.Comment = styled.div`
-  color: #7f7f7f;
   margin: 10px 0;
-  color: white;
+  color: #f5f5f7;
 `;
 
 S.Col = styled.div`
@@ -85,14 +84,11 @@ S.Day = styled.div`
 
 S.Date = styled.div`
   display: flex;
-  color: #aaaaaa;
   margin-bottom: 40px;
-  color: white;
-  //justify-content: center;
+  color: #f5f5f7;
 `;
 
 S.Stat = styled.div`
-  display: flex;
   font-size: 48px;
   font-weight: bold;
   font-family: 'Montserrat';

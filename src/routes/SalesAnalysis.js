@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
-import background from '../images/card_bg.jpg';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -100,12 +99,6 @@ export default function SalesAnalysis(){
           <S.Text>
             <S.Title>점포 특성 분석</S.Title>
             <S.Comment>다양한 매출 지표를 통해 점포 및 방문고객 특성을 도출하여 마케팅 방향성을 제시합니다.</S.Comment>
-            <S.CardBox>
-              <S.Card color={'red'}>
-                <S.Image image={background}></S.Image>
-                <S.StatBox></S.StatBox>
-              </S.Card>
-            </S.CardBox>
           </S.Text>
         </S.Width>
       </S.Fill>
@@ -146,6 +139,7 @@ S.Text = styled.div`
   flex: 2;
   display: flex;
   flex-flow: column;
+  ${props => props.right && 'align-items: end;'}
 `;
 
 S.Radar = styled.div`
@@ -169,10 +163,12 @@ S.Title = styled.div`
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 40px;
+  color: #1d1d1f;
 `;
 
 S.Comment = styled.div`
   margin: 10px 0;
+  color: #515154;
 `;
 
 S.LineTab = styled.div`
@@ -190,6 +186,7 @@ S.LineTab = styled.div`
 
 S.TabTitle = styled.div`
   font-size: 14px;
+  color: #515154;
 `;
 
 S.Sales = styled.div`
@@ -197,11 +194,13 @@ S.Sales = styled.div`
   font-size: 24px;
   font-weight: bold;
   font-family: 'Montserrat', 'SUIT';
+  color: #1d1d1f;
 `;
 
 S.Compare = styled.div`
   display: flex;
   font-size: 12px;
+  color: #515154;
 `;
 
 S.Delta = styled.div`
@@ -209,12 +208,13 @@ S.Delta = styled.div`
   font-weight: 400;
   margin-left: 5px;
   font-weight: 600;
+  color: #1d1d1f;
 `;
 
 S.TabBox = styled.div`
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid #aaaaaa;
+  border-bottom: 1px solid #d2d2d7;
   position: sticky;
   top: 0;
   backdrop-filter: saturate(180%) blur(20px);
@@ -238,34 +238,4 @@ S.Tab = styled.div`
     opacity: 1;
   }
   ${props => props.isSelected ? 'border-bottom: 1px solid black; opacity: 1;' : ''}
-`;
-
-S.CardBox = styled.div`
-  width: 100%;
-  margin-top: 50px;
-  display: flex;
-`;
-
-S.Card = styled.div`
-  background: white;
-  display: flex;
-  align-items: center;
-  width: 70%;
-  height: 600px;
-  border-radius: 20px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-`;
-
-S.Image = styled.div`
-  flex: 1;
-  height: 100%;
-  background-image: url(${props => props.image});
-  background-size: cover;
-`;
-
-S.StatBox = styled.div`
-  flex: 2;
-  background: white;
-  height: 100%;
 `;

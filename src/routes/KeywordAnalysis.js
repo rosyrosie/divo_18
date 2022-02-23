@@ -83,7 +83,7 @@ S.Search = styled.div`
   padding: 20px 0;
   display: flex;
   justify-content: center;
-  color: #aaaaaa;
+  color: #1d1d1f;
 `;
 
 S.Icon = styled.div`
@@ -92,7 +92,7 @@ S.Icon = styled.div`
 `;
 
 S.InputBox = styled.div`
-  border: 1px solid #aaaaaa;
+  border: 1px solid #d2d2d7;
   border-radius: 30px;
   padding: 10px 12px;
   display: flex;
@@ -108,12 +108,13 @@ S.Input = styled.input`
   &:focus{
     outline: none;
   }
+  color: #1d1d1f;
 `;
 
 S.TabBox = styled.div`
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid #aaaaaa;
+  border-bottom: 1px solid #d2d2d7;
   position: sticky;
   top: 0;
   backdrop-filter: saturate(180%) blur(20px);

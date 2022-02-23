@@ -130,11 +130,12 @@ S.Day = styled.div`
   display: flex;
   //justify-content: center;
   margin: 40px 0 20px 0;
+  color: #1d1d1f;
 `;
 
 S.Date = styled.div`
   display: flex;
-  color: #aaaaaa;
+  color: #515154;
   margin-bottom: 40px;
   ${props => props.isWhite ? 'color: white;' : ''}
   //justify-content: center;
@@ -149,11 +150,12 @@ S.Stat = styled.div`
   display: flex;
   align-items: end;
   ${props => props.isWhite ? 'margin: 0;' : ''}
+  color: #1d1d1f;
 `;
 
 S.Compare = styled.div`
   display: flex;
-  color: #aaaaaa;
+  color: #515154;
   margin-bottom: 10px;
 `;
 

@@ -35,10 +35,11 @@ S.Title = styled.div`
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 40px;
+  color: #1d1d1f;
 `;
 
 S.Comment = styled.div`
-  color: #7f7f7f;
+  color: #515154;
   margin: 10px 0;
   ${props => props.isWhite ? 'color: white;' : ''}
 `;

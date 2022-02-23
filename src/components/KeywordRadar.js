@@ -19,17 +19,18 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
 export default function KeywordRadar({ evalRef }){
   return (
-    <S.Section id="eval-radar" ref={evalRef} color={'rgba(94, 113, 106, .7)'}>
+    <S.Section id="eval-radar" ref={evalRef} color={'rgba(77, 107, 83, 1)'}>
       <S.Width>
         <S.Flex>
           <S.Title isWhite={true}>키워드 평가</S.Title>
-          <S.Comment isWhite={true}>일 검색량은 ~~</S.Comment>
-          <S.Comment isWhite={true}>주말 검색비율은 ~~</S.Comment>
-          <S.Comment isWhite={true}>MZ 검색비율은 ~~</S.Comment>
-          <S.Comment isWhite={true}>여성 검색비율은 ~~</S.Comment>
-          <S.Comment isWhite={true}>모바일 검색비율은 ~~</S.Comment>
+          <S.Comment isWhite={true}>일 검색량은 ..</S.Comment>
+          <S.Comment isWhite={true}>주말 검색비율은 ..</S.Comment>
+          <S.Comment isWhite={true}>MZ 검색비율은 ..</S.Comment>
+          <S.Comment isWhite={true}>여성 검색비율은 ..</S.Comment>
+          <S.Comment isWhite={true}>모바일 검색비율은 ..</S.Comment>
         </S.Flex>
         <S.Chart>
           <Radar options={radarOptions} data={radarData} />
@@ -46,7 +47,7 @@ S.Section = styled.div`
   ${props => `background: ${props.color};`}
   display: flex;
   justify-content: center;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  ${props => props.isWhite ? 'color: #f5f5f7;' : ''}
 `;
 
 S.Width = styled.div`
@@ -60,13 +61,13 @@ S.Title = styled.div`
   font-weight: bold;
   font-size: 24px;
   margin-bottom: 40px;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  ${props => props.isWhite ? 'color: #f5f5f7;' : ''}
 `;
 
 S.Comment = styled.div`
   color: #7f7f7f;
   margin: 10px 0;
-  ${props => props.isWhite ? 'color: white;' : ''}
+  ${props => props.isWhite ? 'color: #f5f5f7;' : ''}
 `;
 
 S.Flex = styled.div`
