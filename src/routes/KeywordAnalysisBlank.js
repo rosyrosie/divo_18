@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Header from "../components/Header";
 import KeywordReport from "../components/KeywordReport";
 
-export default function KeywordAnalysis(){
+export default function KeywordAnalysisBlank(){
 
   const [ keyword, setKeyword ] = useState('');
   const [ input, setInput ] = useState('');

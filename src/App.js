@@ -10,7 +10,7 @@ export default function App(){
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/keyword-analysis" element={<KeywordAnalysis />} />
+          <Route path="/keyword-analysis/keyword=:keyword" element={<KeywordAnalysis />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,45 +1,20 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { Line, Bar } from 'react-chartjs-2';
+import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Tooltip,
   Legend
 );
 
 ChartJS.defaults.font.family = 'SUIT';
-
-const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-    },
-  },
-};
-
-const data = {
-  labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
-  datasets: [
-    {
-      label: 'PC',
-      data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
-      borderColor: '#0063b2', 
-      backgroundColor: '#0063b2'
-    },
-    {
-      label: '모바일',
-      data: [90, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
-      borderColor: '#9cc3d5',
-      backgroundColor: '#9cc3d5'
-    },
-  ]
-};
 
 export default function UserStat({ userRef }){
   const [ tab, setTab ] = useState(0);
@@ -47,7 +22,7 @@ export default function UserStat({ userRef }){
     <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
         <S.Box>
           <S.BoxTitle>검색자 특성</S.BoxTitle>
-          <S.Comment>검색자들이 이용하는 키워드 유형과 연령, 성별에 따라 기기의 비중이 달라집니다.</S.Comment>
+          <S.Comment>{userStatComment[tab]}</S.Comment>
           <S.Tabs>
             <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>기기별</S.Tab>
             <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>성별</S.Tab>
@@ -56,30 +31,11 @@ export default function UserStat({ userRef }){
             <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
           </S.Tabs>
           <S.Chart>
-            <Line options={options} data={data} />
+            <Line options={lineOptions} data={lineData[tab]} />
           </S.Chart>
-          <S.Stats>
-            <S.Stat>
-              <S.Title>최근 30일 모바일 비율</S.Title>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Data>85%</S.Data>
-            </S.Stat>
-            <S.Stat>
-              <S.Title>최근 3개월 모바일 비율</S.Title>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Data>85%</S.Data>
-            </S.Stat>
-            <S.Stat>
-              <S.Title>최근 6개월 모바일 비율</S.Title>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Data>85%</S.Data>
-            </S.Stat>
-            <S.Stat last={true}>
-              <S.Title>전체 모바일 비율</S.Title>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Data>85%</S.Data>
-            </S.Stat>
-          </S.Stats> 
+          <S.Chart>
+            <Bar options={barOptions} data={barData} />
+          </S.Chart>
         </S.Box>
       </S.Section>
   );
@@ -142,8 +98,7 @@ S.Comment = styled.div`
 
 S.Chart = styled.div`
   margin-top: 50px;
-  width: 85%;
-  padding: 0 100px;
+  width: 75%;
 `;
 
 S.Stats = styled.div`

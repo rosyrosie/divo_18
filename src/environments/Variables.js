@@ -7,7 +7,6 @@ export const menuList = [
   {title: '커뮤니티', url: '/'},
 ];
 
-
 export const subMenuUrlList = [
   ['/keyword-analysis/search-qty', '/', '/', '/', '/'],
   ['/', '/', '/', '/', '/'],
@@ -49,3 +48,208 @@ export const keywordCommentList = [
     ]
   },
 ]
+
+export const userStatComment = [
+  '검색자들이 이용하는 키워드 유형과 연령, 성별에 따라 기기의 비중이 달라집니다.',
+  '일반적으로 검색자 중 여성이 비중이 높을수록 매출이 높은 경향이 있습니다.',
+  '검색자의 요일별 비중이 실제 매장을 이용하는 고객의 요일별 비중과 유사한지 확인해야 합니다.',
+  '월별 멘트',
+  '검색자의 연령별 비중이 실제 매장을 이용하는 고객의 연령별 비중과 유사한지 확인해야 합니다.'
+]
+
+export const lineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+};
+
+export const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  maxBarThickness: 80,
+};
+
+export const lineData = [
+  {
+    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+    datasets: [
+      {
+        label: 'PC',
+        data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
+        borderColor: '#0063b2', 
+        backgroundColor: '#0063b2',
+      },
+      {
+        label: '모바일',
+        data: [90, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+        borderColor: '#9cc3d5',
+        backgroundColor: '#9cc3d5'
+      },
+    ]
+  },
+  {
+    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+    datasets: [
+      {
+        label: '남성',
+        data: [40, 20, 30, 40, 50, 20, 30, 20, 10, 30, 30, 40],
+        borderColor: '#0063b2', 
+        backgroundColor: '#0063b2'
+      },
+      {
+        label: '여성',
+        data: [10, 80, 70, 60, 40, 60, 70, 80, 50, 80, 70, 60],
+        borderColor: '#9cc3d5',
+        backgroundColor: '#9cc3d5'
+      },
+    ]
+  },
+  {
+    labels: ['1월 1주차', '1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차', '2월 4주차', '3월 1주차', '3월 2주차', '3월 3주차'],
+    datasets: [
+      {
+        label: '평일',
+        data: [10, 90, 30, 40, 30, 20, 30, 50, 10, 20, 30, 40],
+        borderColor: '#0063b2', 
+        backgroundColor: '#0063b2'
+      },
+      {
+        label: '주말',
+        data: [90, 10, 70, 60, 30, 60, 40, 80, 90, 80, 30, 60],
+        borderColor: '#9cc3d5',
+        backgroundColor: '#9cc3d5'
+      },
+    ]
+  },
+  {
+    labels: ['2017', '2018', '2019', '2020',' 2021'],
+    datasets: [
+      {
+        label: '1월',
+        data: [1, 1, 1, 1, 1],
+        borderColor: '#0063b2', 
+        backgroundColor: '#0063b2'
+      },
+      {
+        label: '2월',
+        data: [2, 2, 2, 2, 2],
+        borderColor: '#9cc3d5',
+        backgroundColor: '#9cc3d5'
+      },
+      {
+        label: '3월',
+        data: [3, 3, 3, 3, 3]
+      },
+      {
+        label: '4월',
+        data: [4, 4, 4, 4, 4]
+      }
+    ]
+  },
+  {
+    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+    datasets: [
+      {
+        label: '10대',
+        data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
+        borderColor: '#0063b2', 
+        backgroundColor: '#0063b2'
+      },
+      {
+        label: '20대',
+        data: [90, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+        borderColor: '#9cc3d5',
+        backgroundColor: '#9cc3d5'
+      },
+      {
+        label: '30대',
+        data: [10, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+      },
+      {
+        label: '40대',
+        data: [20, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+      },
+      {
+        label: '50대 이상',
+        data: [30, 80, 70, 60, 50, 60, 70, 80, 90, 80, 70, 60],
+      },
+    ]
+  },
+];
+
+export const barData = {
+  labels: ['PC', '모바일'],
+  datasets: [
+    {
+      label: '최근 30일',
+      data: [40, 60],
+      backgroundColor: 'rgba(0, 99, 178, 0.5)',
+      borderColor: '#0063b2'
+    },
+    {
+      label: '최근 3개월',
+      data: [50, 50],
+      backgroundColor: 'rgba(156, 195, 213, 0.5)',
+      borderColor: '#9cc3d5'
+    }
+  ]
+}
+
+export const radarData = {
+  labels: ['일 검색량', '주말 검색 비율', 'MZ 검색 비율', '여성 검색 비율', '모바일 검색 비율'],
+  datasets: [
+    {
+      label: '평균',
+      data: [1, 4, 2, 5, 4],
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      borderColor: 'white',
+      borderWidth: 2
+    },
+    {
+      label: '당산오돌 본점',
+      data: [3, 2, 1, 4, 5],
+      backgroundColor: 'rgba(18, 31, 17, 0.2)',
+      borderColor: 'rgba(18, 31, 17)',
+      borderWidth: 2
+    },
+  ]
+}
+
+export const radarOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  color: 'white',
+  scales: {
+    r: {
+      min: 0,
+      pointLabels: {
+        color: 'white',
+        font: {
+          size: 11
+        }
+      },
+      ticks: {
+        showLabelBackdrop: false,
+        stepSize: 1,
+        color: 'white',
+        font: {
+          weight: 'bold'
+        }
+      },
+      grid:{
+        color: 'rgba(255, 255, 255, 0.3)',
+      },
+    }
+  }
+}

@@ -4,14 +4,16 @@ import ContentPublished from './ContentPublished';
 import SearchQty from './SearchQty';
 import UserStat from './UserStat';
 import MarketingIndex from './MarketingIndex';
+import KeywordRadar from './KeywordRadar';
 
-export default function KeywordReport({ qtyRef, ctRef, userRef, mktRef }){
+export default function KeywordReport({ evalRef, qtyRef, ctRef, userRef, mktRef }){
   return (
     <S.Column>
+      <KeywordRadar evalRef={evalRef} />
       <SearchQty qtyRef={qtyRef} />
       <ContentPublished ctRef={ctRef} />
       <UserStat userRef={userRef} />
-      <MarketingIndex mktRef={mktRef} />
+      {/* <MarketingIndex mktRef={mktRef} /> */}
     </S.Column>
   );
 }
