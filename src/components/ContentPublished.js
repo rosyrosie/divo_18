@@ -11,7 +11,7 @@ export default function ContentPublished({ ctRef }){
     SA_CONTENT_URL + keyword,
     null,
     'GET',
-    [keyword]
+    []
   );
 
   const data = payload?.contents;

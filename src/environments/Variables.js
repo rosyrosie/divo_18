@@ -479,3 +479,5 @@ export const salesCompareData = [
     ]
   },
 ];
+
+//creating chart data

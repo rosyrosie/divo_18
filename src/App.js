@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CorpManagement from "./routes/CorpManagement";
 import Home from "./routes/Home";
 import KeywordAnalysis from "./routes/KeywordAnalysis";
 import KeywordAnalysisBlank from "./routes/KeywordAnalysisBlank";
@@ -19,6 +20,7 @@ export default function App(){
           <Route path="/sales-analysis" element={<SalesAnalysis />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/corp-management" element={<CorpManagement />} />
         </Routes>
       </BrowserRouter>
     </>

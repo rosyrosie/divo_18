@@ -3,21 +3,33 @@ import styled from 'styled-components';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
+import { SA_CHART_URL } from '../environments/Api';
+import { useParams } from 'react-router-dom';
+import { useFetch } from '../environments/Hooks';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Tooltip,
-  Legend
-);
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   BarElement,
+//   Tooltip,
+//   Legend
+// );
 
-ChartJS.defaults.font.family = 'SUIT';
+// ChartJS.defaults.font.family = 'SUIT';
 
 export default function UserStat({ userRef }){
   const [ tab, setTab ] = useState(0);
+  const { keyword } = useParams();
+
+  const { payload, error } = useFetch(
+    SA_CHART_URL + keyword,
+    null,
+    'GET',
+    []  
+  );
+
   return (
     <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
         <S.Box>

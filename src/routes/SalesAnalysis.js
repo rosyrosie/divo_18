@@ -15,14 +15,17 @@ import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '../components/SalesCompare';
 
-ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-);
+// ChartJS.register(
+//   RadialLinearScale,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   BarElement,
+//   Filler,
+//   Tooltip,
+//   Legend,
+// );
 
 export default function SalesAnalysis(){
   const [ tab, setTab ] = useState(0);
