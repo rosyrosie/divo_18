@@ -14,7 +14,7 @@ export default function ContentPublished({ ctRef }){
     [keyword]
   );
 
-  console.log(payload);
+  const data = payload?.contents;
 
   return (
     <S.Section color={'#2a3142'} isWhite={true} ref={ctRef} id="ctn-published">
@@ -26,18 +26,18 @@ export default function ContentPublished({ ctRef }){
         <S.Stats isWhite={true}>
           <S.Col index={0} isWhite={true}>
             <S.Day>최근 1일 발행량</S.Day>
-            <S.Date isWhite={true}>2022.02.21(월)</S.Date>
-            <S.Stat isWhite={true}>32</S.Stat>
+            <S.Date isWhite={true}>{data?.[0]?.date}</S.Date>
+            <S.Stat isWhite={true}>{data?.[0]?.contentsTotal}</S.Stat>
           </S.Col>
           <S.Col index={1} isWhite={true}>
             <S.Day>최근 30일 발행량</S.Day>
-            <S.Date isWhite={true}>2022.02.15(화) ~ 2022.02.21(월)</S.Date>
-            <S.Stat isWhite={true}>623</S.Stat>
+            <S.Date isWhite={true}>{data?.[1]?.date}</S.Date>
+            <S.Stat isWhite={true}>{data?.[1]?.contentsTotal}</S.Stat>
           </S.Col>
           <S.Col index={2} isWhite={true}>
             <S.Day>전체 발행량</S.Day>
-            <S.Date isWhite={true}>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-            <S.Stat isWhite={true}>18,735</S.Stat>
+            <S.Date isWhite={true}>{data?.[2]?.date}</S.Date>
+            <S.Stat isWhite={true}>{data?.[2]?.contentsTotal}</S.Stat>
           </S.Col>
         </S.Stats>
       </S.Width>

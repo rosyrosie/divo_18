@@ -15,7 +15,8 @@ export const useFetch = (url, body, fetchType, dependency = []) => {
       break;
     
     case 'GET':
-      fetcher = (url, body) => axios.get(url, tokenHeader);
+      // fetcher = (url, body) => axios.get(url, tokenHeader);
+      fetcher = (url, body) => axios.get(url);
       break;
     
     default:

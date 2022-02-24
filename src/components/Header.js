@@ -8,6 +8,7 @@ export default function Header({ dark = false }){
   const [ input, setInput ] = useState('');
   const [ drop, setDrop ] = useState(false);
   //const [ menu, setMenu ] = useState(-1);
+  const loggedIn = true;
 
   const navigate = useNavigate();
 
