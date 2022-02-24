@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
+import { AUTH_URL, REGISTER_URL } from '../environments/Api';
 import { contractText } from '../environments/Variables';
 
 export default function Signup(){
@@ -28,11 +30,43 @@ export default function Signup(){
   const phoneError = phone && checkPhoneError(phone);
 
   const sendAuthCode = e => {
-    setPhoneCheck(true);
+    e.preventDefault();
+    axios.get(AUTH_URL + phone).then(res => {
+      console.log(res.data.message);
+      if(res.data.message === 'success') setPhoneCheck(true);
+    }).catch(e => console.log(e));
   }
 
   const checkAuthCode = e => {
-    setPhoneAuth(true);
+    e.preventDefault();
+    const body = {
+      certificateCode: authCode
+    };
+    axios.post(AUTH_URL + phone, body).then(res => {
+      console.log(res.data.message);
+      if(res.data.message === 'success') setPhoneAuth(true);
+    }).catch(e => console.log(e));
+  }
+
+  const signup = e => {
+    e.preventDefault();
+    const body = {
+      certificateCode: authCode,
+      phoneNumber: phone,
+      email: email,
+      username: name,
+      password: pwd1
+    };
+    axios.post(REGISTER_URL, body).then(res => {
+      console.log(res.data.message);
+      if(res.data.message === 'success'){
+        alert('회원가입이 완료되었습니다');
+        navigate('/');
+      }
+    }).catch(e => {
+      console.log(e);
+      alert('중복된 이메일입니다');
+    });
   }
 
   return (
@@ -48,7 +82,7 @@ export default function Signup(){
           <S.Input placeholder="비밀번호" type="password" value={pwd1} onChange={e => setPwd1(e.target.value)} error={pwdError} />
           <S.Input placeholder="비밀번호 확인" type="password" value={pwd2} onChange={e => setPwd2(e.target.value)} error={pwdError} />
           <S.Error error={pwdError}>비밀번호가 일치하지 않습니다</S.Error>
-          <S.Button error={signUpError}>회원가입</S.Button>
+          <S.Button error={signUpError} onClick={signup}>회원가입</S.Button>
           <S.SignUp>회원이신가요?<S.Blue onClick={() => navigate('/login')}>로그인하기</S.Blue></S.SignUp>
         </S.Content>
       </S.Body> :

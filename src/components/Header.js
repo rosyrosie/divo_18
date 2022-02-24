@@ -8,7 +8,7 @@ export default function Header({ dark = false }){
   const [ input, setInput ] = useState('');
   const [ drop, setDrop ] = useState(false);
   //const [ menu, setMenu ] = useState(-1);
-  const loggedIn = true;
+  const token = localStorage.getItem('token');
 
   const navigate = useNavigate();
 
@@ -23,10 +23,18 @@ export default function Header({ dark = false }){
         <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
         <S.LogoBox>
           <S.Logo onClick={() => setDrop(d => !d)}><i className="fas fa-user"></i></S.Logo>
-          {drop && <S.Dropdown>
-            <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
-            <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
-          </S.Dropdown>}
+          {drop && 
+            (!token ?
+            <S.Dropdown>
+              <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
+              <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
+            </S.Dropdown> :
+            <S.Dropdown>
+              <S.Drop>브랜드 전환</S.Drop>
+              <S.Drop onClick={() => navigate('/corp-management')}>브랜드 관리</S.Drop>
+              <S.Drop>로그아웃</S.Drop>
+            </S.Dropdown>)
+          }
         </S.LogoBox>
       </S.Header> :
       <S.Header dark={dark}>
