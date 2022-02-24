@@ -6,6 +6,7 @@ import { menuList } from '../environments/Variables';
 export default function Header({ dark = false }){
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
+  const [ drop, setDrop ] = useState(false);
   //const [ menu, setMenu ] = useState(-1);
 
   const navigate = useNavigate();
@@ -19,7 +20,13 @@ export default function Header({ dark = false }){
           <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
         ))}
         <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
-        <S.Logo><i className="fas fa-user"></i></S.Logo>
+        <S.LogoBox>
+          <S.Logo onClick={() => setDrop(d => !d)}><i className="fas fa-user"></i></S.Logo>
+          {drop && <S.Dropdown>
+            <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
+            <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
+          </S.Dropdown>}
+        </S.LogoBox>
       </S.Header> :
       <S.Header dark={dark}>
         <S.Logo><i className="fas fa-search"></i></S.Logo>
@@ -90,9 +97,15 @@ S.Menu = styled.div`
 `;
 
 S.Logo = styled(S.Menu)`
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', 'SUIT';
   font-size: 17px;
   font-weight: bold;
+`;
+
+S.LogoBox = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
 `;
 
 S.Input = styled.input`
@@ -112,4 +125,38 @@ S.Input = styled.input`
   }
   font-size: 16px;
   ${props => props.dark ? 'color: white; &::placeholder{color:#f5f5f7;}' : ''}
+`;
+
+S.Dropdown = styled.div`
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  background: white;
+  border: 1px solid #d2d2d7;
+  top: 0;
+  transform: translateY(40px);
+  z-index: 2;
+`;
+
+S.Drop = styled.div`
+  padding: 20px 0;
+  width: 80px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  opacity: .8;
+  color: #1d1d1f;
+  font-weight: bold;
+  &:hover{
+    cursor: pointer;
+    opacity: 1;
+  }
+`;
+
+S.Triangle = styled.div`
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #d2d2d7;
 `;

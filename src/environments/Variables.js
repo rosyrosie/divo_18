@@ -61,6 +61,12 @@ export const userStatComment = [
   '검색자의 연령별 비중이 실제 매장을 이용하는 고객의 연령별 비중과 유사한지 확인해야 합니다.'
 ]
 
+export const compareMenuList = [
+  ['매출액', '결제단가', '결제건수', '재방문자 매출 비율'],
+  ['매출액', '결제단가', '결제건수', '재방문자 매출 비율', '저녁 매출 비율'],
+  ['매출액', '결제단가', '결제건수']
+]
+
 //chart options
 
 export const lineOptions = {

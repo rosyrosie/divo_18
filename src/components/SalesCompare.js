@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { salesCompareData, salesCompareTitle, salesLineData, whiteLineOptions } from '../environments/Variables';
+import { compareMenuList, salesCompareData, salesCompareTitle, salesLineData, whiteLineOptions } from '../environments/Variables';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import {  } from '../environments/Variables';
@@ -14,7 +14,10 @@ ChartJS.register(
   Legend
 );
 
-export default function SalesCompare(){
+const a = ['154만원', '4.2만원', '31건', '10%', '30%'];
+const b = ['312만원', '7.5만원', '10건', '5%', '20%'];
+
+export default function SalesCompare({ compareRef }){
 
   const [ tab, setTab ] = useState(0);
   const [ chartTab, setChartTab ] = useState(0);
@@ -22,7 +25,7 @@ export default function SalesCompare(){
   useEffect(() => setChartTab(0), [tab]);
 
   return (
-    <S.Fill color={'#2a3142'}>
+    <S.Fill ref={compareRef} color={'#2a3142'} id="compare">
       <S.Width>
         <S.Title>점포 특성 분석</S.Title>
         <S.Comment>다양한 매출 지표를 통해 점포 및 방문고객 특성을 도출하여 마케팅 방향성을 제시합니다.</S.Comment>
@@ -36,35 +39,33 @@ export default function SalesCompare(){
           <S.Menu></S.Menu>
           <S.Stat isTitle={true}>{salesCompareTitle[tab][1]}</S.Stat>
         </S.Row>
-        <S.Row>
-          <S.Stat>154만원</S.Stat>
-          <S.Menu>매출액</S.Menu>
-          <S.Stat>312만원</S.Stat>
-        </S.Row>
-        <S.Row>
-          <S.Stat>4.2만원</S.Stat>
-          <S.Menu>결제단가</S.Menu>
-          <S.Stat>7.5만원</S.Stat>
-        </S.Row>
-        <S.Row>
-          <S.Stat>31건</S.Stat>
-          <S.Menu>결제건수</S.Menu>
-          <S.Stat>10건</S.Stat>
-        </S.Row>
-        <S.Row>
-          <S.Stat>10%</S.Stat>
-          <S.Menu>재방문자 매출 비율</S.Menu>
-          <S.Stat>5%</S.Stat>
-        </S.Row>
-        <S.Chart>
-          <Line options={whiteLineOptions} data={salesCompareData[chartTab]} />
-        </S.Chart>
+        {compareMenuList[tab].map((menu, i) => (
+          <S.Row>
+            <S.Stat>{a[i]}</S.Stat>
+            <S.Menu>{menu}</S.Menu>
+            <S.Stat>{b[i]}</S.Stat>
+          </S.Row>
+        ))}
+        <S.ChartBox>
+          <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i class="fas fa-angle-left"></i></S.Button></S.ButtonBox>
+          <S.Chart>
+            <Line options={whiteLineOptions} data={salesCompareData[chartTab]} />
+          </S.Chart>
+          <S.ButtonBox><S.Button tab={chartTab} right={true} onClick={() => chartTab<2 ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
+        </S.ChartBox>
       </S.Width>
     </S.Fill>
   );
 }
 
 const S = {};
+
+S.Tip = styled.div`
+  justify-content: center;
+  display: flex;
+  margin: 100px 0 0 0;
+  font-size: 24px;
+`;
 
 S.Fill = styled.div`
   display: flex;
@@ -141,6 +142,40 @@ S.Menu = styled.div`
 `;
 
 S.Chart = styled.div`
-  margin-top: 100px;
-  padding: 0 15%;
+  flex: 1;
 `;
+
+S.ButtonBox = styled.div`
+  width: 8%;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+`;
+
+S.Button = styled.button`
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(245, 245, 247, 0.3);
+  color: #f5f5f7;
+  font-size: 20px;
+  &:hover{
+    cursor: pointer;
+    background: rgba(245, 245, 247, 0.5);
+  }
+  ${props => !props.tab && props.left ? 'visibility: hidden;' : ''}
+  ${props => props.tab===2 && props.right ? 'visibility: hidden;' : ''}
+`;
+
+S.ChartBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 100px 5% 0 5%;
+  &:hover ${S.ButtonBox}{
+    opacity: 1;
+  }
+`;
+

@@ -28,10 +28,12 @@ export default function SalesAnalysis(){
   const [ tab, setTab ] = useState(0);
   const [ radarRef, radarInView ] = useInView({ threshold: 0.01 });
   const [ salesRef, salesInView] = useInView({ threshold: 0.01 });
+  const [ compareRef, compareInView ] = useInView({ threshold: 0.01 });
 
   const activeTab = () => {
     if(radarInView) return 0;
     else if(salesInView) return 1;
+    else if(compareInView) return 2;
     return -1;
   }
 
@@ -42,7 +44,7 @@ export default function SalesAnalysis(){
         <S.Tabs>
           <S.Tab isSelected={activeTab()===0}><S.Link href="#sales-radar">매출 지표 분석</S.Link></S.Tab>
           <S.Tab isSelected={activeTab()===1}><S.Link href="#sales-qty">최근 매출 현황</S.Link></S.Tab>
-          {/* <S.Tab isSelected={activeTab()===3}><S.Link href="#mkt-index">마케팅 지표</S.Link></S.Tab> */}
+          <S.Tab isSelected={activeTab()===2}><S.Link href="#compare">점포 특성 분석</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
       <S.Fill id="sales-radar" ref={radarRef}>
@@ -95,7 +97,7 @@ export default function SalesAnalysis(){
           </S.Line>
         </S.Width>
       </S.Fill>
-      <SalesCompare />
+      <SalesCompare compareRef={compareRef} />
     </S.Body>
   );
 }
