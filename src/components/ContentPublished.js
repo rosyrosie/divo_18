@@ -1,6 +1,21 @@
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { SA_CONTENT_URL } from '../environments/Api';
+import { useFetch } from '../environments/Hooks';
 
 export default function ContentPublished({ ctRef }){
+
+  const { keyword } = useParams();
+
+  const { payload, error } = useFetch(
+    SA_CONTENT_URL + keyword,
+    null,
+    'GET',
+    [keyword]
+  );
+
+  console.log(payload);
+
   return (
     <S.Section color={'#2a3142'} isWhite={true} ref={ctRef} id="ctn-published">
       <S.Width>
