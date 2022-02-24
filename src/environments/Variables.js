@@ -1,5 +1,7 @@
 import { registerables } from "chart.js";
 
+// iterable arrays
+
 export const menuList = [
   {title: '키워드 분석', url: '/keyword-analysis'},
   {title: '매출액 분석', url: '/sales-analysis'},
@@ -59,6 +61,8 @@ export const userStatComment = [
   '검색자의 연령별 비중이 실제 매장을 이용하는 고객의 연령별 비중과 유사한지 확인해야 합니다.'
 ]
 
+//chart options
+
 export const lineOptions = {
   responsive: true,
   plugins: {
@@ -77,6 +81,131 @@ export const barOptions = {
   },
   maxBarThickness: 80,
 };
+
+export const salesRadarOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  scales: {
+    r: {
+      min: 0,
+      pointLabels: {
+        font: {
+          size: 11
+        }
+      },
+      ticks: {
+        showLabelBackdrop: false,
+        stepSize: 1,
+        font: {
+          weight: 'bold'
+        }
+      },
+    }
+  }
+}
+
+export const radarOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  color: '#f5f5f7',
+  scales: {
+    r: {
+      min: 0,
+      pointLabels: {
+        color: '#f5f5f7',
+        font: {
+          size: 12
+        }
+      },
+      ticks: {
+        showLabelBackdrop: false,
+        stepSize: 1,
+        color: '#f5f5f7',
+        font: {
+          weight: 'bold'
+        }
+      },
+      grid: {
+        color: 'rgba(245, 245, 247, 0.3)'
+      }
+    }
+  }
+}
+
+export const salesLineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    },
+    filler: {
+      propagate: false
+    }
+  },
+  // scales: {
+  //   x: {
+  //     grid: {
+  //       color: 'rgba(255, 255, 255, 0.3)',
+  //       tickColor: 'rgba(255, 255, 255, 0.3)'
+  //     },
+  //     ticks: {
+  //       color: 'white'
+  //     }
+  //   },
+  //   y: {
+  //     grid: {
+  //       color: 'rgba(255, 255, 255, 0.3)',
+  //       tickColor: 'rgba(255, 255, 255, 0.3)'
+  //     },
+  //     ticks: {
+  //       color: 'white'
+  //     }
+  //   }
+  // }
+  
+};
+
+export const whiteLineOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'bottom',
+    },
+  },
+  scales: {
+    x: {
+      grid: {
+        borderColor: 'rgba(245, 245, 247, 0.3)',
+        color: 'rgba(245, 245, 247, 0.3)',
+        tickColor: 'rgba(245, 245, 247, 0.3)'
+      },
+      ticks: {
+        color: 'rgba(245, 245, 247, 0.8)'
+      }
+    },
+    y: {
+      grid: {
+        borderColor: 'rgba(245, 245, 247, 0.3)',
+        color: 'rgba(245, 245, 247, 0.3)',
+        tickColor: 'rgba(245, 245, 247, 0.3)'
+      },
+      ticks: {
+        color: 'rgba(245, 245, 247, 0.8)'
+      }
+    }
+  },
+  color: 'rgba(245, 245, 247, 0.8)'
+};
+
+//chart data
 
 export const lineData = [
   {
@@ -253,64 +382,6 @@ export const salesRadarData = {
   ]
 }
 
-export const salesRadarOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-    },
-  },
-  scales: {
-    r: {
-      min: 0,
-      pointLabels: {
-        font: {
-          size: 11
-        }
-      },
-      ticks: {
-        showLabelBackdrop: false,
-        stepSize: 1,
-        font: {
-          weight: 'bold'
-        }
-      },
-    }
-  }
-}
-
-export const radarOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-    },
-  },
-  color: '#f5f5f7',
-  scales: {
-    r: {
-      min: 0,
-      pointLabels: {
-        color: '#f5f5f7',
-        font: {
-          size: 12
-        }
-      },
-      ticks: {
-        showLabelBackdrop: false,
-        stepSize: 1,
-        color: '#f5f5f7',
-        font: {
-          weight: 'bold'
-        }
-      },
-      grid: {
-        color: 'rgba(245, 245, 247, 0.3)'
-      }
-    }
-  }
-}
-
 export const salesLineData = [
   {
     labels: ['2022.02.16', '2022.02.17', '2022.02.18', '2022.02.19', '2022.02.20', '2022.02.21', '2022.02.22'],
@@ -350,35 +421,54 @@ export const salesLineData = [
   },
 ];
 
-export const salesLineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false
-    },
-    filler: {
-      propagate: false
-    }
+export const salesCompareTitle = [
+  ['점심', '저녁'],
+  ['평일', '주말'],
+  ['재방문', '신규']
+]
+
+export const salesCompareData = [
+  {
+    labels: ['1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차'],
+    datasets: [
+      {
+        label: '점심 매출액',
+        data: [40, 30, 40, 50, 30, 20, 40],
+        borderColor: 'rgba(142, 202, 230)', 
+        backgroundColor: 'rgba(142, 202, 230, 0.1)',
+        fill: 'origin'
+      },
+      {
+        label: '저녁 매출액',
+        data: [20, 10, 60, 40, 30, 30, 80],
+        borderColor: 'rgba(255, 183, 3)', 
+        backgroundColor: 'rgba(255, 183, 3, 0.1)',
+        fill: 'origin'
+      },
+    ]
   },
-  // scales: {
-  //   x: {
-  //     grid: {
-  //       color: 'rgba(255, 255, 255, 0.3)',
-  //       tickColor: 'rgba(255, 255, 255, 0.3)'
-  //     },
-  //     ticks: {
-  //       color: 'white'
-  //     }
-  //   },
-  //   y: {
-  //     grid: {
-  //       color: 'rgba(255, 255, 255, 0.3)',
-  //       tickColor: 'rgba(255, 255, 255, 0.3)'
-  //     },
-  //     ticks: {
-  //       color: 'white'
-  //     }
-  //   }
-  // }
-  
-};
+  {
+    labels: ['1월 1주차', '1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차', '2월 4주차', '3월 1주차', '3월 2주차', '3월 3주차'],
+    datasets: [
+      {
+        label: '매출액',
+        data: [10, 90, 30, 40, 30, 20, 30, 50, 10, 20, 30, 40],
+        borderColor: 'rgba(0, 99, 178)', 
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
+      },
+    ]
+  },
+  {
+    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
+    datasets: [
+      {
+        label: '매출액',
+        data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
+        borderColor: 'rgba(0, 99, 178)', 
+        backgroundColor: 'rgba(0, 99, 178, 0.5)',
+        fill: 'origin'
+      },
+    ]
+  },
+];
