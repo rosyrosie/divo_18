@@ -1,8 +1,25 @@
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { SA_AMOUNT_URL } from '../environments/Api';
+import { useFetch } from '../environments/Hooks';
 import { keywordCommentList } from '../environments/Variables';
 import CommentSection from './CommentSection';
 
 export default function SearchQty({ qtyRef }){
+
+  const { keyword } = useParams();
+
+  const { payload, error } = useFetch(
+    SA_AMOUNT_URL + keyword,
+    null,
+    'GET',
+    [keyword]
+  );
+
+  const qtyData = payload?.amount;
+  const trendData = payload?.trend;
+  console.log(trendData);
+
   return (
     <div ref={qtyRef} id="search-qty">
       <CommentSection comment={keywordCommentList[0]} />
@@ -11,25 +28,27 @@ export default function SearchQty({ qtyRef }){
           <S.Stats>
             <S.Col index={0}>
               <S.Day>최근 1일 검색량</S.Day>
-              <S.Date>2022.02.21(월)</S.Date>
-              <S.Stat>1,682</S.Stat>
-              <S.Compare>전일 대비<S.Red>+10%</S.Red></S.Compare>
-              <S.Compare>전주 대비<S.Blue>-23%</S.Blue></S.Compare>
-              <S.Compare>전월 대비<S.Red>+9%</S.Red></S.Compare>
+              <S.Date>{qtyData?.[0][0][0].date}</S.Date>
+              <S.Stat>{qtyData?.[0][0][0].amount}</S.Stat>
+              {qtyData?.[0][1].map((delta, i) => (
+                <S.Compare>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+              ))}
             </S.Col>
             <S.Col index={1}>
               <S.Day>최근 1주일 검색량</S.Day>
-              <S.Date>2022.02.15(화) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>9,437</S.Stat>
-              <S.Compare>전주 대비<S.Red>+7%</S.Red></S.Compare>
-              <S.Compare>전월 대비<S.Blue>-10%</S.Blue></S.Compare>
+              <S.Date>{qtyData?.[1][0][0].date}</S.Date>
+              <S.Stat>{qtyData?.[1][0][0].amount}</S.Stat>
+              {qtyData?.[1][1].map((delta, i) => (
+                <S.Compare>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+              ))}
             </S.Col>
             <S.Col index={2}>
               <S.Day>최근 1개월 검색량</S.Day>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>45,120</S.Stat>
-              <S.Compare>전월 대비<S.Red>+9%</S.Red></S.Compare>
-              <S.Compare>전년 대비<S.Blue>-23%</S.Blue></S.Compare>
+              <S.Date>{qtyData?.[2][0][0].date}</S.Date>
+              <S.Stat>{qtyData?.[2][0][0].amount}</S.Stat>
+              {qtyData?.[2][1].map((delta, i) => (
+                <S.Compare>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+              ))}
             </S.Col>
           </S.Stats>
         </S.Width>
@@ -40,20 +59,21 @@ export default function SearchQty({ qtyRef }){
           <S.Stats>
             <S.Col index={0}>
               <S.Day>최근 30일 추세</S.Day>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>+23.2<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[0].date}</S.Date>
+              {/* <S.Stat>+23.2<S.Scale>/일</S.Scale></S.Stat> */}
+              <S.Stat>{trendData?.[0].trend}<S.Scale>{trendData?.[0].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
             <S.Col index={1}>
               <S.Day>최근 3개월 추세</S.Day>
-              <S.Date>2022.02.15(화) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>-31<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[1].date}</S.Date>
+              <S.Stat>{trendData?.[1].trend}<S.Scale>{trendData?.[1].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
             <S.Col index={2}>
               <S.Day>최근 6개월 추세</S.Day>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>+187.4<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[2].date}</S.Date>
+              <S.Stat>{trendData?.[2].trend}<S.Scale>{trendData?.[2].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
           </S.Stats>
@@ -65,20 +85,20 @@ export default function SearchQty({ qtyRef }){
           <S.Stats>
             <S.Col index={0}>
               <S.Day>최근 12개월 추세</S.Day>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>+23.2<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[3].date}</S.Date>
+              <S.Stat>{trendData?.[3].trend}<S.Scale>{trendData?.[3].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
             <S.Col index={1}>
               <S.Day>최근 24개월 추세</S.Day>
-              <S.Date>2022.02.15(화) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>-31<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[4].date}</S.Date>
+              <S.Stat>{trendData?.[4].trend}<S.Scale>{trendData?.[4].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
             <S.Col index={2}>
               <S.Day>전체 추세</S.Day>
-              <S.Date>2022.01.22(토) ~ 2022.02.21(월)</S.Date>
-              <S.Stat>+187.4<S.Scale>/일</S.Scale></S.Stat>
+              <S.Date>{trendData?.[5].date}</S.Date>
+              <S.Stat>{trendData?.[5].trend}<S.Scale>{trendData?.[5].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
           </S.Stats>
@@ -146,7 +166,7 @@ S.Stat = styled.div`
   font-size: 48px;
   font-weight: bold;
   margin-bottom: 40px;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', 'SUIT';
   display: flex;
   align-items: end;
   ${props => props.isWhite ? 'margin: 0;' : ''}
@@ -169,6 +189,12 @@ S.Red = styled.div`
   color: #f60;
   font-weight: 900;
   margin-left: 10px;
+`;
+
+S.Delta = styled.div`
+  font-weight: 900;
+  margin-left: 10px;
+  color: ${props => props.color === 'red' ? '#f60' : '#06c'};
 `;
 
 S.Scale = styled.div`

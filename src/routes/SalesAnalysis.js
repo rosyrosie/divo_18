@@ -1,31 +1,10 @@
 import styled from 'styled-components';
 import Header from '../components/Header';
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 import { Line, Radar } from 'react-chartjs-2';
 import { salesLineData, salesLineOptions, salesRadarData, salesRadarOptions } from '../environments/Variables';
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '../components/SalesCompare';
-
-// ChartJS.register(
-//   RadialLinearScale,
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-//   BarElement,
-//   Filler,
-//   Tooltip,
-//   Legend,
-// );
 
 export default function SalesAnalysis(){
   const [ tab, setTab ] = useState(0);

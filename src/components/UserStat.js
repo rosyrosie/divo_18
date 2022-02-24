@@ -1,23 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
 import { SA_CHART_URL } from '../environments/Api';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../environments/Hooks';
-
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   PointElement,
-//   LineElement,
-//   BarElement,
-//   Tooltip,
-//   Legend
-// );
-
-// ChartJS.defaults.font.family = 'SUIT';
 
 export default function UserStat({ userRef }){
   const [ tab, setTab ] = useState(0);
@@ -27,8 +14,27 @@ export default function UserStat({ userRef }){
     SA_CHART_URL + keyword,
     null,
     'GET',
-    []  
+    [keyword]  
   );
+
+  const barRawData = payload?.bar;
+  const lineRawData = payload?.line;
+
+  let lineData = []
+
+  let barLabels = [
+    ['PC', '모바일'],
+    ['남성', '여성'],
+    ['월', '화', '수', '목',' 금', '토', '일'],
+    ['1월', '2월', '3월', '4월', '5월', '6월', '7월',' 8월', '9월', '10월', '11월', '12월'],
+    ['10대', '20대', '30대', '40대', '50대 이상']
+  ]
+
+  lineRawData?.forEach((element, i) => {
+    lineData[i] = {};
+    lineData[i].datasets = element.amount;
+    lineData[i].labels = element.date;
+  });
 
   return (
     <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
@@ -43,10 +49,10 @@ export default function UserStat({ userRef }){
             <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
           </S.Tabs>
           <S.Chart>
-            <Line options={lineOptions} data={lineData[tab]} />
+            {payload && <Line options={lineOptions} data={lineData[tab]} />}
           </S.Chart>
           <S.Chart>
-            <Bar options={barOptions} data={barData} />
+            {payload && <Bar options={barOptions} data={barRawData[tab]} />}
           </S.Chart>
         </S.Box>
       </S.Section>
