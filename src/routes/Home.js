@@ -16,7 +16,7 @@ ChartJS.register(
 );
 
 ChartJS.defaults.font.family = 'SUIT';
-//ChartJS.defaults.global.legend.labels.usePointStyle = true;
+ChartJS.defaults.plugins.legend.labels.usePointStyle = true;
 
 export default function Home(){
   return (
