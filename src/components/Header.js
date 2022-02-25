@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList } from '../environments/Variables';
+import CorpListModal from './CorpListModal';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
   const [ drop, setDrop ] = useState(false);
+  const [ showModal, setShowModal ] = useState(false);
   //const [ menu, setMenu ] = useState(-1);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
@@ -19,42 +21,45 @@ export default function Header({ dark = false }){
   }
 
   return (
-    <S.Flex>
-      {!isSearching ? 
-      <S.Header dark={dark}>
-        <S.Logo onClick={() => navigate('/')}>Divo</S.Logo>
-        {menuList.map((menuObj, i) => (
-          <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
-        ))}
-        <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
-        <S.LogoBox>
-          <S.Logo onClick={() => setDrop(d => !d)}><i className="fas fa-user"></i></S.Logo>
-          {drop && 
-            (!token ?
-            <S.Dropdown>
-              <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
-              <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
-            </S.Dropdown> :
-            <S.Dropdown>
-              <S.Drop>브랜드 전환</S.Drop>
-              <S.Drop onClick={() => navigate('/corp-management')}>브랜드 관리</S.Drop>
-              <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
-            </S.Dropdown>)
-          }
-        </S.LogoBox>
-      </S.Header> :
-      <S.Header dark={dark}>
-        <S.Logo><i className="fas fa-search"></i></S.Logo>
-        <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
-        <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
-      </S.Header>}
-      {/* {menu>=0 && 
-      <S.SubMenus>
-        {subMenuList[menu].map((subMenu, i) => (
-          <S.SubMenu key={subMenu} onClick={() => navigate(subMenuUrlList[menu][i])}>{subMenu}</S.SubMenu>
-        ))}
-      </S.SubMenus>} */}
-    </S.Flex>  
+    <>
+      <S.Flex>
+        {!isSearching ? 
+        <S.Header dark={dark}>
+          <S.Logo onClick={() => navigate('/')}>Divo</S.Logo>
+          {menuList.map((menuObj, i) => (
+            <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
+          ))}
+          <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
+          <S.LogoBox>
+            <S.Logo onClick={() => setDrop(d => !d)}><i className="fas fa-user"></i></S.Logo>
+            {drop && 
+              (!token ?
+              <S.Dropdown>
+                <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
+                <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
+              </S.Dropdown> :
+              <S.Dropdown>
+                {corpId && <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>}
+                <S.Drop onClick={() => navigate('/corp-management')}>브랜드 관리</S.Drop>
+                <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
+              </S.Dropdown>)
+            }
+          </S.LogoBox>
+        </S.Header> :
+        <S.Header dark={dark}>
+          <S.Logo><i className="fas fa-search"></i></S.Logo>
+          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
+          <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
+        </S.Header>}
+        {/* {menu>=0 && 
+        <S.SubMenus>
+          {subMenuList[menu].map((subMenu, i) => (
+            <S.SubMenu key={subMenu} onClick={() => navigate(subMenuUrlList[menu][i])}>{subMenu}</S.SubMenu>
+          ))}
+        </S.SubMenus>} */}
+      </S.Flex>
+      {showModal && <CorpListModal setShowModal={setShowModal} />} 
+    </>
   );
 }
 

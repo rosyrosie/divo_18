@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CorpAddition from "./routes/CorpAddition";
 import CorpManagement from "./routes/CorpManagement";
 import Home from "./routes/Home";
 import KeywordAnalysis from "./routes/KeywordAnalysis";
@@ -22,6 +23,7 @@ export default function App(){
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/corp-management" element={<CorpManagement />} />
+          <Route path="/corp-addition" element={<CorpAddition />} /> 
         </Routes>
       </BrowserRouter>
     </>

@@ -14,7 +14,7 @@ export default function SearchQty({ qtyRef, qtyInView }){
   if(qtyInView) trigger.current = true;
 
   const { payload, error } = useFetch(
-    SA_AMOUNT_URL + keyword,
+    SA_AMOUNT_URL + keyword,     
     null,
     'GET',
     [keyword, trigger.current],
@@ -64,7 +64,6 @@ export default function SearchQty({ qtyRef, qtyInView }){
             <S.Col index={0}>
               <S.Day>최근 30일 추세</S.Day>
               <S.Date>{trendData?.[0].date}</S.Date>
-              {/* <S.Stat>+23.2<S.Scale>/일</S.Scale></S.Stat> */}
               <S.Stat>{trendData?.[0].trend}<S.Scale>{trendData?.[0].unit}</S.Scale></S.Stat>
               <S.Compare>등급 표시</S.Compare>
             </S.Col>
