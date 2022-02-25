@@ -12,7 +12,7 @@ export default function Login(){
   const [ id, setId ] = useState('');
   const [ pwd, setPwd ] = useState('');
 
-  const login = e => {
+  const handleLogin = e => {
     if(e.key !== 'Enter') return;
     const body = {
       email: id,
@@ -39,8 +39,8 @@ export default function Login(){
       <Header />
       <S.Content>
         <S.Text>로그인하기</S.Text>
-        <S.Input placeholder="이메일 또는 전화번호" type="email" value={id} onChange={e => setId(e.target.value)} />
-        <S.Input placeholder="비밀번호" type="password" value={pwd} onChange={e => setPwd(e.target.value)} onKeyPress={login} />
+        <S.Input placeholder="이메일 또는 전화번호" type="email" value={id} onChange={e => setId(e.target.value.replaceAll('-', ''))} />
+        <S.Input placeholder="비밀번호" type="password" value={pwd} onChange={e => setPwd(e.target.value)} onKeyPress={handleLogin} />
         <S.SignUp>회원이 아니신가요?<S.Blue onClick={() => navigate('/signup')}>회원가입하기</S.Blue></S.SignUp>
       </S.Content>
       <S.Content />

@@ -48,7 +48,7 @@ export default function Signup(){
     }).catch(e => console.log(e));
   }
 
-  const signup = e => {
+  const handleSignup = e => {
     e.preventDefault();
     const body = {
       certificateCode: authCode,
@@ -82,7 +82,7 @@ export default function Signup(){
           <S.Input placeholder="비밀번호" type="password" value={pwd1} onChange={e => setPwd1(e.target.value)} error={pwdError} />
           <S.Input placeholder="비밀번호 확인" type="password" value={pwd2} onChange={e => setPwd2(e.target.value)} error={pwdError} />
           <S.Error error={pwdError}>비밀번호가 일치하지 않습니다</S.Error>
-          <S.Button error={signUpError} onClick={signup}>회원가입</S.Button>
+          <S.Button error={signUpError} onClick={handleSignup}>회원가입</S.Button>
           <S.SignUp>회원이신가요?<S.Blue onClick={() => navigate('/login')}>로그인하기</S.Blue></S.SignUp>
         </S.Content>
       </S.Body> :
@@ -100,7 +100,7 @@ export default function Signup(){
         <Header />
         <S.Content>
           <S.Text>휴대전화 인증</S.Text>
-          <S.Input placeholder="전화번호" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" value={phone} onChange={e => setPhone(e.target.value)} error={phoneError} />
+          <S.Input placeholder="전화번호" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" value={phone} onChange={e => setPhone(e.target.value.replaceAll('-', ''))} error={phoneError} />
           <S.Error error={phoneError}>전화번호 형식이 올바르지 않습니다.</S.Error>
           <S.Button error={phoneError} onClick={sendAuthCode}>인증번호 받기</S.Button>
         </S.Content>

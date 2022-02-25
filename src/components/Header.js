@@ -12,6 +12,12 @@ export default function Header({ dark = false }){
 
   const navigate = useNavigate();
 
+  const handleLogout = e => {
+    e.preventDefault();
+    navigate('/');
+    localStorage.clear();
+  }
+
   return (
     <S.Flex>
       {!isSearching ? 
@@ -32,7 +38,7 @@ export default function Header({ dark = false }){
             <S.Dropdown>
               <S.Drop>브랜드 전환</S.Drop>
               <S.Drop onClick={() => navigate('/corp-management')}>브랜드 관리</S.Drop>
-              <S.Drop>로그아웃</S.Drop>
+              <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
             </S.Dropdown>)
           }
         </S.LogoBox>
