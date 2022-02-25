@@ -26,7 +26,7 @@ export const useFetch = (url, body, fetchType, dependency = []) => {
   useEffect(() => {
     if(!token){
       console.log('Login required');
-      window.location.replace('/login');
+      // window.location.replace('/login');
     }
 
     setLoading(true);

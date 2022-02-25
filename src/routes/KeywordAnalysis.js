@@ -6,7 +6,6 @@ import Header from "../components/Header";
 import KeywordReport from "../components/KeywordReport";
 
 export default function KeywordAnalysis(){
-
   const { keyword } = useParams();
   const [ input, setInput ] = useState(keyword);
   const [ evalRef, evalInView ] = useInView({ threshold: 0.01 });

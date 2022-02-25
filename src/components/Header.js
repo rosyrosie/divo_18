@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList } from '../environments/Variables';
 
 export default function Header({ dark = false }){
+  const { corpId } = useParams();
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
   const [ drop, setDrop ] = useState(false);
   //const [ menu, setMenu ] = useState(-1);
   const token = localStorage.getItem('token');
-
   const navigate = useNavigate();
 
   const handleLogout = e => {

@@ -5,8 +5,13 @@ import { salesLineData, salesLineOptions, salesRadarData, salesRadarOptions } fr
 import { useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '../components/SalesCompare';
+import { useParams } from 'react-router-dom';
+import LoginRequired from '../components/LoginRequired';
+import CorpRequired from '../components/CorpRequired';
 
 export default function SalesAnalysis(){
+  const { corpId } = useParams();
+
   const [ tab, setTab ] = useState(0);
   const [ radarRef, radarInView ] = useInView({ threshold: 0.01 });
   const [ salesRef, salesInView] = useInView({ threshold: 0.01 });
@@ -17,6 +22,25 @@ export default function SalesAnalysis(){
     else if(salesInView) return 1;
     else if(compareInView) return 2;
     return -1;
+  }
+  
+  const token = localStorage.getItem('token');
+  if(!token){
+    return (
+      <S.Body>
+        <Header />
+        <LoginRequired />
+      </S.Body>
+    );
+  }
+
+  if(!corpId){
+    return (
+      <S.Body>
+        <Header />
+        <CorpRequired />
+      </S.Body>
+    );
   }
 
   return (

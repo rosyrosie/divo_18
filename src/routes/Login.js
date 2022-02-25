@@ -22,7 +22,8 @@ export default function Login(){
       if(res.data.token){
         localStorage.clear();
         localStorage.setItem('token', res.data.token);
-        navigate('/');
+        const defaultCorpId = res.data.corpList[0]?.[0];
+        navigate(defaultCorpId ? `/corpId=${defaultCorpId}` : '/');
       }
       else{
         alert('일치하는 계정이 없습니다');
