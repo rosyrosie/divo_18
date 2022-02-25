@@ -6,9 +6,6 @@ import { useFetch } from '../environments/Hooks';
 import { salesRadarData, salesRadarOptions } from '../environments/Variables';
 
 export default function SalesRadar({ radarRef, radarData }){
-
-  if(radarData) radarData.labels = radarData?.lables;
-
   return (
     <S.Fill id="sales-radar" ref={radarRef}>
       <S.Width>

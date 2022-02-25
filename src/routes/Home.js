@@ -1,7 +1,6 @@
 import { Chart as ChartJS, BarElement, CategoryScale, Filler, Legend, LinearScale, LineElement, PointElement, RadialLinearScale, Tooltip } from "chart.js";
 import styled from "styled-components";
 import Header from "../components/Header";
-import LoginRequired from "../components/LoginRequired";
 
 ChartJS.register(
   RadialLinearScale,
@@ -22,7 +21,7 @@ export default function Home(){
   return (
     <S.Body>
       <Header />
-      <div>홈이에용</div>
+      <S.Content></S.Content>
     </S.Body>
   );
 }
@@ -38,5 +37,6 @@ S.Body = styled.div`
 
 S.Content = styled.div`
   flex: 1;
+  background: rgba(225, 225, 227, 0.7);
 `;
 

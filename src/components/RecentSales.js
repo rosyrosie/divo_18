@@ -25,7 +25,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
           ))}
         </S.Text>
         <S.Line>
-          <Line options={salesLineOptions} data={lineData[tab]} />
+          {lineData && <Line options={salesLineOptions} data={lineData[tab]} />}
         </S.Line>
       </S.Width>
     </S.Fill>
