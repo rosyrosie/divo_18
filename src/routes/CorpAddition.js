@@ -44,6 +44,8 @@ export default function CorpAddition(){
     });
   }
 
+  const noCorps = query && !corpList.length;
+
   if(!token) return (
     <S.Body>
       <Header />
@@ -65,6 +67,7 @@ export default function CorpAddition(){
             </S.Corp>
           ))}
         </S.CorpBox>
+        {noCorps && <S.NoCorp>검색된 브랜드가 없습니다</S.NoCorp>}
       </S.Content>
     </S.Body>
   );
@@ -119,7 +122,7 @@ S.Text = styled.div`
 
 S.CorpBox = styled.div`
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-top: 20px;
   padding-right: 5px;
 `;
@@ -132,4 +135,9 @@ S.Name = styled.div`
 S.Adr = styled.div`
   color: #515154;
   font-size: 14px;
+`;
+
+S.NoCorp = styled.div`
+  font-size: 14px;
+  color: #de071c;
 `;

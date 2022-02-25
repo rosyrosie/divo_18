@@ -20,14 +20,16 @@ export default function Header({ dark = false }){
     localStorage.clear();
   }
 
+  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
+
   return (
     <>
       <S.Flex>
         {!isSearching ? 
         <S.Header dark={dark}>
-          <S.Logo onClick={() => navigate('/')}>Divo</S.Logo>
+          <S.Logo onClick={() => navigate(corpId!==undefined ? `/cid=${corpId}` : '/')}>Divo</S.Logo>
           {menuList.map((menuObj, i) => (
-            <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(menuObj.url)}>{menuObj.title}</S.Menu>
+            <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(CORP_URL + menuObj.url)}>{menuObj.title}</S.Menu>
           ))}
           <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
           <S.LogoBox>
@@ -40,7 +42,7 @@ export default function Header({ dark = false }){
               </S.Dropdown> :
               <S.Dropdown>
                 {corpId && <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>}
-                <S.Drop onClick={() => navigate('/corp-management')}>브랜드 관리</S.Drop>
+                <S.Drop onClick={() => navigate(CORP_URL + '/corp-management')}>브랜드 관리</S.Drop>
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
               </S.Dropdown>)
             }
@@ -48,7 +50,7 @@ export default function Header({ dark = false }){
         </S.Header> :
         <S.Header dark={dark}>
           <S.Logo><i className="fas fa-search"></i></S.Logo>
-          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
+          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(CORP_URL + `/keyword-analysis/keyword=${input}`) : null} />
           <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
         </S.Header>}
         {/* {menu>=0 && 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../components/Header';
 import LoginRequired from '../components/LoginRequired';
@@ -9,6 +9,7 @@ import { useFetch } from '../environments/Hooks';
 export default function CorpManagement(){
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+  const { corpId } = useParams();
   const { payload, error } = useFetch(
     CORPLIST_URL,
     null,
@@ -16,6 +17,10 @@ export default function CorpManagement(){
   );
 
   const deleteCorp = id => {
+    if(id === corpId){
+      alert('현재 접속 중인 브랜드는 삭제할 수 없습니다.');
+      return;
+    }
     if(!window.confirm('정말 삭제하시겠습니까?')) return;
     const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.delete(DELCORP_URL+id, tokenHeader).then(
@@ -42,7 +47,7 @@ export default function CorpManagement(){
         {payload?.corpList.map(corp => (
           <S.Corp onClick={() => deleteCorp(corp[0])}>{corp[1]}</S.Corp>
         ))}
-        <S.Add onClick={() => navigate('/corp-addition')}>브랜드 추가하기</S.Add>
+        <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
       </S.Content>
     </S.Body>
   );

@@ -25,6 +25,8 @@ export default function SalesAnalysis(){
   }
   
   const token = localStorage.getItem('token');
+  console.log(!corpId)
+
   if(!token){
     return (
       <S.Body>
@@ -34,7 +36,7 @@ export default function SalesAnalysis(){
     );
   }
 
-  if(!corpId){
+  if(corpId==='0'){
     return (
       <S.Body>
         <Header />

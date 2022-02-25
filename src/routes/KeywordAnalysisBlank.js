@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/Header";
 
 export default function KeywordAnalysisBlank(){
+  const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   const navigate = useNavigate();
+  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
   return (
     <S.Body>
@@ -13,7 +15,7 @@ export default function KeywordAnalysisBlank(){
       <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
-          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null}/>
+          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(CORP_URL + `/keyword-analysis/keyword=${input}`) : null}/>
         </S.InputBox>
       </S.Search>
       <S.ContentBox>

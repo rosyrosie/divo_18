@@ -22,8 +22,13 @@ export default function App(){
           <Route path="/sales-analysis" element={<SalesAnalysis />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/corp-management" element={<CorpManagement />} />
-          <Route path="/corp-addition" element={<CorpAddition />} /> 
+          {/* <Route path="/corp-management" element={<CorpManagement />} />
+          <Route path="/corp-addition" element={<CorpAddition />} />  */}
+          <Route path="/cid=:corpId/keyword-analysis" element={<KeywordAnalysisBlank />} />
+          <Route path="/cid=:corpId/keyword-analysis/keyword=:keyword" element={<KeywordAnalysis />} />
+          <Route path="/cid=:corpId/sales-analysis" element={<SalesAnalysis />} />
+          <Route path="/cid=:corpId/corp-management" element={<CorpManagement />} />
+          <Route path="/cid=:corpId/corp-addition" element={<CorpAddition />} /> 
         </Routes>
       </BrowserRouter>
     </>
