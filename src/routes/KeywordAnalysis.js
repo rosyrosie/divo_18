@@ -50,8 +50,11 @@ export default function KeywordAnalysis(){
           <KeywordReport
             evalRef={evalRef}
             qtyRef={qtyRef}
+            qtyInView={qtyInView}
             ctRef={ctRef}
+            ctInView={ctInView}
             userRef={userRef}
+            userInView={userInView}
             mktRef={mktRef}
           />
           : 

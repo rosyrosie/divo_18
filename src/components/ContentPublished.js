@@ -1,17 +1,22 @@
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { SA_CONTENT_URL } from '../environments/Api';
 import { useFetch } from '../environments/Hooks';
 
-export default function ContentPublished({ ctRef }){
+export default function ContentPublished({ ctRef, ctInView }){
 
   const { keyword } = useParams();
+  const trigger = useRef(null);
+
+  if(ctInView) trigger.current = true;
 
   const { payload, error } = useFetch(
     SA_CONTENT_URL + keyword,
     null,
     'GET',
-    [keyword]
+    [keyword, trigger.current],
+    trigger.current
   );
 
   const data = payload?.contents;
@@ -90,7 +95,7 @@ S.Stats = styled.div`
 `;
 
 S.Day = styled.div`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   display: flex;
   //justify-content: center;
@@ -101,10 +106,11 @@ S.Date = styled.div`
   display: flex;
   margin-bottom: 40px;
   color: #f5f5f7;
+  font-size: 14px;
 `;
 
 S.Stat = styled.div`
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
   font-family: 'Montserrat';
   display: flex;

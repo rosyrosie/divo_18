@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { SA_AMOUNT_URL } from '../environments/Api';
@@ -5,20 +6,23 @@ import { useFetch } from '../environments/Hooks';
 import { keywordCommentList } from '../environments/Variables';
 import CommentSection from './CommentSection';
 
-export default function SearchQty({ qtyRef }){
+export default function SearchQty({ qtyRef, qtyInView }){
 
   const { keyword } = useParams();
+  const trigger = useRef(null);
+
+  if(qtyInView) trigger.current = true;
 
   const { payload, error } = useFetch(
     SA_AMOUNT_URL + keyword,
     null,
     'GET',
-    [keyword]
+    [keyword, trigger.current],
+    trigger.current
   );
 
   const qtyData = payload?.amount;
   const trendData = payload?.trend;
-  console.log(trendData);
 
   return (
     <div ref={qtyRef} id="search-qty">
@@ -145,7 +149,7 @@ S.Stats = styled.div`
 `;
 
 S.Day = styled.div`
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   display: flex;
   //justify-content: center;
@@ -159,11 +163,12 @@ S.Date = styled.div`
   margin-bottom: 40px;
   ${props => props.isWhite ? 'color: white;' : ''}
   //justify-content: center;
+  font-size: 14px;
 `;
 
 S.Stat = styled.div`
   display: flex;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: bold;
   margin-bottom: 40px;
   font-family: 'Montserrat', 'SUIT';
@@ -177,18 +182,6 @@ S.Compare = styled.div`
   display: flex;
   color: #515154;
   margin-bottom: 10px;
-`;
-
-S.Blue = styled.div`
-  color: #06c;
-  font-weight: 900;
-  margin-left: 10px;
-`;
-
-S.Red = styled.div`
-  color: #f60;
-  font-weight: 900;
-  margin-left: 10px;
 `;
 
 S.Delta = styled.div`

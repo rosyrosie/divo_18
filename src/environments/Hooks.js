@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export const useFetch = (url, body, fetchType, dependency = []) => {
+export const useFetch = (url, body, fetchType, dependency = [], condition = true) => {
   const [ payload, setPayload ] = useState(null);
   const [ loading, setLoading ] = useState(true);
   const [ error, setError ] = useState(false);
   const token = localStorage.getItem('token');
-  const tokenHeader = {headers: {"Authorization": `Token ${token}`}};
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
 
   let fetcher = () => {};
   switch(fetchType){
@@ -15,8 +15,7 @@ export const useFetch = (url, body, fetchType, dependency = []) => {
       break;
     
     case 'GET':
-      // fetcher = (url, body) => axios.get(url, tokenHeader);
-      fetcher = (url, body) => axios.get(url);
+      fetcher = (url, body) => axios.get(url, tokenHeader);
       break;
     
     default:
@@ -24,10 +23,9 @@ export const useFetch = (url, body, fetchType, dependency = []) => {
   }
 
   useEffect(() => {
-    if(!token){
-      console.log('Login required');
-      // window.location.replace('/login');
-    }
+    if(!condition) return;
+
+    console.log('I am fetching!!');
 
     setLoading(true);
     setError(false);

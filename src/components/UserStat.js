@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
 import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
@@ -6,15 +6,19 @@ import { SA_CHART_URL } from '../environments/Api';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../environments/Hooks';
 
-export default function UserStat({ userRef }){
+export default function UserStat({ userRef, userInView }){
   const [ tab, setTab ] = useState(0);
   const { keyword } = useParams();
+  const trigger = useRef(null);
+
+  if(userInView) trigger.current = true;
 
   const { payload, error } = useFetch(
     SA_CHART_URL + keyword,
     null,
     'GET',
-    [keyword]  
+    [keyword, trigger.current],
+    trigger.current
   );
 
   const barRawData = payload?.bar;
