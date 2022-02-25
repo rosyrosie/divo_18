@@ -151,15 +151,17 @@ S.Dropdown = styled.div`
   position: absolute;
   display: flex;
   flex-flow: column;
-  background: white;
+  backdrop-filter: saturate(180%) blur(20px);
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid #d2d2d7;
   top: 0;
   transform: translateY(40px);
   z-index: 2;
+  border-radius: 15px;
 `;
 
 S.Drop = styled.div`
-  padding: 20px 0;
+  padding: 20px 5px;
   width: 80px;
   font-size: 12px;
   display: flex;

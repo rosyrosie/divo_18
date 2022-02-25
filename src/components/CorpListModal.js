@@ -1,8 +1,7 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CORPLIST_URL } from '../environments/Api';
 import { useFetch } from '../environments/Hooks';
-
-const corpList = ['당산오돌 본점', '샤브향 대전테크노점', '산내돌짜장'];
 
 export default function CorpListModal({ setShowModal }){
   const { payload, error } = useFetch(
@@ -11,13 +10,16 @@ export default function CorpListModal({ setShowModal }){
     'GET'
   );
 
+  const navigate = useNavigate();
+
   return (
     <S.Body>
       <S.Modal>
         <S.Title><S.Icon onClick={() => setShowModal(false)}><i class="fas fa-times"></i></S.Icon></S.Title>
-        {corpList.map(corp => (
-          <S.Corp>{corp}</S.Corp>
+        {payload?.corpList.map(corp => (
+          <S.Corp onClick={() => navigate(`/cid=${corp[0]}`)}>{corp[1]}</S.Corp>
         ))}
+        <S.Add onClick={() => navigate('/corp-addition')}>브랜드 추가하기</S.Add>
       </S.Modal>
     </S.Body>
   );
@@ -66,6 +68,18 @@ S.Corp = styled.div`
     cursor: pointer;
     background: #f5f5f7;
     opacity: 1;
+  }
+`;
+
+S.Add = styled.div`
+  justify-content: center;
+  padding-top: 20px;
+  display: flex;
+  font-size: 14px;
+  color: #06c;
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
   }
 `;
 

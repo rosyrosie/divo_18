@@ -16,7 +16,7 @@ export default function App(){
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/corpId=:corpId" element={<Home />} />
+          <Route path="/cid=:corpId" element={<Home />} />
           <Route path="/keyword-analysis" element={<KeywordAnalysisBlank />} />
           <Route path="/keyword-analysis/keyword=:keyword" element={<KeywordAnalysis />} />
           <Route path="/sales-analysis" element={<SalesAnalysis />} />
