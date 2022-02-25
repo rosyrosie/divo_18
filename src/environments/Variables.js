@@ -91,6 +91,7 @@ export const barOptions = {
 
 export const salesRadarOptions = {
   responsive: true,
+  aspectRatio: 1.5,
   plugins: {
     legend: {
       position: 'bottom',

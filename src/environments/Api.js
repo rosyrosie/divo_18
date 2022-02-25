@@ -9,6 +9,9 @@ export const FINDPLACE_URL = BASE_URL + 'place/find?query=';
 export const ADDCORP_URL = BASE_URL + 'corporation/';
 export const DELCORP_URL = BASE_URL + 'corporation/?corp_id=';
 
-export const SA_AMOUNT_URL = BASE_URL + 'keyword/amount?keyword=';
-export const SA_CONTENT_URL = BASE_URL + 'keyword/contents?keyword=';
-export const SA_CHART_URL = BASE_URL + 'keyword/chart?keyword=';
+export const KA_AMOUNT_URL = BASE_URL + 'keyword/amount?keyword=';
+export const KA_CONTENT_URL = BASE_URL + 'keyword/contents?keyword=';
+export const KA_CHART_URL = BASE_URL + 'keyword/chart?keyword=';
+
+export const SA_RADAR_URL = corpId => BASE_URL + `corporation/sales/${corpId}/summary`;
+

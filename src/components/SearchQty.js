@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { SA_AMOUNT_URL } from '../environments/Api';
+import { KA_AMOUNT_URL } from '../environments/Api';
 import { useFetch } from '../environments/Hooks';
 import { keywordCommentList } from '../environments/Variables';
 import CommentSection from './CommentSection';
@@ -14,7 +14,7 @@ export default function SearchQty({ qtyRef, qtyInView }){
   if(qtyInView) trigger.current = true;
 
   const { payload, error } = useFetch(
-    SA_AMOUNT_URL + keyword,     
+    KA_AMOUNT_URL + keyword,     
     null,
     'GET',
     [keyword, trigger.current],
@@ -181,12 +181,14 @@ S.Compare = styled.div`
   display: flex;
   color: #515154;
   margin-bottom: 10px;
+  align-items: center;
 `;
 
 S.Delta = styled.div`
-  font-weight: 900;
   margin-left: 10px;
-  color: ${props => props.color === 'red' ? '#f60' : '#06c'};
+  color: ${props => props.color === 'blue' ? '#de071c' : '#06c'};
+  font-size: 14px;
+  font-weight: 500;
 `;
 
 S.Scale = styled.div`

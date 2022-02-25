@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
 import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
-import { SA_CHART_URL } from '../environments/Api';
+import { KA_CHART_URL } from '../environments/Api';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '../environments/Hooks';
 
@@ -14,7 +14,7 @@ export default function UserStat({ userRef, userInView }){
   if(userInView) trigger.current = true;
 
   const { payload, error } = useFetch(
-    SA_CHART_URL + keyword,
+    KA_CHART_URL + keyword,
     null,
     'GET',
     [keyword, trigger.current],

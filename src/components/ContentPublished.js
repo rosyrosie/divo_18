@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { SA_CONTENT_URL } from '../environments/Api';
+import { KA_CONTENT_URL } from '../environments/Api';
 import { useFetch } from '../environments/Hooks';
 
 export default function ContentPublished({ ctRef, ctInView }){
@@ -12,7 +12,7 @@ export default function ContentPublished({ ctRef, ctInView }){
   if(ctInView) trigger.current = true;
 
   const { payload, error } = useFetch(
-    SA_CONTENT_URL + keyword,
+    KA_CONTENT_URL + keyword,
     null,
     'GET',
     [keyword, trigger.current],

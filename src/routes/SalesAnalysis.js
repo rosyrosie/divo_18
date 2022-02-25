@@ -8,11 +8,13 @@ import SalesCompare from '../components/SalesCompare';
 import { useParams } from 'react-router-dom';
 import LoginRequired from '../components/LoginRequired';
 import CorpRequired from '../components/CorpRequired';
+import SalesRadar from '../components/SalesRadar';
+import { useFetch } from '../environments/Hooks';
+import { SA_RADAR_URL } from '../environments/Api';
+import RecentSales from '../components/RecentSales';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();
-
-  const [ tab, setTab ] = useState(0);
   const [ radarRef, radarInView ] = useInView({ threshold: 0.01 });
   const [ salesRef, salesInView] = useInView({ threshold: 0.01 });
   const [ compareRef, compareInView ] = useInView({ threshold: 0.01 });
@@ -25,7 +27,18 @@ export default function SalesAnalysis(){
   }
   
   const token = localStorage.getItem('token');
-  console.log(!corpId)
+
+  const { payload, error } = useFetch(
+    SA_RADAR_URL(corpId),
+    null,
+    'GET',
+    [corpId]
+  );
+
+  console.log(payload);
+
+  const radarData = payload?.radar;
+  const recentSalesData = payload?.summaryGraph;
 
   if(!token){
     return (
@@ -55,23 +68,9 @@ export default function SalesAnalysis(){
           <S.Tab isSelected={activeTab()===2}><S.Link href="#compare">점포 특성 분석</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
-      <S.Fill id="sales-radar" ref={radarRef}>
-        <S.Width>
-          <S.Text>
-            <S.Title>매출 지표 분석</S.Title>
-            <S.Comment>매출액이..</S.Comment>
-            <S.Comment>주말 매출 비율이..</S.Comment>
-            <S.Comment>저녁 매출 비율이..</S.Comment>
-            <S.Comment>결제단가가..</S.Comment>
-            <S.Comment>결제건수가..</S.Comment>
-            <S.Comment>재방문 매출 비율이..</S.Comment>
-          </S.Text>
-          <S.Radar>
-            <Radar options={salesRadarOptions} data={salesRadarData} />
-          </S.Radar>
-        </S.Width>
-      </S.Fill>
-      <S.Fill color={'#f5f5f7'} id="sales-qty" ref={salesRef}>
+      <SalesRadar radarRef={radarRef} radarData={radarData} />
+      <RecentSales salesRef={salesRef} recentSalesData={recentSalesData} />
+      {/* <S.Fill color={'#f5f5f7'} id="sales-qty" ref={salesRef}>
         <S.Width>
           <S.Text>
             <S.Title>최근 매출 현황</S.Title>
@@ -104,7 +103,7 @@ export default function SalesAnalysis(){
             <Line options={salesLineOptions} data={salesLineData[tab]} />
           </S.Line>
         </S.Width>
-      </S.Fill>
+      </S.Fill> */}
       <SalesCompare compareRef={compareRef} />
     </S.Body>
   );

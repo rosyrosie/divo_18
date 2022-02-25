@@ -22,6 +22,7 @@ export default function Home(){
   return (
     <S.Body>
       <Header />
+      <div>홈이에용</div>
     </S.Body>
   );
 }
