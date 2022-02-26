@@ -6,7 +6,7 @@ export default function CorpRequired(){
   return (
     <S.Content>
       <S.Text>브랜드 추가가 필요한 페이지입니다.</S.Text>
-      <S.Login onClick={() => navigate('/corp-addition')}>브랜드 추가하기</S.Login>
+      <S.Login onClick={() => navigate('/cid=0/corp-addition')}>브랜드 추가하기</S.Login>
     </S.Content>
   );
 }

@@ -1,6 +1,7 @@
 import { Radar } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { salesRadarOptions } from '@constants';
+import { applyColorToChart } from '@functions';
 
 export default function SalesRadar({ radarRef, radarData }){
   return (
@@ -16,7 +17,7 @@ export default function SalesRadar({ radarRef, radarData }){
           <S.Comment>재방문 매출 비율이..</S.Comment>
         </S.Text>
         <S.Radar>
-          {radarData && <Radar options={salesRadarOptions} data={radarData} />}
+          {radarData && <Radar options={salesRadarOptions} data={applyColorToChart(radarData, 'light')} />}
         </S.Radar>
       </S.Width>
     </S.Fill>

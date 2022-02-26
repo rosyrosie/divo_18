@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { compareMenuList, salesCompareData, salesCompareTitle, whiteLineOptions } from '@constants';
+import { compareMenuList, salesCompareData, salesCompareTitle, lineOptions, whiteLineOptions } from '@constants';
 import { Line } from 'react-chartjs-2';
+import { applyColorToChart } from '@functions';
 
 const a = ['154만원', '4.2만원', '31건', '10%', '30%'];
 const b = ['312만원', '7.5만원', '10건', '5%', '20%'];
@@ -38,7 +39,7 @@ export default function SalesCompare({ compareRef }){
         <S.ChartBox>
           <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i class="fas fa-angle-left"></i></S.Button></S.ButtonBox>
           <S.Chart>
-            <Line options={whiteLineOptions} data={salesCompareData[chartTab]} />
+            <Line options={lineOptions('원', true, true)} data={applyColorToChart(salesCompareData[chartTab], 'dark')} />
           </S.Chart>
           <S.ButtonBox><S.Button tab={chartTab} right={true} onClick={() => chartTab<2 ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
         </S.ChartBox>

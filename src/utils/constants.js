@@ -70,24 +70,79 @@ export const compareMenuList = [
 
 //chart options
 
-export const lineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
+export const lineOptions = (unit, showLegend = true, isWhite = false) => (
+  Object.assign({
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        display: showLegend
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => {
+            console.log(tooltipItem);
+            return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+          }
+        }
+      }
     },
-  },
-};
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+  }, isWhite ? 
+    {
+      scales: {
+        x: {
+          grid: {
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)'
+          },
+          ticks: {
+            color: 'rgba(245, 245, 247, 0.8)'
+          }
+        },
+        y: {
+          grid: {
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)'
+          },
+          ticks: {
+            color: 'rgba(245, 245, 247, 0.8)'
+          }
+        }
+      },
+      color: 'rgba(245, 245, 247, 0.8)'
+    } 
+    : 
+    {}
+  )
+);
 
-export const barOptions = {
+export const barOptions = unit => ({
   responsive: true,
   plugins: {
     legend: {
       position: 'bottom',
     },
+    tooltip: {
+      callbacks: {
+        label: tooltipItem => {
+          console.log(tooltipItem);
+          return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+        }
+      }
+    }
   },
   maxBarThickness: 80,
-};
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  }
+});
 
 export const salesRadarOptions = {
   responsive: true,
@@ -96,6 +151,15 @@ export const salesRadarOptions = {
     legend: {
       position: 'bottom',
     },
+  },
+  elements: {
+    point:{
+      pointRadius: 1
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index'
   },
   scales: {
     r: {
@@ -114,7 +178,7 @@ export const salesRadarOptions = {
       },
     }
   }
-}
+};
 
 export const radarOptions = {
   responsive: true,
@@ -122,6 +186,15 @@ export const radarOptions = {
     legend: {
       position: 'bottom',
     },
+  },
+  elements: {
+    point:{
+      pointRadius: 1
+    }
+  },
+  interaction: {
+    intersect: false,
+    mode: 'index'
   },
   color: '#f5f5f7',
   scales: {
@@ -143,42 +216,12 @@ export const radarOptions = {
       },
       grid: {
         color: 'rgba(245, 245, 247, 0.3)'
+      },
+      angleLines: {
+        color: 'rgba(245, 245, 247, 0.3)'
       }
     }
   }
-}
-
-export const salesLineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false
-    },
-    filler: {
-      propagate: false
-    }
-  },
-  // scales: {
-  //   x: {
-  //     grid: {
-  //       color: 'rgba(255, 255, 255, 0.3)',
-  //       tickColor: 'rgba(255, 255, 255, 0.3)'
-  //     },
-  //     ticks: {
-  //       color: 'white'
-  //     }
-  //   },
-  //   y: {
-  //     grid: {
-  //       color: 'rgba(255, 255, 255, 0.3)',
-  //       tickColor: 'rgba(255, 255, 255, 0.3)'
-  //     },
-  //     ticks: {
-  //       color: 'white'
-  //     }
-  //   }
-  // }
-  
 };
 
 export const whiteLineOptions = {

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { salesLineOptions } from '@constants';
+import { lineOptions } from '@constants';
+import { applyColorToChart } from '../utils/functions';
 
 export default function RecentSales({ salesRef, recentSalesData }){
   const [ tab, setTab ] = useState(0);
@@ -25,7 +26,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
           ))}
         </S.Text>
         <S.Line>
-          {lineData && <Line options={salesLineOptions} data={lineData[tab]} />}
+          {lineData && <Line options={lineOptions('원', false)} data={applyColorToChart(lineData[tab], 'light')} />}
         </S.Line>
       </S.Width>
     </S.Fill>
