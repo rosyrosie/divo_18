@@ -112,6 +112,7 @@ S.TabBox = styled.div`
   top: 0;
   backdrop-filter: saturate(180%) blur(20px);
   background: rgba(255, 255, 255, 0.72);
+  z-index: 99;
   //background: white;
 `;
 
