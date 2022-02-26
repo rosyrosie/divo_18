@@ -33,7 +33,7 @@ export default function KeywordRadar({ evalRef }){
           <S.Comment isWhite={true}>모바일 검색비율은 ..</S.Comment>
         </S.Flex>
         <S.Chart>
-          <Radar options={radarOptions} data={radarData} />
+          <Radar options={radarOptions('', true)} data={radarData} />
         </S.Chart>
       </S.Width>
     </S.Section>

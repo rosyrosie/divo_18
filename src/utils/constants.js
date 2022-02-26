@@ -130,10 +130,7 @@ export const barOptions = unit => ({
     },
     tooltip: {
       callbacks: {
-        label: tooltipItem => {
-          console.log(tooltipItem);
-          return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
-        }
+        label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
       }
     }
   },
@@ -144,117 +141,81 @@ export const barOptions = unit => ({
   }
 });
 
-export const salesRadarOptions = {
-  responsive: true,
-  aspectRatio: 1.5,
-  plugins: {
-    legend: {
-      position: 'bottom',
+export const radarOptions = (unit='', isWhite = false) => (
+  Object.assign({
+    responsive: true,
+    aspectRatio: 1.5,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+        }
+      }
     },
-  },
-  elements: {
-    point:{
-      pointRadius: 1
-    }
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
-  scales: {
-    r: {
-      min: 0,
-      pointLabels: {
-        font: {
-          size: 11
-        }
+    elements: {
+      point:{
+        pointRadius: 1,
+        pointHoverRadius: 2
       },
-      ticks: {
-        showLabelBackdrop: false,
-        stepSize: 1,
-        font: {
-          weight: 'bold'
-        }
-      },
-    }
-  }
-};
-
-export const radarOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
+      line: {
+        borderWidth: 1.5
+      }
     },
-  },
-  elements: {
-    point:{
-      pointRadius: 1
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+    scales: {
+      r: {
+        min: 0,
+        pointLabels: {
+          font: {
+            size: 11
+          }
+        },
+        ticks: {
+          showLabelBackdrop: false,
+          stepSize: 1,
+          font: {
+            weight: 'bold'
+          }
+        },
+      }
     }
-  },
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
-  color: '#f5f5f7',
-  scales: {
-    r: {
-      min: 0,
-      pointLabels: {
-        color: '#f5f5f7',
-        font: {
-          size: 12
+  }, isWhite ? 
+  {
+    color: '#f5f5f7',
+    scales: {
+      r: {
+        min: 0,
+        pointLabels: {
+          color: '#f5f5f7',
+          font: {
+            size: 12
+          }
+        },
+        ticks: {
+          showLabelBackdrop: false,
+          stepSize: 1,
+          color: '#f5f5f7',
+          font: {
+            weight: 'bold'
+          }
+        },
+        grid: {
+          color: 'rgba(245, 245, 247, 0.3)'
+        },
+        angleLines: {
+          color: 'rgba(245, 245, 247, 0.3)'
         }
-      },
-      ticks: {
-        showLabelBackdrop: false,
-        stepSize: 1,
-        color: '#f5f5f7',
-        font: {
-          weight: 'bold'
-        }
-      },
-      grid: {
-        color: 'rgba(245, 245, 247, 0.3)'
-      },
-      angleLines: {
-        color: 'rgba(245, 245, 247, 0.3)'
       }
     }
   }
-};
-
-export const whiteLineOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'bottom',
-    },
-  },
-  scales: {
-    x: {
-      grid: {
-        borderColor: 'rgba(245, 245, 247, 0.3)',
-        color: 'rgba(245, 245, 247, 0.3)',
-        tickColor: 'rgba(245, 245, 247, 0.3)'
-      },
-      ticks: {
-        color: 'rgba(245, 245, 247, 0.8)'
-      }
-    },
-    y: {
-      grid: {
-        borderColor: 'rgba(245, 245, 247, 0.3)',
-        color: 'rgba(245, 245, 247, 0.3)',
-        tickColor: 'rgba(245, 245, 247, 0.3)'
-      },
-      ticks: {
-        color: 'rgba(245, 245, 247, 0.8)'
-      }
-    }
-  },
-  color: 'rgba(245, 245, 247, 0.8)'
-};
+   : {})
+);
 
 //chart data
 
