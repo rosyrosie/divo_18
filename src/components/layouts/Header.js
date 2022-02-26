@@ -9,8 +9,7 @@ export default function Header({ dark = false }){
   const { corpId } = useParams();
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
-  const [ drop, setDrop ] = useState(false);
-  //const [ showModal, setShowModal ] = useState(false);
+  
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
