@@ -7,6 +7,7 @@ import KeywordAnalysisBlank from "@/routes/KeywordAnalysisBlank";
 import Login from "@/routes/Login";
 import SalesAnalysis from "@/routes/SalesAnalysis";
 import Signup from "@/routes/Signup";
+import KeywordAdmin from "@/routes/KeywordAdmin";
 import Layout from "@/components/layouts/Layout";
 
 export default function App(){
@@ -34,6 +35,7 @@ export default function App(){
         { path: '/cid=:corpId/sales-analysis', element: <SalesAnalysis /> },
         { path: '/cid=:corpId/corp-management', element: <CorpManagement /> },
         { path: '/cid=:corpId/corp-addition', element: <CorpAddition />},
+        { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin />}
       ]
     }
   ];

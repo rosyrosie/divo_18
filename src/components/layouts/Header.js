@@ -9,7 +9,7 @@ export default function Header({ dark = false }){
   const { corpId } = useParams();
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
-  
+
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -45,7 +45,7 @@ export default function Header({ dark = false }){
                 <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
               </S.Dropdown> :
               <S.Dropdown ref={dropDownRef}>
-                {corpId && <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>}
+                <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
                 <S.Drop onClick={() => navigate(CORP_URL + '/corp-management')}>브랜드 관리</S.Drop>
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
               </S.Dropdown>)

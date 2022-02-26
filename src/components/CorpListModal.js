@@ -19,6 +19,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
         {payload?.corpList.map(corp => (
           <S.Corp onClick={() => navigate(`/cid=${corp[0]}`)}>{corp[1]}</S.Corp>
         ))}
+        {!payload?.corpList.length && <S.Empty>등록된 브랜드가 없습니다</S.Empty>}
         <S.Add onClick={() => navigate('/corp-addition')}>브랜드 추가하기</S.Add>
       </S.Modal>
     </S.Body>
@@ -69,6 +70,13 @@ S.Corp = styled.div`
     background: #f5f5f7;
     opacity: 1;
   }
+`;
+
+S.Empty = styled.div`
+  justify-content: center;
+  padding: 20px 0;
+  display: flex;
+  border-bottom: 1px solid #d2d2d7;
 `;
 
 S.Add = styled.div`
