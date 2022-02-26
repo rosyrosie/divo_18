@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useFetch } from '@hooks';
 import { CORPLIST_URL } from "@api";
+import { useEffect } from "react";
 
 ChartJS.register(
   RadialLinearScale,
@@ -32,8 +33,14 @@ export default function Home(){
     token
   );
 
-  if(!corpId && token && payload?.corpList) navigate('/cid=' + payload?.corpList?.[0]?.[0]);
-
+  useEffect(() => {
+    if(!payload) return;
+    if(!corpId && token){
+      if(!payload.corpList.length) navigate('/cid=0');
+      else navigate('/cid=' + payload?.corpList?.[0]?.[0]);
+    }
+  }, [payload]);
+  
   return (
     <S.Content></S.Content>
   );
