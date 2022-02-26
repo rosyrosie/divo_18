@@ -26,7 +26,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
           ))}
         </S.Text>
         <S.Line>
-          {lineData && <Line options={lineOptions('원', false)} data={applyColorToChart(lineData[tab], 'light')} />}
+          {lineData && <Line options={lineOptions('원', true)} data={applyColorToChart(lineData[tab], 'light')} />}
         </S.Line>
       </S.Width>
     </S.Fill>
