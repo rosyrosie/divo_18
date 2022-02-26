@@ -7,24 +7,54 @@ import { useDetectOutsideClick } from '../../utils/hooks';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
-  const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
 
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
+  const searchRef = useRef(null);
   const dropDownRef = useRef(null);
   const modalRef = useRef(null);
+  const [ isSearching, setIsSearching ] = useDetectOutsideClick(searchRef, false);
   const [ showDropDown, setShowDropDown ] = useDetectOutsideClick(dropDownRef, false);
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
+
+  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
+ 
+  const handleLogin = e => {
+    e.preventDefault();
+    navigate('/login');
+    setShowDropDown(false);
+  }
+
+  const handleSignup = e => {
+    e.preventDefault();
+    navigate('/signup');
+    setShowDropDown(false);
+  }
 
   const handleLogout = e => {
     e.preventDefault();
     navigate('/');
+    setShowDropDown(false);
     localStorage.clear();
   }
 
-  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
+  const handleSearch = e => {
+    e.preventDefault();
+    if(input){
+      navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
+      setIsSearching(false);
+    }
+  }
+
+  const handleKeyPressSearch = e => {
+    if(e.key !== 'Enter') return;
+    if(input){
+      navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
+      setIsSearching(false);
+    }
+  }
 
   return (
     <>
@@ -41,20 +71,20 @@ export default function Header({ dark = false }){
             {showDropDown && 
               (!token ?
               <S.Dropdown ref={dropDownRef}>
-                <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
-                <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
+                <S.Drop onClick={handleLogin}>로그인</S.Drop>
+                <S.Drop onClick={handleSignup}>회원가입</S.Drop>
               </S.Dropdown> :
               <S.Dropdown ref={dropDownRef}>
                 <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
-                <S.Drop onClick={() => navigate(CORP_URL + '/corp-management')}>브랜드 관리</S.Drop>
+                <S.Drop onClick={() => { navigate(CORP_URL + '/corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
               </S.Dropdown>)
             }
           </S.LogoBox>
         </S.Header> :
-        <S.Header dark={dark}>
-          <S.Logo><i className="fas fa-search"></i></S.Logo>
-          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(CORP_URL + `/keyword-analysis/keyword=${input}`) : null} />
+        <S.Header dark={dark} ref={searchRef}>
+          <S.Logo onClick={handleSearch}><i className="fas fa-search"></i></S.Logo>
+          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={handleKeyPressSearch} />
           <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
         </S.Header>}
         {/* {menu>=0 && 
