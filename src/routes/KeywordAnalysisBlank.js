@@ -34,13 +34,6 @@ S.Link = styled.a`
   text-decoration: none;
 `;
 
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
-
 S.Search = styled.div`
   padding: 20px 0;
   display: flex;
