@@ -1,8 +1,7 @@
 import { Radar } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { salesRadarOptions } from '@constants';
 import { applyColorToChart } from '@functions';
-import { radarOptions } from '../utils/constants';
+import { radarOptions } from '@constants';
 
 export default function SalesRadar({ radarRef, radarData }){
   return (

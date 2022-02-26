@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { lineOptions } from '@constants';
-import { applyColorToChart } from '../utils/functions';
+import { applyColorToChart } from '@functions';
 
 export default function RecentSales({ salesRef, recentSalesData }){
   const [ tab, setTab ] = useState(0);

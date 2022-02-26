@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { compareMenuList, salesCompareData, salesCompareTitle, lineOptions, whiteLineOptions } from '@constants';
+import { compareMenuList, salesCompareTitle, lineOptions } from '@constants';
 import { Line } from 'react-chartjs-2';
 import { applyColorToChart } from '@functions';
 import { SA_COMPARE_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useParams } from 'react-router-dom';
-import { maxChartTab } from '@constants';
+import { maxChartTab, compareChartUnit } from '@constants';
 
 export default function SalesCompare({ compareRef }){
   const { corpId } = useParams();
@@ -48,7 +48,7 @@ export default function SalesCompare({ compareRef }){
         <S.ChartBox>
           <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i class="fas fa-angle-left"></i></S.Button></S.ButtonBox>
           <S.Chart>
-            {data && <Line options={lineOptions('원', true, true)} data={applyColorToChart(data?.[tab]?.graphList[chartTab<=maxChartTab[tab] ? chartTab : 0], 'dark')} />}
+            {data && <Line options={lineOptions(compareChartUnit[chartTab], true, true)} data={applyColorToChart(data?.[tab]?.graphList[chartTab<=maxChartTab[tab] ? chartTab : 0], 'dark')} />}
           </S.Chart>
           <S.ButtonBox><S.Button tab={chartTab} maxTab={maxChartTab[tab]} right={true} onClick={() => chartTab<maxChartTab[tab] ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
         </S.ChartBox>

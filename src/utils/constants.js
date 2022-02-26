@@ -68,7 +68,9 @@ export const compareMenuList = [
   ['매출액', '결제단가', '결제건수']
 ]
 
-export const maxChartTab = [3, 4, 2];
+export const maxChartTab = [3, 4, 2]; //for SalesCompare.js
+
+export const compareChartUnit = ['원', '원', '건', '%', '%'];
 
 //chart options
 

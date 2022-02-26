@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
-import { useDetectOutsideClick } from '../../utils/hooks';
+import { useDetectOutsideClick } from '@hooks';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
