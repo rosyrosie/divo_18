@@ -1,18 +1,23 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
+import { useDetectOutsideClick } from '../../utils/hooks';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
   const [ isSearching, setIsSearching ] = useState(false);
   const [ input, setInput ] = useState('');
   const [ drop, setDrop ] = useState(false);
-  const [ showModal, setShowModal ] = useState(false);
-  //const [ menu, setMenu ] = useState(-1);
+  //const [ showModal, setShowModal ] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  const dropDownRef = useRef(null);
+  const modalRef = useRef(null);
+  const [ showDropDown, setShowDropDown ] = useDetectOutsideClick(dropDownRef, false);
+  const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
 
   const handleLogout = e => {
     e.preventDefault();
@@ -33,14 +38,14 @@ export default function Header({ dark = false }){
           ))}
           <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
           <S.LogoBox>
-            <S.Logo onClick={() => setDrop(d => !d)}><i className="fas fa-user"></i></S.Logo>
-            {drop && 
+            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i></S.Logo>
+            {showDropDown && 
               (!token ?
-              <S.Dropdown>
+              <S.Dropdown ref={dropDownRef}>
                 <S.Drop onClick={() => navigate('/login')}>로그인</S.Drop>
                 <S.Drop onClick={() => navigate('/signup')}>회원가입</S.Drop>
               </S.Dropdown> :
-              <S.Dropdown>
+              <S.Dropdown ref={dropDownRef}>
                 {corpId && <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>}
                 <S.Drop onClick={() => navigate(CORP_URL + '/corp-management')}>브랜드 관리</S.Drop>
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
@@ -60,7 +65,7 @@ export default function Header({ dark = false }){
           ))}
         </S.SubMenus>} */}
       </S.Flex>
-      {showModal && <CorpListModal setShowModal={setShowModal} />} 
+      {showModal && <CorpListModal setShowModal={setShowModal} modalRef={modalRef} />} 
     </>
   );
 }

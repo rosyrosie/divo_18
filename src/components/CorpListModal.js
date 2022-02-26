@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { CORPLIST_URL } from '@api';
 import { useFetch } from '@hooks';
 
-export default function CorpListModal({ setShowModal }){
+export default function CorpListModal({ setShowModal, modalRef }){
   const { payload, error } = useFetch(
     CORPLIST_URL,
     null,
@@ -14,7 +14,7 @@ export default function CorpListModal({ setShowModal }){
 
   return (
     <S.Body>
-      <S.Modal>
+      <S.Modal ref={modalRef}>
         <S.Title><S.Icon onClick={() => setShowModal(false)}><i class="fas fa-times"></i></S.Icon></S.Title>
         {payload?.corpList.map(corp => (
           <S.Corp onClick={() => navigate(`/cid=${corp[0]}`)}>{corp[1]}</S.Corp>
