@@ -15,7 +15,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
         <S.Text>
           <S.Title>최근 매출 현황</S.Title>
           {pointData?.map((point, i) => (
-            <S.LineTab last={i===2} isSelected={tab===i} onClick={() => setTab(i)}>
+            <S.LineTab last={i===2} isSelected={tab===i} onClick={() => setTab(i)} key={i}>
               <S.TabTitle>{point.currDate}</S.TabTitle>
               <S.Sales>{point.currSales}</S.Sales>
               <S.Compare>

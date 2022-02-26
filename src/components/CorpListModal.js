@@ -22,7 +22,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
   }
 
   const handleChangeCorp = id => {
-    navigate(CORP_URL + `/cid=${id}`);
+    navigate(CORP_URL);
     setShowModal(false);
   }
 
@@ -31,7 +31,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
       <S.Modal ref={modalRef}>
         <S.Title><S.Icon onClick={() => setShowModal(false)}><i class="fas fa-times"></i></S.Icon></S.Title>
         {payload?.corpList.map(corp => (
-          <S.Corp onClick={handleChangeCorp}>{corp[1]}</S.Corp>
+          <S.Corp onClick={() => handleChangeCorp(corp[0])} key={corp[0]}>{corp[1]}</S.Corp>
         ))}
         {!payload?.corpList.length && <S.Empty>등록된 브랜드가 없습니다</S.Empty>}
         <S.Add onClick={handleCorpAddition}>브랜드 추가하기</S.Add>

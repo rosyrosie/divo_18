@@ -6,7 +6,7 @@ export default function CardSection({ cards }){
       <S.Width>
         <S.Stats>
           {cards.map((card, i) => (
-            <S.Col index={i}>
+            <S.Col index={i} key={i}>
               <S.Day>{card.title}</S.Day>
               <S.Date>{card.date}</S.Date>
               <S.Stat>{card.stat}<S.Scale>{card.scale}</S.Scale></S.Stat>

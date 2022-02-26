@@ -30,7 +30,7 @@ export default function SalesCompare({ compareRef }){
           <S.Stat isTitle={true}>{salesCompareTitle[tab][1]}</S.Stat>
         </S.Row>
         {compareMenuList[tab].map((menu, i) => (
-          <S.Row>
+          <S.Row key={i}>
             <S.Stat>{a[i]}</S.Stat>
             <S.Menu>{menu}</S.Menu>
             <S.Stat>{b[i]}</S.Stat>

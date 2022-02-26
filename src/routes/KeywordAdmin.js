@@ -80,7 +80,7 @@ export default function KeywordAdmin(){
           <S.Words>
             <S.Scroll>
               {keywordSet?.brand?.map(word => (
-                <S.Word onClick={() => delBrand(word)}>{word}</S.Word>
+                <S.Word onClick={() => delBrand(word)} key={word}>{word}</S.Word>
               ))}
             </S.Scroll>
             <S.Input value={newBrand} onChange={e => setNewBrand(e.target.value)} onKeyPress={addBrand} />
@@ -91,7 +91,7 @@ export default function KeywordAdmin(){
           <S.Words>
             <S.Scroll>
               {keywordSet?.rel?.map(word => (
-                <S.Word onClick={() => delRel(word)}>{word}</S.Word>
+                <S.Word onClick={() => delRel(word)} key={word}>{word}</S.Word>
               ))}
             </S.Scroll>
             <S.Input value={newRel} onChange={e => setNewRel(e.target.value)} onKeyPress={addRel} />
@@ -102,7 +102,7 @@ export default function KeywordAdmin(){
           <S.Words>
             <S.Scroll>
               {keywordSet?.section?.map(word => (
-                <S.Word onClick={() => delSec(word)}>{word}</S.Word>
+                <S.Word onClick={() => delSec(word)} key={word}>{word}</S.Word>
               ))}
             </S.Scroll>
             <S.Input value={newSec} onChange={e => setNewSec(e.target.value)} onKeyPress={addSec} />
@@ -113,7 +113,7 @@ export default function KeywordAdmin(){
           <S.Words>
             <S.Scroll>
               {keywordSet?.category?.map(word => (
-                <S.Word onClick={() => delCat(word)}>{word}</S.Word>
+                <S.Word onClick={() => delCat(word)} key={word}>{word}</S.Word>
               ))}
             </S.Scroll>
             <S.Input value={newCat} onChange={e => setNewCat(e.target.value)} onKeyPress={addCat} />
