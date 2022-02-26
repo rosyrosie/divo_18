@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/layouts/Header';
 import { AUTH_URL, REGISTER_URL } from '@api';
 import { contractText } from '@constants';
 

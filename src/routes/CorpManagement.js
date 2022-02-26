@@ -1,9 +1,8 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/layouts/Header';
 import LoginRequired from '@/components/LoginRequired';
-import { CORPLIST_URL, DELCORP_URL } from '@api';
+import { CORPLIST_URL, DEL_CORP_URL } from '@api';
 import { useFetch } from '@hooks';
 
 export default function CorpManagement(){
@@ -23,7 +22,7 @@ export default function CorpManagement(){
     }
     if(!window.confirm('정말 삭제하시겠습니까?')) return;
     const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
-    axios.delete(DELCORP_URL+id, tokenHeader).then(
+    axios.delete(DEL_CORP_URL+id, tokenHeader).then(
       res => {
         if(res.data.message === 'success'){
           alert('삭제되었습니다.');

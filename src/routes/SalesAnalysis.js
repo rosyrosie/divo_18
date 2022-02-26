@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Header from '@/components/layouts/Header';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '@/components/SalesCompare';
 import { useParams } from 'react-router-dom';

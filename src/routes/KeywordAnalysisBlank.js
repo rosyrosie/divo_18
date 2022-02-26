@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Header from "@/components/layouts/Header";
 
 export default function KeywordAnalysisBlank(){
   const { corpId } = useParams();

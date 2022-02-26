@@ -2,9 +2,8 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/layouts/Header';
 import LoginRequired from '@/components/LoginRequired';
-import { ADDCORP_URL, FINDPLACE_URL } from '@api';
+import { ADD_CORP_URL, FIND_PLACE_URL } from '@api';
 import { useFetch } from '@hooks';
 
 export default function CorpAddition(){
@@ -12,7 +11,7 @@ export default function CorpAddition(){
   const [ input, setInput ] = useState('');
   const [ query, setQuery ] = useState(null);
   const { payload, error } = useFetch(
-    FINDPLACE_URL + query,
+    FIND_PLACE_URL + query,
     null,
     'GET',
     [query],
@@ -33,7 +32,7 @@ export default function CorpAddition(){
       corpName: name
     };
     const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
-    axios.post(ADDCORP_URL, body, tokenHeader).then(res => {
+    axios.post(ADD_CORP_URL, body, tokenHeader).then(res => {
       if(res.data.message==='success'){
         alert('브랜드가 추가되었습니다.');
         navigate(`/cid=${res.data.corpId}`);
