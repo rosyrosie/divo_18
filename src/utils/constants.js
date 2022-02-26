@@ -64,9 +64,11 @@ export const userStatComment = [
 
 export const compareMenuList = [
   ['매출액', '결제단가', '결제건수', '재방문자 매출 비율'],
-  ['매출액', '결제단가', '결제건수', '재방문자 매출 비율', '저녁 매출 비율'],
+  ['매출액', '결제단가', '결제건수', '저녁 매출 비율', '재방문자 매출 비율'],
   ['매출액', '결제단가', '결제건수']
 ]
+
+export const maxChartTab = [3, 4, 2];
 
 //chart options
 

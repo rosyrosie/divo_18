@@ -3,16 +3,25 @@ import styled from 'styled-components';
 import { compareMenuList, salesCompareData, salesCompareTitle, lineOptions, whiteLineOptions } from '@constants';
 import { Line } from 'react-chartjs-2';
 import { applyColorToChart } from '@functions';
-
-const a = ['154만원', '4.2만원', '31건', '10%', '30%'];
-const b = ['312만원', '7.5만원', '10건', '5%', '20%'];
+import { SA_COMPARE_URL } from '@api';
+import { useFetch } from '@hooks';
+import { useParams } from 'react-router-dom';
+import { maxChartTab } from '@constants';
 
 export default function SalesCompare({ compareRef }){
-
+  const { corpId } = useParams();
   const [ tab, setTab ] = useState(0);
   const [ chartTab, setChartTab ] = useState(0);
 
   useEffect(() => setChartTab(0), [tab]);
+
+  const { payload, error } = useFetch(
+    SA_COMPARE_URL(corpId),
+    null,
+    'GET'
+  );
+
+  const data = payload?.analysisList;
 
   return (
     <S.Fill ref={compareRef} color={'#2a3142'} id="compare">
@@ -31,17 +40,17 @@ export default function SalesCompare({ compareRef }){
         </S.Row>
         {compareMenuList[tab].map((menu, i) => (
           <S.Row key={i}>
-            <S.Stat>{a[i]}</S.Stat>
-            <S.Menu>{menu}</S.Menu>
-            <S.Stat>{b[i]}</S.Stat>
+            <S.Stat>{data?.[tab]?.leftAvg[i]}</S.Stat>
+            <S.Menu><S.Highlight isSelected={i === chartTab} onClick={() => setChartTab(i)}>{menu}</S.Highlight></S.Menu>
+            <S.Stat>{data?.[tab]?.rightAvg[i]}</S.Stat>
           </S.Row>
         ))}
         <S.ChartBox>
           <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i class="fas fa-angle-left"></i></S.Button></S.ButtonBox>
           <S.Chart>
-            <Line options={lineOptions('원', true, true)} data={applyColorToChart(salesCompareData[chartTab], 'dark')} />
+            {data && <Line options={lineOptions('원', true, true)} data={applyColorToChart(data?.[tab]?.graphList[chartTab<=maxChartTab[tab] ? chartTab : 0], 'dark')} />}
           </S.Chart>
-          <S.ButtonBox><S.Button tab={chartTab} right={true} onClick={() => chartTab<2 ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
+          <S.ButtonBox><S.Button tab={chartTab} maxTab={maxChartTab[tab]} right={true} onClick={() => chartTab<maxChartTab[tab] ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
         </S.ChartBox>
       </S.Width>
     </S.Fill>
@@ -129,6 +138,23 @@ S.Menu = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
+  height: 100%;
+  align-items: center;
+`;
+
+S.Highlight = styled.div`
+  height: 100%;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  ${props => props.isSelected ? 'background-color: #f5f5f7; color: #2a3142;' : ''}
+  &:hover{
+    cursor: pointer;
+    background-color: #f5f5f7;
+    color: #2a3142;
+  }
+  transition: 0.3s;
 `;
 
 S.Chart = styled.div`
@@ -156,7 +182,7 @@ S.Button = styled.button`
     background: rgba(245, 245, 247, 0.5);
   }
   ${props => !props.tab && props.left ? 'visibility: hidden;' : ''}
-  ${props => props.tab===2 && props.right ? 'visibility: hidden;' : ''}
+  ${props => props.tab===props.maxTab && props.right ? 'visibility: hidden;' : ''}
 `;
 
 S.ChartBox = styled.div`
