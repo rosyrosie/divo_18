@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/Header';
+import Header from '@/components/layouts/Header';
 import axios from 'axios';
-import { LOGIN_URL } from '@/environments/Api';
+import { LOGIN_URL } from '@api';
 
 export default function Login(){
 
@@ -36,8 +36,7 @@ export default function Login(){
   }
 
   return (
-    <S.Body>
-      <Header />
+    <>
       <S.Content>
         <S.Text>로그인하기</S.Text>
         <S.Input placeholder="이메일 또는 전화번호" type="email" value={id} onChange={e => setId(e.target.value.replaceAll('-', ''))} />
@@ -45,18 +44,11 @@ export default function Login(){
         <S.SignUp>회원이 아니신가요?<S.Blue onClick={() => navigate('/signup')}>회원가입하기</S.Blue></S.SignUp>
       </S.Content>
       <S.Content />
-    </S.Body>
+    </>
   );
 }
 
 const S = {};
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
 
 S.Content = styled.div`
   flex: 1;

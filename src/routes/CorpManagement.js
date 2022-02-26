@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/Header';
+import Header from '@/components/layouts/Header';
 import LoginRequired from '@/components/LoginRequired';
-import { CORPLIST_URL, DELCORP_URL } from '@/environments/Api';
-import { useFetch } from '@/environments/Hooks';
+import { CORPLIST_URL, DELCORP_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function CorpManagement(){
   const token = localStorage.getItem('token');
@@ -34,33 +34,20 @@ export default function CorpManagement(){
   }
 
   if(!token) return (
-    <S.Body>
-      <Header />
-      <LoginRequired />
-    </S.Body>
+    <LoginRequired />
   );
 
   return (
-    <S.Body>
-      <Header />
-      <S.Content>
-        {payload?.corpList.map(corp => (
-          <S.Corp onClick={() => deleteCorp(corp[0])}>{corp[1]}</S.Corp>
-        ))}
-        <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
-      </S.Content>
-    </S.Body>
+    <S.Content>
+      {payload?.corpList.map(corp => (
+        <S.Corp onClick={() => deleteCorp(corp[0])}>{corp[1]}</S.Corp>
+      ))}
+      <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
+    </S.Content>
   );
 }
 
 const S = {};
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
 
 S.Content = styled.div`
   flex: 1;

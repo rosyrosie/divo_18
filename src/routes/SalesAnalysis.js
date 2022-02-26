@@ -1,13 +1,13 @@
 import styled from 'styled-components';
-import Header from '@/components/Header';
+import Header from '@/components/layouts/Header';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '@/components/SalesCompare';
 import { useParams } from 'react-router-dom';
 import LoginRequired from '@/components/LoginRequired';
 import CorpRequired from '@/components/CorpRequired';
 import SalesRadar from '@/components/SalesRadar';
-import { useFetch } from '@/environments/Hooks';
-import { SA_RADAR_URL } from '@/environments/Api';
+import { useFetch } from '@hooks';
+import { SA_RADAR_URL } from '@api';
 import RecentSales from '@/components/RecentSales';
 
 export default function SalesAnalysis(){
@@ -39,25 +39,18 @@ export default function SalesAnalysis(){
 
   if(!token){
     return (
-      <S.Body>
-        <Header />
-        <LoginRequired />
-      </S.Body>
+      <LoginRequired />
     );
   }
 
   if(corpId==='0'){
     return (
-      <S.Body>
-        <Header />
-        <CorpRequired />
-      </S.Body>
+      <CorpRequired />
     );
   }
 
   return (
-    <S.Body>
-      <Header />
+    <>
       <S.TabBox>
         <S.Tabs>
           <S.Tab isSelected={activeTab()===0}><S.Link href="#sales-radar">매출 지표 분석</S.Link></S.Tab>
@@ -67,42 +60,8 @@ export default function SalesAnalysis(){
       </S.TabBox>
       <SalesRadar radarRef={radarRef} radarData={radarData} />
       <RecentSales salesRef={salesRef} recentSalesData={recentSalesData} />
-      {/* <S.Fill color={'#f5f5f7'} id="sales-qty" ref={salesRef}>
-        <S.Width>
-          <S.Text>
-            <S.Title>최근 매출 현황</S.Title>
-            <S.LineTab isSelected={tab===0} onClick={() => setTab(0)}>
-              <S.TabTitle>2022년 2월 22일</S.TabTitle>
-              <S.Sales>2,435,000원</S.Sales>
-              <S.Compare>
-                전주대비
-                <S.Delta>+250,000</S.Delta>
-              </S.Compare>
-            </S.LineTab>
-            <S.LineTab isSelected={tab===1} onClick={() => setTab(1)}>
-              <S.TabTitle>2022년 2월 3주차</S.TabTitle>
-              <S.Sales>12,435,000원</S.Sales>
-              <S.Compare>
-                전월대비
-                <S.Delta>-1,250,000</S.Delta>
-              </S.Compare>
-            </S.LineTab>
-            <S.LineTab last={true} isSelected={tab===2} onClick={() => setTab(2)}>
-              <S.TabTitle>2022년 1월</S.TabTitle>
-              <S.Sales>52,435,000원</S.Sales>
-              <S.Compare>
-                전년대비
-                <S.Delta>+2,300,000</S.Delta>
-              </S.Compare>
-            </S.LineTab>
-          </S.Text>
-          <S.Line>
-            <Line options={salesLineOptions} data={salesLineData[tab]} />
-          </S.Line>
-        </S.Width>
-      </S.Fill> */}
       <SalesCompare compareRef={compareRef} />
-    </S.Body>
+    </>
   );
 }
 
@@ -111,13 +70,6 @@ const S = {};
 S.Link = styled.a`
   color: inherit;
   text-decoration: none;
-`;
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
 `;
 
 S.Fill = styled.div`

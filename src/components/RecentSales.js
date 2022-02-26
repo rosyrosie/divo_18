@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { salesLineOptions } from '@/environments/Variables';
+import { salesLineOptions } from '@constants';
 
 export default function RecentSales({ salesRef, recentSalesData }){
   const [ tab, setTab ] = useState(0);

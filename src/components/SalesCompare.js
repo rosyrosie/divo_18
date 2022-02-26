@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { compareMenuList, salesCompareData, salesCompareTitle, whiteLineOptions } from '@/environments/Variables';
+import { compareMenuList, salesCompareData, salesCompareTitle, whiteLineOptions } from '@constants';
 import { Line } from 'react-chartjs-2';
 
 const a = ['154만원', '4.2만원', '31건', '10%', '30%'];

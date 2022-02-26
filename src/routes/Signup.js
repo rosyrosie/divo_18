@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/Header';
-import { AUTH_URL, REGISTER_URL } from '@/environments/Api';
-import { contractText } from '@/environments/Variables';
+import Header from '@/components/layouts/Header';
+import { AUTH_URL, REGISTER_URL } from '@api';
+import { contractText } from '@constants';
 
 export default function Signup(){
 
@@ -72,8 +72,6 @@ export default function Signup(){
   return (
     agreed ?
       phoneAuth ? 
-      <S.Body>
-        <Header />
         <S.Content>
           <S.Text>회원가입</S.Text>
           <S.Input value={phone} disabled/>
@@ -85,47 +83,33 @@ export default function Signup(){
           <S.Button error={signUpError} onClick={handleSignup}>회원가입</S.Button>
           <S.SignUp>회원이신가요?<S.Blue onClick={() => navigate('/login')}>로그인하기</S.Blue></S.SignUp>
         </S.Content>
-      </S.Body> :
+      :
       phoneCheck ? 
-      <S.Body>
-        <Header />
         <S.Content>
           <S.Text>휴대전화 인증</S.Text>
           <S.Input disabled value={phone} />
           <S.Input placeholder="인증번호" value={authCode} onChange={e => setAuthCode(e.target.value)} />
           <S.Button error={!authCode} onClick={checkAuthCode}>인증하기</S.Button>
         </S.Content>
-      </S.Body> :
-      <S.Body>
-        <Header />
+      :
         <S.Content>
           <S.Text>휴대전화 인증</S.Text>
           <S.Input placeholder="전화번호" type="tel" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" value={phone} onChange={e => setPhone(e.target.value.replaceAll('-', ''))} error={phoneError} />
           <S.Error error={phoneError}>전화번호 형식이 올바르지 않습니다.</S.Error>
           <S.Button error={phoneError} onClick={sendAuthCode}>인증번호 받기</S.Button>
         </S.Content>
-      </S.Body> :
-      <S.Body>
-      <Header />
-        <S.Content>
-          <S.Text>이용약관</S.Text>
-          <S.Contract>
-            {contractText}
-          </S.Contract>
-          <S.Button onClick={() => setAgreed(true)}>동의</S.Button>
-        </S.Content>
-      </S.Body>
+      :
+      <S.Content>
+        <S.Text>이용약관</S.Text>
+        <S.Contract>
+          {contractText}
+        </S.Contract>
+        <S.Button onClick={() => setAgreed(true)}>동의</S.Button>
+      </S.Content>
   );
 }
 
 const S = {};
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
 
 S.Contract = styled.div`
   border: 1px solid #d2d2d7;

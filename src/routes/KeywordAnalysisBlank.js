@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Header from "@/components/Header";
+import Header from "@/components/layouts/Header";
 
 export default function KeywordAnalysisBlank(){
   const { corpId } = useParams();
@@ -10,8 +10,7 @@ export default function KeywordAnalysisBlank(){
   const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
   return (
-    <S.Body>
-      <Header />
+    <>
       <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
@@ -25,7 +24,7 @@ export default function KeywordAnalysisBlank(){
           </S.Empty>
         </S.Content>
       </S.ContentBox>
-    </S.Body>
+    </>
   );
 }
 

@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
-import { barOptions, lineOptions, userStatComment } from '@/environments/Variables';
-import { KA_CHART_URL } from '@/environments/Api';
+import { barOptions, lineOptions, userStatComment } from '@constants';
+import { KA_CHART_URL } from '@api';
 import { useParams } from 'react-router-dom';
-import { useFetch } from '@/environments/Hooks';
+import { useFetch } from '@hooks';
 
 export default function UserStat({ userRef, userInView }){
   const [ tab, setTab ] = useState(0);

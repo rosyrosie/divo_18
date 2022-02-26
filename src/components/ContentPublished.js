@@ -1,8 +1,8 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { KA_CONTENT_URL } from '@/environments/Api';
-import { useFetch } from '@/environments/Hooks';
+import { KA_CONTENT_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function ContentPublished({ ctRef, ctInView }){
 

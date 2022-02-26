@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '@/components/Header';
+import Header from '@/components/layouts/Header';
 import LoginRequired from '@/components/LoginRequired';
-import { ADDCORP_URL, FINDPLACE_URL } from '@/environments/Api';
-import { useFetch } from '@/environments/Hooks';
+import { ADDCORP_URL, FINDPLACE_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function CorpAddition(){
   const token = localStorage.getItem('token');
@@ -47,40 +47,27 @@ export default function CorpAddition(){
   const noCorps = query && !corpList.length;
 
   if(!token) return (
-    <S.Body>
-      <Header />
-      <LoginRequired />
-    </S.Body>
+    <LoginRequired />
   );
 
   return (
-    <S.Body>
-      <Header />
-      <S.Content>
-        <S.Text>브랜드 추가</S.Text>
-        <S.Input placeholder="추가할 브랜드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={getCorpList} />
-        <S.CorpBox>
-          {corpList?.map((corp, i) => (
-            <S.Corp index={i} onClick={() => addCorp(corp.id, corp.name)}>
-              <S.Name>{corp.name}</S.Name>
-              <S.Adr>{corp.address}</S.Adr>
-            </S.Corp>
-          ))}
-        </S.CorpBox>
-        {noCorps && <S.NoCorp>검색된 브랜드가 없습니다</S.NoCorp>}
-      </S.Content>
-    </S.Body>
+    <S.Content>
+      <S.Text>브랜드 추가</S.Text>
+      <S.Input placeholder="추가할 브랜드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={getCorpList} />
+      <S.CorpBox>
+        {corpList?.map((corp, i) => (
+          <S.Corp index={i} onClick={() => addCorp(corp.id, corp.name)}>
+            <S.Name>{corp.name}</S.Name>
+            <S.Adr>{corp.address}</S.Adr>
+          </S.Corp>
+        ))}
+      </S.CorpBox>
+      {noCorps && <S.NoCorp>검색된 브랜드가 없습니다</S.NoCorp>}
+    </S.Content>
   );
 }
 
 const S = {};
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
 
 S.Content = styled.div`
   flex: 1;

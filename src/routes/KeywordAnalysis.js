@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import Header from "@/components/Header";
+import Header from "@/components/layouts/Header";
 import KeywordReport from "@/components/KeywordReport";
 
 export default function KeywordAnalysis(){
@@ -27,8 +27,7 @@ export default function KeywordAnalysis(){
   }
 
   return (
-    <S.Body>
-      <Header />
+    <>
       <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
@@ -63,7 +62,7 @@ export default function KeywordAnalysis(){
           </S.Empty>}
         </S.Content>
       </S.ContentBox>
-    </S.Body>
+    </>
   );
 }
 
@@ -72,13 +71,6 @@ const S = {};
 S.Link = styled.a`
   color: inherit;
   text-decoration: none;
-`;
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
 `;
 
 S.Search = styled.div`

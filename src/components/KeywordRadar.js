@@ -9,7 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Radar } from 'react-chartjs-2';
-import { radarData, radarOptions } from '@/environments/Variables';
+import { radarData, radarOptions } from '@constants';
 
 ChartJS.register(
   RadialLinearScale,

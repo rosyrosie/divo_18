@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { CORPLIST_URL } from '@/environments/Api';
-import { useFetch } from '@/environments/Hooks';
+import { CORPLIST_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function CorpListModal({ setShowModal }){
   const { payload, error } = useFetch(

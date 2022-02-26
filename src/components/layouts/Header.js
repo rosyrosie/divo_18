@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { menuList } from '@/environments/Variables';
+import { menuList } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
 
 export default function Header({ dark = false }){
