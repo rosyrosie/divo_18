@@ -1,12 +1,34 @@
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { salesLineData, lineOptions } from '@constants';
+import { dateToString } from '@functions';
+import { addDays } from 'date-fns';
+import { useState } from 'react';
+import { useFetch } from '@hooks';
+import { KA_QTY_CHART_URL } from '@api';
+import RangePicker from '@/components/RangePicker';
+import { useParams } from 'react-router-dom';
 
 export default function SearchQtyChart(){
+  const { keyword } = useParams();
+  const [ startDate, setStartDate ] = useState(addDays(new Date(), -8));
+  const [ endDate, setEndDate ] = useState(addDays(new Date(), -1));
+
+  const { payload, error } = useFetch(
+    KA_QTY_CHART_URL(keyword, dateToString(startDate), dateToString(endDate), 0),
+    null,
+    'GET',
+    [startDate, endDate, keyword]
+  );
+
+  console.log(payload);
+
   return (
     <S.Section color={'white'}>
       <S.Width>
-        <S.Title>검색량 상세 조회</S.Title>
+        <S.Title>검색량 상세 조회
+          <RangePicker startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+        </S.Title>
         <S.Comment>원하는 기간 동안의 검색량을 자유롭게 조회하세요.</S.Comment>
         <S.Chart>
           <S.ChartBox>
@@ -41,6 +63,10 @@ S.Title = styled.div`
   font-size: 24px;
   margin-bottom: 40px;
   color: #1d1d1f;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 S.Comment = styled.div`

@@ -35,18 +35,6 @@ export default function RecentSales({ salesRef, recentSalesData }){
 
 const S = {};
 
-S.Link = styled.a`
-  color: inherit;
-  text-decoration: none;
-`;
-
-S.Body = styled.div`
-  height: 100%;
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-`;
-
 S.Fill = styled.div`
   display: flex;
   justify-content: center;
@@ -69,10 +57,6 @@ S.Text = styled.div`
   ${props => props.right && 'align-items: end;'}
 `;
 
-S.Radar = styled.div`
-  flex: 1.2;
-`;
-
 S.Line = styled.div`
   flex: 4;
   display: flex;
@@ -91,11 +75,6 @@ S.Title = styled.div`
   font-size: 24px;
   margin-bottom: 40px;
   color: #1d1d1f;
-`;
-
-S.Comment = styled.div`
-  margin: 10px 0;
-  color: #515154;
 `;
 
 S.LineTab = styled.div`
@@ -136,33 +115,4 @@ S.Delta = styled.div`
   margin-left: 5px;
   font-weight: 600;
   color: #1d1d1f;
-`;
-
-S.TabBox = styled.div`
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid #d2d2d7;
-  position: sticky;
-  top: 0;
-  backdrop-filter: saturate(180%) blur(20px);
-  background: rgba(255, 255, 255, 0.72);
-  //background: white;
-`;
-
-S.Tabs = styled.div`
-  width: 60%;
-  display: flex;
-  font-size: 12px;
-  max-width: 1200px;
-`;
-
-S.Tab = styled.div`
-  padding: 10px 15px;
-  color: #1d1d1f;
-  opacity: .8;
-  transition: opacity 0.3s;
-  &:hover{
-    opacity: 1;
-  }
-  ${props => props.isSelected ? 'border-bottom: 1px solid black; opacity: 1;' : ''}
 `;

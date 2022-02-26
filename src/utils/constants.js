@@ -85,7 +85,6 @@ export const lineOptions = (unit, showLegend = true, isWhite = false) => (
       tooltip: {
         callbacks: {
           label: tooltipItem => {
-            console.log(tooltipItem);
             return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
           }
         }

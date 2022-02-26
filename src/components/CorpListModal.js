@@ -22,7 +22,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
   }
 
   const handleChangeCorp = id => {
-    navigate(CORP_URL);
+    navigate('/cid=' + id);
     setShowModal(false);
   }
 
