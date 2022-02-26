@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { CORPLIST_URL } from '@api';
 import { useFetch } from '@hooks';
@@ -9,18 +9,32 @@ export default function CorpListModal({ setShowModal, modalRef }){
     null,
     'GET'
   );
+  const { corpId } = useParams();
+
+  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
   const navigate = useNavigate();
+
+  const handleCorpAddition = e => {
+    e.preventDefault();
+    navigate(CORP_URL + '/corp-addition');
+    setShowModal(false);
+  }
+
+  const handleChangeCorp = id => {
+    navigate(CORP_URL + `/cid=${id}`);
+    setShowModal(false);
+  }
 
   return (
     <S.Body>
       <S.Modal ref={modalRef}>
         <S.Title><S.Icon onClick={() => setShowModal(false)}><i class="fas fa-times"></i></S.Icon></S.Title>
         {payload?.corpList.map(corp => (
-          <S.Corp onClick={() => navigate(`/cid=${corp[0]}`)}>{corp[1]}</S.Corp>
+          <S.Corp onClick={handleChangeCorp}>{corp[1]}</S.Corp>
         ))}
         {!payload?.corpList.length && <S.Empty>등록된 브랜드가 없습니다</S.Empty>}
-        <S.Add onClick={() => navigate('/corp-addition')}>브랜드 추가하기</S.Add>
+        <S.Add onClick={handleCorpAddition}>브랜드 추가하기</S.Add>
       </S.Modal>
     </S.Body>
   );

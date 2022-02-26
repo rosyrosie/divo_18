@@ -5,10 +5,12 @@ import { useFetch } from '@hooks';
 
 export default function KeywordAdmin(){
   const { corpId } = useParams();
+
+  console.log(corpId);
   const { payload, error } = useFetch(
-    PLACE_KEYWORD_URL + corpId,
-    'GET',
+    PLACE_KEYWORD_URL(corpId),
     null,
+    'GET',
     [corpId]
   );
 

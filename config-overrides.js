@@ -5,7 +5,8 @@ module.exports = function override(config){
     '@': 'src',
     '@api': 'src/utils/api',
     '@hooks': 'src/utils/hooks',
-    '@constants': 'src/utils/constants'
+    '@constants': 'src/utils/constants',
+    '@functions': 'src/utils/functions'
   })(config);
 
   return config;
