@@ -32,7 +32,7 @@ export default function Home(){
     token
   );
 
-  if(!corpId && token && payload?.corpList) navigate('/cid=' + payload?.corpList[0][0]);
+  if(!corpId && token && payload?.corpList) navigate('/cid=' + payload?.corpList?.[0]?.[0]);
 
   return (
     <S.Content></S.Content>

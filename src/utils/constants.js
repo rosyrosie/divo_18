@@ -6,7 +6,7 @@ export const contractText = "Lorem ipsum dolor sit amet, consectetur adipiscing 
 export const menuList = [
   {title: '키워드 분석', url: '/keyword-analysis'},
   {title: '매출액 분석', url: '/sales-analysis'},
-  {title: '키워드 추천', url: '/'},
+  {title: '트렌드 분석', url: '/'},
   {title: '음식점 순위', url: '/'},
   {title: '키워드 매출 연관성', url: '/'},
   {title: '커뮤니티', url: '/'},

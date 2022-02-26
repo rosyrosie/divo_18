@@ -46,10 +46,10 @@ export default function UserStat({ userRef, userInView }){
             <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
           </S.Tabs>
           <S.Chart>
-            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
+            {payload && <Bar options={barOptions('%')} data={applyColorToChart(barRawData[tab], 'light')} />}
           </S.Chart>
           <S.Chart>
-            {payload && <Bar options={barOptions('%')} data={applyColorToChart(barRawData[tab], 'light')} />}
+            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
           </S.Chart>
         </S.Box>
       </S.Section>

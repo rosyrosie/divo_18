@@ -3,12 +3,14 @@ import ContentPublished from '@/components/ContentPublished';
 import SearchQty from '@/components/SearchQty';
 import UserStat from '@/components/UserStat';
 import KeywordRadar from '@/components/KeywordRadar';
+import SearchQtyChart from '@/components/SearchQtyChart';
 
 export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInView, userRef, userInView, mktRef }){
   return (
     <S.Column>
       <KeywordRadar evalRef={evalRef} />
       <SearchQty qtyRef={qtyRef} qtyInView={qtyInView} />
+      <SearchQtyChart />
       <ContentPublished ctRef={ctRef} ctInView={ctInView} />
       <UserStat userRef={userRef} userInView={userInView} />
       {/* <MarketingIndex mktRef={mktRef} /> */}
