@@ -1,17 +1,14 @@
 import styled from 'styled-components';
-import Header from '../components/Header';
-import { Line, Radar } from 'react-chartjs-2';
-import { salesLineData, salesLineOptions, salesRadarData, salesRadarOptions } from '../environments/Variables';
-import { useState } from 'react';
+import Header from '@/components/Header';
 import { useInView } from 'react-intersection-observer';
-import SalesCompare from '../components/SalesCompare';
+import SalesCompare from '@/components/SalesCompare';
 import { useParams } from 'react-router-dom';
-import LoginRequired from '../components/LoginRequired';
-import CorpRequired from '../components/CorpRequired';
-import SalesRadar from '../components/SalesRadar';
-import { useFetch } from '../environments/Hooks';
-import { SA_RADAR_URL } from '../environments/Api';
-import RecentSales from '../components/RecentSales';
+import LoginRequired from '@/components/LoginRequired';
+import CorpRequired from '@/components/CorpRequired';
+import SalesRadar from '@/components/SalesRadar';
+import { useFetch } from '@/environments/Hooks';
+import { SA_RADAR_URL } from '@/environments/Api';
+import RecentSales from '@/components/RecentSales';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();

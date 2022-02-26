@@ -2,9 +2,9 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header';
-import { AUTH_URL, REGISTER_URL } from '../environments/Api';
-import { contractText } from '../environments/Variables';
+import Header from '@/components/Header';
+import { AUTH_URL, REGISTER_URL } from '@/environments/Api';
+import { contractText } from '@/environments/Variables';
 
 export default function Signup(){
 

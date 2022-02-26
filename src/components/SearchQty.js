@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { KA_AMOUNT_URL } from '../environments/Api';
-import { useFetch } from '../environments/Hooks';
-import { keywordCommentList } from '../environments/Variables';
-import CommentSection from './CommentSection';
+import { KA_AMOUNT_URL } from '@/environments/Api';
+import { useFetch } from '@/environments/Hooks';
+import { keywordCommentList } from '@/environments/Variables';
+import CommentSection from '@/components/CommentSection';
 
 export default function SearchQty({ qtyRef, qtyInView }){
 

@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import styled from 'styled-components';
-import ContentPublished from './ContentPublished';
-import SearchQty from './SearchQty';
-import UserStat from './UserStat';
-import MarketingIndex from './MarketingIndex';
-import KeywordRadar from './KeywordRadar';
+import ContentPublished from '@/components/ContentPublished';
+import SearchQty from '@/components/SearchQty';
+import UserStat from '@/components/UserStat';
+import KeywordRadar from '@/components/KeywordRadar';
 
 export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInView, userRef, userInView, mktRef }){
   return (

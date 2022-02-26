@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Line, Bar } from 'react-chartjs-2';
-import { barData, barOptions, lineData, lineOptions, userStatComment } from '../environments/Variables';
-import { KA_CHART_URL } from '../environments/Api';
+import { barOptions, lineOptions, userStatComment } from '@/environments/Variables';
+import { KA_CHART_URL } from '@/environments/Api';
 import { useParams } from 'react-router-dom';
-import { useFetch } from '../environments/Hooks';
+import { useFetch } from '@/environments/Hooks';
 
 export default function UserStat({ userRef, userInView }){
   const [ tab, setTab ] = useState(0);
@@ -25,14 +25,6 @@ export default function UserStat({ userRef, userInView }){
   const lineRawData = payload?.line;
 
   let lineData = []
-
-  let barLabels = [
-    ['PC', '모바일'],
-    ['남성', '여성'],
-    ['월', '화', '수', '목',' 금', '토', '일'],
-    ['1월', '2월', '3월', '4월', '5월', '6월', '7월',' 8월', '9월', '10월', '11월', '12월'],
-    ['10대', '20대', '30대', '40대', '50대 이상']
-  ]
 
   lineRawData?.forEach((element, i) => {
     lineData[i] = {};

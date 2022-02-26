@@ -1,18 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { compareMenuList, salesCompareData, salesCompareTitle, salesLineData, whiteLineOptions } from '../environments/Variables';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
+import { compareMenuList, salesCompareData, salesCompareTitle, whiteLineOptions } from '@/environments/Variables';
 import { Line } from 'react-chartjs-2';
-import {  } from '../environments/Variables';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-);
 
 const a = ['154만원', '4.2만원', '31건', '10%', '30%'];
 const b = ['312만원', '7.5만원', '10건', '5%', '20%'];

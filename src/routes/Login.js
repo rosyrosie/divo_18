@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header';
+import Header from '@/components/Header';
 import axios from 'axios';
-import { LOGIN_URL } from '../environments/Api';
+import { LOGIN_URL } from '@/environments/Api';
 
 export default function Login(){
 

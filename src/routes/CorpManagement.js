@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header';
-import LoginRequired from '../components/LoginRequired';
-import { CORPLIST_URL, DELCORP_URL } from '../environments/Api';
-import { useFetch } from '../environments/Hooks';
+import Header from '@/components/Header';
+import LoginRequired from '@/components/LoginRequired';
+import { CORPLIST_URL, DELCORP_URL } from '@/environments/Api';
+import { useFetch } from '@/environments/Hooks';
 
 export default function CorpManagement(){
   const token = localStorage.getItem('token');

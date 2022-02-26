@@ -1,6 +1,6 @@
 import { Chart as ChartJS, BarElement, CategoryScale, Filler, Legend, LinearScale, LineElement, PointElement, RadialLinearScale, Tooltip } from "chart.js";
 import styled from "styled-components";
-import Header from "../components/Header";
+import Header from "@/components/Header";
 
 ChartJS.register(
   RadialLinearScale,

@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../components/Header';
-import LoginRequired from '../components/LoginRequired';
-import { ADDCORP_URL, FINDPLACE_URL } from '../environments/Api';
-import { useFetch } from '../environments/Hooks';
+import Header from '@/components/Header';
+import LoginRequired from '@/components/LoginRequired';
+import { ADDCORP_URL, FINDPLACE_URL } from '@/environments/Api';
+import { useFetch } from '@/environments/Hooks';
 
 export default function CorpAddition(){
   const token = localStorage.getItem('token');

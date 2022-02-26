@@ -1,9 +1,6 @@
 import { Radar } from 'react-chartjs-2';
-import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { SA_RADAR_URL } from '../environments/Api';
-import { useFetch } from '../environments/Hooks';
-import { salesRadarData, salesRadarOptions } from '../environments/Variables';
+import { salesRadarOptions } from '@/environments/Variables';
 
 export default function SalesRadar({ radarRef, radarData }){
   return (
