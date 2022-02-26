@@ -192,7 +192,7 @@ S.Dropdown = styled.div`
   border: 1px solid #d2d2d7;
   top: 0;
   transform: translateY(40px);
-  z-index: 2;
+  z-index: 100;
   border-radius: 15px;
 `;
 
