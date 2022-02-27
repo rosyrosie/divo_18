@@ -10,8 +10,8 @@ import axios from 'axios';
 export default function Header({ dark = false }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
+  let token = localStorage.getItem('token');
 
-  const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
   const searchRef = useRef(null);
@@ -23,15 +23,12 @@ export default function Header({ dark = false }){
 
   const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
-  const [ corpName, setCorpName ] = useState(null);
-
-  useEffect(() => {
-    if(!corpId){
-      setCorpName(null);
-      return;
-    }
-    axios.get(DEL_CORP_URL + corpId, tokenHeader).then(res => console.log(res));
-  }, [corpId]);
+  const { payload, error } = useFetch(
+    DEL_CORP_URL + corpId,
+    null,
+    'GET',
+    [corpId]
+  );
 
   const handleLogin = e => {
     e.preventDefault();
@@ -48,6 +45,7 @@ export default function Header({ dark = false }){
   const handleLogout = e => {
     e.preventDefault();
     localStorage.clear();
+    token = null;
     navigate('/');
     setShowDropDown(false);
   }
@@ -81,7 +79,7 @@ export default function Header({ dark = false }){
           <S.LogoBox>
             <S.Logo onClick={() => setShowDropDown(d => !d)}>
               <i className="fas fa-user"></i>
-              {corpName && <S.Brand>{corpName}</S.Brand>}
+              {<S.Brand>{payload?.corpName || 'Guest'}</S.Brand>}
             </S.Logo>
             {showDropDown && 
               (!token ?
