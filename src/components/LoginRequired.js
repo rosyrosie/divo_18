@@ -24,7 +24,7 @@ S.Content = styled.div`
 
 S.Text = styled.div`
   font-weight: bold;
-  font-size: 40px;
+  font-size: 32px;
 `;
 
 S.Login = styled.div`

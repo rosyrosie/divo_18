@@ -8,6 +8,7 @@ import SalesRadar from '@/components/SalesRadar';
 import { useFetch } from '@hooks';
 import { SA_RADAR_URL } from '@api';
 import RecentSales from '@/components/RecentSales';
+import SyncRequired from '@/components/SyncRequired';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();
@@ -31,6 +32,8 @@ export default function SalesAnalysis(){
     [corpId]
   );
 
+  console.log(payload);
+
   const radarData = payload?.radar;
   const recentSalesData = payload?.summaryGraph;
 
@@ -44,6 +47,18 @@ export default function SalesAnalysis(){
     return (
       <CorpRequired />
     );
+  }
+
+  if(payload?.message === 'on sync'){
+    return (
+      <SyncRequired onSync={true} />
+    )
+  }
+
+  if(payload?.message === 'sync needed'){
+    return (
+      <SyncRequired onSync={false} />
+    )
   }
 
   return (

@@ -90,4 +90,5 @@ S.Empty = styled.div`
   font-size: 32px;
   color: #1d1d1f;
   transform: translateY(-48px);
+  z-index: -1;
 `;
