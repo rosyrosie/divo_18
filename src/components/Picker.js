@@ -45,7 +45,7 @@ S.Flex = styled.div`
 S.CalStyle = styled.div`
   position: absolute;
   border-radius: 20px;
-  z-index: 990;
+  z-index: 2;
   transform: translate(-100%, 28.5px);
   display: flex;
   flex-flow: column;

@@ -46,8 +46,8 @@ const S = {};
 
 S.Body = styled.div`
   background: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
-  position: absolute;
+  z-index: 4;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -56,6 +56,7 @@ S.Body = styled.div`
   justify-content: center;
   align-items: center;
   color: #1d1d1f;
+  overflow: hidden;
 `;
 
 S.Modal = styled.div`

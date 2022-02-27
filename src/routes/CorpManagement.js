@@ -84,12 +84,12 @@ S.Corp = styled.div`
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   background: white;
   padding: 30px;
-  min-width: 200px;
-  width: 200px;
+  min-width: 260px;
+  width: 260px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  height: 150px;
+  height: 210px;
   margin: 0 20px 20px 0;
 `;
 

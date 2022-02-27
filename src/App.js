@@ -19,7 +19,7 @@ export default function App(){
       path: '/',
       element: <Layout />,
       children: [
-        { index: true, element: <Home /> },
+        // { index: true, element: <Home /> },
         { path: '/keyword-analysis', element: <KeywordAnalysisBlank /> },
         { path: '/keyword-analysis/keyword=:keyword', element: <KeywordAnalysis /> },
         { path: '/sales-analysis', element: <SalesAnalysis /> },
@@ -31,7 +31,7 @@ export default function App(){
       path: '/cid=:corpId',
       element: <Layout />,
       children: [
-        { index: true, element: <Home /> },
+        // { index: true, element: <Home /> },
         { path: '/cid=:corpId/keyword-analysis', element: <KeywordAnalysisBlank /> },
         { path: '/cid=:corpId/keyword-analysis/keyword=:keyword', element: <KeywordAnalysis /> },
         { path: '/cid=:corpId/sales-analysis', element: <SalesAnalysis /> },
@@ -41,7 +41,21 @@ export default function App(){
         { path: '/cid=:corpId/corp-auth', element: <CorpAuth />},
         { path: '/cid=:corpId/sync-ys', element: <SyncYeoshin />}
       ]
-    }
+    },
+    {
+      path: '/',
+      element: <Layout sticky />,
+      children: [
+        { index: true, element: <Home /> },
+      ],
+    },
+    {
+      path: '/cid=:corpId',
+      element: <Layout sticky />,
+      children: [
+        { index: true, element: <Home /> },
+      ]
+    },
   ];
 
   return useRoutes(routes);

@@ -1,13 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { menuList, tokenHeader } from '@constants';
+import { menuList  } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
 import { useDetectOutsideClick, useFetch } from '@hooks';
 import { DEL_CORP_URL } from '@api';
-import axios from 'axios';
 
-export default function Header({ dark = false }){
+export default function Header({ sticky = false, dark = false }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
@@ -55,6 +54,7 @@ export default function Header({ dark = false }){
     if(input){
       navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
       setIsSearching(false);
+      setInput('');
     }
   }
 
@@ -63,12 +63,13 @@ export default function Header({ dark = false }){
     if(input){
       navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
       setIsSearching(false);
+      setInput('');
     }
   }
 
   return (
     <>
-      <S.Flex>
+      <S.Flex sticky={sticky}>
         {!isSearching ? 
         <S.Header dark={dark}>
           <S.Logo onClick={() => navigate(corpId!==undefined ? `/cid=${corpId}` : '/')}>Divo</S.Logo>
@@ -79,7 +80,7 @@ export default function Header({ dark = false }){
           <S.LogoBox>
             <S.Logo onClick={() => setShowDropDown(d => !d)}>
               <i className="fas fa-user"></i>
-              {<S.Brand>{payload?.corpName || 'Guest'}</S.Brand>}
+              <S.Brand>{payload?.corpName || 'Guest'}</S.Brand>
             </S.Logo>
             {showDropDown && 
               (!token ?
@@ -115,6 +116,8 @@ export default function Header({ dark = false }){
 const S = {};
 
 S.Flex = styled.div`
+  z-index: 3;
+  ${props => props.sticky ? 'position: sticky; top: 0;' : ''}
 `;
 
 S.SubMenus = styled.div`
@@ -152,6 +155,7 @@ S.Header = styled.div`
   justify-content: center;
   //${props => props.dark ? 'box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);' : 'box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);'}
   ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(245, 245, 247, 0.7); color: #1d1d1f;'}
+  backdrop-filter: saturate(180%) blur(20px);
 `;
 
 S.Menu = styled.div`
@@ -205,21 +209,18 @@ S.Dropdown = styled.div`
   backdrop-filter: saturate(180%) blur(20px);
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid #d2d2d7;
-  top: 0;
-  transform: translateY(40px);
-  z-index: 100;
+  top: 40px;
   border-radius: 15px;
 `;
 
 S.Drop = styled.div`
   padding: 20px 5px;
-  width: 80px;
+  width: 90px;
   font-size: 12px;
   display: flex;
   justify-content: center;
   opacity: .8;
   color: #1d1d1f;
-  //font-weight: bold;
   &:hover{
     cursor: pointer;
     opacity: 1;

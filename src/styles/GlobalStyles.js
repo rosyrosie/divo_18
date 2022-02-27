@@ -4,7 +4,7 @@ import reset from 'styled-reset';
 const GlobalStyles = createGlobalStyle`
   ${reset}
   *{
-    box-sizing: 'border-box';
+    box-sizing: border-box;
     font-family: 'SUIT';
   }
   html, body, #root{

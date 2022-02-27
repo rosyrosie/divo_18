@@ -144,7 +144,7 @@ S.Menu = styled.div`
 
 S.Highlight = styled.div`
   height: 100%;
-  padding: 5px 15px;
+  padding: 0 15px;
   display: flex;
   align-items: center;
   border-radius: 10px;
