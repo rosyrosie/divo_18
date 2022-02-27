@@ -1,10 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { menuList } from '@constants';
+import { menuList, tokenHeader } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
 import { useDetectOutsideClick, useFetch } from '@hooks';
 import { DEL_CORP_URL } from '@api';
+import axios from 'axios';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
@@ -22,13 +23,16 @@ export default function Header({ dark = false }){
 
   const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
-  const { payload, error } = useFetch(
-    DEL_CORP_URL + corpId,
-    null,
-    'GET',
-    [corpId]
-  );
- 
+  const [ corpName, setCorpName ] = useState(null);
+
+  useEffect(() => {
+    if(!corpId){
+      setCorpName(null);
+      return;
+    }
+    axios.get(DEL_CORP_URL + corpId, tokenHeader).then(res => console.log(res));
+  }, [corpId]);
+
   const handleLogin = e => {
     e.preventDefault();
     navigate('/login');
@@ -43,9 +47,9 @@ export default function Header({ dark = false }){
 
   const handleLogout = e => {
     e.preventDefault();
+    localStorage.clear();
     navigate('/');
     setShowDropDown(false);
-    localStorage.clear();
   }
 
   const handleSearch = e => {
@@ -75,7 +79,10 @@ export default function Header({ dark = false }){
           ))}
           <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
           <S.LogoBox>
-            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i>{payload?.corpName && <S.Brand>{payload?.corpName}</S.Brand>}</S.Logo>
+            <S.Logo onClick={() => setShowDropDown(d => !d)}>
+              <i className="fas fa-user"></i>
+              {corpName && <S.Brand>{corpName}</S.Brand>}
+            </S.Logo>
             {showDropDown && 
               (!token ?
               <S.Dropdown ref={dropDownRef}>

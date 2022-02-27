@@ -23,7 +23,7 @@ export const useFetch = (url, body, fetchType, dependency = [], condition = true
 
   useEffect(() => {
     if(!condition) return;
-
+    
     setLoading(true);
     setError(false);
 
