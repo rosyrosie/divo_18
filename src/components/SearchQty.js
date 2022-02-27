@@ -6,7 +6,7 @@ import { useFetch } from '@hooks';
 import { keywordCommentList } from '@constants';
 import CommentSection from '@/components/CommentSection';
 
-export default function SearchQty({ qtyRef, qtyInView }){
+export default function SearchQty({ qtyInView }){
 
   const { keyword } = useParams();
   const trigger = useRef(null);
@@ -25,7 +25,7 @@ export default function SearchQty({ qtyRef, qtyInView }){
   const trendData = payload?.trend;
 
   return (
-    <div ref={qtyRef} id="search-qty">
+    <div id="search-qty">
       <CommentSection comment={keywordCommentList[0]} />
       <S.Section color={'#f5f5f7'}>
         <S.Width>

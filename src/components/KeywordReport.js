@@ -9,8 +9,10 @@ export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInV
   return (
     <S.Column>
       <KeywordRadar evalRef={evalRef} />
-      <SearchQty qtyRef={qtyRef} qtyInView={qtyInView} />
-      <SearchQtyChart />
+      <div ref={qtyRef}>
+        <SearchQty qtyInView={qtyInView} />
+        <SearchQtyChart />
+      </div>
       <ContentPublished ctRef={ctRef} ctInView={ctInView} />
       <UserStat userRef={userRef} userInView={userInView} />
       {/* <MarketingIndex mktRef={mktRef} /> */}

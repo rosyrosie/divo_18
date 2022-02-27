@@ -37,7 +37,7 @@ export default function App(){
         { path: '/cid=:corpId/corp-management', element: <CorpManagement /> },
         { path: '/cid=:corpId/corp-addition', element: <CorpAddition />},
         { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin />},
-        { path: '/cid=:corpoId/corp-auth', element: <CorpAuth />}
+        { path: '/cid=:corpId/corp-auth', element: <CorpAuth />}
       ]
     }
   ];
