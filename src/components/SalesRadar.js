@@ -11,10 +11,10 @@ export default function SalesRadar({ radarRef, radarData }){
           <S.Title>매출 지표 분석</S.Title>
           <S.Comment>매출액은 자기 점포의 매출액 수준을 다른 점포들과 비교하여 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
           <S.Comment>주말 매출 비중은 자기 점포 매출액의 주말 비중이 어떤 수준인지, 다른 점포와 비교하여 판단하기 위한 지표입니다.</S.Comment>
-          <S.Comment>결제단가(테이블단가, 1회 결제금액)은 자기 점포의 결제단가 수준을 상대적으로 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
-          <S.Comment>결제건수는 자기 점포의 결제건수 수준을 다른 점포들과 비교할 때 어떤 수준인지 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
+          <S.Comment>결제단가(테이블단가, 1회 결제금액)은 자기 점포 결제단가 수준을 상대적으로 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
+          <S.Comment>결제건수는 자기 점포 결제건수 수준을 다른 점포들과 비교할 때 어떤 수준인지 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
           <S.Comment>저녁 매출 비중은 자기 점포 매출액의 저녁 비중이 어떤 수준인지, 다른 점포와 비교하여 판단하기 위한 지표입니다.</S.Comment>
-          <S.Comment>재방문매출비율은 자기 점포의 재방문 고객 수준을 다른 점포들과 비교하여 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
+          <S.Comment>재방문 매출 비율은 자기 점포의 재방문 고객 수준을 다른 점포들과 비교하여 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
         </S.Text>
         <S.Radar>
           {radarData && <Radar options={radarOptions('', false)} data={applyColorToChart(radarData, 'light')} />}

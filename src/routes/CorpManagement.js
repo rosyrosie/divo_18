@@ -16,6 +16,8 @@ export default function CorpManagement(){
     'GET'
   );
 
+  console.log(payload);
+
   const deleteCorp = id => {
     if(id === corpId){
       alert('현재 접속 중인 브랜드는 삭제할 수 없습니다.');
@@ -43,7 +45,7 @@ export default function CorpManagement(){
           <S.Corp key={corp[0]}>
             <S.Title>{corp[1]}</S.Title>
             <S.Col>
-              <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link>
+              {corp[2]==='sync needed' ? <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link> : corp[2]==='on sync' ? <S.Link color="#515154">매출액 연동 중</S.Link> : <S.Link color="#515154">매출액 연동 완료</S.Link>}
               <S.Link>키워드 관리</S.Link>
               <S.Link onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)}>접근권한 관리</S.Link>
               <S.Link color={'#de071c'} onClick={() => deleteCorp(corp[0])}>브랜드 삭제</S.Link>

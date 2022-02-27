@@ -43,7 +43,7 @@ export default function CorpAddition(){
     });
   }
 
-  const noCorps = query && !corpList?.length;
+  const noCorps = query && !corpList?.length && corpList;
 
   if(!token) return (
     <LoginRequired />

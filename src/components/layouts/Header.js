@@ -75,7 +75,7 @@ export default function Header({ dark = false }){
           ))}
           <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
           <S.LogoBox>
-            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i><S.Brand>{payload?.corpName}</S.Brand></S.Logo>
+            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i>{payload?.corpName && <S.Brand>{payload?.corpName}</S.Brand>}</S.Logo>
             {showDropDown && 
               (!token ?
               <S.Dropdown ref={dropDownRef}>

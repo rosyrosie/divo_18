@@ -79,3 +79,7 @@ S.Flex = styled.div`
 S.Chart = styled.div`
   flex: 1.2;
 `;
+
+S.Bold = styled.text`
+  font-weight: bold;
+`;
