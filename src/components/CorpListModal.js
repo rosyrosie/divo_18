@@ -78,7 +78,7 @@ S.Corp = styled.div`
   display: flex;
   border-bottom: 1px solid #d2d2d7;
   opacity: .8;
-  font-weight: bold;
+  //font-weight: bold;
   &:hover{
     cursor: pointer;
     background: #f5f5f7;

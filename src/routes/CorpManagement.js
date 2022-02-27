@@ -40,7 +40,15 @@ export default function CorpManagement(){
     <S.Content>
       <S.Flex>
         {payload?.corpList.map(corp => (
-          <S.Corp onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)} key={corp[0]}>{corp[1]}</S.Corp>
+          <S.Corp key={corp[0]}>
+            <S.Title>{corp[1]}</S.Title>
+            <S.Col>
+              <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link>
+              <S.Link>키워드 관리</S.Link>
+              <S.Link onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)}>접근권한 관리</S.Link>
+              <S.Link color={'#de071c'} onClick={() => deleteCorp(corp[0])}>브랜드 삭제</S.Link>
+            </S.Col>
+          </S.Corp>
         ))}
       </S.Flex>
       <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
@@ -56,7 +64,7 @@ S.Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  background: #f5f5f7;
+  background: #f5f5f7b3;
 `;
 
 S.Add = styled.div`
@@ -65,23 +73,47 @@ S.Add = styled.div`
     cursor: pointer;
     text-decoration: underline;
   }
-  margin-top: 20px;
+  margin-top: 40px;
 `;
 
 S.Corp = styled.div`
   border-radius: 20px;
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-  color: #1d1d1f;
-  font-size: 18px;
-  font-weight: bold;
-  padding: 20px 0;
-  opacity: .8;
-  &:hover{
-    opacity: 1;
-    cursor: pointer;
-  }
+  background: white;
+  padding: 30px;
+  min-width: 200px;
+  width: 200px;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  height: 150px;
+  margin: 0 20px 20px 0;
 `;
 
 S.Flex = styled.div`
   display: flex;
+  max-width: 60%;
+  flex-wrap: wrap;
+`;
+
+S.Col = styled.div`
+  display: flex;
+  flex-flow: column;
+`;
+
+S.Link = styled.div`
+  margin-top: 10px;
+  font-size: 14px;
+  &:hover{
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  ${props => props.color ? `color: ${props.color};` : 'color: #06c;'}
+`;
+
+S.Title = styled.div`
+  color: #1d1d1f;
+  font-weight: bold;
+  font-size: 18px;
+  flex-wrap: wrap;
 `;

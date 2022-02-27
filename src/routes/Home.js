@@ -42,7 +42,8 @@ export default function Home(){
   }, [payload]);
   
   return (
-    <S.Content></S.Content>
+    <S.Content>
+    </S.Content>
   );
 }
 
@@ -50,6 +51,10 @@ const S = {};
 
 S.Content = styled.div`
   flex: 1;
-  background: rgba(245, 245, 247, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  color: #1d1d1f;
 `;
 

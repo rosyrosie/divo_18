@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom";
+import Layout from "@/components/layouts/Layout";
 import CorpAddition from "@/routes/CorpAddition";
 import CorpManagement from "@/routes/CorpManagement";
 import Home from "@/routes/Home";
@@ -9,7 +10,7 @@ import SalesAnalysis from "@/routes/SalesAnalysis";
 import Signup from "@/routes/Signup";
 import KeywordAdmin from "@/routes/KeywordAdmin";
 import CorpAuth from "@/routes/CorpAuth";
-import Layout from "@/components/layouts/Layout";
+import SyncYeoshin from "@/routes/SyncYeoshin";
 
 export default function App(){
 
@@ -37,7 +38,8 @@ export default function App(){
         { path: '/cid=:corpId/corp-management', element: <CorpManagement /> },
         { path: '/cid=:corpId/corp-addition', element: <CorpAddition />},
         { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin />},
-        { path: '/cid=:corpId/corp-auth', element: <CorpAuth />}
+        { path: '/cid=:corpId/corp-auth', element: <CorpAuth />},
+        { path: '/cid=:corpId/sync-ys', element: <SyncYeoshin />}
       ]
     }
   ];

@@ -145,7 +145,7 @@ S.Menu = styled.div`
   margin: 0 20px;
   opacity: .8;
   transition: opacity 0.3s;
-  font-weight: bold;
+  //font-weight: bold;
   &:hover{
     cursor: pointer;
     opacity: 1;
@@ -204,7 +204,7 @@ S.Drop = styled.div`
   justify-content: center;
   opacity: .8;
   color: #1d1d1f;
-  font-weight: bold;
+  //font-weight: bold;
   &:hover{
     cursor: pointer;
     opacity: 1;

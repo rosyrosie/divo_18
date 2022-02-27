@@ -6,6 +6,10 @@ export const REGISTER_URL = BASE_URL + 'auth/register/telephone/';
 export const CORPLIST_URL = BASE_URL + 'auth/user/corporation';
 export const CORP_AUTH_URL = BASE_URL + 'corporation/permission/?corp_id=';
 
+export const GET_YS_CAT_URL = BASE_URL + 'corporation/yeoshin/sync/';
+export const SYNC_YS_URL = BASE_URL + 'corporation/yeoshin/';
+export const SYNC_SALES_URL = BASE_URL + 'corporation/sales/sync/';
+
 export const FIND_PLACE_URL = BASE_URL + 'place/find?query=';
 export const ADD_CORP_URL = BASE_URL + 'corporation/';
 export const DEL_CORP_URL = BASE_URL + 'corporation/?corp_id=';
