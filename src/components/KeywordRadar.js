@@ -26,11 +26,11 @@ export default function KeywordRadar({ evalRef }){
       <S.Width>
         <S.Flex>
           <S.Title isWhite={true}>키워드 평가</S.Title>
-          <S.Comment isWhite={true}>일 검색량은 ..</S.Comment>
-          <S.Comment isWhite={true}>주말 검색비율은 ..</S.Comment>
-          <S.Comment isWhite={true}>MZ 검색비율은 ..</S.Comment>
-          <S.Comment isWhite={true}>여성 검색비율은 ..</S.Comment>
-          <S.Comment isWhite={true}>모바일 검색비율은 ..</S.Comment>
+          <S.Comment isWhite={true}>일 검색량은 키워드의 검색량 수준을 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
+          <S.Comment isWhite={true}>주말 검색비율은 평일과 주말 중 검색자 비중이 어느 쪽에 더 많은지 판단하기 위한 지표입니다.</S.Comment>
+          <S.Comment isWhite={true}>MZ 검색비율은 전체 검색자 중 2,30대의 비중을 판단하기 위한 지표입니다.</S.Comment>
+          <S.Comment isWhite={true}>여성 검색비율은 전체 검색자 중 여성의 비중이 어느 수준인지 판단하기 위한 지표입니다.</S.Comment>
+          <S.Comment isWhite={true}>모바일 검색비율은 전체 검색자 중 모바일로 검색하는 비중이 어느 수준인지 판단하기 위한 지표입니다.</S.Comment>
         </S.Flex>
         <S.Chart>
           <Radar options={radarOptions('', true)} data={radarData} />

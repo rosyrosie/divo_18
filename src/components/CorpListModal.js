@@ -30,10 +30,12 @@ export default function CorpListModal({ setShowModal, modalRef }){
     <S.Body>
       <S.Modal ref={modalRef}>
         <S.Title><S.Icon onClick={() => setShowModal(false)}><i className="fas fa-times"></i></S.Icon></S.Title>
-        {payload?.corpList.map(corp => (
-          <S.Corp onClick={() => handleChangeCorp(corp[0])} key={corp[0]}>{corp[1]}</S.Corp>
-        ))}
-        {!payload?.corpList.length && <S.Empty>등록된 브랜드가 없습니다</S.Empty>}
+        <S.Col>
+          {payload?.corpList.map(corp => (
+            <S.Corp onClick={() => handleChangeCorp(corp[0])} key={corp[0]}>{corp[1]}</S.Corp>
+          ))}
+          {!payload?.corpList.length && <S.Empty>등록된 브랜드가 없습니다</S.Empty>}
+        </S.Col>
         <S.Add onClick={handleCorpAddition}>브랜드 추가하기</S.Add>
       </S.Modal>
     </S.Body>
@@ -44,7 +46,7 @@ const S = {};
 
 S.Body = styled.div`
   background: rgba(0, 0, 0, 0.8);
-  z-index: 99;
+  z-index: 1000;
   position: absolute;
   top: 0;
   left: 0;
@@ -109,4 +111,11 @@ S.Icon = styled.div`
   &:hover{
     cursor: pointer;
   }
+`;
+
+S.Col = styled.div`
+  display: flex;
+  flex-flow: column;
+  max-height: 400px;
+  overflow-y: auto;
 `;

@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
-import { useDetectOutsideClick } from '@hooks';
+import { useDetectOutsideClick, useFetch } from '@hooks';
+import { DEL_CORP_URL } from '@api';
 
 export default function Header({ dark = false }){
   const { corpId } = useParams();
@@ -20,6 +21,13 @@ export default function Header({ dark = false }){
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
 
   const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
+
+  const { payload, error } = useFetch(
+    DEL_CORP_URL + corpId,
+    null,
+    'GET',
+    [corpId]
+  );
  
   const handleLogin = e => {
     e.preventDefault();
@@ -67,7 +75,7 @@ export default function Header({ dark = false }){
           ))}
           <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
           <S.LogoBox>
-            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i></S.Logo>
+            <S.Logo onClick={() => setShowDropDown(d => !d)}><i className="fas fa-user"></i><S.Brand>{payload?.corpName}</S.Brand></S.Logo>
             {showDropDown && 
               (!token ?
               <S.Dropdown ref={dropDownRef}>
@@ -156,6 +164,8 @@ S.Logo = styled(S.Menu)`
   font-family: 'Montserrat', 'SUIT';
   font-size: 17px;
   font-weight: bold;
+  display: flex;
+  align-items: center;
 `;
 
 S.LogoBox = styled.div`
@@ -217,4 +227,13 @@ S.Triangle = styled.div`
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-bottom: 5px solid #d2d2d7;
+`;
+
+S.Brand = styled.div`
+  font-size: 12px;
+  margin-left: 10px;
+  width: 55px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
