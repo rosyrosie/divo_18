@@ -43,7 +43,10 @@ export default function CorpManagement(){
           <S.Corp key={corp[0]}>
             <S.Title>{corp[1]}</S.Title>
             <S.Col>
-              {corp[2]==='sync needed' ? <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link> : corp[2]==='on sync' ? <S.Link color="#515154">매출액 연동 중</S.Link> : <S.Link color="#515154">매출액 연동 완료</S.Link>}
+              {corp[2]==='sync needed' ? 
+                <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link> : 
+                corp[2]==='on sync' ? <S.Link color="#515154" inactive>매출액 연동 중</S.Link> : <S.Link color="#515154" inactive>매출액 연동 완료</S.Link>
+              }
               <S.Link>키워드 관리</S.Link>
               <S.Link onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)}>접근권한 관리</S.Link>
               <S.Link color={'#de071c'} onClick={() => deleteCorp(corp[0])}>브랜드 삭제</S.Link>
@@ -104,11 +107,8 @@ S.Col = styled.div`
 S.Link = styled.div`
   margin-top: 10px;
   font-size: 14px;
-  &:hover{
-    text-decoration: underline;
-    cursor: pointer;
-  }
   ${props => props.color ? `color: ${props.color};` : 'color: #06c;'}
+  ${props => props.inactive ? '' : '&:hover{ text-decoration: underline; cursor: pointer; }'}
 `;
 
 S.Title = styled.div`

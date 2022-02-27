@@ -2,47 +2,44 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { CORP_AUTH_URL } from '@api';
 import { useFetch } from '@hooks';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { tokenHeader } from '@constants';
 
 export default function CorpAuth(){
   const { corpId } = useParams();
+  const [ trigger, setTrigger ] = useState(false);
   const { payload, error } = useFetch(
     CORP_AUTH_URL + corpId,
     null,
-    'GET'
+    'GET',
+    [trigger]
   );
-  const trigger = useRef(null);
-
-  const [ userList, setUserList ] = useState([]);
-  useEffect(() => setUserList(payload?.permissionList), [payload]);
 
   const [ email, setEmail ] = useState('');
   const [ tier, setTier ] = useState('');
 
   const addUser = (email, tier) => {
-    trigger.current = true;
-    setUserList(list => [...list, { email: email, level: tier*1 }]);
+    const body = {
+      corpId: corpId,
+      permissionList: [...payload?.permissionList, { email: email, level: tier*1 }]
+    };
+    axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(() => setTrigger(t => !t));
+    setEmail('');
+    setTier('');
   };
 
   const deleteUser = i => {
-    trigger.current = true;
-    setUserList(list => list.filter((value, index) => index !== i));
-  }
-
-  useEffect(() => {
-    if(!trigger.current) return;
     const body = {
       corpId: corpId,
-      permissionList: userList
+      permissionList: payload?.permissionList.filter((value, index) => index !== i)
     };
-    axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(res => console.log(res)).then(() => trigger.current = false).then(() => window.location.reload());
-  }, [userList]);
-  
+    axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(() => setTrigger(t => !t));
+  }
+
   return (
     <S.Content>
-      {userList?.map((user, i) => (
+      {payload?.permissionList?.map((user, i) => (
         <S.Flex key={i}>
           <S.Mail>{user.email}</S.Mail>
           <S.Name>{user.userName}</S.Name>
