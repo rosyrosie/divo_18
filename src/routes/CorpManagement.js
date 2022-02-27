@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import LoginRequired from '@/components/LoginRequired';
 import { CORPLIST_URL, DEL_CORP_URL } from '@api';
 import { useFetch } from '@hooks';
+import { tokenHeader } from '@constants';
 
 export default function CorpManagement(){
   const token = localStorage.getItem('token');
@@ -21,7 +22,6 @@ export default function CorpManagement(){
       return;
     }
     if(!window.confirm('정말 삭제하시겠습니까?')) return;
-    const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.delete(DEL_CORP_URL+id, tokenHeader).then(
       res => {
         if(res.data.message === 'success'){

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import LoginRequired from '@/components/LoginRequired';
 import { ADD_CORP_URL, FIND_PLACE_URL } from '@api';
 import { useFetch } from '@hooks';
+import { tokenHeader } from '@constants';
 
 export default function CorpAddition(){
   const token = localStorage.getItem('token');
@@ -31,7 +32,6 @@ export default function CorpAddition(){
       placeId: id,
       corpName: name
     };
-    const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.post(ADD_CORP_URL, body, tokenHeader).then(res => {
       if(res.data.message==='success'){
         alert('브랜드가 추가되었습니다.');

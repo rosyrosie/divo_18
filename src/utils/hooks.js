@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { tokenHeader } from '@constants';
 
 export const useFetch = (url, body, fetchType, dependency = [], condition = true) => {
   const [ payload, setPayload ] = useState(null);
   const [ loading, setLoading ] = useState(true);
   const [ error, setError ] = useState(false);
-  const token = localStorage.getItem('token');
-  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
 
   let fetcher = () => {};
   switch(fetchType){

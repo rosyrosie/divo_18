@@ -87,6 +87,7 @@ S.Empty = styled.div`
   align-items: center;
   display: flex;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 32px;
   color: #1d1d1f;
+  transform: translateY(-48px);
 `;

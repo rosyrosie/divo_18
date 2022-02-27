@@ -4,6 +4,7 @@ import { CORP_AUTH_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import { tokenHeader } from '@constants';
 
 export default function CorpAuth(){
   const { corpId } = useParams();
@@ -36,8 +37,6 @@ export default function CorpAuth(){
       corpId: corpId,
       permissionList: userList
     };
-    const token = localStorage.getItem('token');
-    const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(res => console.log(res)).then(() => trigger.current = false).then(() => window.location.reload());
   }, [userList]);
   

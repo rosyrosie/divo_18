@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import CorpRequired from '@/components/CorpRequired';
-import { PLACE_KEYWORD_URL } from '@api';
+import { PLACE_KEYWORD_URL, UP_LIST_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { UP_LIST_URL } from '@api';
+import { tokenHeader } from '@constants';
 
 export default function KeywordAdmin(){
   const { corpId } = useParams();
@@ -21,7 +21,6 @@ export default function KeywordAdmin(){
   const [ newCat, setNewCat ] = useState('');
 
   const [ keywordSet, setKeywordSet ] = useState({brand: [], rel: [], section: [], category: []});
-  const token = localStorage.getItem('token');
 
   useEffect(() => {
     setKeywordSet({ brand: payload?.brand, rel: payload?.rel, section: payload?.section, category: payload?.category });
@@ -62,7 +61,6 @@ export default function KeywordAdmin(){
       id: corpId,
       data: keywordSet
     };
-    const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.post(UP_LIST_URL, body, tokenHeader).then(res => console.log(res));
   }
 
