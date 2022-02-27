@@ -16,8 +16,6 @@ export default function CorpManagement(){
     'GET'
   );
 
-  console.log(payload);
-
   const deleteCorp = id => {
     if(id === corpId){
       alert('현재 접속 중인 브랜드는 삭제할 수 없습니다.');

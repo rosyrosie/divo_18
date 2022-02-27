@@ -57,7 +57,6 @@ export default function Signup(){
       password: pwd1
     };
     axios.post(REGISTER_URL, body).then(res => {
-      console.log(res.data.message);
       if(res.data.message === 'success'){
         alert('회원가입이 완료되었습니다');
         navigate('/');

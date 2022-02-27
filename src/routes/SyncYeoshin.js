@@ -24,7 +24,6 @@ export default function SyncYeoshin(){
     };
     setLoading(true);
     axios.post(GET_YS_CAT_URL, body, tokenHeader).then(res => {
-      console.log(res);
       if(res.data.message === 'success'){
         setCategoryList(res.data.data);
       }
@@ -50,8 +49,7 @@ export default function SyncYeoshin(){
       yeoshinPassword: ysPw,
       yeoshinMergrpid: mergrpId
     };
-    console.log(body);
-    axios.post(SYNC_YS_URL, body, tokenHeader).then(res => console.log(['sync', res])).then(() => axios.post(SYNC_SALES_URL, { corpId }, tokenHeader).then(res => console.log(['fin', res])));
+    axios.post(SYNC_YS_URL, body, tokenHeader).then(() => axios.post(SYNC_SALES_URL, { corpId }, tokenHeader));
   }, [mergrpId]);
 
   return (

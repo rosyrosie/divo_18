@@ -32,8 +32,6 @@ export default function SalesAnalysis(){
     [corpId]
   );
 
-  console.log(payload);
-
   const radarData = payload?.radar;
   const recentSalesData = payload?.summaryGraph;
 
