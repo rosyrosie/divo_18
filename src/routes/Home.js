@@ -50,6 +50,6 @@ const S = {};
 
 S.Content = styled.div`
   flex: 1;
-  background: rgba(225, 225, 227, 0.7);
+  background: rgba(245, 245, 247, 0.7);
 `;
 

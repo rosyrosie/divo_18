@@ -22,16 +22,8 @@ export default function UserStat({ userRef, userInView }){
     trigger.current
   );
 
-  const barRawData = payload?.bar;
-  const lineRawData = payload?.line;
-
-  let lineData = []
-
-  lineRawData?.forEach((element, i) => {
-    lineData[i] = {};
-    lineData[i].datasets = element.amount;
-    lineData[i].labels = element.date;
-  });
+  const barData = payload?.bar;
+  const lineData = payload?.line;
 
   return (
     <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
@@ -46,10 +38,10 @@ export default function UserStat({ userRef, userInView }){
             <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
           </S.Tabs>
           <S.Chart>
-            {payload && <Bar options={barOptions('%')} data={applyColorToChart(barRawData[tab], 'light')} />}
+            {payload && <Bar options={barOptions('%')} data={applyColorToChart(barData[tab], 'light')} />}
           </S.Chart>
           <S.Chart>
-            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineRawData[tab], 'light')} />}
+            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
           </S.Chart>
         </S.Box>
       </S.Section>

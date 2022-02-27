@@ -38,9 +38,11 @@ export default function CorpManagement(){
 
   return (
     <S.Content>
-      {payload?.corpList.map(corp => (
-        <S.Corp onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)} key={corp[0]}>{corp[1]}</S.Corp>
-      ))}
+      <S.Flex>
+        {payload?.corpList.map(corp => (
+          <S.Corp onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)} key={corp[0]}>{corp[1]}</S.Corp>
+        ))}
+      </S.Flex>
       <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
     </S.Content>
   );
@@ -54,6 +56,7 @@ S.Content = styled.div`
   justify-content: center;
   align-items: center;
   flex-flow: column;
+  background: #f5f5f7;
 `;
 
 S.Add = styled.div`
@@ -66,8 +69,10 @@ S.Add = styled.div`
 `;
 
 S.Corp = styled.div`
+  border-radius: 20px;
+  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   color: #1d1d1f;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   padding: 20px 0;
   opacity: .8;
@@ -75,4 +80,8 @@ S.Corp = styled.div`
     opacity: 1;
     cursor: pointer;
   }
+`;
+
+S.Flex = styled.div`
+  display: flex;
 `;

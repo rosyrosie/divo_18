@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 
 export default function SearchQtyChart(){
   const { keyword } = useParams();
-  const [ startDate, setStartDate ] = useState(addDays(new Date(), -8));
+  const [ startDate, setStartDate ] = useState(addDays(new Date(), -14));
   const [ endDate, setEndDate ] = useState(addDays(new Date(), -1));
 
   const { payload, error } = useFetch(
