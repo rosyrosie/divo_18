@@ -46,11 +46,11 @@ export default function SalesCompare({ compareRef }){
           </S.Row>
         ))}
         <S.ChartBox>
-          <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i class="fas fa-angle-left"></i></S.Button></S.ButtonBox>
+          <S.ButtonBox><S.Button tab={chartTab} left={true} onClick={() => chartTab>0 ? setChartTab(t => t-1) : null}><i className="fas fa-angle-left"></i></S.Button></S.ButtonBox>
           <S.Chart>
             {data && <Line options={lineOptions(compareChartUnit[chartTab], true, true)} data={applyColorToChart(data?.[tab]?.graphList[chartTab<=maxChartTab[tab] ? chartTab : 0], 'dark')} />}
           </S.Chart>
-          <S.ButtonBox><S.Button tab={chartTab} maxTab={maxChartTab[tab]} right={true} onClick={() => chartTab<maxChartTab[tab] ? setChartTab(t => t+1) : null}><i class="fas fa-angle-right"></i></S.Button></S.ButtonBox>
+          <S.ButtonBox><S.Button tab={chartTab} maxTab={maxChartTab[tab]} right={true} onClick={() => chartTab<maxChartTab[tab] ? setChartTab(t => t+1) : null}><i className="fas fa-angle-right"></i></S.Button></S.ButtonBox>
         </S.ChartBox>
       </S.Width>
     </S.Fill>

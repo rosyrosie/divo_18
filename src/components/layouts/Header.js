@@ -85,7 +85,7 @@ export default function Header({ dark = false }){
         <S.Header dark={dark} ref={searchRef}>
           <S.Logo onClick={handleSearch}><i className="fas fa-search"></i></S.Logo>
           <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={handleKeyPressSearch} />
-          <S.Logo onClick={() => setIsSearching(false)}><i class="fas fa-times"></i></S.Logo>
+          <S.Logo onClick={() => setIsSearching(false)}><i className="fas fa-times"></i></S.Logo>
         </S.Header>}
         {/* {menu>=0 && 
         <S.SubMenus>

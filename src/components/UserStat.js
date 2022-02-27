@@ -49,7 +49,7 @@ export default function UserStat({ userRef, userInView }){
             {payload && <Bar options={barOptions('%')} data={applyColorToChart(barRawData[tab], 'light')} />}
           </S.Chart>
           <S.Chart>
-            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
+            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineRawData[tab], 'light')} />}
           </S.Chart>
         </S.Box>
       </S.Section>

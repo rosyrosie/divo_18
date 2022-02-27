@@ -29,7 +29,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
   return (
     <S.Body>
       <S.Modal ref={modalRef}>
-        <S.Title><S.Icon onClick={() => setShowModal(false)}><i class="fas fa-times"></i></S.Icon></S.Title>
+        <S.Title><S.Icon onClick={() => setShowModal(false)}><i className="fas fa-times"></i></S.Icon></S.Title>
         {payload?.corpList.map(corp => (
           <S.Corp onClick={() => handleChangeCorp(corp[0])} key={corp[0]}>{corp[1]}</S.Corp>
         ))}

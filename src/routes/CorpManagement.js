@@ -39,7 +39,7 @@ export default function CorpManagement(){
   return (
     <S.Content>
       {payload?.corpList.map(corp => (
-        <S.Corp onClick={() => deleteCorp(corp[0])} key={corp[0]}>{corp[1]}</S.Corp>
+        <S.Corp onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)} key={corp[0]}>{corp[1]}</S.Corp>
       ))}
       <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
     </S.Content>
