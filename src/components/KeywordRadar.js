@@ -1,26 +1,21 @@
 import styled from 'styled-components';
-import {
-  Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 import { Radar } from 'react-chartjs-2';
 import { radarData, radarOptions } from '@constants';
-
-ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend
-);
+import { KA_RADAR_URL } from '@api';
+import { useParams } from 'react-router-dom';
+import { useFetch } from '@hooks';
 
 export default function KeywordRadar({ evalRef }){
+  const { keyword } = useParams();
+  const { payload, error } = useFetch(
+    KA_RADAR_URL + keyword,
+    null,
+    'GET',
+    [keyword]
+  );
+
+  console.log(payload);
+
   return (
     <S.Section id="eval-radar" ref={evalRef} color={'rgba(77, 107, 83, 1)'}>
       <S.Width>

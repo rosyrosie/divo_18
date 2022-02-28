@@ -19,7 +19,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
               <S.TabTitle>{point.currDate}</S.TabTitle>
               <S.Sales>{point.currSales}</S.Sales>
               <S.Compare>
-                전주대비
+                {!i ? '전주대비' : i===1 ? '전월대비' : '전년대비'}
                 <S.Delta>{point.pastSales}</S.Delta>
               </S.Compare>
             </S.LineTab>
