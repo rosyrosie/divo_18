@@ -73,7 +73,7 @@ export default function Signup(){
         <S.Content>
           <S.Text>회원가입</S.Text>
           <S.Input value={phone} disabled/>
-          <S.Input placeholder="이름" value={name} onChange={e => setName(e.target.value)} />
+          <S.Input placeholder="닉네임" value={name} onChange={e => setName(e.target.value)} />
           <S.Input placeholder="이메일" type="email" value={email} onChange={e => setEmail(e.target.value)} />
           <S.Input placeholder="비밀번호" type="password" value={pwd1} onChange={e => setPwd1(e.target.value)} error={pwdError} />
           <S.Input placeholder="비밀번호 확인" type="password" value={pwd2} onChange={e => setPwd2(e.target.value)} error={pwdError} />

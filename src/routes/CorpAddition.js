@@ -28,6 +28,7 @@ export default function CorpAddition(){
   }
 
   const addCorp = (id, name) => {
+    if(!window.confirm('각 매장은 한 번 선택 시 다른 사용자가 선택할 수 없습니다.\n본인과 무관한 매장을 선택할 시 제제가 이루어질 수 있습니다.\n해당 매장을 선택하시겠습니까?')) return;
     const body = {
       placeId: id,
       corpName: name
