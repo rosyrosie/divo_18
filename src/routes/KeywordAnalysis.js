@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import KeywordReport from "@/components/KeywordReport";
+import KeywordReport from "@/components/keywordAnalysis/KeywordReport";
 
 export default function KeywordAnalysis(){
   const { keyword } = useParams();

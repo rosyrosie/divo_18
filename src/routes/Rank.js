@@ -1,11 +1,11 @@
 /*global kakao*/
 import styled from 'styled-components';
-import LoginRequired from '@/components/LoginRequired';
-import CorpRequired from '@/components/CorpRequired';
+import LoginRequired from '@/components/errorPage/LoginRequired';
+import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import TopTwentyBox from '@/components/TopTwentyBox';
-import MapRankBox from '@/components/MapRankBox';
+import TopTwentyBox from '@/components/rank/TopTwentyBox';
+import MapRankBox from '@/components/rank/MapRankBox';
 import { mapCorpList } from '@constants';
 
 export default function Rank(){

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { KA_AMOUNT_URL } from '@api';
 import { useFetch } from '@hooks';
 import { keywordCommentList } from '@constants';
-import CommentSection from '@/components/CommentSection';
+import CommentSection from '@/components/keywordAnalysis/CommentSection';
 
 export default function SearchQty({ qtyInView }){
 

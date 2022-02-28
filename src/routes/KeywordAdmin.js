@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import CorpRequired from '@/components/CorpRequired';
+import CorpRequired from '@/components/errorPage/CorpRequired';
 import { PLACE_KEYWORD_URL, UP_LIST_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useEffect, useState } from 'react';

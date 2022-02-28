@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import ContentPublished from '@/components/ContentPublished';
-import SearchQty from '@/components/SearchQty';
-import UserStat from '@/components/UserStat';
-import KeywordRadar from '@/components/KeywordRadar';
-import SearchQtyChart from '@/components/SearchQtyChart';
+import ContentPublished from '@/components/keywordAnalysis/ContentPublished';
+import SearchQty from '@/components/keywordAnalysis/SearchQty';
+import UserStat from '@/components/keywordAnalysis/UserStat';
+import KeywordRadar from '@/components/keywordAnalysis/KeywordRadar';
+import SearchQtyChart from '@/components/keywordAnalysis/SearchQtyChart';
 
 export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInView, userRef, userInView, mktRef }){
   return (

@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
-import SalesCompare from '@/components/SalesCompare';
+import SalesCompare from '@/components/salesAnalysis/SalesCompare';
 import { useParams } from 'react-router-dom';
-import LoginRequired from '@/components/LoginRequired';
-import CorpRequired from '@/components/CorpRequired';
-import SalesRadar from '@/components/SalesRadar';
+import LoginRequired from '@/components/errorPage/LoginRequired';
+import CorpRequired from '@/components/errorPage/CorpRequired';
+import SalesRadar from '@/components/salesAnalysis/SalesRadar';
 import { useFetch } from '@hooks';
 import { SA_RADAR_URL } from '@api';
-import RecentSales from '@/components/RecentSales';
-import SyncRequired from '@/components/SyncRequired';
+import RecentSales from '@/components/salesAnalysis/RecentSales';
+import SyncRequired from '@/components/errorPage/SyncRequired';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();
