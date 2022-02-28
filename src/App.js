@@ -11,6 +11,7 @@ import Signup from "@/routes/Signup";
 import KeywordAdmin from "@/routes/KeywordAdmin";
 import CorpAuth from "@/routes/CorpAuth";
 import SyncYeoshin from "@/routes/SyncYeoshin";
+import Rank from "@/routes/Rank";
 
 export default function App(){
 
@@ -19,19 +20,18 @@ export default function App(){
       path: '/',
       element: <Layout />,
       children: [
-        // { index: true, element: <Home /> },
         { path: '/keyword-analysis', element: <KeywordAnalysisBlank /> },
         { path: '/keyword-analysis/keyword=:keyword', element: <KeywordAnalysis /> },
         { path: '/sales-analysis', element: <SalesAnalysis /> },
         { path: '/login', element: <Login /> },
         { path: '/signup', element: <Signup /> },
+        { path: '/rank', element: <Rank /> }
       ],
     },
     {
       path: '/cid=:corpId',
       element: <Layout />,
       children: [
-        // { index: true, element: <Home /> },
         { path: '/cid=:corpId/keyword-analysis', element: <KeywordAnalysisBlank /> },
         { path: '/cid=:corpId/keyword-analysis/keyword=:keyword', element: <KeywordAnalysis /> },
         { path: '/cid=:corpId/sales-analysis', element: <SalesAnalysis /> },
@@ -39,7 +39,8 @@ export default function App(){
         { path: '/cid=:corpId/corp-addition', element: <CorpAddition />},
         { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin />},
         { path: '/cid=:corpId/corp-auth', element: <CorpAuth />},
-        { path: '/cid=:corpId/sync-ys', element: <SyncYeoshin />}
+        { path: '/cid=:corpId/sync-ys', element: <SyncYeoshin />},
+        { path: '/cid=:corpId/rank', element: <Rank />}
       ]
     },
     {
