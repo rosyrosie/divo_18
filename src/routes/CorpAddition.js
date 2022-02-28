@@ -55,7 +55,7 @@ export default function CorpAddition(){
       <S.Input placeholder="추가할 브랜드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={getCorpList} />
       <S.CorpBox>
         {corpList?.map((corp, i) => (
-          <S.Corp index={i} onClick={() => addCorp(corp.id, corp.name)} key={i}>
+          <S.Corp index={i} onClick={() => addCorp(corp.id, corp.name)} key={corp.id}>
             <S.Name>{corp.name}</S.Name>
             <S.Adr>{corp.address}</S.Adr>
           </S.Corp>

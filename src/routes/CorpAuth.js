@@ -40,7 +40,7 @@ export default function CorpAuth(){
   return (
     <S.Content>
       {payload?.permissionList?.map((user, i) => (
-        <S.Flex key={i}>
+        <S.Flex key={user.email}>
           <S.Mail>{user.email}</S.Mail>
           <S.Name>{user.userName}</S.Name>
           <S.Tier>{user.level}</S.Tier>

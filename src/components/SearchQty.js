@@ -35,7 +35,7 @@ export default function SearchQty({ qtyInView }){
               <S.Date>{qtyData?.[0][0][0].date}</S.Date>
               <S.Stat>{qtyData?.[0][0][0].amount}</S.Stat>
               {qtyData?.[0][1].map((delta, i) => (
-                <S.Compare key={i}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
               ))}
             </S.Col>
             <S.Col index={1}>
@@ -43,7 +43,7 @@ export default function SearchQty({ qtyInView }){
               <S.Date>{qtyData?.[1][0][0].date}</S.Date>
               <S.Stat>{qtyData?.[1][0][0].amount}</S.Stat>
               {qtyData?.[1][1].map((delta, i) => (
-                <S.Compare key={i}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
               ))}
             </S.Col>
             <S.Col index={2}>
@@ -51,7 +51,7 @@ export default function SearchQty({ qtyInView }){
               <S.Date>{qtyData?.[2][0][0].date}</S.Date>
               <S.Stat>{qtyData?.[2][0][0].amount}</S.Stat>
               {qtyData?.[2][1].map((delta, i) => (
-                <S.Compare key={i}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
               ))}
             </S.Col>
           </S.Stats>

@@ -78,8 +78,9 @@ export const compareChartUnit = ['원', '원', '건', '%', '%'];
 
 //chart options
 
-export const lineOptions = (unit, showLegend = true, isWhite = false) => (
+export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true) => (
   Object.assign({
+    maintainAspectRatio: maintainAspectRatio,
     responsive: true,
     plugins: {
       legend: {
@@ -492,4 +493,52 @@ export const salesCompareData = [
   },
 ];
 
-//creating chart data
+//map dummy objects
+
+export const mapCorpList = [
+  {
+    lat: 37.36,
+    lng: 127.106,
+    corpName: '당산오돌 본점',
+    inAreaRank: 25,
+    rank: '1,541',
+    category: '육류·고기요리',
+    reviewNum: '153',
+    ratio: 11.5,
+    delta: 5,
+    chart: [],
+    inAreaRatio: 5.8,
+    inCatRatio: 9.3,
+    inAreaCatRatio: 3.2
+  },
+  {
+    lat: 37.358,
+    lng: 127.1056,
+    corpName: '담양앞집 떡갈비국수전문점',
+    inAreaRank: 1,
+    rank: '151',
+    category: '육류·고기요리',
+    reviewNum: '2,154',
+    ratio: 9.4,
+    delta: -13,
+    chart: [],
+    inAreaRatio: 4.8,
+    inCatRatio: 10.3,
+    inAreaCatRatio: 2.2
+  },
+  {
+    lat: 37.361,
+    lng: 127.1058,
+    corpName: '산내돌짜장',
+    inAreaRank: 2,
+    rank: '923',
+    category: '한식',
+    reviewNum: '1,009',
+    ratio: 9.6,
+    delta: 102,
+    chart: [],
+    inAreaRatio: 6.1,
+    inCatRatio: 9.4,
+    inAreaCatRatio: 1.2,
+  },
+]

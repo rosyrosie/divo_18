@@ -64,7 +64,7 @@ export default function SyncYeoshin(){
     <S.Content>
       <S.Text>연동할 계정을 선택해주세요</S.Text>
       {categoryList.map((cat, i) => (
-        <S.Cat onClick={() => setMergrpId(cat[0])}>{cat[1]}</S.Cat>
+        <S.Cat onClick={() => setMergrpId(cat[0])} key={cat[0]}>{cat[1]}</S.Cat>
       ))}
     </S.Content> :
     <S.Content>

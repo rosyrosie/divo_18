@@ -39,7 +39,7 @@ export default function SalesCompare({ compareRef }){
           <S.Stat isTitle={true}>{salesCompareTitle[tab][1]}</S.Stat>
         </S.Row>
         {compareMenuList[tab].map((menu, i) => (
-          <S.Row key={i}>
+          <S.Row key={menu}>
             <S.Stat>{data?.[tab]?.leftAvg[i]}</S.Stat>
             <S.Menu><S.Highlight isSelected={i === chartTab} onClick={() => setChartTab(i)}>{menu}</S.Highlight></S.Menu>
             <S.Stat>{data?.[tab]?.rightAvg[i]}</S.Stat>

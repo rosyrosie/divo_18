@@ -3,11 +3,16 @@ import styled from 'styled-components';
 import LoginRequired from '@/components/LoginRequired';
 import CorpRequired from '@/components/CorpRequired';
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import TopTwentyBox from '@/components/TopTwentyBox';
+import MapRankBox from '@/components/MapRankBox';
+import { mapCorpList } from '@constants';
 
 export default function Rank(){
   const token = localStorage.getItem('token');
   const { corpId } = useParams();
+  const [ index, setIndex ] = useState(0);
+  const [ fold, setFold ] = useState(false);
 
   useEffect(() => {
     var container = document.getElementById('map');
@@ -18,12 +23,33 @@ export default function Rank(){
     var map = new kakao.maps.Map(container, options);
     map.setDraggable(false);
     map.setZoomable(false);
-    var markerPosition = new kakao.maps.LatLng(37.36, 127.106);
-    var marker = new kakao.maps.Marker({
-      position: markerPosition
+    mapCorpList.forEach((corp, i) => {
+      var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
+      var marker = new kakao.maps.Marker({
+        position: markerPosition,
+        clickable: true,
+      });
+      marker.setMap(map);
+      var overlayContent = `<div style="padding: 10px; background: #000000b3; border-radius: 10px; color: #f5f5f7; font-size: 12px; backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>`;
+      var overlayPosition = new kakao.maps.LatLng(corp.lat+0.00055, corp.lng);
+      var overlay = new kakao.maps.CustomOverlay({
+        content: overlayContent,
+        position: overlayPosition
+      });
+      if(i === index) overlay.setMap(map);
+      kakao.maps.event.addListener(marker, 'click', () => {
+        setIndex(i);
+        setFold(false);
+        overlay.setMap(map);
+      });
+      kakao.maps.event.addListener(marker, 'mouseover', () => {
+        overlay.setMap(map);
+      });
+      kakao.maps.event.addListener(marker, 'mouseout', () => {
+        if(i !== index) overlay.setMap(null);
+      })
     });
-    marker.setMap(map);
-  }, []);
+  }, [index]);
 
   if(!token) return (
     <LoginRequired />
@@ -33,42 +59,11 @@ export default function Rank(){
     <CorpRequired />
   );
 
-  let brandList = [];
-  for(var i=0; i<20; i++) brandList.push({ name: `브랜드 ${i}`, rank: i*1000});
-
   return (
     <>
-      <S.Map id="map">
-      </S.Map>
-      <S.Sidebar>
-        <S.Leaderboard>
-          <S.Box>
-            <S.Title>내 주변 상위 20개 점포</S.Title>
-          </S.Box>
-          <S.MyRankBox>
-            <S.MyRank>
-              <S.Flex>
-                <S.Num>25</S.Num>
-                <S.Brand>내 브랜드</S.Brand>
-              </S.Flex>
-              <S.Stat>200,000위</S.Stat>
-            </S.MyRank>
-          </S.MyRankBox>
-          <S.Scroll>
-            {brandList.map((brand, i) => (
-              <S.RankBox>
-                <S.Rank>
-                  <S.Flex>
-                    <S.Num>{i+1}</S.Num>
-                    <S.Brand>{brand.name}</S.Brand>
-                  </S.Flex>
-                  <S.Stat>{brand.rank}위</S.Stat>
-                </S.Rank>
-              </S.RankBox>
-            ))}
-          </S.Scroll>
-        </S.Leaderboard>
-      </S.Sidebar>
+      <S.Map id="map" />
+      <TopTwentyBox corpList={mapCorpList} setIndex={setIndex} setFold={setFold} />
+      <MapRankBox corp={mapCorpList[index]} fold={fold} setFold={setFold} />
     </>
   );
 }
@@ -84,103 +79,8 @@ S.Map = styled.div`
   z-index: 0;
 `;
 
-S.Scroll = styled.div`
-  overflow-y: auto;
-  display: flex;
-  flex-flow: column;
-  &::-webkit-scrollbar {
-    background: none;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: rgb(245, 245, 247, 0.5);
-  }
-`;
-
-S.Sidebar = styled.div`
-  position: absolute;
-  top: 48px;
-  right: 0;
-  bottom: 0;
-  width: 15%;
-  z-index: 1;
-  padding: 20px;
-`;
-
-S.Leaderboard = styled.div`
-  width: 100%;
-  height: 100%;  
-  background: #000000b3;
-  backdrop-filter: saturate(180%) blur(20px);
+S.InfoWindow = styled.div`
   border-radius: 20px;
-  display: flex;
-  flex-flow: column;
-  font-size: 14px;
-  color: #f5f5f7;
-  padding-bottom: 20px;
-`;
-
-S.Box = styled.div`
-  width: 100%;
   padding: 20px;
-  color: #f5f5f7;
-  display: flex;
-  flex-flow: column;
-`;
-
-S.Title = styled.div`
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-`;
-
-S.Brand = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  flex: 1;
-`;
-
-S.Stat = styled.div`
-  width: 30%;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  font-size: 12px;
-`;
-
-S.RankBox = styled.div`
-  margin: 0 15px;
-  border-bottom: 1px solid rgba(245, 245, 247, 0.2);
-`;
-
-S.Rank = styled.div`
-  width: 100%;
-  padding: 20px 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-S.MyRankBox = styled(S.RankBox)`
-  color: #1d1d1f;
-  border-bottom: none;
-`;
-
-S.MyRank = styled(S.Rank)`
-  background: #f5f5f7;
-  border-radius: 10px;
-`;
-
-S.Num = styled.div`
-  font-family: 'Montserrat';
-  font-weight: bold;
-  margin-right: 5px;
-  font-size: 12px;
-  width: 20px;
-  display: flex;
-  align-items: center;
-`;
-
-S.Flex = styled.div`
-  display: flex;
+  background: white;
 `;
