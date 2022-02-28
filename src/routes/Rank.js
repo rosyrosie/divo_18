@@ -16,6 +16,8 @@ export default function Rank(){
       level: 3
     };
     var map = new kakao.maps.Map(container, options);
+    map.setDraggable(false);
+    map.setZoomable(false);
     var markerPosition = new kakao.maps.LatLng(37.36, 127.106);
     var marker = new kakao.maps.Marker({
       position: markerPosition
@@ -31,6 +33,9 @@ export default function Rank(){
     <CorpRequired />
   );
 
+  let brandList = [];
+  for(var i=0; i<20; i++) brandList.push({ name: `브랜드 ${i}`, rank: i*1000});
+
   return (
     <>
       <S.Map id="map">
@@ -42,10 +47,26 @@ export default function Rank(){
           </S.Box>
           <S.MyRankBox>
             <S.MyRank>
-              <S.Brand>내 브랜드</S.Brand>
-              <S.Stat>1,524위</S.Stat>
+              <S.Flex>
+                <S.Num>25</S.Num>
+                <S.Brand>내 브랜드</S.Brand>
+              </S.Flex>
+              <S.Stat>200,000위</S.Stat>
             </S.MyRank>
           </S.MyRankBox>
+          <S.Scroll>
+            {brandList.map((brand, i) => (
+              <S.RankBox>
+                <S.Rank>
+                  <S.Flex>
+                    <S.Num>{i+1}</S.Num>
+                    <S.Brand>{brand.name}</S.Brand>
+                  </S.Flex>
+                  <S.Stat>{brand.rank}위</S.Stat>
+                </S.Rank>
+              </S.RankBox>
+            ))}
+          </S.Scroll>
         </S.Leaderboard>
       </S.Sidebar>
     </>
@@ -61,6 +82,18 @@ S.Map = styled.div`
   right: 0;
   bottom: 0;
   z-index: 0;
+`;
+
+S.Scroll = styled.div`
+  overflow-y: auto;
+  display: flex;
+  flex-flow: column;
+  &::-webkit-scrollbar {
+    background: none;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(245, 245, 247, 0.5);
+  }
 `;
 
 S.Sidebar = styled.div`
@@ -82,6 +115,8 @@ S.Leaderboard = styled.div`
   display: flex;
   flex-flow: column;
   font-size: 14px;
+  color: #f5f5f7;
+  padding-bottom: 20px;
 `;
 
 S.Box = styled.div`
@@ -98,24 +133,54 @@ S.Title = styled.div`
   justify-content: center;
 `;
 
-S.MyRankBox = styled.div`
-  padding: 0 15px;
-  color: #1d1d1f;
-`;
-
-S.MyRank = styled.div`
-  width: 100%;
-  background: #f5f5f7;
-  padding: 20px 15px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-`;
-
 S.Brand = styled.div`
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  flex: 1;
 `;
 
 S.Stat = styled.div`
-  
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  font-size: 12px;
+`;
+
+S.RankBox = styled.div`
+  margin: 0 15px;
+  border-bottom: 1px solid rgba(245, 245, 247, 0.2);
+`;
+
+S.Rank = styled.div`
+  width: 100%;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+S.MyRankBox = styled(S.RankBox)`
+  color: #1d1d1f;
+  border-bottom: none;
+`;
+
+S.MyRank = styled(S.Rank)`
+  background: #f5f5f7;
+  border-radius: 10px;
+`;
+
+S.Num = styled.div`
+  font-family: 'Montserrat';
+  font-weight: bold;
+  margin-right: 5px;
+  font-size: 12px;
+  width: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+S.Flex = styled.div`
+  display: flex;
 `;
