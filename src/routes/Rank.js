@@ -16,6 +16,7 @@ export default function Rank(){
 
   useEffect(() => {
     var container = document.getElementById('map');
+    if(!container) return;
     var options = {
       center: new kakao.maps.LatLng(37.36, 127.106),
       level: 3
