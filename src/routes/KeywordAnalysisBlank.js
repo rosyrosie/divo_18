@@ -16,7 +16,8 @@ export default function KeywordAnalysisBlank(){
     PLACE_KEYWORD_URL(corpId),
     null,
     'GET',
-    [corpId]
+    [corpId],
+    token
   );
 
   if(!token) return (
