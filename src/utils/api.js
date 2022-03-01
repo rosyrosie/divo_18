@@ -25,3 +25,5 @@ export const SA_COMPARE_URL = corpId => BASE_URL + `corporation/sales/${corpId}/
 
 export const PLACE_KEYWORD_URL = corpId => BASE_URL + 'placekeyword/list?id=' + corpId;
 export const UP_LIST_URL = BASE_URL + 'placekeyword/uplist';
+
+export const VIEW_PLACE_RANK_URL = BASE_URL + 'rank/rank?id=';

@@ -1,9 +1,20 @@
 import styled from 'styled-components';
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { VIEW_PLACE_RANK_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function ViewPlaceRank(){
   const [ tab, setTab ] = useState(0); //0: view, 1: place
+  const { corpId } = useParams();
+  const { payload, error } = useFetch(
+    VIEW_PLACE_RANK_URL + corpId,
+    null,
+    'GET',
+    [corpId]
+  );
 
+  const mode = ['view', 'place'];
 
   return (
     <S.Content>
@@ -17,26 +28,14 @@ export default function ViewPlaceRank(){
         <S.RankList>
           <S.KwCat>상권 키워드</S.KwCat>
           <S.Kws>
-            <S.Kw>
-              <S.Word>당산 맛집</S.Word>
-              <S.Qty>최근 1개월 검색량 <S.Num>2.3만</S.Num></S.Qty>
-              <S.Rank>12위</S.Rank>
-            </S.Kw>
-            <S.Kw>
-              <S.Word>당산역 맛집</S.Word>
-              <S.Qty>최근 1개월 검색량 <S.Num>2.3만</S.Num></S.Qty>
-              <S.Rank>{'>50위'}</S.Rank>
-            </S.Kw>
-            <S.Kw>
-              <S.Word>영등포 맛집</S.Word>
-              <S.Qty>최근 1개월 검색량 <S.Num>2.3만</S.Num></S.Qty>
-              <S.Rank>14위</S.Rank>
-            </S.Kw>
-            <S.Kw>
-              <S.Word>영등포구청역 맛집</S.Word>
-              <S.Qty>최근 1개월 검색량 <S.Num>2.3만</S.Num></S.Qty>
-              <S.Rank>{'>50위'}</S.Rank>
-            </S.Kw>
+            {payload?.section.map(rank => (
+              <S.Kw key={rank.keyword}>
+                <S.Word>{rank.keyword}</S.Word>
+                <S.Qty>최근 1개월 검색량 <S.Num>-</S.Num></S.Qty>
+                <S.Rank>{rank[mode[tab]] !== 51 ? rank[mode[tab]] : '>50'}위</S.Rank>
+              </S.Kw>
+            ))}
+            {(payload && !payload.section.length) && '키워드가 없습니다'}
           </S.Kws>
         </S.RankList>
       </S.Box>
@@ -44,7 +43,14 @@ export default function ViewPlaceRank(){
         <S.RankList>
           <S.KwCat>업종 키워드</S.KwCat>
           <S.Kws>
-            키워드가 없습니다
+            {payload?.category.map(rank => (
+              <S.Kw key={rank.keyword}>
+                <S.Word>{rank.keyword}</S.Word>
+                <S.Qty>최근 1개월 검색량 <S.Num>-</S.Num></S.Qty>
+                <S.Rank>{rank[mode[tab]] !== 51 ? rank[mode[tab]] : '>50'}위</S.Rank>
+              </S.Kw>
+            ))}
+            {(payload && !payload.category.length) && '키워드가 없습니다'}
           </S.Kws>
         </S.RankList>
       </S.Box>
