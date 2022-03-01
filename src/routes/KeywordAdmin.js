@@ -84,7 +84,7 @@ export default function KeywordAdmin(){
             <S.Input value={newBrand} onChange={e => setNewBrand(e.target.value)} onKeyPress={addBrand} />
           </S.Words>
         </S.Box>
-        <S.Box>
+        {/* <S.Box>
           <S.Title>연관 키워드</S.Title>
           <S.Words>
             <S.Scroll>
@@ -94,7 +94,7 @@ export default function KeywordAdmin(){
             </S.Scroll>
             <S.Input value={newRel} onChange={e => setNewRel(e.target.value)} onKeyPress={addRel} />
           </S.Words>
-        </S.Box>
+        </S.Box> */}
         <S.Box>
           <S.Title>상권 키워드</S.Title>
           <S.Words>

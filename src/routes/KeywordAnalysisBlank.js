@@ -43,7 +43,7 @@ export default function KeywordAnalysisBlank(){
               </S.Scroll>
             </S.Words>
           </S.Box>
-          <S.Box>
+          {/* <S.Box>
             <S.Title>연관 키워드</S.Title>
             <S.Words>
               <S.Scroll>
@@ -52,7 +52,7 @@ export default function KeywordAnalysisBlank(){
                 ))}
               </S.Scroll>
             </S.Words>
-          </S.Box>
+          </S.Box> */}
           <S.Box>
             <S.Title>상권 키워드</S.Title>
             <S.Words>
