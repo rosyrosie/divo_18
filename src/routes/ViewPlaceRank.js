@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { VIEW_PLACE_RANK_URL } from '@api';
 import { useFetch } from '@hooks';
+import LoginRequired from '@/components/errorPage/LoginRequired';
 
 export default function ViewPlaceRank(){
   const [ tab, setTab ] = useState(0); //0: view, 1: place
@@ -13,8 +14,13 @@ export default function ViewPlaceRank(){
     'GET',
     [corpId]
   );
+  const token = localStorage.getItem('token');
 
   const mode = ['view', 'place'];
+
+  if(!token) return (
+    <LoginRequired />
+  );
 
   return (
     <S.Content>

@@ -35,7 +35,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
               <S.RankBox key={corp.rank} onClick={() => onClickCorp(i+1)}>
                 <S.Rank>
                   <S.Flex>
-                    <S.Num>{i}</S.Num>
+                    <S.Num>{i+1}</S.Num>
                     <S.Brand>{corp.corpName}</S.Brand>
                   </S.Flex>
                   <S.Stat>{corp.rank}위</S.Stat>

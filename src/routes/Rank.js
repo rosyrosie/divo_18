@@ -7,6 +7,8 @@ import { useEffect, useState } from 'react';
 import TopTwentyBox from '@/components/rank/TopTwentyBox';
 import MapRankBox from '@/components/rank/MapRankBox';
 import { mapCorpList } from '@constants';
+import { MAP_URL } from '@api';
+import { useFetch } from '@hooks';
 
 export default function Rank(){
   const token = localStorage.getItem('token');
@@ -14,17 +16,26 @@ export default function Rank(){
   const [ index, setIndex ] = useState(0);
   const [ fold, setFold ] = useState(false);
 
+  const { payload, error } = useFetch(
+    MAP_URL + corpId,
+    null,
+    'GET',
+    [corpId]
+  );
+
+  console.log(payload);
+
   useEffect(() => {
     var container = document.getElementById('map');
-    if(!container) return;
+    if(!container || !payload) return;
     var options = {
-      center: new kakao.maps.LatLng(37.36, 127.106),
+      center: new kakao.maps.LatLng(payload?.lat, payload?.lng),
       level: 3
     };
     var map = new kakao.maps.Map(container, options);
-    map.setDraggable(false);
+    // map.setDraggable(false);
     map.setZoomable(false);
-    mapCorpList.forEach((corp, i) => {
+    payload?.corpList.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var marker = new kakao.maps.Marker({
         position: markerPosition,
@@ -50,7 +61,7 @@ export default function Rank(){
         if(i !== index) overlay.setMap(null);
       })
     });
-  }, [index]);
+  }, [index, payload]);
 
   if(!token) return (
     <LoginRequired />
@@ -63,8 +74,12 @@ export default function Rank(){
   return (
     <>
       <S.Map id="map" />
-      <TopTwentyBox corpList={mapCorpList} setIndex={setIndex} setFold={setFold} />
-      <MapRankBox corp={mapCorpList[index]} fold={fold} setFold={setFold} />
+      {payload && 
+      <>
+        <TopTwentyBox corpList={payload?.corpList} setIndex={setIndex} setFold={setFold} />
+        <MapRankBox corp={payload?.corpList[index]} fold={fold} setFold={setFold} />
+      </>
+      }
     </>
   );
 }
