@@ -5,6 +5,7 @@ import { KA_AMOUNT_URL } from '@api';
 import { useFetch } from '@hooks';
 import { keywordCommentList } from '@constants';
 import CommentSection from '@/components/keywordAnalysis/CommentSection';
+import Loading from '@/components/Loading';
 
 export default function SearchQty({ qtyInView }){
 
@@ -13,7 +14,7 @@ export default function SearchQty({ qtyInView }){
 
   if(qtyInView) trigger.current = true;
 
-  const { payload, error } = useFetch(
+  const { payload, loading, error } = useFetch(
     KA_AMOUNT_URL + keyword,     
     null,
     'GET',
@@ -31,28 +32,46 @@ export default function SearchQty({ qtyInView }){
         <S.Width>
           <S.Stats>
             <S.Col index={0}>
-              <S.Day>최근 1일 검색량</S.Day>
-              <S.Date>{qtyData?.[0][0][0].date}</S.Date>
-              <S.Stat>{qtyData?.[0][0][0].amount}</S.Stat>
-              {qtyData?.[0][1].map((delta, i) => (
-                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
-              ))}
+              {!loading ? 
+                <>
+                  <S.Day>최근 1일 검색량</S.Day>
+                  <S.Date>{qtyData?.[0][0][0].date}</S.Date>
+                  <S.Stat>{qtyData?.[0][0][0].amount}</S.Stat>
+                  {qtyData?.[0][1].map((delta, i) => (
+                    <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                  ))}
+                </>
+                :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={1}>
-              <S.Day>최근 1주일 검색량</S.Day>
-              <S.Date>{qtyData?.[1][0][0].date}</S.Date>
-              <S.Stat>{qtyData?.[1][0][0].amount}</S.Stat>
-              {qtyData?.[1][1].map((delta, i) => (
-                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
-              ))}
+              {!loading ?
+                <>
+                  <S.Day>최근 1주일 검색량</S.Day>
+                  <S.Date>{qtyData?.[1][0][0].date}</S.Date>
+                  <S.Stat>{qtyData?.[1][0][0].amount}</S.Stat>
+                  {qtyData?.[1][1].map((delta, i) => (
+                    <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                  ))}
+                </>
+                :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={2}>
-              <S.Day>최근 1개월 검색량</S.Day>
-              <S.Date>{qtyData?.[2][0][0].date}</S.Date>
-              <S.Stat>{qtyData?.[2][0][0].amount}</S.Stat>
-              {qtyData?.[2][1].map((delta, i) => (
-                <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
-              ))}
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 1개월 검색량</S.Day>
+                  <S.Date>{qtyData?.[2][0][0].date}</S.Date>
+                  <S.Stat>{qtyData?.[2][0][0].amount}</S.Stat>
+                  {qtyData?.[2][1].map((delta, i) => (
+                    <S.Compare key={delta.id}>{delta.id}<S.Delta color={delta.color}>{delta.change}</S.Delta></S.Compare>
+                  ))}
+                </> :
+                <Loading />
+              }
             </S.Col>
           </S.Stats>
         </S.Width>
@@ -62,22 +81,40 @@ export default function SearchQty({ qtyInView }){
         <S.Width>
           <S.Stats>
             <S.Col index={0}>
-              <S.Day>최근 30일 추세</S.Day>
-              <S.Date>{trendData?.[0].date}</S.Date>
-              <S.Stat>{trendData?.[0].trend}<S.Scale>{trendData?.[0].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 30일 추세</S.Day>
+                  <S.Date>{trendData?.[0].date}</S.Date>
+                  <S.Stat>{trendData?.[0].trend}<S.Scale>{trendData?.[0].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={1}>
-              <S.Day>최근 3개월 추세</S.Day>
-              <S.Date>{trendData?.[1].date}</S.Date>
-              <S.Stat>{trendData?.[1].trend}<S.Scale>{trendData?.[1].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 3개월 추세</S.Day>
+                  <S.Date>{trendData?.[1].date}</S.Date>
+                  <S.Stat>{trendData?.[1].trend}<S.Scale>{trendData?.[1].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={2}>
-              <S.Day>최근 6개월 추세</S.Day>
-              <S.Date>{trendData?.[2].date}</S.Date>
-              <S.Stat>{trendData?.[2].trend}<S.Scale>{trendData?.[2].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 6개월 추세</S.Day>
+                  <S.Date>{trendData?.[2].date}</S.Date>
+                  <S.Stat>{trendData?.[2].trend}<S.Scale>{trendData?.[2].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
           </S.Stats>
         </S.Width>
@@ -87,22 +124,40 @@ export default function SearchQty({ qtyInView }){
         <S.Width>
           <S.Stats>
             <S.Col index={0}>
-              <S.Day>최근 12개월 추세</S.Day>
-              <S.Date>{trendData?.[3].date}</S.Date>
-              <S.Stat>{trendData?.[3].trend}<S.Scale>{trendData?.[3].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 12개월 추세</S.Day>
+                  <S.Date>{trendData?.[3].date}</S.Date>
+                  <S.Stat>{trendData?.[3].trend}<S.Scale>{trendData?.[3].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={1}>
-              <S.Day>최근 24개월 추세</S.Day>
-              <S.Date>{trendData?.[4].date}</S.Date>
-              <S.Stat>{trendData?.[4].trend}<S.Scale>{trendData?.[4].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 24개월 추세</S.Day>
+                  <S.Date>{trendData?.[4].date}</S.Date>
+                  <S.Stat>{trendData?.[4].trend}<S.Scale>{trendData?.[4].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
             <S.Col index={2}>
-              <S.Day>전체 추세</S.Day>
-              <S.Date>{trendData?.[5].date}</S.Date>
-              <S.Stat>{trendData?.[5].trend}<S.Scale>{trendData?.[5].unit}</S.Scale></S.Stat>
-              <S.Compare>등급 표시</S.Compare>
+              {
+                !loading ?
+                <>
+                  <S.Day>전체 추세</S.Day>
+                  <S.Date>{trendData?.[5].date}</S.Date>
+                  <S.Stat>{trendData?.[5].trend}<S.Scale>{trendData?.[5].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
             </S.Col>
           </S.Stats>
         </S.Width>
@@ -133,13 +188,13 @@ S.Col = styled.div`
   display: flex;
   flex-flow: column;
   flex: 1;
-  padding-left: 30px;
-  padding-bottom: 30px;
+  padding: 30px;
   background: white;
   border-radius: 20px;
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   ${props => props.index===1 ? 'margin: 0 40px;' : ''}
   ${props => props.isWhite ? 'background: none; box-shadow: none;' : ''}
+  min-height: 250px;
 `;
 
 S.Stats = styled.div`
@@ -152,7 +207,7 @@ S.Day = styled.div`
   font-weight: bold;
   display: flex;
   //justify-content: center;
-  margin: 40px 0 20px 0;
+  margin: 10px 0 20px 0;
   color: #1d1d1f;
 `;
 

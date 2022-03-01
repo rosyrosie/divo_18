@@ -61,7 +61,7 @@ export default function KeywordAdmin(){
       id: corpId,
       data: keywordSet
     };
-    axios.post(UP_LIST_URL, body, tokenHeader).then(res => console.log(res));
+    axios.post(UP_LIST_URL, body, tokenHeader).then(res => res.data.message === 'success' ? alert('변경이 완료되었습니다') : null);
   }
 
   if(corpId === '0'){
@@ -149,7 +149,7 @@ S.Title = styled.div`
   padding-bottom: 30px;
   justify-content: center;
   display: flex;
-  border-bottom: 1px solid #d2d2d7;
+  border-bottom: 1px solid #d2d2d7b3;
 `;
 
 S.Words = styled.div`
@@ -159,21 +159,23 @@ S.Words = styled.div`
 
 S.Word = styled.div`
   padding: 15px 10px;
-  border-bottom: 1px solid #d2d2d7;
+  border-bottom: 1px solid #d2d2d7b3;
   display: flex;
   font-size: 14px;
   &:hover{
     cursor: pointer;
     background: #f5f5f7;
   }
+  width: 180px;
 `;
 
 S.Input = styled.input`
+  width: 180px;
   margin-top: 30px;
   padding: 15px 10px;
   display: flex;
   justify-content: center;
-  border: 1px solid #d2d2d7;
+  border: 1px solid #d2d2d7b3;
   &:focus{
     outline-color: #06c;
   }

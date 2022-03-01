@@ -6,7 +6,7 @@ import CorpListModal from '@/components/CorpListModal';
 import { useDetectOutsideClick, useFetch } from '@hooks';
 import { DEL_CORP_URL } from '@api';
 
-export default function Header({ sticky = false, dark = false }){
+export default function Header({ sticky = false, dark = true }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
@@ -52,7 +52,7 @@ export default function Header({ sticky = false, dark = false }){
   const handleSearch = e => {
     e.preventDefault();
     if(input){
-      navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
+      navigate(`keyword-analysis/keyword=${input}`);
       setIsSearching(false);
       setInput('');
     }
@@ -61,7 +61,7 @@ export default function Header({ sticky = false, dark = false }){
   const handleKeyPressSearch = e => {
     if(e.key !== 'Enter') return;
     if(input){
-      navigate(CORP_URL + `/keyword-analysis/keyword=${input}`);
+      navigate(`keyword-analysis/keyword=${input}`);
       setIsSearching(false);
       setInput('');
     }
@@ -90,7 +90,7 @@ export default function Header({ sticky = false, dark = false }){
               </S.Dropdown> :
               <S.Dropdown ref={dropDownRef}>
                 <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
-                <S.Drop onClick={() => { navigate(CORP_URL + '/corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
+                <S.Drop onClick={() => { navigate('corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
               </S.Dropdown>)
             }

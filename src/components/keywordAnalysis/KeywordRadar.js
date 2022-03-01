@@ -5,10 +5,11 @@ import { KA_RADAR_URL } from '@api';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@hooks';
 import { applyColorToChart } from '@functions';
+import Loading from '@/components/Loading';
 
 export default function KeywordRadar({ evalRef }){
   const { keyword } = useParams();
-  const { payload, error } = useFetch(
+  const { payload, loading, error } = useFetch(
     KA_RADAR_URL + keyword,
     null,
     'GET',
@@ -27,7 +28,7 @@ export default function KeywordRadar({ evalRef }){
           <S.Comment isWhite={true}>모바일 검색비율은 전체 검색자 중 모바일로 검색하는 비중이 어느 수준인지 판단하기 위한 지표입니다.</S.Comment>
         </S.Flex>
         <S.Chart>
-          {payload && <Radar options={radarOptions('', true)} data={applyColorToChart(payload, 'greenRadar')} />}
+          {!loading ? <Radar options={radarOptions('', true)} data={applyColorToChart(payload, 'greenRadar')} /> : <Loading isWhite/>}
         </S.Chart>
       </S.Width>
     </S.Section>

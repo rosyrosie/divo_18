@@ -17,7 +17,7 @@ export default function CorpListModal({ setShowModal, modalRef }){
 
   const handleCorpAddition = e => {
     e.preventDefault();
-    navigate(CORP_URL + '/corp-addition');
+    navigate('corp-addition');
     setShowModal(false);
   }
 

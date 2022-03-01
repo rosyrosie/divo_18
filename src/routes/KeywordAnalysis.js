@@ -5,7 +5,7 @@ import styled from "styled-components";
 import KeywordReport from "@/components/keywordAnalysis/KeywordReport";
 
 export default function KeywordAnalysis(){
-  const { keyword } = useParams();
+  const { corpId, keyword } = useParams();
   const [ input, setInput ] = useState(keyword);
   const [ evalRef, evalInView ] = useInView({ threshold: 0.01 });
   const [ qtyRef, qtyInView] = useInView({ threshold: 0.01 });
@@ -15,6 +15,8 @@ export default function KeywordAnalysis(){
   const navigate = useNavigate();
 
   useEffect(() => setInput(keyword), [keyword]);
+
+  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
 
   const activeTab = () => {
     if(evalInView) return 0;
@@ -30,7 +32,7 @@ export default function KeywordAnalysis(){
       <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
-          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(`/keyword-analysis/keyword=${input}`) : null} />
+          <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(CORP_URL + `/keyword-analysis/keyword=${input}`) : null} />
         </S.InputBox>
       </S.Search>
       <S.TabBox>
