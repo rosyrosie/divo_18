@@ -29,12 +29,12 @@ export default function KeywordAnalysis(){
 
   return (
     <>
-      <S.Search>
+      {/* <S.Search>
         <S.InputBox>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
           <S.Input value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? navigate(CORP_URL + `/keyword-analysis/keyword=${input}`) : null} />
         </S.InputBox>
-      </S.Search>
+      </S.Search> */}
       <S.TabBox>
         <S.Tabs>
           <S.Tab isSelected={activeTab()===0}><S.Link href="#eval-radar">키워드 평가</S.Link></S.Tab>
