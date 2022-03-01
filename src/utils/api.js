@@ -19,6 +19,9 @@ export const KA_AMOUNT_URL = BASE_URL + 'keyword/amount?keyword=';
 export const KA_QTY_CHART_URL = (keyword, startDate, endDate, scale = 0) => BASE_URL + 'keyword/amountChart?keyword=' + keyword + '&startDate=' + startDate + '&endDate=' + endDate;
 export const KA_CONTENT_URL = BASE_URL + 'keyword/contents?keyword=';
 export const KA_CHART_URL = BASE_URL + 'keyword/chart?keyword=';
+export const KA_SECTION_URL = BASE_URL + 'keyword/section?keyword=';
+export const KA_VIEW_URL = BASE_URL + 'keyword/viewtop?keyword=';
+export const KA_RELATIVE_URL = BASE_URL + 'keyword/relative?keyword=';
 
 export const SA_RADAR_URL = corpId => BASE_URL + `corporation/sales/${corpId}/summary`;
 export const SA_COMPARE_URL = corpId => BASE_URL + `corporation/sales/${corpId}/analysis`;

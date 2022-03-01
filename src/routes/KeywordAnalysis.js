@@ -38,7 +38,7 @@ export default function KeywordAnalysis(){
           <S.Tab isSelected={activeTab()===1}><S.Link href="#search-qty">키워드 검색량</S.Link></S.Tab>
           <S.Tab isSelected={activeTab()===2}><S.Link href="#ctn-published">컨텐츠 발행량</S.Link></S.Tab>
           <S.Tab isSelected={activeTab()===3}><S.Link href="#user-stat">검색자 특성</S.Link></S.Tab>
-          {/* <S.Tab isSelected={activeTab()===3}><S.Link href="#mkt-index">마케팅 지표</S.Link></S.Tab> */}
+          <S.Tab isSelected={activeTab()===4}><S.Link href="#mkt-index">마케팅 데이터</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
       <S.ContentBox>

@@ -27,24 +27,24 @@ export default function UserStat({ userRef, userInView }){
 
   return (
     <S.Section color={'#f5f5f7'} ref={userRef} id="user-stat">
-        <S.Box>
-          <S.BoxTitle>검색자 특성</S.BoxTitle>
-          <S.Comment>{userStatComment[tab]}</S.Comment>
-          <S.Tabs>
-            <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>기기별</S.Tab>
-            <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>성별</S.Tab>
-            <S.Tab onClick={() => setTab(2)} isSelected={tab===2}>요일별</S.Tab>
-            <S.Tab onClick={() => setTab(3)} isSelected={tab===3}>월별</S.Tab>
-            <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
-          </S.Tabs>
-          <S.Chart>
-            {payload && <Bar options={barOptions('%')} data={applyColorToChart(barData[tab], 'light')} />}
-          </S.Chart>
-          <S.Chart>
-            {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
-          </S.Chart>
-        </S.Box>
-      </S.Section>
+      <S.Box>
+        <S.BoxTitle>검색자 특성</S.BoxTitle>
+        <S.Comment>{userStatComment[tab]}</S.Comment>
+        <S.Tabs>
+          <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>기기별</S.Tab>
+          <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>성별</S.Tab>
+          <S.Tab onClick={() => setTab(2)} isSelected={tab===2}>요일별</S.Tab>
+          <S.Tab onClick={() => setTab(3)} isSelected={tab===3}>월별</S.Tab>
+          <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
+        </S.Tabs>
+        <S.Chart>
+          {payload && <Bar options={barOptions('%')} data={applyColorToChart(barData[tab], 'light')} />}
+        </S.Chart>
+        <S.Chart>
+          {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
+        </S.Chart>
+      </S.Box>
+    </S.Section>
   );
 }
 

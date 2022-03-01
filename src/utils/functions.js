@@ -1,6 +1,7 @@
 import { chartPalette } from "../styles/Colors";
 import { addDays } from 'date-fns';
 
+//chart functions
 export const applyColorToChart = (chartData, mode) => {
   chartData?.datasets?.forEach((element, index) => {
     element.borderColor = chartPalette[mode][index];
@@ -44,3 +45,24 @@ export const dateToString = (date, scale = 0) => {
       break;
   }
 }
+
+//section order
+export const createSectionOrderString = (orderList) => {
+  let string = '';
+  for(var i=0; i<orderList.length; i++){
+    string += orderList[i];
+    if(i < orderList.length-1) string += ' > ';
+  }
+  return string;
+}
+
+//table
+export const sortComma = (rowA, rowB, id, desc) => {
+  let a = rowA.values[id].replaceAll(',', '');
+  let b = rowB.values[id].replaceAll(',', '');
+  if(a === '< 10') a = 9;
+  if(b === '< 10') b = 9;
+  if(Number(a) > Number(b)) return 1;
+  if(Number(a) < Number(b)) return -1;
+  return 0;
+};

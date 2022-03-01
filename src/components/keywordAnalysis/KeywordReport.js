@@ -4,6 +4,7 @@ import SearchQty from '@/components/keywordAnalysis/SearchQty';
 import UserStat from '@/components/keywordAnalysis/UserStat';
 import KeywordRadar from '@/components/keywordAnalysis/KeywordRadar';
 import SearchQtyChart from '@/components/keywordAnalysis/SearchQtyChart';
+import MarketingIndex from '@/components/keywordAnalysis/MarketingIndex';
 
 export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInView, userRef, userInView, mktRef }){
   return (
@@ -15,7 +16,7 @@ export default function KeywordReport({ evalRef, qtyRef, qtyInView, ctRef, ctInV
       </div>
       <ContentPublished ctRef={ctRef} ctInView={ctInView} />
       <UserStat userRef={userRef} userInView={userInView} />
-      {/* <MarketingIndex mktRef={mktRef} /> */}
+      <MarketingIndex mktRef={mktRef} />
     </S.Column>
   );
 }
