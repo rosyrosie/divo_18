@@ -1,3 +1,5 @@
+import { sortComma } from '@functions';
+
 //token
 const token = localStorage.getItem('token');
 export const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
@@ -66,6 +68,13 @@ export const userStatComment = [
   '월별 멘트',
   '검색자의 연령별 비중이 실제 매장을 이용하는 고객의 연령별 비중과 유사한지 확인해야 합니다.'
 ]
+
+export const marketIndexComment = {
+  title: '마케팅 데이터',
+  details: [
+    '네이버 색션 배치 순서, View 검색결과, 연관검색어 등 키워드 마케팅에 필요한 정보를 제공합니다'
+  ]
+};
 
 export const compareMenuList = [
   ['일 매출액', '결제단가', '결제건수', '재방문자 매출 비율'],
@@ -543,3 +552,59 @@ export const mapCorpList = [
     inAreaCatRatio: 1.2,
   },
 ]
+
+//table columns
+
+export const keywordCols = [
+  {
+    accessor: 'keyword',
+    Header: '키워드'
+  },
+  {
+    accessor: 'pcSearch',
+    Header: '월간 검색량(PC)',
+    sortType: sortComma
+  }, 
+  {
+    accessor: 'mobileSearch',
+    Header: '월간 검색량(Mobile)',
+    sortType: sortComma
+  },
+  {
+    accessor: 'totalSearch',
+    Header: '월간 검색량(전체)',
+    sortType: sortComma
+  },
+  {
+    accessor: 'totalBlog',
+    Header: '월간 블로그 발행량',
+    sortType: sortComma
+  },
+];
+
+export const viewCols = [
+  {
+    accessor: 'rank',
+    Header: '순위'
+  },
+  {
+    accessor: 'type',
+    Header: '유형'
+  }, 
+  {
+    accessor: 'author',
+    Header: '작성자'
+  },
+  {
+    accessor: 'title',
+    Header: '제목'
+  },
+  {
+    accessor: 'date',
+    Header: '콘텐츠 발행일'
+  },
+  {
+    accessor: 'visitor',
+    Header: '방문자 수'
+  }
+];
