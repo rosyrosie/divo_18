@@ -16,6 +16,8 @@ export default function KeywordRadar({ evalRef }){
     [keyword]
   );
 
+  console.log(payload);
+
   return (
     <S.Section id="eval-radar" ref={evalRef} color={'rgba(77, 107, 83, 1)'}>
       <S.Width>

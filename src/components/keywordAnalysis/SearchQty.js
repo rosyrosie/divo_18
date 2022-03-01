@@ -22,6 +22,8 @@ export default function SearchQty({ qtyInView }){
     trigger.current
   );
 
+  console.log(payload);
+
   const qtyData = payload?.amount;
   const trendData = payload?.trend;
 
