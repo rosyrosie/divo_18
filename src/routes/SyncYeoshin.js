@@ -18,7 +18,7 @@ export default function SyncYeoshin(){
   const getYsCategory = e => {
     e.preventDefault();
     const body = {
-      corpId: corpId,
+      corpId: corpId*1,
       yeoshinId: ysId,
       yeoshinPassword: ysPw
     };
@@ -31,6 +31,7 @@ export default function SyncYeoshin(){
         alert('아이디나 비밀번호가 잘못되었습니다.');
         setYsId('');
         setYsPw('');
+        setLoading(false);
       }
     });
   }
@@ -44,12 +45,12 @@ export default function SyncYeoshin(){
   useEffect(() => {
     if(!mergrpId) return;
     const body = {
-      corpId: corpId,
+      corpId: corpId*1,
       yeoshinId: ysId,
       yeoshinPassword: ysPw,
       yeoshinMergrpid: mergrpId
     };
-    axios.post(SYNC_YS_URL, body, tokenHeader).then(() => axios.post(SYNC_SALES_URL, { corpId }, tokenHeader));
+    axios.post(SYNC_YS_URL, body, tokenHeader).then(() => axios.post(SYNC_SALES_URL, { corpId: corpId*1 }, tokenHeader));
   }, [mergrpId]);
 
   return (

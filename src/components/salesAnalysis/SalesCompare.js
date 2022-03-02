@@ -17,9 +17,10 @@ export default function SalesCompare({ compareRef }){
   useEffect(() => setChartTab(0), [tab]);
 
   const { payload, error } = useFetch(
-    SA_COMPARE_URL(corpId),
+    SA_COMPARE_URL(corpId) + '?scale=' + scale,
     null,
-    'GET'
+    'GET',
+    [scale]
   );
 
   const data = payload?.analysisList;

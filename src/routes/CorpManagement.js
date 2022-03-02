@@ -36,8 +36,6 @@ export default function CorpManagement(){
     <LoginRequired />
   );
 
-  console.log(payload);
-
   return (
     <S.Content>
       <S.Flex>
@@ -45,9 +43,9 @@ export default function CorpManagement(){
           <S.Corp key={corp[0]}>
             <S.Title>{corp[1]}</S.Title>
             <S.Col>
-              {corp[2]==='sync needed' ? 
+              {corp[2]==='not Linked' ? 
                 <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link> : 
-                corp[2]==='on sync' ? <S.Link color="#515154" inactive>매출액 연동 중</S.Link> : <S.Link color="#515154" inactive>매출액 연동 완료</S.Link>
+                corp[2]==='on Sync' ? <S.Link color="#515154" inactive>매출액 연동 중</S.Link> : <S.Link color="#515154" inactive>매출액 연동 완료</S.Link>
               }
               {corp[3]==='enable' && <S.Link onClick={() => navigate(`/cid=${corp[0]}/keyword-admin`)}>키워드 관리</S.Link>}
               <S.Link onClick={() => navigate(`/cid=${corp[0]}/corp-auth`)}>접근권한 관리</S.Link>

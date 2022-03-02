@@ -24,7 +24,6 @@ export default function SectionOrder(){
         <>
           <S.OrderBox>
             <S.Order>
-              {/* {payload && createSectionOrderString(payload?.pc)} */}
               {pcList.map((section, i) => (
                 <S.VAlign key={i}>
                   <div>{section}</div>
@@ -36,7 +35,6 @@ export default function SectionOrder(){
           </S.OrderBox>
           <S.OrderBox alignRight>
             <S.Order>
-              {/* {payload && createSectionOrderString(payload?.mobile)} */}
               {mobileList.slice(0, 10).map((section, i) => (
                 <S.VAlign key={i}>
                   <div>{section}</div>
