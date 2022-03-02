@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { GET_YS_CAT_URL, SYNC_YS_URL, SYNC_SALES_URL } from '@api';
-import { tokenHeader } from '@constants';
 
 export default function SyncYeoshin(){
   const { corpId } = useParams();
@@ -12,6 +11,8 @@ export default function SyncYeoshin(){
   const [ categoryList, setCategoryList ] = useState(null);
   const [ mergrpId, setMergrpId ] = useState(null);
   const [ loading, setLoading ] = useState(false);
+  const token = localStorage.getItem('token');
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
 
   const navigate = useNavigate();
 

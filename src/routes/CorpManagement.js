@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import LoginRequired from '@/components/errorPage/LoginRequired';
 import { CORPLIST_URL, DEL_CORP_URL } from '@api';
 import { useFetch } from '@hooks';
-import { tokenHeader } from '@constants';
 
 export default function CorpManagement(){
   const token = localStorage.getItem('token');
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const navigate = useNavigate();
   const { corpId } = useParams();
   const { payload, error } = useFetch(
@@ -17,7 +17,7 @@ export default function CorpManagement(){
   );
 
   const deleteCorp = id => {
-    if(id === corpId){
+    if(id === corpId*1){
       alert('현재 접속 중인 브랜드는 삭제할 수 없습니다.');
       return;
     }

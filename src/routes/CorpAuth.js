@@ -4,11 +4,12 @@ import { CORP_AUTH_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState } from 'react';
 import axios from 'axios';
-import { tokenHeader } from '@constants';
 
 export default function CorpAuth(){
   const { corpId } = useParams();
   const [ trigger, setTrigger ] = useState(false);
+  const token = localStorage.getItem('token');
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const { payload, error } = useFetch(
     CORP_AUTH_URL + corpId,
     null,

@@ -5,10 +5,11 @@ import { PLACE_KEYWORD_URL, UP_LIST_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { tokenHeader } from '@constants';
 
 export default function KeywordAdmin(){
   const { corpId } = useParams();
+  const token = localStorage.getItem('token');
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const { payload, error } = useFetch(
     PLACE_KEYWORD_URL(corpId),
     null,
