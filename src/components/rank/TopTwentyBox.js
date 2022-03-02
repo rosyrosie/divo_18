@@ -26,7 +26,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
               <S.Num>{myCorp.inAreaRank}</S.Num>
               <S.Brand>{myCorp.corpName}</S.Brand>
             </S.Flex>
-            <S.Stat>{myCorp.rank}위</S.Stat>
+            <S.Stat>{myCorp.rank}</S.Stat>
           </S.MyRank>
         </S.MyRankBox>
         {showRank && 
@@ -38,7 +38,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
                     <S.Num>{i+1}</S.Num>
                     <S.Brand>{corp.corpName}</S.Brand>
                   </S.Flex>
-                  <S.Stat>{corp.rank}위</S.Stat>
+                  <S.Stat>{corp.rank}</S.Stat>
                 </S.Rank>
               </S.RankBox>
             ))}
