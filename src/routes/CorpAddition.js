@@ -39,6 +39,7 @@ export default function CorpAddition(){
         navigate(`/cid=${res.data.corpId}`);
       }
       else{
+        console.log(res);
         alert('이미 사용 중인 브랜드입니다.');
       }
     });
