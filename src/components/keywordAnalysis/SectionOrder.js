@@ -14,6 +14,9 @@ export default function SectionOrder(){
     [keyword]
   );
 
+  const pcList = payload?.pc.slice(0, 10);
+  const mobileList = payload?.mobile.slice(0, 10);
+
   return (
     <S.Section color={'#38555f'}>
       <S.Width>
@@ -21,13 +24,25 @@ export default function SectionOrder(){
         <>
           <S.OrderBox>
             <S.Order>
-              {payload && createSectionOrderString(payload?.pc)}
+              {/* {payload && createSectionOrderString(payload?.pc)} */}
+              {pcList.map((section, i) => (
+                <S.VAlign key={i}>
+                  <div>{section}</div>
+                  {i<pcList.length-1 && <S.Arrow>{'>'}</S.Arrow>}
+                </S.VAlign>
+              ))}
             </S.Order>
             <S.Device>PC 섹션 배치 순서</S.Device>
           </S.OrderBox>
           <S.OrderBox alignRight>
             <S.Order>
-              {payload && createSectionOrderString(payload?.mobile)}
+              {/* {payload && createSectionOrderString(payload?.mobile)} */}
+              {mobileList.slice(0, 10).map((section, i) => (
+                <S.VAlign key={i}>
+                  <div>{section}</div>
+                  {i<mobileList.length-1 && <S.Arrow>{'>'}</S.Arrow>}
+                </S.VAlign>
+              ))}
             </S.Order>
             <S.Device>모바일 섹션 배치 순서</S.Device>
           </S.OrderBox> 
@@ -56,16 +71,30 @@ S.Width = styled.div`
   padding: 50px 0;
 `;
 
+S.VAlign = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+S.Arrow = styled.div`
+  font-size: 10px;
+  display: flex;
+  flex-flow: column;
+  margin: 0 5px;
+`;
+
 S.Order = styled.div`
   color: #f5f5f7;
-  font-weight: bold;
-  font-size: 20px;
+  //font-weight: bold;
+  font-size: 17.5px;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
 `;
 
 S.Device = styled.div`
   color: #f5f5f7;
-  font-size: 16px;
+  font-size: 14px;
   opacity: .8;
 `;
 

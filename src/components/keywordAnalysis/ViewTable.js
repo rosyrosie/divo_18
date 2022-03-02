@@ -21,7 +21,10 @@ export default function ViewTable({ getTableProps, getTableBodyProps, headerGrou
             <tr {...row.getRowProps()}>
               {row.cells.map((cell, idx) => (
                 <S.Td {...cell.getCellProps()} i={idx} key={idx}>
-                  {cell.render("Cell")}
+                  {idx===3 ? 
+                    <S.Link href={cell.render("Cell").props.data[i].link} target="_blank">{cell.render("Cell")}</S.Link> : 
+                    cell.render("Cell")
+                  }
                 </S.Td>
               ))}
             </tr>
@@ -81,4 +84,13 @@ S.Td = styled.td`
 S.Tbody = styled.tbody`
   font-weight: normal;
   font-size: 12px;
+`;
+
+S.Link = styled.a`
+  color: inherit;
+  text-decoration: none;
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;

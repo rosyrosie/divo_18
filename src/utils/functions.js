@@ -49,9 +49,9 @@ export const dateToString = (date, scale = 0) => {
 //section order
 export const createSectionOrderString = (orderList) => {
   let string = '';
-  for(var i=0; i<orderList.length; i++){
+  for(var i=0; i<orderList.slice(0, 10).length; i++){
     string += orderList[i];
-    if(i < orderList.length-1) string += ' > ';
+    if(i < Math.min(orderList.length-1, 9)) string += ' > ';
   }
   return string;
 }

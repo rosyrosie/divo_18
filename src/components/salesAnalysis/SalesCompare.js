@@ -12,6 +12,7 @@ export default function SalesCompare({ compareRef }){
   const { corpId } = useParams();
   const [ tab, setTab ] = useState(0);
   const [ chartTab, setChartTab ] = useState(0);
+  const [ scale, setScale ] = useState("13w");
 
   useEffect(() => setChartTab(0), [tab]);
 
@@ -28,11 +29,22 @@ export default function SalesCompare({ compareRef }){
       <S.Width>
         <S.Title>점포 특성 분석</S.Title>
         <S.Comment>다양한 매출 지표를 통해 점포 및 방문고객 특성을 도출하여 마케팅 방향성을 제시합니다.</S.Comment>
-        <S.Tabs>
-          <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>시간별</S.Tab>
-          <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>요일별</S.Tab>
-          <S.Tab onClick={() => setTab(2)} isSelected={tab===2}>재방문</S.Tab>
-        </S.Tabs>
+        <S.Toggles>
+          <S.Tabs>
+            <S.Tab onClick={() => setTab(0)} isSelected={tab===0}>시간별</S.Tab>
+            <S.Tab onClick={() => setTab(1)} isSelected={tab===1}>요일별</S.Tab>
+            <S.Tab onClick={() => setTab(2)} isSelected={tab===2}>재방문</S.Tab>
+          </S.Tabs>
+          <S.Range>
+            <S.Select onChange={e => setScale(e.target.value)}>
+              <S.Option value="13w">최근 3개월</S.Option>
+              <S.Option value="26w">최근 6개월</S.Option>
+              <S.Option value="52w">최근 1년</S.Option>
+              <S.Option value="24m">최근 2년</S.Option>
+              <S.Option value="tot">전체</S.Option>
+            </S.Select>
+          </S.Range>
+        </S.Toggles>
         <S.Row isTitle={true}>
           <S.Stat isTitle={true}>{salesCompareTitle[tab][0]}</S.Stat>
           <S.Menu></S.Menu>
@@ -99,11 +111,17 @@ S.StatRow = styled.div`
   ${props => props.right ? 'justify-content: right;' : ''}
 `;
 
+S.Toggles = styled.div`
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+  margin: 60px 0 20px 0;
+`;
+
 S.Tabs = styled.div`
   display: flex;
-  margin: 40px 0;
   color: #f5f5f7;
-  justify-content: center;
 `;
 
 S.Tab = styled.div`
@@ -115,9 +133,8 @@ S.Tab = styled.div`
   &:hover{
     opacity: 1;
     cursor: pointer;
-    font-weight: bold;
   }
-  ${props => props.isSelected ? 'opacity: 1; border-bottom: 1px solid #f5f5f7; font-weight: bold;' : ''}
+  ${props => props.isSelected ? 'opacity: 1; border-bottom: 1px solid #f5f5f7;' : ''}
 `;
 
 S.Row = styled.div`
@@ -130,8 +147,9 @@ S.Stat = styled.div`
   flex: 2;
   display: flex;
   justify-content: center;
-  font-weight: bold;
-  ${props => props.isTitle ? 'font-size: 24px; font-weight: 500;' : 'font-size: 36px;'}
+  font-weight: 500;
+  ${props => props.isTitle ? 'font-size: 24px; font-weight: normal;' : 'font-size: 36px;'}
+  font-family: 'Montserrat', 'SUIT';
 `;
 
 S.Menu = styled.div`
@@ -193,5 +211,32 @@ S.ChartBox = styled.div`
   &:hover ${S.ButtonBox}{
     opacity: 1;
   }
+`;
+
+S.Range = styled.div`
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 0;
+`;
+
+S.Select = styled.select`
+  border: none;
+  background: none;
+  color: #f5f5f7;
+  font-size: 16px;
+  padding: 5px;
+  &:focus{
+    outline: none;
+  }
+  &:hover{
+    cursor: pointer;
+  }
+  text-align-last: right;
+`;
+
+S.Option = styled.option`
+  color: #1d1d1f;
+  text-align: left;
 `;
 

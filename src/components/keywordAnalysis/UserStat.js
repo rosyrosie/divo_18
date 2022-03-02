@@ -93,9 +93,8 @@ S.Tab = styled.div`
   &:hover{
     opacity: 1;
     cursor: pointer;
-    font-weight: bold;
   }
-  ${props => props.isSelected ? 'opacity: 1; border-bottom: 1px solid #1d1d1f; font-weight: bold;' : ''}
+  ${props => props.isSelected ? 'opacity: 1; border-bottom: 1px solid #1d1d1f; ' : ''}
 `;
 
 S.Comment = styled.div`

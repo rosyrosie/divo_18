@@ -127,7 +127,7 @@ export default function SearchQty({ qtyInView }){
               {
                 !loading ?
                 <>
-                  <S.Day>최근 12개월 추세</S.Day>
+                  <S.Day>최근 1년 추세</S.Day>
                   <S.Date>{trendData?.[3].date}</S.Date>
                   <S.Stat>{trendData?.[3].trend}<S.Scale>{trendData?.[3].unit}</S.Scale></S.Stat>
                   <S.Compare>-</S.Compare>
@@ -139,7 +139,7 @@ export default function SearchQty({ qtyInView }){
               {
                 !loading ?
                 <>
-                  <S.Day>최근 24개월 추세</S.Day>
+                  <S.Day>최근 2년 추세</S.Day>
                   <S.Date>{trendData?.[4].date}</S.Date>
                   <S.Stat>{trendData?.[4].trend}<S.Scale>{trendData?.[4].unit}</S.Scale></S.Stat>
                   <S.Compare>-</S.Compare>
@@ -151,9 +151,52 @@ export default function SearchQty({ qtyInView }){
               {
                 !loading ?
                 <>
-                  <S.Day>전체 추세</S.Day>
+                  <S.Day>최근 3년 추세</S.Day>
                   <S.Date>{trendData?.[5].date}</S.Date>
                   <S.Stat>{trendData?.[5].trend}<S.Scale>{trendData?.[5].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
+            </S.Col>
+          </S.Stats>
+        </S.Width>
+      </S.Section>
+      <CommentSection comment={keywordCommentList[3]} />
+      <S.Section color={'#f5f5f7'}>
+        <S.Width>
+          <S.Stats>
+            <S.Col index={0}>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 4년 추세</S.Day>
+                  <S.Date>{trendData?.[6].date}</S.Date>
+                  <S.Stat>{trendData?.[6].trend}<S.Scale>{trendData?.[6].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
+            </S.Col>
+            <S.Col index={1}>
+              {
+                !loading ?
+                <>
+                  <S.Day>최근 5년 추세</S.Day>
+                  <S.Date>{trendData?.[7].date}</S.Date>
+                  <S.Stat>{trendData?.[7].trend}<S.Scale>{trendData?.[7].unit}</S.Scale></S.Stat>
+                  <S.Compare>-</S.Compare>
+                </> :
+                <Loading />
+              }
+            </S.Col>
+            <S.Col index={2}>
+              {
+                !loading ?
+                <>
+                  <S.Day>전체 추세</S.Day>
+                  <S.Date>{trendData?.[8].date}</S.Date>
+                  <S.Stat>{trendData?.[8].trend}<S.Scale>{trendData?.[8].unit}</S.Scale></S.Stat>
                   <S.Compare>-</S.Compare>
                 </> :
                 <Loading />

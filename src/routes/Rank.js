@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import LoginRequired from '@/components/errorPage/LoginRequired';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import TopTwentyBox from '@/components/rank/TopTwentyBox';
 import MapRankBox from '@/components/rank/MapRankBox';
-import { mapCorpList } from '@constants';
 import { MAP_URL } from '@api';
 import { useFetch } from '@hooks';
 
@@ -23,17 +22,16 @@ export default function Rank(){
     [corpId]
   );
 
-  console.log(payload);
+  const container = document.getElementById('map');
 
   useEffect(() => {
-    var container = document.getElementById('map');
-    if(!container || !payload) return;
-    var options = {
-      center: new kakao.maps.LatLng(payload?.lat, payload?.lng),
+    const options = {
+      center: new kakao.maps.LatLng(payload?.corpList[index].lat, payload?.corpList[index].lng),
       level: 3
     };
-    var map = new kakao.maps.Map(container, options);
-    // map.setDraggable(false);
+    const map = payload ? new kakao.maps.Map(container, options) : null;
+    if(!map) return;
+    //map.setDraggable(false);
     map.setZoomable(false);
     payload?.corpList.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
@@ -46,8 +44,10 @@ export default function Rank(){
       var overlayPosition = new kakao.maps.LatLng(corp.lat+0.00055, corp.lng);
       var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
-        position: overlayPosition
+        position: overlayPosition,
+        zIndex: 2
       });
+
       if(i === index) overlay.setMap(map);
       kakao.maps.event.addListener(marker, 'click', () => {
         setIndex(i);
@@ -59,9 +59,10 @@ export default function Rank(){
       });
       kakao.maps.event.addListener(marker, 'mouseout', () => {
         if(i !== index) overlay.setMap(null);
-      })
+      });
     });
   }, [index, payload]);
+
 
   if(!token) return (
     <LoginRequired />

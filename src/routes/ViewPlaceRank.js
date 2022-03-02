@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { VIEW_PLACE_RANK_URL } from '@api';
 import { useFetch } from '@hooks';
@@ -15,8 +15,27 @@ export default function ViewPlaceRank(){
     [corpId]
   );
   const token = localStorage.getItem('token');
+  const [ sort, setSort ] = useState("rank");
 
   const mode = ['view', 'place'];
+  const maxRank = [31, 51];
+  const replaceString = ['>30', '>50'];
+
+  const sortedSectionList = useMemo(() => {
+    var sectionList = payload?.section;
+    sectionList?.sort((a, b) => {
+      return (a[sort==='rank' ? mode[tab] : 'searchAmount'] - b[sort==='rank' ? mode[tab] : 'searchAmount'])*(sort==='rank' ? 1 : -1);
+    });
+    return sectionList;
+  }, [sort, tab, payload]);
+
+  const sortedCategoryList = useMemo(() => {
+    var categoryList = payload?.category;
+    categoryList?.sort((a, b) => {
+      return (a[sort==='rank' ? mode[tab] : 'searchAmount'] - b[sort==='rank' ? mode[tab] : 'searchAmount'])*(sort==='rank' ? 1 : -1);
+    });
+    return categoryList;
+  }, [sort, tab, payload]);
 
   if(!token) return (
     <LoginRequired />
@@ -26,19 +45,27 @@ export default function ViewPlaceRank(){
     <S.Content>
       <S.Intro>검색 노출도</S.Intro>
       <S.SubIntro>키워드 검색 시 내 가게가 몇 번째로 노출되는지 알아보세요</S.SubIntro>
-      <S.Tabs>
-        <S.Tab isSelected={tab === 0} onClick={() => setTab(0)}>네이버 View</S.Tab>
-        <S.Tab isSelected={tab === 1} onClick={() => setTab(1)}>네이버 Place</S.Tab>
-      </S.Tabs>
+      <S.Toggles>
+        <S.Tabs>
+          <S.Tab isSelected={tab === 0} onClick={() => setTab(0)}>네이버 View</S.Tab>
+          <S.Tab isSelected={tab === 1} onClick={() => setTab(1)}>네이버 Place</S.Tab>
+        </S.Tabs>
+        <div>
+          <S.Select onChange={e => setSort(e.target.value)}>
+            <option value="rank" selected>노출도 순</option>
+            <option value="searchQty">검색량 순</option>
+          </S.Select>
+        </div>
+      </S.Toggles>
       <S.Box>
         <S.RankList>
           <S.KwCat>상권 키워드</S.KwCat>
           <S.Kws>
-            {payload?.section.map(rank => (
+            {sortedSectionList?.map(rank => (
               <S.Kw key={rank.keyword}>
                 <S.Word>{rank.keyword}</S.Word>
-                <S.Qty>최근 1개월 검색량 <S.Num>-</S.Num></S.Qty>
-                <S.Rank>{rank[mode[tab]] !== 51 ? rank[mode[tab]] : '>50'}위</S.Rank>
+                <S.Qty>최근 1개월 검색량 <S.Num>{rank.searchAmount.toLocaleString()}</S.Num></S.Qty>
+                <S.Rank>{rank[mode[tab]] !== maxRank[tab] ? rank[mode[tab]] : replaceString[tab]}위</S.Rank>
               </S.Kw>
             ))}
             {(payload && !payload.section.length) && '키워드가 없습니다'}
@@ -49,11 +76,11 @@ export default function ViewPlaceRank(){
         <S.RankList>
           <S.KwCat>업종 키워드</S.KwCat>
           <S.Kws>
-            {payload?.category.map(rank => (
+            {sortedCategoryList?.map(rank => (
               <S.Kw key={rank.keyword}>
                 <S.Word>{rank.keyword}</S.Word>
-                <S.Qty>최근 1개월 검색량 <S.Num>-</S.Num></S.Qty>
-                <S.Rank>{rank[mode[tab]] !== 51 ? rank[mode[tab]] : '>50'}위</S.Rank>
+                <S.Qty>최근 1개월 검색량 <S.Num>{rank.searchAmount.toLocaleString()}</S.Num></S.Qty>
+                <S.Rank>{rank[mode[tab]] !== maxRank[tab] ? rank[mode[tab]] : replaceString[tab]}위</S.Rank>
               </S.Kw>
             ))}
             {(payload && !payload.category.length) && '키워드가 없습니다'}
@@ -76,6 +103,14 @@ S.Content = styled.div`
   padding-bottom: 60px;
 `;
 
+S.Toggles = styled.div`
+  display: flex;
+  width: 60%;
+  margin-top: 40px;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 S.Intro = styled.div`
   width: 60%;
   max-width: 1200px;
@@ -93,9 +128,6 @@ S.SubIntro = styled.div`
 
 S.Tabs = styled.div`
   display: flex;
-  width: 60%;
-  max-width: 1200px;
-  margin-top: 40px;
 `;
 
 S.Tab = styled.div`
@@ -151,8 +183,9 @@ S.Qty = styled.div`
 `;
 
 S.Num = styled.div`
-  font-weight: bold;
+  font-weight: 600;
   margin-left: 5px;
+  font-family: 'Montserrat';
 `;
 
 S.Box = styled.div`
@@ -167,4 +200,17 @@ S.Kws = styled.div`
   padding: 20px 0;
   align-items: center;
   flex-wrap: wrap;
+`;
+
+S.Select = styled.select`
+  padding: 5px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  &:hover{
+    cursor: pointer;
+  }
+  &:focus{
+    outline: none;
+  }
 `;
