@@ -21,7 +21,7 @@ export default function CorpAuth(){
 
   const addUser = (email, tier) => {
     const body = {
-      corpId: corpId,
+      corpId: corpId*1,
       permissionList: [...payload?.permissionList, { email: email, level: tier*1 }]
     };
     axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(() => setTrigger(t => !t));
@@ -31,7 +31,7 @@ export default function CorpAuth(){
 
   const deleteUser = i => {
     const body = {
-      corpId: corpId,
+      corpId: corpId*1,
       permissionList: payload?.permissionList.filter((value, index) => index !== i)
     };
     axios.post(CORP_AUTH_URL + corpId, body, tokenHeader).then(() => setTrigger(t => !t));

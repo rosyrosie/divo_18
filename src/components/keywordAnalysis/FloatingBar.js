@@ -4,7 +4,7 @@ import { useFetch } from '@hooks';
 import { PLACE_KEYWORD_URL } from '@api';
 
 export default function FloatingBar(){
-  const { corpId } = useParams();
+  const { corpId, keyword } = useParams();
   const navigate = useNavigate();
   const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
   
@@ -21,7 +21,7 @@ export default function FloatingBar(){
         <S.KwCat>브랜드 키워드</S.KwCat>
         <S.KwScroll>
           {payload?.brand.map(word => (
-            <S.Kw key={word} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
+            <S.Kw key={word} isSelected={word === keyword} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
           ))}
         </S.KwScroll>
       </details>
@@ -29,7 +29,7 @@ export default function FloatingBar(){
         <S.KwCat>상권 키워드</S.KwCat>
         <S.KwScroll>
           {payload?.section.map(word => (
-            <S.Kw key={word} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
+            <S.Kw key={word} isSelected={word === keyword} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
           ))}
         </S.KwScroll>
       </details>
@@ -37,7 +37,7 @@ export default function FloatingBar(){
         <S.KwCat>업종 키워드</S.KwCat>
         <S.KwScroll>
           {payload?.category.map(word => (
-            <S.Kw key={word} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
+            <S.Kw key={word} isSelected={word === keyword} onClick={() => navigate(CORP_URL + '/keyword-analysis/keyword=' + word)}>{word}</S.Kw>
           ))}
         </S.KwScroll>
       </details>
@@ -97,4 +97,5 @@ S.Kw = styled.div`
     cursor: pointer;
     opacity: 1;
   }
+  ${props => props.isSelected && ''}
 `;

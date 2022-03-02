@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { VIEW_PLACE_RANK_URL } from '@api';
 import { useFetch } from '@hooks';
 import LoginRequired from '@/components/errorPage/LoginRequired';
+import CorpRequired from '@/components/errorPage/CorpRequired';
 
 export default function ViewPlaceRank(){
   const [ tab, setTab ] = useState(0); //0: view, 1: place
@@ -39,6 +40,10 @@ export default function ViewPlaceRank(){
 
   if(!token) return (
     <LoginRequired />
+  );
+
+  if(corpId === '0') return (
+    <CorpRequired />
   );
 
   return (

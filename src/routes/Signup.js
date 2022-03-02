@@ -9,7 +9,7 @@ export default function Signup(){
 
   const navigate = useNavigate();
 
-  const [ agreed, setAgreed ] = useState(false);
+  const [ agreed, setAgreed ] = useState(true);
   const [ phoneCheck, setPhoneCheck ] = useState(false);
   const [ phoneAuth, setPhoneAuth ] = useState(false);
   const [ authCode, setAuthCode ] = useState('');
