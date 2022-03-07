@@ -23,7 +23,7 @@ export default function Community(){
               <S.Board>버그</S.Board>
               <S.Board>공지사항</S.Board>
             </S.Category>
-            <S.Alarm><i class="fas fa-bell"></i></S.Alarm> 
+            <S.Alarm><i className="fas fa-bell"></i></S.Alarm> 
           </S.Flex>
         </S.CHeader>
         <S.Posts>
@@ -73,7 +73,7 @@ export default function Community(){
         <S.Footer>
           <S.Search>
             <S.SearchIcon>
-              <i class="fas fa-search"></i>
+              <i className="fas fa-search"></i>
             </S.SearchIcon>
             <S.Input placeholder="검색어를 입력하세요"/>
           </S.Search>

@@ -32,7 +32,7 @@ export default function Home(){
         <S.Title>당신의 매장을 책임질</S.Title>
         <S.Title>단 하나의 솔루션</S.Title>
         <S.SubTitle>매출 관리부터 마케팅까지</S.SubTitle>
-        <S.Down><i class="fas fa-chevron-down"></i></S.Down>
+        <S.Down><i className="fas fa-chevron-down"></i></S.Down>
       </S.Box>
       <S.ImgBox>
         <S.Flex>

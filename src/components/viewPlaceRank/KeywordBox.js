@@ -16,9 +16,9 @@ export default function KeywordBox({ rank, index, tab, list, clickKeyword }){
           <S.Delta sign={sign}>
             <S.Icon>
               {sign > 0 ? 
-                <i class="fas fa-caret-up"></i> :
+                <i className="fas fa-caret-up"></i> :
               sign < 0 ?
-                <i class="fas fa-caret-down"></i> :
+                <i className="fas fa-caret-down"></i> :
                 <S.Zero>-</S.Zero>
               }
             </S.Icon>

@@ -23,17 +23,17 @@ export default function ChartModal({ modalRef, setShowModal, chartKeyword, setCh
       <S.Modal ref={modalRef}>
         <S.Title>
           {chartKeyword.list?.[chartKeyword.index].keyword}
-          <div onClick={() => setShowModal(false)}><i class="fas fa-times"></i></div>
+          <div onClick={() => setShowModal(false)}><i className="fas fa-times"></i></div>
         </S.Title>
         <S.ChartBox>
           <S.Arrow direction='left' onClick={decreaseIndex} inactive={chartKeyword.index === 0}>
-            <i class="fas fa-angle-left"></i>
+            <i className="fas fa-angle-left"></i>
           </S.Arrow>
           <S.Chart>
             {chartData && <Line options={lineOptions('위', false, false, true, true)} data={applyStyleToChart(chartData, 'light')} />}
           </S.Chart>
           <S.Arrow direction='right' onClick={increaseIndex} inactive={chartKeyword.index === chartKeyword.list.length-1}>
-            <i class="fas fa-angle-right"></i>
+            <i className="fas fa-angle-right"></i>
           </S.Arrow>
         </S.ChartBox>
       </S.Modal>

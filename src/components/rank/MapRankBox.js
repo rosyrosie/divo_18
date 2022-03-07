@@ -21,7 +21,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           <S.PartialRank>
             <S.Flex>
               <S.InfoIcon>
-                <i class="fas fa-globe"></i>
+                <i className="fas fa-globe"></i>
               </S.InfoIcon>
               내 상권에서
             </S.Flex>
@@ -30,7 +30,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           <S.PartialRank>
             <S.Flex>
               <S.InfoIcon>
-                <i class="fas fa-utensils"></i>
+                <i className="fas fa-utensils"></i>
               </S.InfoIcon>
               내 업종에서
             </S.Flex>
@@ -39,7 +39,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           <S.PartialRank>
             <S.Flex>
               <S.InfoIcon>
-                <i class="fas fa-map-marker-alt"></i>
+                <i className="fas fa-map-marker-alt"></i>
               </S.InfoIcon>
               내 상권 속 업종에서
             </S.Flex>
@@ -49,7 +49,7 @@ export default function MapRankBox({ corp, fold, setFold }){
       }
       <S.Fold onClick={() => setFold(f => !f)} fold={fold}>
         <S.FoldIcon>
-          <i class={fold ? "fas fa-caret-right" : "fas fa-caret-left"}></i>
+          <i className={fold ? "fas fa-caret-right" : "fas fa-caret-left"}></i>
         </S.FoldIcon>
       </S.Fold>
     </>

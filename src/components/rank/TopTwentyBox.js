@@ -18,7 +18,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
     <S.Sidebar>
       <S.Leaderboard>
         <S.Box onClick={() => setShowRank(s => !s)}>
-          <S.Title>내 주변 상위 20개 점포<S.Icon><i class={showRank ? "fas fa-angle-up" : "fas fa-angle-down"}></i></S.Icon></S.Title>
+          <S.Title>내 주변 상위 20개 점포<S.Icon><i className={showRank ? "fas fa-angle-up" : "fas fa-angle-down"}></i></S.Icon></S.Title>
         </S.Box>
         <S.MyRankBox onClick={() => onClickCorp(0)}>
           <S.MyRank>
