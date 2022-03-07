@@ -35,7 +35,7 @@ export default function SalesTrend({ trendRef }){
           </S.Tabs>
         </S.Comment>
         <S.Line>
-          {payload && <Line options={lineOptions('원', true)} data={applyStyleToChart(payload?.totalGraph, 'trend')} />}
+          {payload?.totalGraph && <Line options={lineOptions('원', true)} data={applyStyleToChart(payload?.totalGraph, 'trend')} />}
         </S.Line>
       </S.Width>
     </S.Fill>
