@@ -83,7 +83,7 @@ S.Corp = styled.div`
   border-radius: 20px;
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
   background: white;
-  padding: 30px;
+  padding: 25px;
   min-width: 260px;
   width: 260px;
   display: flex;
@@ -97,6 +97,8 @@ S.Flex = styled.div`
   display: flex;
   max-width: 60%;
   flex-wrap: wrap;
+  max-height: 690px;
+  overflow-y: auto;
 `;
 
 S.Col = styled.div`
@@ -114,6 +116,6 @@ S.Link = styled.div`
 S.Title = styled.div`
   color: #1d1d1f;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   flex-wrap: wrap;
 `;
