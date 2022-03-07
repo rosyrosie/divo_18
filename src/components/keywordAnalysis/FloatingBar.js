@@ -91,11 +91,10 @@ S.Kw = styled.div`
   justify-content: center;
   font-size: 14px;
   border-bottom: 1px solid #f5f5f733;
-  opacity: .8;
-  transition: opacity 0.3s;
   &:hover{
+    color: #1d1d1f;
+    background: #e5e5e5;
     cursor: pointer;
-    opacity: 1;
   }
-  ${props => props.isSelected && ''}
+  ${props => props.isSelected && 'color: #1d1d1f; background: #e5e5e5;'}
 `;
