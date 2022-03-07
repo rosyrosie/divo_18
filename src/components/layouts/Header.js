@@ -26,8 +26,11 @@ export default function Header({ sticky = false, dark = true }){
     DEL_CORP_URL + corpId,
     null,
     'GET',
-    [corpId]
+    [corpId],
+    corpId !== undefined
   );
+
+  console.log(corpId)
 
   const handleLogin = e => {
     e.preventDefault();
