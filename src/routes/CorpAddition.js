@@ -60,8 +60,6 @@ export default function CorpAddition(){
     <LoginRequired />
   );
 
-  console.log(payload);
-
   return (
     <S.Content>
       <S.Text>브랜드 추가</S.Text>

@@ -1,7 +1,7 @@
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { salesLineData, lineOptions } from '@constants';
-import { dateToString, applyColorToChart } from '@functions';
+import { dateToString, applyColorToChart, lastMonthDay } from '@functions';
 import { addDays } from 'date-fns';
 import { useState } from 'react';
 import { useFetch } from '@hooks';
@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 export default function SearchQtyChart(){
   const { keyword } = useParams();
   const [ startDate, setStartDate ] = useState(new Date(2016, 0, 1));
-  const [ endDate, setEndDate ] = useState(addDays(new Date(), -1));
+  const [ endDate, setEndDate ] = useState(lastMonthDay());
 
   const { payload, error } = useFetch(
     KA_QTY_CHART_URL(keyword, dateToString(startDate), dateToString(endDate), 0),

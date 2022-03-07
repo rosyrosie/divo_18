@@ -46,6 +46,12 @@ export const dateToString = (date, scale = 0) => {
   }
 }
 
+export const lastMonthDay = () => {
+  let today = new Date();
+  today.setDate(0);
+  return today;
+}
+
 //section order
 export const createSectionOrderString = (orderList) => {
   let string = '';
