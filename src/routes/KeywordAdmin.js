@@ -21,6 +21,8 @@ export default function KeywordAdmin(){
   const [ newSec, setNewSec ] = useState('');
   const [ newCat, setNewCat ] = useState('');
 
+  const [ isChanging, setIsChanging ] = useState(false);
+
   const [ keywordSet, setKeywordSet ] = useState({brand: [], rel: [], section: [], category: []});
 
   useEffect(() => {
@@ -58,11 +60,15 @@ export default function KeywordAdmin(){
 
   const onSubmit = e => {
     e.preventDefault();
+    setIsChanging(true);
     const body = {
       id: corpId,
       data: keywordSet
     };
-    axios.post(UP_LIST_URL, body, tokenHeader).then(res => res.data.message === 'success' ? alert('변경이 완료되었습니다') : null);
+    axios.post(UP_LIST_URL, body, tokenHeader).then(res => {
+      setIsChanging(false);
+      res.data.message === 'success' ? alert('변경이 완료되었습니다') : alert('에러가 발생했습니다\n다시 시도해주세요');
+    });
   }
 
   if(corpId === '0'){
@@ -119,7 +125,7 @@ export default function KeywordAdmin(){
           </S.Words>
         </S.Box>
       </S.Flex>
-      <S.Button onClick={onSubmit}>변경</S.Button>
+      <S.Button error={isChanging} onClick={!isChanging ? onSubmit : null}>{!isChanging ? '변경' : '변경 중'}</S.Button>
     </S.Content>
   );
 }
