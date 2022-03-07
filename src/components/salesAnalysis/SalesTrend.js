@@ -7,10 +7,9 @@ import { SA_TREND_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useParams } from 'react-router-dom';
 
-export default function SalesTrend({ trendRef, recentSalesData }){
+export default function SalesTrend({ trendRef }){
   const { corpId } = useParams();
   const [ tab, setTab ] = useState(0);
-  const lineData = recentSalesData?.graph;
   const tabToScale = ['31d', '13w', '26w', '52w', '24m', 'tot'];
 
   const { payload, error } = useFetch(
@@ -19,8 +18,6 @@ export default function SalesTrend({ trendRef, recentSalesData }){
     'GET',
     [tab]
   );
-
-  console.log(payload?.totalGraph);
 
   return (
     <S.Fill color={'white'} id="sales-trend" ref={trendRef}>
