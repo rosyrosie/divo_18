@@ -14,6 +14,7 @@ import SyncYeoshin from "@/routes/SyncYeoshin";
 import Rank from "@/routes/Rank";
 import Community from "@/routes/Community";
 import ViewPlaceRank from "@/routes/ViewPlaceRank";
+import FindIdPw from "@/routes/FindIdPw";
 
 export default function App(){
 
@@ -30,6 +31,7 @@ export default function App(){
         { path: '/rank', element: <Rank /> },
         { path: '/community', element: <Community /> },
         { path: '/vp-rank', element: <ViewPlaceRank /> },
+        { path: '/findidpw', element: <FindIdPw /> }
       ],
     },
     {

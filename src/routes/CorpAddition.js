@@ -3,11 +3,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import LoginRequired from '@/components/errorPage/LoginRequired';
-import { ADD_CORP_URL, FIND_PLACE_URL } from '@api';
+import { ADD_CORP_URL, FIND_PLACE_URL, MAKE_PLACE_URL } from '@api';
 import { useFetch } from '@hooks';
 
 export default function CorpAddition(){
   const token = localStorage.getItem('token');
+  const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const [ input, setInput ] = useState('');
   const [ query, setQuery ] = useState(null);
   const { payload, error } = useFetch(
@@ -20,6 +21,7 @@ export default function CorpAddition(){
 
   const navigate =  useNavigate();
   const corpList = payload?.corpInfo;
+  const isNewPlace = !(payload?.already);
 
   const getCorpList = e => {
     if(e.key !== 'Enter') return;
@@ -32,7 +34,6 @@ export default function CorpAddition(){
       placeId: id,
       corpName: name
     };
-    const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
     axios.post(ADD_CORP_URL, body, tokenHeader).then(res => {
       if(res.data.message==='success'){
         alert('브랜드가 추가되었습니다.');
@@ -45,11 +46,21 @@ export default function CorpAddition(){
     });
   }
 
+  const addNewCorp = (corp) => {
+    axios.post(MAKE_PLACE_URL, corp, tokenHeader).then(res => {
+      if(res.data.message === 'success'){
+        addCorp(res.data.id, corp.name);
+      }
+    });
+  }
+
   const noCorps = query && !corpList?.length && corpList;
 
   if(!token) return (
     <LoginRequired />
   );
+
+  console.log(payload);
 
   return (
     <S.Content>
@@ -57,7 +68,7 @@ export default function CorpAddition(){
       <S.Input placeholder="추가할 브랜드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={getCorpList} />
       <S.CorpBox>
         {corpList?.map((corp, i) => (
-          <S.Corp index={i} onClick={() => addCorp(corp.id, corp.name)} key={corp.id}>
+          <S.Corp index={i} onClick={() => isNewPlace ? addNewCorp(corp) :addCorp(corp.id, corp.name)} key={corp.id}>
             <S.Name>{corp.name}</S.Name>
             <S.Adr>{corp.address}</S.Adr>
           </S.Corp>

@@ -4,13 +4,17 @@ export const LOGIN_URL = BASE_URL + 'auth/login/';
 export const AUTH_URL = BASE_URL + 'auth/register/message/';
 export const REGISTER_URL = BASE_URL + 'auth/register/telephone/';
 export const CORPLIST_URL = BASE_URL + 'auth/user/corporation';
+export const OLD_AUTH_URL = BASE_URL + 'auth/account/find/';
+export const RESET_URL = BASE_URL + 'auth/account/reset/';
 export const CORP_AUTH_URL = BASE_URL + 'corporation/permission/?corp_id=';
+
 
 export const GET_YS_CAT_URL = BASE_URL + 'corporation/yeoshin/sync/';
 export const SYNC_YS_URL = BASE_URL + 'corporation/yeoshin/';
 export const SYNC_SALES_URL = BASE_URL + 'corporation/sales/sync/';
 
 export const FIND_PLACE_URL = BASE_URL + 'place/find?query=';
+export const MAKE_PLACE_URL = BASE_URL + 'place/makePlace';
 export const ADD_CORP_URL = BASE_URL + 'corporation/';
 export const DEL_CORP_URL = BASE_URL + 'corporation/?corp_id=';
 

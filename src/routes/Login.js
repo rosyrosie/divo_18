@@ -41,6 +41,7 @@ export default function Login(){
         <S.Input placeholder="비밀번호" type="password" value={pwd} onChange={e => setPwd(e.target.value)} onKeyPress={e => e.key==='Enter' ? handleLogin(e) : null} />
         <S.Button onClick={handleLogin}>로그인</S.Button>
         <S.SignUp>회원이 아니신가요?<S.Blue onClick={() => navigate('/signup')}>회원가입하기</S.Blue></S.SignUp>
+        <S.SignUp>계정을 잊어버리셨나요?<S.Blue onClick={() => navigate('/findidpw')}>아이디·비밀번호 찾기</S.Blue></S.SignUp>
       </S.Content>
       <S.Content />
     </>
