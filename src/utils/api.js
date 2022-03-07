@@ -35,5 +35,6 @@ export const PLACE_KEYWORD_URL = corpId => BASE_URL + 'placekeyword/list?id=' + 
 export const UP_LIST_URL = BASE_URL + 'placekeyword/uplist';
 
 export const VIEW_PLACE_RANK_URL = BASE_URL + 'rank/rank?id=';
+export const RANK_CHART_URL = (id, keyword, cat) => BASE_URL + `rank/graph?id=${id}&keyword=${keyword}&cat=${cat}`;
 
 export const MAP_URL = BASE_URL + 'omrank/omrank?id=';

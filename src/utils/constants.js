@@ -91,55 +91,68 @@ export const compareChartUnit = ['원', '원', '건', '%', '%'];
 
 //chart options
 
-export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true) => (
-  Object.assign({
-    maintainAspectRatio: maintainAspectRatio,
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        display: showLegend
-      },
-      tooltip: {
-        callbacks: {
-          label: tooltipItem => {
-            if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
-          }
-        }
-      }
-    },
-    interaction: {
-      intersect: false,
-      mode: 'index'
-    },
-  }, isWhite ? 
-    {
-      scales: {
-        x: {
-          grid: {
-            borderColor: 'rgba(245, 245, 247, 0.3)',
-            color: 'rgba(245, 245, 247, 0.3)',
-            tickColor: 'rgba(245, 245, 247, 0.3)'
+export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false) => (
+  Object.assign(
+    Object.assign(
+      {
+        maintainAspectRatio: maintainAspectRatio,
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            display: showLegend
           },
-          ticks: {
-            color: 'rgba(245, 245, 247, 0.8)'
+          tooltip: {
+            callbacks: {
+              label: tooltipItem => {
+                if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+              }
+            }
           }
         },
-        y: {
-          grid: {
-            borderColor: 'rgba(245, 245, 247, 0.3)',
-            color: 'rgba(245, 245, 247, 0.3)',
-            tickColor: 'rgba(245, 245, 247, 0.3)'
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+      }, isWhite ? 
+      {
+        scales: {
+          x: {
+            grid: {
+              borderColor: 'rgba(245, 245, 247, 0.3)',
+              color: 'rgba(245, 245, 247, 0.3)',
+              tickColor: 'rgba(245, 245, 247, 0.3)'
+            },
+            ticks: {
+              color: 'rgba(245, 245, 247, 0.8)'
+            }
           },
-          ticks: {
-            color: 'rgba(245, 245, 247, 0.8)'
+          y: {
+            grid: {
+              borderColor: 'rgba(245, 245, 247, 0.3)',
+              color: 'rgba(245, 245, 247, 0.3)',
+              tickColor: 'rgba(245, 245, 247, 0.3)'
+            },
+            ticks: {
+              color: 'rgba(245, 245, 247, 0.8)'
+            }
           }
-        }
+        },
+        color: 'rgba(245, 245, 247, 0.8)'
+      } 
+      : 
+      {}
+    )
+  , forRank ? {
+    scales: {
+      y: {
+        ticks: {
+          stepSize: 1,
+        },
+        reverse: true
       },
-      color: 'rgba(245, 245, 247, 0.8)'
-    } 
-    : 
-    {}
+    }
+  } : {}
   )
 );
 
