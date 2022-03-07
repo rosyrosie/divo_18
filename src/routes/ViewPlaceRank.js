@@ -6,9 +6,8 @@ import { useFetch } from '@hooks';
 import LoginRequired from '@/components/errorPage/LoginRequired';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useDetectOutsideClick } from '@hooks';
-import { Line } from 'react-chartjs-2';
-import { lineOptions } from '@constants';
-import { applyStyleToChart } from '@functions';
+import KeywordBox from '@/components/viewPlaceRank/KeywordBox';
+import ChartModal from '@/components/viewPlaceRank/ChartModal';
 
 export default function ViewPlaceRank(){
   const mode = ['view', 'place'];
@@ -38,9 +37,6 @@ export default function ViewPlaceRank(){
   );
   const chartData = chartPayload?.rankGraph;
 
-  const maxRank = [31, 51];
-  const replaceString = ['30+', '50+'];
-
   const sortedSectionList = useMemo(() => {
     var sectionList = payload?.section;
     sectionList?.sort((a, b) => {
@@ -65,20 +61,6 @@ export default function ViewPlaceRank(){
     setShowModal(true);
   }
 
-  const decreaseIndex = () => {
-    if(chartKeyword.index === 0) return;
-    const newChartKeyword = Object.assign({}, chartKeyword);
-    newChartKeyword.index = newChartKeyword.index - 1;
-    setChartKeyword(newChartKeyword);
-  };
-
-  const increaseIndex = () => {
-    if(chartKeyword.index === chartKeyword.list.length - 1) return;
-    const newChartKeyword = Object.assign({}, chartKeyword);
-    newChartKeyword.index = newChartKeyword.index + 1;
-    setChartKeyword(newChartKeyword);
-  }
-
   if(!token) return (
     <LoginRequired />
   );
@@ -86,8 +68,6 @@ export default function ViewPlaceRank(){
   if(corpId === '0') return (
     <CorpRequired />
   );
-
-  console.log(chartKeyword);
 
   return (
     <>
@@ -110,31 +90,9 @@ export default function ViewPlaceRank(){
           <S.RankList>
             <S.KwCat>상권 키워드</S.KwCat>
             <S.Kws>
-              {sortedSectionList?.map((rank, index) => {
-                const sign = rank[mode[tab]+'Delta'] > 0 ? 1 : rank[mode[tab]+'Delta'] === 0 ? 0 : -1;
-                return (
-                  <S.Fit key={rank.keyword}>
-                    <S.Kw onClick={() => clickKeyword(sortedSectionList, index)}>
-                      <S.Word>{rank.keyword}</S.Word>
-                      <S.Qty>최근 1개월 검색량 <S.Num>{rank.searchAmount.toLocaleString()}</S.Num></S.Qty>
-                      <S.Rank>
-                        {rank[mode[tab]] !== maxRank[tab] ? rank[mode[tab]] : replaceString[tab]}위
-                        <S.Delta sign={sign}>
-                          <S.Icon>
-                            {sign > 0 ? 
-                              <i class="fas fa-caret-up"></i> :
-                            sign < 0 ?
-                              <i class="fas fa-caret-down"></i> :
-                              <S.Zero>-</S.Zero>
-                            }
-                          </S.Icon>
-                          {Math.abs(rank[mode[tab] + 'Delta']) || ''}
-                        </S.Delta>
-                      </S.Rank>
-                    </S.Kw>
-                  </S.Fit>
-                );
-              })}
+              {sortedSectionList?.map((rank, index) => (
+                <KeywordBox rank={rank} index={index} tab={tab} list={sortedSectionList} clickKeyword={clickKeyword} />
+              ))}
               {(payload && !sortedSectionList.length) && '키워드가 없습니다'}
             </S.Kws>
           </S.RankList>
@@ -143,31 +101,9 @@ export default function ViewPlaceRank(){
           <S.RankList>
             <S.KwCat>업종 키워드</S.KwCat>
             <S.Kws>
-              {sortedCategoryList?.map((rank, index) => {
-                const sign = rank[mode[tab]+'Delta'] > 0 ? 1 : rank[mode[tab]+'Delta'] === 0 ? 0 : -1;
-                return (
-                  <S.Fit key={rank.keyword}>
-                    <S.Kw onClick={() => clickKeyword(sortedCategoryList, index)}>
-                      <S.Word>{rank.keyword}</S.Word>
-                      <S.Qty>최근 1개월 검색량 <S.Num>{rank.searchAmount.toLocaleString()}</S.Num></S.Qty>
-                      <S.Rank>
-                        {rank[mode[tab]] !== maxRank[tab] ? rank[mode[tab]] : replaceString[tab]}위
-                        <S.Delta sign={sign}>
-                          <S.Icon>
-                            {sign > 0 ? 
-                              <i class="fas fa-caret-up"></i> :
-                            sign < 0 ?
-                              <i class="fas fa-caret-down"></i> :
-                              <S.Zero>-</S.Zero>
-                            }
-                          </S.Icon>
-                          {Math.abs(rank[mode[tab] + 'Delta']) || ''}
-                        </S.Delta>
-                      </S.Rank>
-                    </S.Kw>
-                  </S.Fit>
-                );
-              })}
+              {sortedCategoryList?.map((rank, index) => (
+                <KeywordBox rank={rank} index={index} tab={tab} list={sortedCategoryList} clickKeyword={clickKeyword} />
+              ))}
               {(payload && !sortedCategoryList.length) && '키워드가 없습니다'}
             </S.Kws>
           </S.RankList>
@@ -175,87 +111,13 @@ export default function ViewPlaceRank(){
       </S.Content>
       {
         showModal &&
-        <S.Body>
-          <S.Modal ref={modalRef}>
-            <S.Title>
-              {chartKeyword.list?.[chartKeyword.index].keyword}
-              <div onClick={() => setShowModal(false)}><i class="fas fa-times"></i></div>
-            </S.Title>
-            <S.ChartBox>
-              <S.Arrow direction='left' onClick={decreaseIndex} inactive={chartKeyword.index === 0}>
-                <i class="fas fa-angle-left"></i>
-              </S.Arrow>
-              <S.Chart>
-                {chartData && <Line options={lineOptions('위', false, false, true, true)} data={applyStyleToChart(chartData, 'light')} />}
-              </S.Chart>
-              <S.Arrow direction='right' onClick={increaseIndex} inactive={chartKeyword.index === chartKeyword.list.length-1}>
-                <i class="fas fa-angle-right"></i>
-              </S.Arrow>
-            </S.ChartBox>
-          </S.Modal>
-        </S.Body> 
+        <ChartModal modalRef={modalRef} setShowModal={setShowModal} chartKeyword={chartKeyword} setChartKeyword={setChartKeyword} chartData={chartData} />
       }
     </>
   );
 }
 
 const S = {};
-
-S.Body = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  //background: rgba(0, 0, 0, 0.8);
-  z-index: 4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`;
-
-S.Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  color: #1d1d1f;
-  font-size: 18px;
-  font-weight: bold;
-`;
-
-S.ChartBox = styled.div`
-  width: 50vw;
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-S.Chart = styled.div`
-  width: 90%;
-`;
-
-S.Arrow = styled.div`
-  display: flex;
-  justify-content: ${props => props.direction};
-  align-items: center;
-  flex: 1;
-  font-size: 18px;
-  &:hover{
-    cursor: pointer;
-  }
-  ${props => props.inactive && 'visibility: hidden;'}
-`;
-
-
-S.Modal = styled.div`
-  background: white;
-  border-radius: 20px;
-  display: flex;
-  flex-flow: column;
-  padding: 30px;
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-`;
 
 S.Content = styled.div`
   flex: 1;
@@ -265,10 +127,6 @@ S.Content = styled.div`
   align-items: center;
   color: #1d1d1f;
   padding-bottom: 60px;
-`;
-
-S.Zero = styled.div`
-  font-size: 32px;
 `;
 
 S.Toggles = styled.div`
@@ -320,39 +178,6 @@ S.KwCat = styled.div`
   margin-bottom: 10px;
 `;
 
-S.Kw = styled.div`
-  display: flex;
-  flex-flow: column;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-  padding: 30px;
-  margin: 5px;
-  flex: 1;
-  &:hover{
-    cursor: pointer;
-    transform: scale(1.02);
-  }
-  transition: .3s;
-`;
-
-S.Word = styled.div`
-  font-size: 15px;
-  margin-bottom: 10px;
-`;
-
-S.Qty = styled.div`
-  font-size: 13px;
-  color: #515154;
-  display: flex;
-`;
-
-S.Num = styled.div`
-  font-weight: 600;
-  margin-left: 5px;
-  font-family: 'Montserrat';
-`;
-
 S.Box = styled.div`
   width: 60%;
 `;
@@ -376,31 +201,4 @@ S.Select = styled.select`
   &:focus{
     outline: none;
   }
-`;
-
-S.Fit = styled.div`
-  width: 20%;
-  display: flex;
-`;
-
-S.Rank = styled.div`
-  font-weight: 600;
-  font-family: 'Montserrat', 'SUIT';
-  font-size: 28px;
-  margin-top: 30px;
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-`;
-
-S.Delta = styled.div`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: ${props => props.sign===1 ? '#de071c' : !props.sign ? '#1d1d1f' : '#06c'};
-`;
-
-S.Icon = styled.div`
-  font-size: 16px;
-  margin-right: 3px;
 `;
