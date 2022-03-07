@@ -30,8 +30,6 @@ export default function Header({ sticky = false, dark = true }){
     corpId !== undefined
   );
 
-  console.log(corpId)
-
   const handleLogin = e => {
     e.preventDefault();
     navigate('/login');
