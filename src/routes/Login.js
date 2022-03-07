@@ -12,7 +12,6 @@ export default function Login(){
   const [ pwd, setPwd ] = useState('');
 
   const handleLogin = e => {
-    if(e.key !== 'Enter') return;
     const body = {
       email: id,
       password: pwd
@@ -39,7 +38,8 @@ export default function Login(){
       <S.Content>
         <S.Text>로그인하기</S.Text>
         <S.Input placeholder="이메일 또는 전화번호" type="email" value={id} onChange={e => setId(e.target.value.replaceAll('-', ''))} />
-        <S.Input placeholder="비밀번호" type="password" value={pwd} onChange={e => setPwd(e.target.value)} onKeyPress={handleLogin} />
+        <S.Input placeholder="비밀번호" type="password" value={pwd} onChange={e => setPwd(e.target.value)} onKeyPress={e => e.key==='Enter' ? handleLogin(e) : null} />
+        <S.Button onClick={handleLogin}>로그인</S.Button>
         <S.SignUp>회원이 아니신가요?<S.Blue onClick={() => navigate('/signup')}>회원가입하기</S.Blue></S.SignUp>
       </S.Content>
       <S.Content />
@@ -56,6 +56,16 @@ S.Content = styled.div`
   align-items: center;
   flex-flow: column;
   color: #1d1d1f;
+`;
+
+S.Button = styled.button`
+  margin-top: 10px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  color: rgba(245, 245, 247, 0.8);
+  background: #06c;
+  border: none;
+  ${props => !props.error ? '&:hover{cursor:pointer; color: #f5f5f7;}' : 'opacity: .3;'};
 `;
 
 S.Text = styled.div`
