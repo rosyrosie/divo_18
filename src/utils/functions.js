@@ -2,10 +2,13 @@ import { chartPalette } from "../styles/Colors";
 import { addDays } from 'date-fns';
 
 //chart functions
-export const applyColorToChart = (chartData, mode) => {
+export const applyStyleToChart = (chartData, mode) => {
   chartData?.datasets?.forEach((element, index) => {
     element.borderColor = chartPalette[mode][index] + 'ff';
     element.backgroundColor = chartPalette[mode][index] + '33';
+    if(mode === 'trend'){
+      if(index%2 === 1) element.borderDash = [10, 5];
+    }
   })
   return chartData;
 }

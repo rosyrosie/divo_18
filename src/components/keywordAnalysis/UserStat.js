@@ -5,7 +5,7 @@ import { barOptions, lineOptions, userStatComment } from '@constants';
 import { KA_CHART_URL } from '@api';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@hooks';
-import { applyColorToChart } from '@functions';
+import { applyStyleToChart } from '@functions';
 
 export default function UserStat({ userRef, userInView }){
   const [ tab, setTab ] = useState(0);
@@ -38,10 +38,10 @@ export default function UserStat({ userRef, userInView }){
           <S.Tab onClick={() => setTab(4)} isSelected={tab===4}>연령별</S.Tab>
         </S.Tabs>
         <S.Chart>
-          {payload && <Bar options={barOptions('%')} data={applyColorToChart(barData[tab], 'light')} />}
+          {payload && <Bar options={barOptions('%')} data={applyStyleToChart(barData[tab], 'light')} />}
         </S.Chart>
         <S.Chart>
-          {payload && <Line options={lineOptions('%')} data={applyColorToChart(lineData[tab], 'light')} />}
+          {payload && <Line options={lineOptions('%')} data={applyStyleToChart(lineData[tab], 'light')} />}
         </S.Chart>
       </S.Box>
     </S.Section>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { lineOptions } from '@constants';
-import { applyColorToChart } from '@functions';
+import { applyStyleToChart } from '@functions';
 
 export default function RecentSales({ salesRef, recentSalesData }){
   const [ tab, setTab ] = useState(0);
@@ -16,7 +16,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
           <S.Title>최근 매출 현황</S.Title>
           {pointData?.map((point, i) => (
             <S.LineTab last={i===2} isSelected={tab===i} onClick={() => setTab(i)} key={point.currDate}>
-              <S.TabTitle>{point.currDate}</S.TabTitle>
+              <S.TabTitle>{point.currDate} 매출액</S.TabTitle>
               <S.Sales>{point.currSales}</S.Sales>
               <S.Compare>
                 {!i ? '전주대비' : i===1 ? '전월대비' : '전년대비'}
@@ -26,7 +26,7 @@ export default function RecentSales({ salesRef, recentSalesData }){
           ))}
         </S.Text>
         <S.Line>
-          {lineData && <Line options={lineOptions('원', true)} data={applyColorToChart(lineData[tab], 'light')} />}
+          {lineData && <Line options={lineOptions('원', true)} data={applyStyleToChart(lineData[tab], 'light')} />}
         </S.Line>
       </S.Width>
     </S.Fill>

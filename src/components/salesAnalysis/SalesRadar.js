@@ -1,6 +1,6 @@
 import { Radar } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { applyColorToChart } from '@functions';
+import { applyStyleToChart } from '@functions';
 import { radarOptions } from '@constants';
 
 export default function SalesRadar({ radarRef, radarData }){
@@ -17,7 +17,7 @@ export default function SalesRadar({ radarRef, radarData }){
           <S.Comment>재방문 매출 비율은 자기 점포의 재방문 고객 수준을 다른 점포들과 비교하여 판단할 수 있도록 지수화한 지표입니다.</S.Comment>
         </S.Text>
         <S.Radar>
-          {radarData && <Radar options={radarOptions('', false)} data={applyColorToChart(radarData, 'light')} />}
+          {radarData && <Radar options={radarOptions('', false)} data={applyStyleToChart(radarData, 'light')} />}
         </S.Radar>
       </S.Width>
     </S.Fill>

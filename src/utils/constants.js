@@ -103,7 +103,7 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
       tooltip: {
         callbacks: {
           label: tooltipItem => {
-            return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+            if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
           }
         }
       }

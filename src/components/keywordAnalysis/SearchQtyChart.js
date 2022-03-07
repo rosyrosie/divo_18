@@ -1,7 +1,7 @@
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { salesLineData, lineOptions } from '@constants';
-import { dateToString, applyColorToChart, lastMonthDay } from '@functions';
+import { dateToString, applyStyleToChart, lastMonthDay } from '@functions';
 import { addDays } from 'date-fns';
 import { useState } from 'react';
 import { useFetch } from '@hooks';
@@ -22,7 +22,6 @@ export default function SearchQtyChart(){
   );
 
   const chartData = payload?.chart;
-  const trend = payload?.trend;
 
   return (
     <S.Section color={'white'}>
@@ -33,7 +32,7 @@ export default function SearchQtyChart(){
         <S.Comment>원하는 기간 동안의 검색량을 자유롭게 조회하세요.</S.Comment>
         <S.Chart>
           <S.ChartBox>
-            {payload && <Line options={lineOptions('', false)} data={applyColorToChart(chartData, 'light')} />}
+            {payload && <Line options={lineOptions('', false)} data={applyStyleToChart(chartData, 'light')} />}
           </S.ChartBox>
         </S.Chart>
       </S.Width>

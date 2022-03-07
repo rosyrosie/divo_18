@@ -73,6 +73,7 @@ export default function CorpAddition(){
         ))}
       </S.CorpBox>
       {noCorps && <S.NoCorp>검색된 브랜드가 없습니다</S.NoCorp>}
+      <S.Tip>찾으시는 브랜드가 없을 시 더 자세한 브랜드명을 검색해주세요</S.Tip>
     </S.Content>
   );
 }
@@ -86,6 +87,12 @@ S.Content = styled.div`
   align-items: center;
   flex-flow: column;
   color: #1d1d1f;
+`;
+
+S.Tip = styled.div`
+  color: #515154;
+  font-size: 14px;
+  margin-top: 40px;
 `;
 
 S.Input = styled.input`
@@ -109,6 +116,7 @@ S.Corp = styled.div`
     cursor: pointer;
     opacity: 1;
   }
+  width: 400px;
 `;
 
 S.Text = styled.div`
@@ -118,9 +126,8 @@ S.Text = styled.div`
 `;
 
 S.CorpBox = styled.div`
-  max-height: 300px;
+  max-height: 320px;
   overflow-y: auto;
-  margin-top: 20px;
   padding-right: 5px;
 `;
 

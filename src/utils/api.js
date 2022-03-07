@@ -29,6 +29,7 @@ export const KA_RELATIVE_URL = BASE_URL + 'keyword/relative?keyword=';
 
 export const SA_RADAR_URL = corpId => BASE_URL + `corporation/sales/${corpId}/summary`;
 export const SA_COMPARE_URL = corpId => BASE_URL + `corporation/sales/${corpId}/analysis`;
+export const SA_TREND_URL = corpId => BASE_URL + `corporation/sales/${corpId}/total?scale=`;
 
 export const PLACE_KEYWORD_URL = corpId => BASE_URL + 'placekeyword/list?id=' + corpId;
 export const UP_LIST_URL = BASE_URL + 'placekeyword/uplist';

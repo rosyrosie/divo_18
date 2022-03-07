@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
 import { lineOptions, salesLineData } from '@constants';
-import { applyColorToChart } from '@functions';
+import { applyStyleToChart } from '@functions';
 
 export default function MapRankBox({ corp, fold, setFold }){
   return (
@@ -16,7 +16,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           <S.InfoRank>{corp.rank}</S.InfoRank>
           <S.InfoDelta up={corp.delta >= 0}>{Math.abs(corp.delta)}위 {corp.delta >= 0 ? '상승' : '하락'}</S.InfoDelta>
           <S.InfoChart>
-            <Line options={lineOptions('', false, false, false)} data={applyColorToChart(salesLineData[0], 'dark')} />
+            <Line options={lineOptions('', false, false, false)} data={applyStyleToChart(salesLineData[0], 'dark')} />
           </S.InfoChart>
           <S.PartialRank>
             <S.Flex>

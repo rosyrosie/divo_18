@@ -9,17 +9,20 @@ import { useFetch } from '@hooks';
 import { SA_RADAR_URL } from '@api';
 import RecentSales from '@/components/salesAnalysis/RecentSales';
 import SyncRequired from '@/components/errorPage/SyncRequired';
+import SalesTrend from '@/components/salesAnalysis/SalesTrend';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();
   const [ radarRef, radarInView ] = useInView({ threshold: 0.01 });
   const [ salesRef, salesInView] = useInView({ threshold: 0.01 });
+  const [ trendRef, trendInView ] = useInView({ threshold: 0.01 });
   const [ compareRef, compareInView ] = useInView({ threshold: 0.01 });
 
   const activeTab = () => {
     if(radarInView) return 0;
     else if(salesInView) return 1;
-    else if(compareInView) return 2;
+    else if(trendInView) return 2;
+    else if(compareInView) return 3;
     return -1;
   }
   
@@ -65,11 +68,13 @@ export default function SalesAnalysis(){
         <S.Tabs>
           <S.Tab isSelected={activeTab()===0}><S.Link href="#sales-radar">매출 지표 분석</S.Link></S.Tab>
           <S.Tab isSelected={activeTab()===1}><S.Link href="#sales-qty">최근 매출 현황</S.Link></S.Tab>
-          <S.Tab isSelected={activeTab()===2}><S.Link href="#compare">점포 특성 분석</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===2}><S.Link href="#sales-trend">매출액 추세</S.Link></S.Tab>
+          <S.Tab isSelected={activeTab()===3}><S.Link href="#compare">점포 특성 분석</S.Link></S.Tab>
         </S.Tabs>
       </S.TabBox>
       <SalesRadar radarRef={radarRef} radarData={radarData} />
       <RecentSales salesRef={salesRef} recentSalesData={recentSalesData} />
+      <SalesTrend trendRef={trendRef} />
       <SalesCompare compareRef={compareRef} />
     </>
   );
