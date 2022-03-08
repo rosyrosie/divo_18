@@ -7,6 +7,7 @@ import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useDetectOutsideClick } from '@hooks';
 import KeywordBox from '@/components/viewPlaceRank/KeywordBox';
 import ChartModal from '@/components/viewPlaceRank/ChartModal';
+import NoAccess from '@/components/errorPage/NoAccess';
 
 export default function ViewPlaceRank(){
   const mode = ['view', 'place'];
@@ -66,6 +67,10 @@ export default function ViewPlaceRank(){
     <CorpRequired />
   );
 
+  if(payload?.message === 'unauthorized user') return (
+    <NoAccess />
+  );
+
   return (
     <>
       <S.Content>
@@ -90,7 +95,7 @@ export default function ViewPlaceRank(){
               {sortedSectionList?.map((rank, index) => (
                 <KeywordBox rank={rank} index={index} tab={tab} list={sortedSectionList} clickKeyword={clickKeyword} key={rank.keyword} />
               ))}
-              {(payload && !sortedSectionList.length) && '키워드가 없습니다'}
+              {(payload && !sortedSectionList?.length) && '키워드가 없습니다'}
             </S.Kws>
           </S.RankList>
         </S.Box>
@@ -101,7 +106,7 @@ export default function ViewPlaceRank(){
               {sortedCategoryList?.map((rank, index) => (
                 <KeywordBox rank={rank} index={index} tab={tab} list={sortedCategoryList} clickKeyword={clickKeyword} key={rank.keyword} />
               ))}
-              {(payload && !sortedCategoryList.length) && '키워드가 없습니다'}
+              {(payload && !sortedCategoryList?.length) && '키워드가 없습니다'}
             </S.Kws>
           </S.RankList>
         </S.Box>

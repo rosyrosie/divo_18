@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CorpRequired from "@/components/errorPage/CorpRequired"
 import { PLACE_KEYWORD_URL } from "@api";
 import { useFetch } from "@hooks";
+import NoAccess from "@/components/errorPage/NoAccess";
 
 export default function KeywordAnalysisBlank(){
   const { corpId } = useParams();
@@ -18,6 +19,10 @@ export default function KeywordAnalysisBlank(){
 
   if(corpId === '0') return (
     <CorpRequired />
+  );
+
+  if(keywordSet?.message === 'unauthorized user') return (
+    <NoAccess />
   );
 
   return (

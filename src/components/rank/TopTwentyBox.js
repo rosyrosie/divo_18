@@ -7,7 +7,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
   let brandList = [];
   for(var i=0; i<20; i++) brandList.push({ name: `브랜드 ${i}`, rank: i*1000});
 
-  const myCorp = corpList[0];
+  const myCorp = corpList?.[0];
 
   const onClickCorp = index => {
     setIndex(index);
@@ -23,22 +23,22 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
         <S.MyRankBox onClick={() => onClickCorp(0)}>
           <S.MyRank>
             <S.Flex>
-              <S.Num>{myCorp.inAreaRank}</S.Num>
-              <S.Brand>{myCorp.corpName}</S.Brand>
+              <S.Num>{myCorp?.inAreaRank}</S.Num>
+              <S.Brand>{myCorp?.corpName}</S.Brand>
             </S.Flex>
-            <S.Stat>{myCorp.rank}</S.Stat>
+            <S.Stat>{myCorp?.rank}</S.Stat>
           </S.MyRank>
         </S.MyRankBox>
         {showRank && 
           <S.Scroll>
-            {corpList.slice(1).map((corp, i) => (
-              <S.RankBox key={corp.rank} onClick={() => onClickCorp(i+1)}>
+            {corpList?.slice(1).map((corp, i) => (
+              <S.RankBox key={corp?.rank} onClick={() => onClickCorp(i+1)}>
                 <S.Rank>
                   <S.Flex>
                     <S.Num>{i+1}</S.Num>
-                    <S.Brand>{corp.corpName}</S.Brand>
+                    <S.Brand>{corp?.corpName}</S.Brand>
                   </S.Flex>
-                  <S.Stat>{corp.rank}</S.Stat>
+                  <S.Stat>{corp?.rank}</S.Stat>
                 </S.Rank>
               </S.RankBox>
             ))}

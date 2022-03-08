@@ -7,6 +7,7 @@ import TopTwentyBox from '@/components/rank/TopTwentyBox';
 import MapRankBox from '@/components/rank/MapRankBox';
 import { MAP_URL } from '@api';
 import { useFetch } from '@hooks';
+import NoAccess from '@/components/errorPage/NoAccess';
 
 export default function Rank(){
   const { corpId } = useParams();
@@ -25,14 +26,14 @@ export default function Rank(){
 
   useEffect(() => {
     const options = {
-      center: new kakao.maps.LatLng(payload?.corpList[index].lat, payload?.corpList[index].lng),
+      center: new kakao.maps.LatLng(payload?.corpList?.[index].lat, payload?.corpList?.[index].lng),
       level: 3
     };
     const map = payload ? new kakao.maps.Map(container, options) : null;
     if(!map) return;
     //map.setDraggable(false);
     map.setZoomable(false);
-    payload?.corpList.forEach((corp, i) => {
+    payload?.corpList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var marker = new kakao.maps.Marker({
         position: markerPosition,
@@ -66,13 +67,17 @@ export default function Rank(){
     <CorpRequired />
   );
 
+  if(payload?.message === 'unauthorized user') return (
+    <NoAccess />
+  );
+
   return (
     <>
       <S.Map id="map" />
       {payload && 
       <>
         <TopTwentyBox corpList={payload?.corpList} setIndex={setIndex} setFold={setFold} />
-        <MapRankBox corp={payload?.corpList[index]} fold={fold} setFold={setFold} />
+        <MapRankBox corp={payload?.corpList?.[index]} fold={fold} setFold={setFold} />
       </>
       }
     </>

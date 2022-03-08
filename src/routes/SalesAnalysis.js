@@ -9,6 +9,7 @@ import { SA_RADAR_URL } from '@api';
 import RecentSales from '@/components/salesAnalysis/RecentSales';
 import SyncRequired from '@/components/errorPage/SyncRequired';
 import SalesTrend from '@/components/salesAnalysis/SalesTrend';
+import NoAccess from '@/components/errorPage/NoAccess';
 
 export default function SalesAnalysis(){
   const { corpId } = useParams();
@@ -39,6 +40,12 @@ export default function SalesAnalysis(){
   if(corpId==='0'){
     return (
       <CorpRequired />
+    );
+  }
+
+  if(payload?.message === 'unauthorized user'){
+    return (
+      <NoAccess />
     );
   }
 

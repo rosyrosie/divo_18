@@ -9,12 +9,12 @@ export default function MapRankBox({ corp, fold, setFold }){
     <>
       {!fold && 
         <S.BrandInfo>
-          <S.InfoName>{corp.corpName}</S.InfoName>
-          <S.InfoCat>{corp.category}</S.InfoCat>
-          <S.InfoReview>리뷰 {corp.reviewNum}개</S.InfoReview>
-          <S.InfoRatio>상위 {corp.ratio}%</S.InfoRatio>
-          <S.InfoRank>{corp.rank}</S.InfoRank>
-          <S.InfoDelta up={corp.delta >= 0}>{Math.abs(corp.delta)}위 {corp.delta >= 0 ? '상승' : '하락'}</S.InfoDelta>
+          <S.InfoName>{corp?.corpName}</S.InfoName>
+          <S.InfoCat>{corp?.category}</S.InfoCat>
+          <S.InfoReview>리뷰 {corp?.reviewNum}개</S.InfoReview>
+          <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
+          <S.InfoRank>{corp?.rank}</S.InfoRank>
+          <S.InfoDelta up={corp?.delta >= 0}>{Math.abs(corp?.delta)}위 {corp?.delta >= 0 ? '상승' : '하락'}</S.InfoDelta>
           <S.InfoChart>
             <Line options={lineOptions('', false, false, false)} data={applyStyleToChart(salesLineData[0], 'dark')} />
           </S.InfoChart>
@@ -25,7 +25,7 @@ export default function MapRankBox({ corp, fold, setFold }){
               </S.InfoIcon>
               내 상권에서
             </S.Flex>
-            <S.Ratio>상위 {corp.inAreaRatio}%</S.Ratio>
+            <S.Ratio>상위 {corp?.inAreaRatio}%</S.Ratio>
           </S.PartialRank>
           <S.PartialRank>
             <S.Flex>
@@ -34,7 +34,7 @@ export default function MapRankBox({ corp, fold, setFold }){
               </S.InfoIcon>
               내 업종에서
             </S.Flex>
-            <S.Ratio>상위 {corp.inCatRatio}%</S.Ratio>
+            <S.Ratio>상위 {corp?.inCatRatio}%</S.Ratio>
           </S.PartialRank>
           <S.PartialRank>
             <S.Flex>
@@ -43,7 +43,7 @@ export default function MapRankBox({ corp, fold, setFold }){
               </S.InfoIcon>
               내 상권 속 업종에서
             </S.Flex>
-            <S.Ratio>상위 {corp.inAreaCatRatio}%</S.Ratio>
+            <S.Ratio>상위 {corp?.inAreaCatRatio}%</S.Ratio>
           </S.PartialRank>
         </S.BrandInfo>
       }
