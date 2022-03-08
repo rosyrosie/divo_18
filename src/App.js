@@ -15,6 +15,7 @@ import Rank from "@/routes/Rank";
 import Community from "@/routes/Community";
 import ViewPlaceRank from "@/routes/ViewPlaceRank";
 import FindIdPw from "@/routes/FindIdPw";
+import KeywordScore from "@/routes/KeywordScore";
 import Inspection from "@/components/errorPage/Inspection";
 import LoginRequired from "@/components/errorPage/LoginRequired";
 import CorpRequired from "@/components/errorPage/CorpRequired";
@@ -36,6 +37,7 @@ export default function App(){
         { path: '/rank', element: <LoginRequired /> },
         { path: '/community', element: <LoginRequired /> },
         { path: '/vp-rank', element: <LoginRequired /> },
+        { path: '/keyword-score', element: <LoginRequired /> },
         { path: '/*', element: <NoAccess /> },
       ],
     },
@@ -54,6 +56,7 @@ export default function App(){
         { path: '/cid=:corpId/rank', element: <Rank /> },
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
+        { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
         { path: '/cid=:corpId/*', element: <NoAccess /> },
       ]
     },
