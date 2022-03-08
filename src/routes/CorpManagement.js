@@ -3,16 +3,20 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { CORPLIST_URL, DEL_CORP_URL } from '@api';
 import { useFetch } from '@hooks';
+import { useState, useEffect } from 'react';
 
 export default function CorpManagement(){
   const token = localStorage.getItem('token');
   const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const navigate = useNavigate();
+  const [ sortType, setSortType ] = useState('abc');
+  const [ trigger, setTrigger ] = useState(0);
   const { corpId } = useParams();
   const { payload, error } = useFetch(
-    CORPLIST_URL,
+    CORPLIST_URL + '?sortby=' + sortType,
     null,
-    'GET'
+    'GET',
+    [sortType, trigger]
   );
 
   const deleteCorp = id => {
@@ -25,7 +29,7 @@ export default function CorpManagement(){
       res => {
         if(res.data.message === 'success'){
           alert('삭제되었습니다.');
-          window.location.reload();
+          setTrigger(t => t+1);
         }
       }
     );
@@ -34,7 +38,7 @@ export default function CorpManagement(){
   return (
     <S.Content>
       <S.Flex>
-        {payload?.corpList.map(corp => (
+        {payload?.corpList?.map(corp => (
           <S.Corp key={corp[0]}>
             <S.Title>{corp[1]}</S.Title>
             <S.Col>
@@ -49,6 +53,13 @@ export default function CorpManagement(){
           </S.Corp>
         ))}
       </S.Flex>
+      {
+        payload?.corpList?.length > 1 &&
+        <S.Sorts>
+          <S.Sort right isSelected={sortType==='abc'} onClick={() => setSortType('abc')}>가나다순</S.Sort>
+          <S.Sort isSelected={sortType==='id'} onClick={() => setSortType('id')}>등록일순</S.Sort>
+        </S.Sorts>
+      }
       <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
     </S.Content>
   );
@@ -74,6 +85,21 @@ S.Add = styled.div`
   margin-top: 40px;
 `;
 
+S.Sorts = styled.div`
+  display: flex;
+  margin-top: 20px;
+`;
+
+S.Sort = styled.div`
+  padding: 0 20px;
+  ${props => props.right && 'border-right: 1px solid #d2d2d7;'}
+  ${props => props.isSelected && 'cursor: pointer; font-weight: bold;'}
+  &:hover{
+    cursor: pointer;
+    font-weight: bold;
+  }
+`;
+
 S.Corp = styled.div`
   border-radius: 20px;
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
@@ -85,14 +111,14 @@ S.Corp = styled.div`
   flex-flow: column;
   justify-content: space-between;
   height: 210px;
-  margin: 0 20px 20px 0;
+  margin: 0 10px 20px 10px;
 `;
 
 S.Flex = styled.div`
   display: flex;
-  max-width: 60%;
   flex-wrap: wrap;
   max-height: 690px;
+  max-width: 1126px;
   overflow-y: auto;
 `;
 
