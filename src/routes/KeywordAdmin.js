@@ -31,32 +31,25 @@ export default function KeywordAdmin(){
 
   const addBrand = e => {
     if(e.key !== 'Enter' || !newBrand || keywordSet.brand.includes(newBrand)) return;
-    setKeywordSet(set => Object.assign(set, { brand: [ newBrand, ...set.brand ] }));
+    setKeywordSet(set => ({ ...set, brand: [ newBrand, ...set.brand ]}));
     setNewBrand('');
-  }
-
-  const addRel = e => {
-    if(e.key !== 'Enter' || !newRel || keywordSet.rel.includes(newRel)) return;
-    setKeywordSet(set => Object.assign(set, { rel: [ newRel, ...set.rel ] }));
-    setNewRel('');
   }
 
   const addSec = e => {
     if(e.key !== 'Enter' || !newSec || keywordSet.section.includes(newSec)) return;
-    setKeywordSet(set => Object.assign(set, { section: [ newSec, ...set.section ] }));
+    setKeywordSet(set => ({ ...set, section: [ newSec, ...set.section ] }))
     setNewSec('');
   }
 
   const addCat = e => {
     if(e.key !== 'Enter' || !newCat || keywordSet.category.includes(newCat)) return;
-    setKeywordSet(set => Object.assign(set, { category: [ newCat, ...set.category ] }));
+    setKeywordSet(set => ({ ...set, category: [ newCat, ...set.category ] }));
     setNewCat('');
   }
 
-  const delBrand = word => setKeywordSet(set => Object.assign({}, Object.assign(set, { brand : [...set.brand].filter(e => e !== word) })))
-  const delRel = word => setKeywordSet(set => Object.assign({}, Object.assign(set, { rel: [...set.rel].filter(e => e !== word) })))
-  const delSec = word => setKeywordSet(set => Object.assign({}, Object.assign(set, { section: [...set.section].filter(e => e !== word) })))
-  const delCat = word => setKeywordSet(set => Object.assign({}, Object.assign(set, { category: [...set.category].filter(e => e !== word) })))
+  const delBrand = word => setKeywordSet(set => ({ ...set, brand : [...set.brand].filter(e => e !== word) }));
+  const delSec = word => setKeywordSet(set => ({ ...set, section: [...set.section].filter(e => e !== word) }));
+  const delCat = word => setKeywordSet(set => ({ ...set, category: [...set.category].filter(e => e !== word) }));
 
   const onSubmit = e => {
     e.preventDefault();

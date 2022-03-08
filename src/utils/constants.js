@@ -91,70 +91,72 @@ export const compareChartUnit = ['원', '원', '건', '%', '%'];
 
 //chart options
 
-export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false) => (
-  Object.assign(
-    Object.assign(
-      {
-        maintainAspectRatio: maintainAspectRatio,
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            display: showLegend
-          },
-          tooltip: {
-            callbacks: {
-              label: tooltipItem => {
-                if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
-              }
-            }
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index'
-        },
-      }, isWhite ? 
-      {
-        scales: {
-          x: {
-            grid: {
-              borderColor: 'rgba(245, 245, 247, 0.3)',
-              color: 'rgba(245, 245, 247, 0.3)',
-              tickColor: 'rgba(245, 245, 247, 0.3)'
-            },
-            ticks: {
-              color: 'rgba(245, 245, 247, 0.8)'
-            }
-          },
-          y: {
-            grid: {
-              borderColor: 'rgba(245, 245, 247, 0.3)',
-              color: 'rgba(245, 245, 247, 0.3)',
-              tickColor: 'rgba(245, 245, 247, 0.3)'
-            },
-            ticks: {
-              color: 'rgba(245, 245, 247, 0.8)'
-            }
-          }
-        },
-        color: 'rgba(245, 245, 247, 0.8)'
-      } 
-      : 
-      {}
-    )
-  , forRank ? {
-    scales: {
-      y: {
-        ticks: {
-          stepSize: 1,
-        },
-        reverse: true
+export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false) => {
+  let options = {
+    maintainAspectRatio: maintainAspectRatio,
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        display: showLegend
       },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => {
+            if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+          }
+        }
+      }
+    },
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+  };
+
+  if(isWhite){
+    options = { ...options, 
+      scales: {
+        x: {
+          grid: {
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)'
+          },
+          ticks: {
+            color: 'rgba(245, 245, 247, 0.8)'
+          }
+        },
+        y: {
+          grid: {
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)'
+          },
+          ticks: {
+            color: 'rgba(245, 245, 247, 0.8)'
+          }
+        }
+      },
+      color: 'rgba(245, 245, 247, 0.8)'
     }
-  } : {}
-  )
-);
+  }
+  
+  if(forRank){
+    options = { ...options, 
+      scales: {
+        y: {
+          ticks: {
+            stepSize: 1,
+          },
+          reverse: true
+        },
+      }
+    }
+  }
+
+  return options;
+};
 
 export const barOptions = unit => ({
   responsive: true,
@@ -175,8 +177,8 @@ export const barOptions = unit => ({
   }
 });
 
-export const radarOptions = (unit='', isWhite = false) => (
-  Object.assign({
+export const radarOptions = (unit='', isWhite = false) => {
+  let options = {
     responsive: true,
     aspectRatio: 1.5,
     plugins: {
@@ -219,37 +221,41 @@ export const radarOptions = (unit='', isWhite = false) => (
         },
       }
     }
-  }, isWhite ? 
-  {
-    color: '#f5f5f7',
-    scales: {
-      r: {
-        min: 0,
-        pointLabels: {
-          color: '#f5f5f7',
-          font: {
-            size: 12
+  };
+
+  if(isWhite){
+    options = { ...options, 
+      color: '#f5f5f7',
+      scales: {
+        r: {
+          min: 0,
+          pointLabels: {
+            color: '#f5f5f7',
+            font: {
+              size: 12
+            }
+          },
+          ticks: {
+            showLabelBackdrop: false,
+            stepSize: 1,
+            color: '#f5f5f7',
+            font: {
+              weight: 'bold'
+            }
+          },
+          grid: {
+            color: 'rgba(245, 245, 247, 0.3)'
+          },
+          angleLines: {
+            color: 'rgba(245, 245, 247, 0.3)'
           }
-        },
-        ticks: {
-          showLabelBackdrop: false,
-          stepSize: 1,
-          color: '#f5f5f7',
-          font: {
-            weight: 'bold'
-          }
-        },
-        grid: {
-          color: 'rgba(245, 245, 247, 0.3)'
-        },
-        angleLines: {
-          color: 'rgba(245, 245, 247, 0.3)'
         }
       }
     }
   }
-   : {})
-);
+
+  return options;
+};
 
 //chart data
 

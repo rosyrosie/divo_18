@@ -7,7 +7,7 @@ export default function ViewTable({ getTableProps, getTableBodyProps, headerGrou
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column, idx) => (
-              <S.Th idx={idx}>
+              <S.Th idx={idx} key={idx}>
                 {column.render("Header")}
               </S.Th>
             ))}

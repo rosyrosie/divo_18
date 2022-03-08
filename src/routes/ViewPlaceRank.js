@@ -80,8 +80,8 @@ export default function ViewPlaceRank(){
             <S.Tab isSelected={tab === 1} onClick={() => setTab(1)}>네이버 Place</S.Tab>
           </S.Tabs>
           <div>
-            <S.Select onChange={e => setSort(e.target.value)}>
-              <option value="rank" selected>노출도 순</option>
+            <S.Select value={sort} onChange={e => setSort(e.target.value)}>
+              <option value="rank">노출도 순</option>
               <option value="searchQty">검색량 순</option>
             </S.Select>
           </div>
@@ -91,7 +91,7 @@ export default function ViewPlaceRank(){
             <S.KwCat>상권 키워드</S.KwCat>
             <S.Kws>
               {sortedSectionList?.map((rank, index) => (
-                <KeywordBox rank={rank} index={index} tab={tab} list={sortedSectionList} clickKeyword={clickKeyword} />
+                <KeywordBox rank={rank} index={index} tab={tab} list={sortedSectionList} clickKeyword={clickKeyword} key={rank.keyword} />
               ))}
               {(payload && !sortedSectionList.length) && '키워드가 없습니다'}
             </S.Kws>
@@ -102,7 +102,7 @@ export default function ViewPlaceRank(){
             <S.KwCat>업종 키워드</S.KwCat>
             <S.Kws>
               {sortedCategoryList?.map((rank, index) => (
-                <KeywordBox rank={rank} index={index} tab={tab} list={sortedCategoryList} clickKeyword={clickKeyword} />
+                <KeywordBox rank={rank} index={index} tab={tab} list={sortedCategoryList} clickKeyword={clickKeyword} key={rank.keyword} />
               ))}
               {(payload && !sortedCategoryList.length) && '키워드가 없습니다'}
             </S.Kws>

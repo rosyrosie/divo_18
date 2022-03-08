@@ -6,16 +6,12 @@ import { applyStyleToChart } from '@functions';
 export default function ChartModal({ modalRef, setShowModal, chartKeyword, setChartKeyword, chartData }){
   const decreaseIndex = () => {
     if(chartKeyword.index === 0) return;
-    const newChartKeyword = Object.assign({}, chartKeyword);
-    newChartKeyword.index = newChartKeyword.index - 1;
-    setChartKeyword(newChartKeyword);
+    setChartKeyword({ ...chartKeyword, index: chartKeyword.index-1 });
   };
 
   const increaseIndex = () => {
     if(chartKeyword.index === chartKeyword.list.length - 1) return;
-    const newChartKeyword = Object.assign({}, chartKeyword);
-    newChartKeyword.index = newChartKeyword.index + 1;
-    setChartKeyword(newChartKeyword);
+    setChartKeyword({ ...chartKeyword, index: chartKeyword.index+1 });
   }
 
   return (

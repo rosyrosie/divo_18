@@ -25,7 +25,7 @@ export default function Home(){
       else navigate('/cid=' + payload?.corpList?.[0]?.[0]);
     }
   }, [payload]);
-  
+
   return (
     <S.Content>
       <S.Box>
