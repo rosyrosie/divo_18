@@ -1,31 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useFetch } from '@hooks';
-import { CORPLIST_URL } from "@api";
-import { useEffect } from "react";
-import kaImg from '@/assets/2.jpg';
 
 export default function Home(){
-  const { corpId } = useParams();
-  const token = localStorage.getItem('token');
-  const navigate = useNavigate();
-
-  const { payload, error } = useFetch(
-    CORPLIST_URL,
-    null,
-    'GET',
-    [],
-    token
-  );
-
-  useEffect(() => {
-    if(!payload) return;
-    if(!corpId && token){
-      if(!payload.corpList.length) navigate('/cid=0');
-      else navigate('/cid=' + payload?.corpList?.[0]?.[0]);
-    }
-  }, [payload]);
-
   return (
     <S.Content>
       <S.Box>

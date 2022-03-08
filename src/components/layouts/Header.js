@@ -3,10 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList  } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
-import { useDetectOutsideClick, useFetch } from '@hooks';
-import { DEL_CORP_URL } from '@api';
+import { useDetectOutsideClick } from '@hooks';
 
-export default function Header({ sticky = false, dark = true }){
+export default function Header({ sticky = false, dark = true, corpName }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
@@ -21,14 +20,6 @@ export default function Header({ sticky = false, dark = true }){
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
 
   const CORP_URL = corpId === undefined ? '' : `/cid=${corpId}`;
-
-  const { payload, error } = useFetch(
-    DEL_CORP_URL + corpId,
-    null,
-    'GET',
-    [corpId],
-    corpId !== undefined
-  );
 
   const handleLogin = e => {
     e.preventDefault();
@@ -81,7 +72,7 @@ export default function Header({ sticky = false, dark = true }){
           <S.LogoBox>
             <S.Logo onClick={() => setShowDropDown(d => !d)}>
               <i className="fas fa-user"></i>
-              <S.Brand>{corpId === undefined ? 'Guest' : (payload?.corpName || '브랜드 없음')}</S.Brand>
+              <S.Brand>{corpName}</S.Brand>
             </S.Logo>
             {showDropDown && 
               (!token ?

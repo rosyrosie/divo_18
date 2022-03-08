@@ -7,7 +7,6 @@ import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useDetectOutsideClick } from '@hooks';
 import KeywordBox from '@/components/viewPlaceRank/KeywordBox';
 import ChartModal from '@/components/viewPlaceRank/ChartModal';
-import NoAccess from '@/components/errorPage/NoAccess';
 
 export default function ViewPlaceRank(){
   const mode = ['view', 'place'];
@@ -65,10 +64,6 @@ export default function ViewPlaceRank(){
 
   if(corpId === '0') return (
     <CorpRequired />
-  );
-
-  if(payload?.message === 'unauthorized user') return (
-    <NoAccess />
   );
 
   return (

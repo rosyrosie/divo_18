@@ -18,6 +18,7 @@ import FindIdPw from "@/routes/FindIdPw";
 import Inspection from "@/components/errorPage/Inspection";
 import LoginRequired from "@/components/errorPage/LoginRequired";
 import CorpRequired from "@/components/errorPage/CorpRequired";
+import NoAccess from "@/components/errorPage/NoAccess";
 
 export default function App(){
 
@@ -26,15 +27,16 @@ export default function App(){
       path: '/',
       element: <Layout />,
       children: [
+        { path: '/login', element: <Login /> },
+        { path: '/signup', element: <Signup /> },
+        { path: '/findidpw', element: <FindIdPw /> },
         { path: '/keyword-analysis', element: <LoginRequired /> },
         { path: '/keyword-analysis/keyword=:keyword', element: <LoginRequired /> },
         { path: '/sales-analysis', element: <LoginRequired /> },
-        { path: '/login', element: <Login /> },
-        { path: '/signup', element: <Signup /> },
         { path: '/rank', element: <LoginRequired /> },
         { path: '/community', element: <LoginRequired /> },
         { path: '/vp-rank', element: <LoginRequired /> },
-        { path: '/findidpw', element: <FindIdPw /> }
+        { path: '/*', element: <NoAccess /> },
       ],
     },
     {
@@ -52,6 +54,7 @@ export default function App(){
         { path: '/cid=:corpId/rank', element: <Rank /> },
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
+        { path: '/cid=:corpId/*', element: <NoAccess /> },
       ]
     },
     {

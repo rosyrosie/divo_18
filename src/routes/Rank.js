@@ -7,7 +7,6 @@ import TopTwentyBox from '@/components/rank/TopTwentyBox';
 import MapRankBox from '@/components/rank/MapRankBox';
 import { MAP_URL } from '@api';
 import { useFetch } from '@hooks';
-import NoAccess from '@/components/errorPage/NoAccess';
 
 export default function Rank(){
   const { corpId } = useParams();
@@ -67,18 +66,15 @@ export default function Rank(){
     <CorpRequired />
   );
 
-  if(payload?.message === 'unauthorized user') return (
-    <NoAccess />
-  );
-
-  return (
+  return ( 
     <>
       <S.Map id="map" />
-      {payload && 
-      <>
-        <TopTwentyBox corpList={payload?.corpList} setIndex={setIndex} setFold={setFold} />
-        <MapRankBox corp={payload?.corpList?.[index]} fold={fold} setFold={setFold} />
-      </>
+      {
+        payload && 
+        <>
+          <TopTwentyBox corpList={payload?.corpList} setIndex={setIndex} setFold={setFold} />
+          <MapRankBox corp={payload?.corpList?.[index]} fold={fold} setFold={setFold} />
+        </>
       }
     </>
   );
