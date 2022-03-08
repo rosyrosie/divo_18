@@ -17,7 +17,6 @@ export default function KeywordAdmin(){
     [corpId]
   );
   const [ newBrand, setNewBrand ] = useState('');
-  const [ newRel, setNewRel ] = useState('');
   const [ newSec, setNewSec ] = useState('');
   const [ newCat, setNewCat ] = useState('');
 
@@ -64,12 +63,6 @@ export default function KeywordAdmin(){
     });
   }
 
-  if(corpId === '0'){
-    return (
-      <CorpRequired />
-    );
-  }
-
   return (
     <S.Content>
       <S.Flex>
@@ -84,17 +77,6 @@ export default function KeywordAdmin(){
             <S.Input value={newBrand} onChange={e => setNewBrand(e.target.value)} onKeyPress={addBrand} />
           </S.Words>
         </S.Box>
-        {/* <S.Box>
-          <S.Title>연관 키워드</S.Title>
-          <S.Words>
-            <S.Scroll>
-              {keywordSet?.rel?.map(word => (
-                <S.Word onClick={() => delRel(word)} key={word}>{word}</S.Word>
-              ))}
-            </S.Scroll>
-            <S.Input value={newRel} onChange={e => setNewRel(e.target.value)} onKeyPress={addRel} />
-          </S.Words>
-        </S.Box> */}
         <S.Box>
           <S.Title>상권 키워드</S.Title>
           <S.Words>

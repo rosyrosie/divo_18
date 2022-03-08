@@ -82,7 +82,6 @@ S.Arrow = styled.div`
   &:hover{
     cursor: pointer;
   }
-  height: 100%;
   ${props => props.inactive && 'visibility: hidden;'}
 `;
 

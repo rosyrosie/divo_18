@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import LoginRequired from "@/components/errorPage/LoginRequired"
 import CorpRequired from "@/components/errorPage/CorpRequired"
 import { PLACE_KEYWORD_URL } from "@api";
 import { useFetch } from "@hooks";
@@ -18,10 +17,6 @@ export default function KeywordAnalysisBlank(){
     null,
     'GET',
     [corpId]
-  );
-
-  if(!token) return (
-    <LoginRequired />
   );
 
   if(corpId === '0') return (

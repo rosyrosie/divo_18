@@ -2,7 +2,6 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import LoginRequired from '@/components/errorPage/LoginRequired';
 import { ADD_CORP_URL, FIND_PLACE_URL, MAKE_PLACE_URL } from '@api';
 import { useFetch } from '@hooks';
 
@@ -55,10 +54,6 @@ export default function CorpAddition(){
   }
 
   const noCorps = query && !corpList?.length && corpList;
-
-  if(!token) return (
-    <LoginRequired />
-  );
 
   return (
     <S.Content>

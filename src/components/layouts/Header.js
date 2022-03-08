@@ -20,7 +20,7 @@ export default function Header({ sticky = false, dark = true }){
   const [ showDropDown, setShowDropDown ] = useDetectOutsideClick(dropDownRef, false);
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
 
-  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
+  const CORP_URL = corpId === undefined ? '' : `/cid=${corpId}`;
 
   const { payload, error } = useFetch(
     DEL_CORP_URL + corpId,
@@ -81,7 +81,7 @@ export default function Header({ sticky = false, dark = true }){
           <S.LogoBox>
             <S.Logo onClick={() => setShowDropDown(d => !d)}>
               <i className="fas fa-user"></i>
-              <S.Brand>{payload?.corpName || 'Guest'}</S.Brand>
+              <S.Brand>{corpId === undefined ? 'Guest' : (payload?.corpName || '브랜드 없음')}</S.Brand>
             </S.Logo>
             {showDropDown && 
               (!token ?
@@ -239,7 +239,7 @@ S.Triangle = styled.div`
 S.Brand = styled.div`
   font-size: 12px;
   margin-left: 10px;
-  width: 55px;
+  width: 60px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

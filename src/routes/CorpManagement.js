@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import LoginRequired from '@/components/errorPage/LoginRequired';
 import { CORPLIST_URL, DEL_CORP_URL } from '@api';
 import { useFetch } from '@hooks';
 
@@ -31,10 +30,6 @@ export default function CorpManagement(){
       }
     );
   }
-
-  if(!token) return (
-    <LoginRequired />
-  );
 
   return (
     <S.Content>

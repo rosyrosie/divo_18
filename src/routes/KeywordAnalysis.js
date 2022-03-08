@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import KeywordReport from "@/components/keywordAnalysis/KeywordReport";
 import FloatingBar from "@/components/keywordAnalysis/FloatingBar";
-import LoginRequired from "@/components/errorPage/LoginRequired";
 
 export default function KeywordAnalysis(){
   const { keyword } = useParams();
@@ -13,7 +12,6 @@ export default function KeywordAnalysis(){
   const [ ctRef, ctInView ] = useInView({ threshold: 0.01 });
   const [ userRef, userInView ] = useInView({ threshold: 0.01 });
   const [ mktRef, mktInView ] = useInView({ threshold: 0.01 });
-  const token = localStorage.getItem('token');
 
   //useEffect(() => setInput(keyword), [keyword]);
 
@@ -24,12 +22,6 @@ export default function KeywordAnalysis(){
     else if(userInView) return 3;
     else if(mktInView) return 4;
     return -1;
-  }
-
-  if(!token){
-    return (
-      <LoginRequired />
-    );
   }
 
   return (

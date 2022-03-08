@@ -1,16 +1,14 @@
 /*global kakao*/
 import styled from 'styled-components';
-import LoginRequired from '@/components/errorPage/LoginRequired';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import TopTwentyBox from '@/components/rank/TopTwentyBox';
 import MapRankBox from '@/components/rank/MapRankBox';
 import { MAP_URL } from '@api';
 import { useFetch } from '@hooks';
 
 export default function Rank(){
-  const token = localStorage.getItem('token');
   const { corpId } = useParams();
   const [ index, setIndex ] = useState(0);
   const [ fold, setFold ] = useState(false);
@@ -19,7 +17,8 @@ export default function Rank(){
     MAP_URL + corpId,
     null,
     'GET',
-    [corpId]
+    [corpId],
+    corpId !== '0'
   );
 
   const container = document.getElementById('map');
@@ -62,11 +61,6 @@ export default function Rank(){
       });
     });
   }, [index, payload]);
-
-
-  if(!token) return (
-    <LoginRequired />
-  );
 
   if(corpId === '0') return (
     <CorpRequired />

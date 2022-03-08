@@ -1,12 +1,6 @@
 import styled from 'styled-components';
-import LoginRequired from '@/components/errorPage/LoginRequired';
-import NotReady from '@/components/errorPage/NotReady';
 
 export default function Community(){
-  const token = localStorage.getItem('token');
-
-  if(!token) return <LoginRequired />;
-
   return (
     <S.Content>
       <S.Scroll>

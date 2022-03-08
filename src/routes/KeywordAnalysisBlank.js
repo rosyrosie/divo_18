@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import LoginRequired from "@/components/errorPage/LoginRequired"
 import CorpRequired from "@/components/errorPage/CorpRequired"
 import { PLACE_KEYWORD_URL } from "@api";
 import { useFetch } from "@hooks";
@@ -9,19 +7,13 @@ import { useFetch } from "@hooks";
 export default function KeywordAnalysisBlank(){
   const { corpId } = useParams();
   const navigate = useNavigate();
-  const CORP_URL = !corpId ? '' : `/cid=${corpId}`;
-  const token = localStorage.getItem('token');
 
   const { payload: keywordSet, error } = useFetch(
     PLACE_KEYWORD_URL(corpId),
     null,
     'GET',
     [corpId],
-    token
-  );
-
-  if(!token) return (
-    <LoginRequired />
+    corpId !== '0'
   );
 
   if(corpId === '0') return (
@@ -43,16 +35,6 @@ export default function KeywordAnalysisBlank(){
               </S.Scroll>
             </S.Words>
           </S.Box>
-          {/* <S.Box>
-            <S.Title>연관 키워드</S.Title>
-            <S.Words>
-              <S.Scroll>
-                {keywordSet?.rel?.map(word => (
-                  <S.Word onClick={() => navigate('keyword=' + word)} key={word}>{word}</S.Word>
-                ))}
-              </S.Scroll>
-            </S.Words>
-          </S.Box> */}
           <S.Box>
             <S.Title>상권 키워드</S.Title>
             <S.Words>

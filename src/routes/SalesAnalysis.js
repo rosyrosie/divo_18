@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 import SalesCompare from '@/components/salesAnalysis/SalesCompare';
 import { useParams } from 'react-router-dom';
-import LoginRequired from '@/components/errorPage/LoginRequired';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import SalesRadar from '@/components/salesAnalysis/SalesRadar';
 import { useFetch } from '@hooks';
@@ -25,24 +24,17 @@ export default function SalesAnalysis(){
     else if(compareInView) return 3;
     return -1;
   }
-  
-  const token = localStorage.getItem('token');
 
   const { payload, error } = useFetch(
     SA_RADAR_URL(corpId),
     null,
     'GET',
-    [corpId]
+    [corpId],
+    corpId !== '0'
   );
 
   const radarData = payload?.radar;
   const recentSalesData = payload?.summaryGraph;
-
-  if(!token){
-    return (
-      <LoginRequired />
-    );
-  }
 
   if(corpId==='0'){
     return (

@@ -3,7 +3,6 @@ import { useState, useMemo, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { VIEW_PLACE_RANK_URL, RANK_CHART_URL } from '@api';
 import { useFetch } from '@hooks';
-import LoginRequired from '@/components/errorPage/LoginRequired';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useDetectOutsideClick } from '@hooks';
 import KeywordBox from '@/components/viewPlaceRank/KeywordBox';
@@ -12,7 +11,6 @@ import ChartModal from '@/components/viewPlaceRank/ChartModal';
 export default function ViewPlaceRank(){
   const mode = ['view', 'place'];
   const [ tab, setTab ] = useState(0); //0: view, 1: place
-  const token = localStorage.getItem('token');
   const [ sort, setSort ] = useState("rank");
   const modalRef = useRef(null);
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
@@ -20,20 +18,23 @@ export default function ViewPlaceRank(){
     list: null,
     index: null
   });
+  
   const { corpId } = useParams();
 
   const { payload, error } = useFetch(
     VIEW_PLACE_RANK_URL + corpId,
     null,
     'GET',
-    [corpId]
+    [corpId],
+    corpId !== '0'
   );
 
   const { payload: chartPayload, error: chartError } = useFetch(
     RANK_CHART_URL(corpId, chartKeyword.list?.[chartKeyword.index].keyword || 'null', mode[tab]),
     null,
     'GET',
-    [chartKeyword]
+    [chartKeyword],
+    corpId !== '0'
   );
   const chartData = chartPayload?.rankGraph;
 
@@ -60,10 +61,6 @@ export default function ViewPlaceRank(){
     });
     setShowModal(true);
   }
-
-  if(!token) return (
-    <LoginRequired />
-  );
 
   if(corpId === '0') return (
     <CorpRequired />
