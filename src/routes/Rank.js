@@ -34,35 +34,95 @@ export default function Rank(){
     //map.setZoomable(false);
     payload?.corpList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
-      var marker = new kakao.maps.Marker({
+      var markerContent =  `<style>#marker_${i}:after{ content: '${i ? i : '나'}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
+                            `<div id="marker_${i}" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #1d1d1fb3; transform: translateY(-24px) rotate(-45deg); backdrop-filter: saturate(180%) blur(20px);"></div>`;
+      var marker = new kakao.maps.CustomOverlay({
+        content: markerContent,
         position: markerPosition,
-        clickable: true,
+        zIndex: 3
       });
       marker.setMap(map);
+
+      // var overlayContent = `<div>` + 
+      //                         `<div style="padding: 8px 10px; color: #f5f5f7; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-60px); background: rgb(76, 76, 76); backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>` + 
+      //                         `<div style="height: 10px; width: 10px; background: rgb(76, 76, 76); margin: 0 auto; transform: translateY(-65px) rotate(45deg);"></div> ` + 
+      //                       `</div>`;
+      // var overlayPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
+      // var overlay = new kakao.maps.CustomOverlay({
+      //   content: overlayContent,
+      //   position: overlayPosition,
+      //   zIndex: 4
+      // });
+
+      // if(i === index) overlay.setMap(map);
+
+      // kakao.maps.event.addListener(marker, 'click', () => {
+      //   setIndex(i);
+      //   setFold(false);
+      //   overlay.setMap(map);
+      // });
+      // kakao.maps.event.addListener(marker, 'mouseover', () => {
+      //   overlay.setMap(map);
+      // });
+      // kakao.maps.event.addListener(marker, 'mouseout', () => {
+      //   if(i !== index) overlay.setMap(null);
+      // });
+      
+      // document.querySelector('#marker_'+i)?.addEventListener('click', () => {
+      //   setIndex(i);
+      //   setFold(false);
+      //   overlay.setMap(map);
+      // });
+      // document.querySelector('#marker_'+i)?.addEventListener('mouseover', () => {
+      //   overlay.setMap(map);
+      // });
+      // document.querySelector('#marker_'+i)?.addEventListener('mouseout', () => {
+      //   if(i !== index) overlay.setMap(null);
+      // });
+    });
+    payload?.corpList?.forEach((corp, i) => {
       var overlayContent = `<div>` + 
-                              `<div style="padding: 8px 10px; color: #f5f5f7; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-60px); background: rgb(76, 76, 76); backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>` + 
-                              `<div style="height: 10px; width: 10px; background: rgb(76, 76, 76); margin: 0 auto; transform: translateY(-65px) rotate(45deg);"></div> ` + 
+                              `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${corp.corpName}</div>` + 
+                              `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
                             `</div>`;
       var overlayPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
         position: overlayPosition,
-        zIndex: 2
+        zIndex: 4
       });
 
-      if(i === index) overlay.setMap(map);
-      kakao.maps.event.addListener(marker, 'click', () => {
+      const markers = document.querySelectorAll('#marker_'+i);
+      const marker = markers[markers.length - 1];
+      marker?.addEventListener('click', () => {
         setIndex(i);
         setFold(false);
         overlay.setMap(map);
       });
-      kakao.maps.event.addListener(marker, 'mouseover', () => {
+      marker?.addEventListener('mouseover', () => {
         overlay.setMap(map);
       });
-      kakao.maps.event.addListener(marker, 'mouseout', () => {
+      marker?.addEventListener('mouseout', () => {
         if(i !== index) overlay.setMap(null);
       });
-    });
+
+      if(i === index) overlay.setMap(map);
+      kakao.maps.event.addListener(map, 'bounds_changed', () => {
+          const markers = document.querySelectorAll('#marker_'+i);
+          const marker = markers[markers.length - 1];
+          marker?.addEventListener('click', () => {
+            setIndex(i);
+            setFold(false);
+            overlay.setMap(map);
+          });
+          marker?.addEventListener('mouseover', () => {
+            overlay.setMap(map);
+          });
+          marker?.addEventListener('mouseout', () => {
+            if(i !== index) overlay.setMap(null);
+          });
+        });
+      });
   }, [index, payload]);
 
   if(corpId === '0') return (
