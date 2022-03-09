@@ -9,7 +9,7 @@ export default function CorpManagement(){
   const token = localStorage.getItem('token');
   const tokenHeader = token ? {headers: {"Authorization": `Token ${token}`}} : null;
   const navigate = useNavigate();
-  const [ sortType, setSortType ] = useState('abc');
+  const [ sortType, setSortType ] = useState('id');
   const [ trigger, setTrigger ] = useState(0);
   const { corpId } = useParams();
   const { payload, error } = useFetch(
@@ -60,6 +60,7 @@ export default function CorpManagement(){
           <S.Sort isSelected={sortType==='id'} onClick={() => setSortType('id')}>등록일순</S.Sort>
         </S.Sorts>
       }
+      {(payload?.corpList?.length === 0) && <S.Text>등록된 브랜드가 없습니다</S.Text>}
       <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
     </S.Content>
   );
@@ -74,6 +75,11 @@ S.Content = styled.div`
   align-items: center;
   flex-flow: column;
   background: #f5f5f7b3;
+`;
+
+S.Text = styled.div`
+  font-weight: bold;
+  font-size: 32px;
 `;
 
 S.Add = styled.div`
