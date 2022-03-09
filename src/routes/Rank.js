@@ -31,7 +31,7 @@ export default function Rank(){
     const map = payload ? new kakao.maps.Map(container, options) : null;
     if(!map) return;
     //map.setDraggable(false);
-    map.setZoomable(false);
+    //map.setZoomable(false);
     payload?.corpList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var marker = new kakao.maps.Marker({
@@ -39,8 +39,11 @@ export default function Rank(){
         clickable: true,
       });
       marker.setMap(map);
-      var overlayContent = `<div style="padding: 10px; background: #000000b3; border-radius: 10px; color: #f5f5f7; font-size: 12px; backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>`;
-      var overlayPosition = new kakao.maps.LatLng(corp.lat+0.00055, corp.lng);
+      var overlayContent = `<div>` + 
+                              `<div style="padding: 8px 10px; color: #f5f5f7; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-60px); background: rgb(76, 76, 76); backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>` + 
+                              `<div style="height: 10px; width: 10px; background: rgb(76, 76, 76); margin: 0 auto; transform: translateY(-65px) rotate(45deg);"></div> ` + 
+                            `</div>`;
+      var overlayPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
         position: overlayPosition,
