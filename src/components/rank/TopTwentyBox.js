@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Switch from 'react-switch';
 
 export default function TopTwentyBox({ corpList, setIndex, setFold }){
   const [ showRank, setShowRank ] = useState(true);
-
-  let brandList = [];
-  for(var i=0; i<20; i++) brandList.push({ name: `브랜드 ${i}`, rank: i*1000});
+  const [ isCat, setIsCat ] = useState(false);
 
   const myCorp = corpList?.[0];
 
@@ -17,9 +16,12 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
   return (
     <S.Sidebar>
       <S.Leaderboard>
-        <S.Box onClick={() => setShowRank(s => !s)}>
-          <S.Title>내 주변 상위 20개 점포<S.Icon><i className={showRank ? "fas fa-angle-up" : "fas fa-angle-down"}></i></S.Icon></S.Title>
-        </S.Box>
+        <S.TitleFlex>
+          <S.Box onClick={() => setShowRank(s => !s)}>
+            <S.Title>내 주변 {isCat && '동일 업종 '}Top 20<S.Icon><i className={showRank ? "fas fa-angle-up" : "fas fa-angle-down"}></i></S.Icon></S.Title>
+          </S.Box>
+          <Switch onChange={() => setIsCat(c => !c)} checked={isCat} height={12} width={32} handleDiameter={20} checkedIcon={false} uncheckedIcon={false} onColor='#888' />
+        </S.TitleFlex>
         <S.MyRankBox onClick={() => onClickCorp(0)}>
           <S.MyRank>
             <S.Flex>
@@ -32,7 +34,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
         {showRank && 
           <S.Scroll>
             {corpList?.slice(1).map((corp, i) => (
-              <S.RankBox key={corp?.rank} onClick={() => onClickCorp(i+1)}>
+              <S.RankBox key={i} onClick={() => onClickCorp(i+1)}>
                 <S.Rank>
                   <S.Flex>
                     <S.Num>{i+1}</S.Num>
@@ -50,6 +52,23 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
 }
 
 const S = {};
+
+S.Button = styled.div`
+  font-size: 12px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #1d1d1f;
+  ${props => props.left ? 'margin-left: 5px; justify-content: center;' : ''}
+`;
+
+S.TitleFlex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+`;
 
 S.Scroll = styled.div`
   overflow-y: auto;
@@ -88,7 +107,6 @@ S.Leaderboard = styled.div`
 
 S.Box = styled.div`
   width: 100%;
-  padding: 20px;
   color: #f5f5f7;
   display: flex;
   flex-flow: column;
@@ -100,7 +118,6 @@ S.Box = styled.div`
 S.Title = styled.div`
   font-weight: bold;
   display: flex;
-  justify-content: center;
 `;
 
 S.Brand = styled.div`
