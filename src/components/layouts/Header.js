@@ -198,11 +198,21 @@ S.Dropdown = styled.div`
   position: absolute;
   display: flex;
   flex-flow: column;
-  backdrop-filter: saturate(180%) blur(20px);
-  background: rgba(255, 255, 255, 0.72);
+  background: white;
   border: 1px solid #d2d2d7;
-  top: 40px;
+  top: 45px;
   border-radius: 15px;
+  &::before{
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    top: 0;
+    transform: translateX(38px) translateY(-6px) rotate(45deg);
+    background: white;
+    border-top: 1px solid #d2d2d7;
+    border-left: 1px solid #d2d2d7;
+    content: '';
+  }
 `;
 
 S.Drop = styled.div`

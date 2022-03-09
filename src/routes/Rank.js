@@ -41,7 +41,7 @@ export default function Rank(){
         position: markerPosition,
         zIndex: 3
       });
-      marker.setMap(map);
+      if(corp.corpName !== payload.corpList[0].corpName || !i) marker.setMap(map);
 
       // var overlayContent = `<div>` + 
       //                         `<div style="padding: 8px 10px; color: #f5f5f7; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-60px); background: rgb(76, 76, 76); backdrop-filter: saturate(180%) blur(20px);">${corp.corpName}</div>` + 
