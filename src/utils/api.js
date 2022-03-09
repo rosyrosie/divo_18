@@ -37,4 +37,6 @@ export const UP_LIST_URL = BASE_URL + 'placekeyword/uplist';
 export const VIEW_PLACE_RANK_URL = BASE_URL + 'rank/rank?id=';
 export const RANK_CHART_URL = (id, keyword, cat) => BASE_URL + `rank/graph?id=${id}&keyword=${keyword}&cat=${cat}`;
 
-export const MAP_URL = BASE_URL + 'omrank/omrank?id=';
+export const RANK_GET_PID_URL = BASE_URL + 'omrank/getid?corpId=';
+export const RANK_RIVALS_URL = BASE_URL + 'omrank/rivals?id=';
+export const RANK_OM_URL = BASE_URL + 'omrank/omrank?id=';

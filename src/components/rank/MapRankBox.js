@@ -11,13 +11,17 @@ export default function MapRankBox({ corp, fold, setFold }){
         <S.BrandInfo>
           <S.InfoName>{corp?.corpName}</S.InfoName>
           <S.InfoCat>{corp?.category}</S.InfoCat>
-          <S.InfoReview>리뷰 {corp?.reviewNum}개</S.InfoReview>
+          <S.InfoReview>
+            <S.Review>블로그리뷰 {corp?.blogReviewNum}개</S.Review>
+            <div>방문자리뷰 {corp?.visitorReviewNum}개</div>
+          </S.InfoReview>
           <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
           <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
-          <S.InfoDelta up={corp?.delta >= 0}>{Math.abs(corp?.delta)}위 {corp?.delta >= 0 ? '상승' : '하락'}</S.InfoDelta>
-          <S.InfoChart>
+          {/* <S.InfoDelta up={corp?.delta >= 0}>{Math.abs(corp?.delta)}위 {corp?.delta >= 0 ? '상승' : '하락'}</S.InfoDelta> */}
+          <S.InfoDelta />
+          {/* <S.InfoChart>
             <Line options={lineOptions('', false, false, false)} data={applyStyleToChart(salesLineData[0], 'dark')} />
-          </S.InfoChart>
+          </S.InfoChart> */}
           <S.PartialRank>
             <S.Flex>
               <S.InfoIcon>
@@ -72,6 +76,10 @@ S.BrandInfo = styled.div`
   flex-flow: column;
   color: #1d1d1f;
   border-radius: 0 20px 20px 0;
+`;
+
+S.Review = styled.div`
+  margin-bottom: 5px;
 `;
 
 S.Fold = styled.div`

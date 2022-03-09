@@ -2,16 +2,15 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Switch from 'react-switch';
 
-export default function TopTwentyBox({ corpList, setIndex, setFold }){
+export default function TopTwentyBox({ isCat, setIsCat, corpList, setIndex, setFold }){
   const [ showRank, setShowRank ] = useState(true);
-  const [ isCat, setIsCat ] = useState(false);
-
-  const myCorp = corpList?.[0];
 
   const onClickCorp = index => {
     setIndex(index);
     setFold(false);
   }
+
+  const myCorp = corpList?.[0];
 
   return (
     <S.Sidebar>
@@ -25,7 +24,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
         <S.MyRankBox onClick={() => onClickCorp(0)}>
           <S.MyRank>
             <S.Flex>
-              <S.Num>{myCorp?.inAreaRank}</S.Num>
+              <S.Num>{isCat ? myCorp?.inAreaCatRank : myCorp?.inAreaRank}</S.Num>
               <S.Brand>{myCorp?.corpName}</S.Brand>
             </S.Flex>
             <S.Stat>{myCorp?.rank}{myCorp?.rank !== '순위권 밖' ? '위' : ''}</S.Stat>
@@ -33,7 +32,7 @@ export default function TopTwentyBox({ corpList, setIndex, setFold }){
         </S.MyRankBox>
         {showRank && 
           <S.Scroll>
-            {corpList?.slice(1).map((corp, i) => (
+            {corpList.slice(1)?.map((corp, i) => (
               <S.RankBox key={i} onClick={() => onClickCorp(i+1)}>
                 <S.Rank>
                   <S.Flex>
