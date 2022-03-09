@@ -8,7 +8,7 @@ export const contractText = "Lorem ipsum dolor sit amet, consectetur adipiscing 
 export const menuList = [
   {title: '키워드 분석', url: '/keyword-analysis'},
   {title: '검색 노출도', url: '/vp-rank'},
-  {title: '키워드 평가', url: '/keyword-score'},
+  //{title: '키워드 평가', url: '/keyword-score'},
   {title: '매출액 분석', url: '/sales-analysis'},
   // {title: '트렌드 분석', url: '/'},
   // {title: '키워드 매출 연관성', url: '/'},
@@ -112,7 +112,7 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
     interaction: {
       intersect: false,
       mode: 'index'
-    },
+    }
   };
 
   if(isWhite){
@@ -293,7 +293,8 @@ export const lineData = [
         label: '여성',
         data: [10, 80, 70, 60, 40, 60, 70, 80, 50, 80, 70, 60],
         borderColor: '#9cc3d5',
-        backgroundColor: '#9cc3d5'
+        backgroundColor: '#9cc3d5',
+        type: 'bar',
       },
     ]
   },

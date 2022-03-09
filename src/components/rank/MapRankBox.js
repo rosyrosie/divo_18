@@ -13,7 +13,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           <S.InfoCat>{corp?.category}</S.InfoCat>
           <S.InfoReview>리뷰 {corp?.reviewNum}개</S.InfoReview>
           <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
-          <S.InfoRank>{corp?.rank}</S.InfoRank>
+          <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
           <S.InfoDelta up={corp?.delta >= 0}>{Math.abs(corp?.delta)}위 {corp?.delta >= 0 ? '상승' : '하락'}</S.InfoDelta>
           <S.InfoChart>
             <Line options={lineOptions('', false, false, false)} data={applyStyleToChart(salesLineData[0], 'dark')} />
