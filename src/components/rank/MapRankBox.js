@@ -5,6 +5,8 @@ import { lineOptions, salesLineData } from '@constants';
 import { applyStyleToChart } from '@functions';
 
 export default function MapRankBox({ corp, fold, setFold }){
+  console.log(corp);
+
   return (
     <>
       {!fold && 
@@ -17,11 +19,10 @@ export default function MapRankBox({ corp, fold, setFold }){
           </S.InfoReview>
           <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
           <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
-          {/* <S.InfoDelta up={corp?.delta >= 0}>{Math.abs(corp?.delta)}위 {corp?.delta >= 0 ? '상승' : '하락'}</S.InfoDelta> */}
-          <S.InfoDelta />
-          {/* <S.InfoChart>
-            <Line options={lineOptions('', false, false, false)} data={applyStyleToChart(salesLineData[0], 'dark')} />
-          </S.InfoChart> */}
+          <S.InfoDelta color={corp?.delta > 0 ? '#de071c' : corp?.delta === 0 ? '#1d1d1f' : '#06c'}>{corp?.delta !== 0 ? `${Math.abs(corp?.delta)}위 ${corp?.delta >= 0 ? '상승' : '하락'}` : '변동 없음'}</S.InfoDelta>
+          <S.InfoChart>
+            {corp && <Line options={lineOptions('위', false, false, false, true)} data={applyStyleToChart(corp.chart, 'dark')} />}
+          </S.InfoChart>
           <S.PartialRank>
             <S.Flex>
               <S.InfoIcon>
@@ -146,7 +147,7 @@ S.InfoDelta = styled.div`
   justify-content: center;
   font-family: 'Montserrat', 'SUIT';
   font-size: 14px;
-  color: ${props => props.up ? '#de071c' : '#06c'};
+  color: ${props => props.color};
   padding-bottom: 30px;
 `;
 
@@ -166,7 +167,7 @@ S.PartialRank = styled.div`
 `;
 
 S.Ratio = styled.div`
-  font-weight: bold;
+  font-weight: 600;
 `;
 
 S.InfoIcon = styled.div`
