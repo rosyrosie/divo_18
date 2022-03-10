@@ -53,7 +53,7 @@ export default function App(){
         { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin /> },
         { path: '/cid=:corpId/corp-auth', element: <CorpAuth /> },
         { path: '/cid=:corpId/sync-ys', element: <SyncYeoshin /> },
-        { path: '/cid=:corpId/rank', element: <Rank /> },
+        { path: '/cid=:corpId/rank', element: <Inspection /> },
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
