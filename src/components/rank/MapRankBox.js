@@ -65,7 +65,7 @@ S.BrandInfo = styled.div`
   top: 88px;
   left: 0;
   bottom: 40px;
-  width: 15%;
+  width: 288px;
   z-index: 1;
   background: white;
   box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);

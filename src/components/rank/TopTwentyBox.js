@@ -86,7 +86,7 @@ S.Sidebar = styled.div`
   top: 48px;
   right: 0;
   bottom: 0;
-  width: 15%;
+  width: 288px;
   z-index: 1;
   padding: 20px;
 `;
