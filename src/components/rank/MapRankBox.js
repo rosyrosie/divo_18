@@ -1,12 +1,9 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
-import { lineOptions, salesLineData } from '@constants';
+import { lineOptions } from '@constants';
 import { applyStyleToChart } from '@functions';
 
 export default function MapRankBox({ corp, fold, setFold }){
-  console.log(corp);
-
   return (
     <>
       {!fold && 

@@ -13,6 +13,7 @@ export default function Rank(){
   const [ index, setIndex ] = useState(0);
   const [ fold, setFold ] = useState(false);
   const [ isCat, setIsCat ] = useState(false);
+  const [ level, setLevel ] = useState(3);
   
   const { payload, error } = useFetch(
     RANK_GET_PID_URL + corpId,
@@ -50,10 +51,17 @@ export default function Rank(){
   useEffect(() => {
     const options = {
       center: new kakao.maps.LatLng(corpList?.[index]?.lat, corpList?.[index]?.lng),
-      level: 3
+      level: level
     };
     const map = cPayload ? new kakao.maps.Map(container, options) : null;
     if(!map) return;
+    const zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+    kakao.maps.event.addListener(map, 'zoom_changed', () => {
+      setLevel(map.getLevel());
+    })
+
     corpList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var markerContent =  `<style>#marker_${i}:after{ content: '${i ? i : '나'}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
