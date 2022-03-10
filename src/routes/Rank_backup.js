@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import TopTwentyBox from '@/components/rank/TopTwentyBox';
+import MapRankBox from '@/components/rank/MapRankBox';
 import { RANK_GET_PID_URL, RANK_OM_URL, RANK_RIVALS_URL } from '@api';
 import { useFetch } from '@hooks';
 
@@ -128,20 +130,6 @@ export default function Rank(){
     setIndex(0);
   }, [isCat]);
 
-  const [ hide, setHide ] = useState(false);
-  const [ input, setInput ] = useState('');
-  const [ keyword, setKeyword ] = useState('');
-
-  const onClickSearch = () => {
-    if(keyword){
-      setInput('');
-      setKeyword('');
-    }
-    else{
-      setKeyword(input);
-    }
-  }
-
   if(corpId === '0') return (
     <CorpRequired />
   );
@@ -149,162 +137,18 @@ export default function Rank(){
   return ( 
     <>
       <S.Map id="map" />
-      {keyword &&
+      {
+        cPayload && 
         <>
-          {
-            !hide &&
-            <S.Sidebar>
-            </S.Sidebar>
-          }
-          <S.Hide hide={hide} onClick={() => setHide(h => !h)}>
-            <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
-          </S.Hide>
+          <TopTwentyBox corpList={corpList} setIndex={setIndex} setFold={setFold} isCat={isCat} setIsCat={setIsCat} />
+          <MapRankBox corp={iPayload} fold={fold} setFold={setFold} />
         </>
       }
-      <S.Flex>
-        <S.SearchBar>
-          <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && setKeyword(input)} />
-          <S.Icon onClick={onClickSearch}>
-            <i className={keyword ? "fas fa-times" : "fas fa-search"}></i>
-          </S.Icon>
-        </S.SearchBar>
-        <S.Button>내 매장</S.Button>
-        <S.Button>
-          주변 Top 20
-          <S.DropBox>
-            <S.Dropdown>
-              <S.Menu border>전체 업종</S.Menu>
-              <S.Menu>내 업종</S.Menu>
-            </S.Dropdown>
-          </S.DropBox>
-        </S.Button>
-      </S.Flex>
     </>
   );
 }
 
 const S = {};
-
-S.Sidebar = styled.div`
-  position: relative;
-  width: 320px;
-  display: flex;
-  flex-flow: column;
-  padding: 68px 10px 10px 10px;
-  background: white;
-  height: 100%;
-  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-  color: #1d1d1f;
-`;
-
-S.Hide = styled.div`
-  position: absolute;
-  top: calc(50% - 24px);
-  left: ${props => props.hide ? 0 : '320px'};
-  width: 23px;
-  height: 48px;
-  background: white;
-  border-radius: 0 8px 8px 0;
-  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &:hover{
-    cursor: pointer;
-  }
-`;
-
-S.Flex = styled.div`
-  position: absolute;
-  display: flex;
-  padding: 10px;
-  top: 48px;
-  left: 0;
-`;
-
-S.SearchBar = styled.div`
-  display: flex;
-  background: white;
-  height: 48px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
-  z-index: 4;
-  width: 300px;
-  margin-right: 10px;
-`;
-
-S.Input = styled.input`
-  border: none;
-  background: none;
-  width: 100%;
-  padding: 15px;
-  &:focus{
-    outline: none;
-  }
-  color: #1d1d1f;
-  &::placeholder{
-    color: #515154;
-  }
-`;
-
-S.DropBox = styled.div`
-  position: absolute;
-  padding-top: 5px;
-  top: 100%;
-  width: 100%;
-  left: 0;
-  display: none;
-`;
-
-S.Dropdown = styled.div`
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-`;
-
-S.Button = styled.button`
-  background: white;
-  border: none;
-  box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
-  margin: 5px 0 5px 10px;
-  padding: 0 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  color: #1d1d1f;
-  position: relative;
-  &:hover{
-    cursor: pointer;
-  }
-  &:hover ${S.DropBox}{
-    display: flex;
-  }
-`;
-
-S.Icon = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 0 15px;
-  margin: 10px 0;
-  border-left: 1px solid #d2d2d7;
-  color: #515154;
-  &:hover{
-    cursor: pointer;
-  }
-`;
-
-S.Menu = styled.div`
-  padding: 15px 0;
-  ${props => props.border && 'border-bottom: 1px solid #f5f5f7;'}
-  &:hover{
-    cursor: pointer;
-    background: #f5f5f7;
-  }
-  font-size: 12px;
-  ${props => props.border ? 'border-radius: 8px 8px 0 0;' : 'border-radius: 0 0 8px 8px;'}
-`;
 
 S.Map = styled.div`
   position: absolute;

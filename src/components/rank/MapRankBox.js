@@ -16,7 +16,7 @@ export default function MapRankBox({ corp, fold, setFold }){
           </S.InfoReview>
           <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
           <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
-          <S.InfoDelta color={corp?.delta > 0 ? '#de071c' : corp?.delta === 0 ? '#1d1d1f' : '#06c'}>{corp?.delta !== 0 ? `${Math.abs(corp?.delta)}위 ${corp?.delta >= 0 ? '상승' : '하락'}` : '변동 없음'}</S.InfoDelta>
+          <S.InfoDelta color={corp?.delta > 0 ? '#de071c' : corp?.delta === 0 ? '#1d1d1f' : '#06c'}>{corp?.delta !== 0 ? `${Math.abs(corp?.delta).toLocaleString()}위 ${corp?.delta >= 0 ? '상승' : '하락'}` : '변동 없음'}</S.InfoDelta>
           <S.InfoChart>
             {corp && <Line options={lineOptions('위', false, false, false, true)} data={applyStyleToChart(corp.chart, 'dark')} />}
           </S.InfoChart>
