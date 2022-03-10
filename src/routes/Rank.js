@@ -57,7 +57,7 @@ export default function Rank(){
     corpList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
       var markerContent =  `<style>#marker_${i}:after{ content: '${i ? i : '나'}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
-                            `<div id="marker_${i}" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #1d1d1fb3; transform: translateY(-24px) rotate(-45deg); backdrop-filter: saturate(180%) blur(20px);"></div>`;
+                            `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #1d1d1fb3; transform: translateY(-24px) rotate(-45deg); backdrop-filter: saturate(180%) blur(20px);"></div>`;
       var marker = new kakao.maps.CustomOverlay({
         content: markerContent,
         position: markerPosition,
@@ -92,7 +92,9 @@ export default function Rank(){
       });
 
       if(i === index) overlay.setMap(map);
-      kakao.maps.event.addListener(map, 'bounds_changed', () => {
+
+      kakao.maps.event.addListener(map, 'bounds_changed', () => 
+        {
           const markers = document.querySelectorAll('#marker_'+i);
           const marker = markers[markers.length - 1];
           marker?.addEventListener('click', () => {
@@ -106,8 +108,14 @@ export default function Rank(){
           marker?.addEventListener('mouseout', () => {
             if(i !== index) overlay.setMap(null);
           });
-        });
-      });
+        }
+      );
+    });
+
+    return () => {
+      const markers = document.querySelectorAll('div.marker');
+      for(var i=0; markers[i]; i++) markers[i].remove();
+    }
   }, [index, cPayload, isCat]);
 
   useEffect(() => {
