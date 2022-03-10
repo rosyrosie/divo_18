@@ -1,4 +1,5 @@
 import { sortComma } from '@functions';
+import Loading from '@/components/Loading';
 
 //contract
 export const contractText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin dapibus elit a suscipit. Pellentesque volutpat suscipit tincidunt. Donec vitae elit id metus consequat posuere. Maecenas vitae arcu et lorem tristique porttitor. Praesent non arcu sit amet ligula fringilla auctor sed in metus. Duis mattis lorem velit, ut congue nibh sagittis non. In vestibulum turpis ac sapien faucibus, sed tincidunt dui semper. Proin sed erat sed tellus blandit tempor. Etiam sed eleifend augue, at consequat neque. Duis ullamcorper eros vel purus faucibus varius. Curabitur dictum purus id sapien faucibus lacinia. Fusce eu lobortis metus, id gravida ligula. Quisque laoreet velit eros, eget dignissim leo volutpat eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin dapibus elit a suscipit. Pellentesque volutpat suscipit tincidunt. Donec vitae elit id metus consequat posuere. Maecenas vitae arcu et lorem tristique porttitor. Praesent non arcu sit amet ligula fringilla auctor sed in metus. Duis mattis lorem velit, ut congue nibh sagittis non. In vestibulum turpis ac sapien faucibus, sed tincidunt dui semper. Proin sed erat sed tellus blandit tempor. Etiam sed eleifend augue, at consequat neque. Duis ullamcorper eros vel purus faucibus varius. Curabitur dictum purus id sapien faucibus lacinia. Fusce eu lobortis metus, id gravida ligula. Quisque laoreet velit eros, eget dignissim leo volutpat eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin dapibus elit a suscipit. Pellentesque volutpat suscipit tincidunt. Donec vitae elit id metus consequat posuere. Maecenas vitae arcu et lorem tristique porttitor. Praesent non arcu sit amet ligula fringilla auctor sed in metus. Duis mattis lorem velit, ut congue nibh sagittis non. In vestibulum turpis ac sapien faucibus, sed tincidunt dui semper. Proin sed erat sed tellus blandit tempor. Etiam sed eleifend augue, at consequat neque. Duis ullamcorper eros vel purus faucibus varius. Curabitur dictum purus id sapien faucibus lacinia. Fusce eu lobortis metus, id gravida ligula. Quisque laoreet velit eros, eget dignissim leo volutpat eget."
@@ -90,9 +91,82 @@ export const maxChartTab = [3, 4, 2]; //for SalesCompare.js
 
 export const compareChartUnit = ['원', '원', '건', '%', '%'];
 
+export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
+  catsec: [
+    [
+      {
+        statName: 'View 순위',
+        pop: '키워드 검색 시 View 탭에서 내 브랜드 노출 순위로 30위까지 집계됩니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.view?.rank===31 ? '30+위' : stats?.view?.rank + '위'
+      },
+      {
+        statName: 'View EPR',
+        pop: 'View EPR(Earning Per Rank)은 해당 키워드에서 View 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.view?.efficiency[0] + '원'
+      },
+      {
+        statName: 'View LPR',
+        pop: 'View LPR(Loss Per Rank)은 해당 키워드에서 View 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.view?.efficiency[1] + '원'
+      },
+      {
+        statName: 'View CPR',
+        pop: 'View CPR(Cost Per Rank)은 해당 키워드에서 View 순위를 1위 상승시키기 위해 필요한 예상 비용입니다.',
+        index: loading ? <Loading size={16} align='left' /> : '-'
+      },
+    ],
+    [
+      {
+        statName: 'Place 순위',
+        pop: '키워드 검색 시 Place 탭에서 내 브랜드 노출 순위로 50위까지 집계됩니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.place?.rank === 51 ? '51+위' : stats?.place?.rank + '위'
+      },
+      {
+        statName: 'Place EPR',
+        pop: 'Place EPR(Earning Per Rank)은 해당 키워드에서 Place 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.place?.efficiency[0] + '원'
+      },
+      {
+        statName: 'Place LPR',
+        pop: 'Place LPR(Loss Per Rank)은 해당 키워드에서 Place 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.place?.efficiency[1] + '원'
+      },
+      {
+        statName: 'Place CPR',
+        pop: 'Place CPR(Cost Per Rank)은 해당 키워드에서 Place 순위를 1위 상승시키기 위해 필요한 예상 비용입니다.',
+        index: loading ? <Loading size={16} align='left' /> : '-'
+      },
+    ]
+  ],
+  brand: [
+    [
+      {
+        statName: '평균 검색량',
+        pop: '최근 6개월간 해당 키워드의 일평균 검색량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : (stats?.avgSearch + '건')
+      },
+      {
+        statName: '컨텐츠 포화도',
+        pop: '컨텐츠 포화도는 해당 키워드의 검색량 대비 발행되는 컨텐츠 수를 나타낸 지표입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.contentSaturation*100 + '%'
+      },
+      {
+        statName: 'Brand EPS',
+        pop: 'Brand EPS(Earning Per Search)는 해당 키워드의 검색량 1건을 매출액으로 환산한 지표입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.EPS + '원'
+      },
+      {
+        statName: 'Brand VPS',
+        pop: 'Brand VPS(Visit Per Search)는 해당 키워드가 1건 검색되었을 때 예상되는 추가 방문자 수입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.VPS + '팀'
+      },
+    ]
+  ]
+});
+
 //chart options
 
-export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false) => {
+export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {
     maintainAspectRatio: maintainAspectRatio,
     responsive: true,
@@ -104,7 +178,7 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
       tooltip: {
         callbacks: {
           label: tooltipItem => {
-            if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+            if(!tooltipItem.dataset.label.includes('추세')) return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + (!multiAxis ? unit : tooltipItem.dataset.label==='매출액' ? '원' : unit)
           }
         }
       }
@@ -153,6 +227,26 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
           reverse: true
         },
       }
+    }
+  }
+
+  if(multiAxis){
+    options = { ...options, 
+      scales: {
+        ...options.scales,
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          grid: {
+            drawOnChartArea: false
+          }
+        },
+        y: {
+          ...options.scales?.y,
+          beginAtZero: true
+        }
+      },
     }
   }
 

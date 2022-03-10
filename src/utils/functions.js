@@ -13,6 +13,13 @@ export const applyStyleToChart = (chartData, mode) => {
   return chartData;
 }
 
+export const applyMultiAxisToChart = (chartData) => {
+  chartData.datasets[0].yAxisID = 'y';
+  chartData.datasets[1].yAxisID = 'y1';
+  chartData.datasets[1].type = 'bar';
+  return chartData;
+}
+
 //date functions
 const toThursday = (date) => {
   return addDays(date, date.getDay() ? 4-date.getDay() : -3)
