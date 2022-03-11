@@ -3,8 +3,8 @@ import { Rolling } from 'react-loading-io';
 
 export default function Loading({ isWhite = false, size = 80, align = 'center' }){
   return (
-    <S.Content>
-      <Rolling color={isWhite ? '#f5f5f7' : '#1d1d1f'} width={3} size={size} align={align} />
+    <S.Content align={align} >
+      <Rolling color={isWhite ? '#f5f5f7' : '#1d1d1f'} width={3} size={size} />
     </S.Content>
   );
 }
