@@ -7,6 +7,7 @@ import { RANK_GET_PID_URL, RANK_OM_URL, RANK_RIVALS_URL, RANK_QUERY_URL } from '
 import { useFetch } from '@hooks';
 import MapRankBox from '@/components/rank/MapRankBox';
 import QueryBox from '@/components/rank/QueryBox';
+import Loading from '@/components/Loading';
 
 export default function Rank(){
   const { corpId } = useParams();
@@ -27,7 +28,7 @@ export default function Rank(){
   const [ around, setAround ] = useState(null);
   const [ category, setCategory ] = useState(null);
 
-  const { payload: queryResult, error: queryError } = useFetch(
+  const { payload: queryResult, loading: queryLoading, error: queryError } = useFetch(
     RANK_QUERY_URL,
     {
       query: keyword,
@@ -80,7 +81,7 @@ export default function Rank(){
   useEffect(() => {
     if(queryResult){
       setQueryList(queryResult?.data.data);
-      setMapPosition({lat: queryResult?.data.lat, lng: queryResult?.data.lng});
+      setMapPosition({lat: queryResult?.data.lat || myCorp?.lat, lng: queryResult?.data.lng || myCorp?.lng });
       setLevel(queryResult?.data.zoom);
     }
   }, [queryResult]);
@@ -270,15 +271,18 @@ export default function Rank(){
                 <MapRankBox corp={viewCorp} setShowSelected={setShowSelected} setSelectedIndex={setSelectedIndex} loading={viewLoading} />
                 :
                 <S.Scroll onMouseLeave={() => setHoverIndex(-1)}>
-                  {queryList?.map((corp, i) => (
-                    <S.ResultBox onClick={() => moveToCorp(i, corp)} onMouseEnter={() => setHoverIndex(i)}>
-                      <S.NameBox>
-                        <S.Name>{corp.name}</S.Name>
-                        <S.Rank>{corp.rank}{corp.rank !== '순위권 밖' && '위'}</S.Rank>
-                      </S.NameBox>
-                      <S.Addr>{corp.address}</S.Addr>
-                    </S.ResultBox>
-                  ))}
+                  {queryLoading ? 
+                    <S.Center><Loading /></S.Center> : 
+                    queryList.length ? queryList?.map((corp, i) => (
+                      <S.ResultBox onClick={() => moveToCorp(i, corp)} onMouseEnter={() => setHoverIndex(i)}>
+                        <S.NameBox>
+                          <S.Name>{corp.name}</S.Name>
+                          <S.Rank>{corp.rank}{corp.rank !== '순위권 밖' && '위'}</S.Rank>
+                        </S.NameBox>
+                        <S.Addr>{corp.address}</S.Addr>
+                      </S.ResultBox>
+                    )) : <S.Center>검색결과가 없습니다</S.Center>
+                  }
                 </S.Scroll>
               }
             </S.Sidebar>
@@ -319,6 +323,13 @@ export default function Rank(){
 }
 
 const S = {};
+
+S.Center = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 S.Sidebar = styled.div`
   position: relative;
