@@ -3,17 +3,36 @@ import styled from 'styled-components';
 import CorpRequired from '@/components/errorPage/CorpRequired';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { RANK_GET_PID_URL, RANK_OM_URL, RANK_RIVALS_URL } from '@api';
+import { RANK_GET_PID_URL, RANK_OM_URL, RANK_RIVALS_URL, RANK_QUERY_URL } from '@api';
 import { useFetch } from '@hooks';
 
 export default function Rank(){
   const { corpId } = useParams();
   const [ index, setIndex ] = useState(0);
-  const [ fold, setFold ] = useState(false);
-  const [ isCat, setIsCat ] = useState(false);
   const [ level, setLevel ] = useState(3);
-  
-  const { payload, error } = useFetch(
+  const [ mapPosition, setMapPosition ] = useState(null);
+
+  const [ hide, setHide ] = useState(false);
+  const [ input, setInput ] = useState('');
+  const [ keyword, setKeyword ] = useState('');
+  const [ queryList, setQueryList ] = useState([]);
+  const [ selectedCorp, setSelectedCorp ] = useState(null);
+  const [ showSelected, setShowSelected ] = useState(false);
+
+  const { payload: queryResult, error: queryError } = useFetch(
+    RANK_QUERY_URL,
+    {
+      query: keyword,
+      corpId: corpId,
+      around: null,
+      category: null,
+    },
+    'POST',
+    [keyword],
+    keyword
+  );
+
+  const { payload: myId, error: myIdError } = useFetch(
     RANK_GET_PID_URL + corpId,
     null,
     'GET',
@@ -21,37 +40,36 @@ export default function Rank(){
     corpId !== '0'
   );
 
-  const placeId = payload?.naverId;
+  const myPlaceId = myId?.naverId;
 
-  const { payload: cPayload, error: cError } = useFetch(
-    RANK_RIVALS_URL + placeId,
+  const { payload: myCorp, error: myCorpError } = useFetch(
+    RANK_OM_URL + myPlaceId,
     null,
     'GET',
-    [payload],
-    placeId !== undefined
-  );
-  
-  const myCorp = cPayload?.myData;
-  const corpList = isCat ? [myCorp]?.concat(cPayload?.category) : [myCorp]?.concat(cPayload?.around);
-
-  const indexId = corpList?.[index]?.id;
-
-  const { payload: iPayload, error: iError } = useFetch(
-    RANK_OM_URL + indexId,
-    null,
-    'GET',
-    [indexId],
-    indexId !== undefined
+    [myPlaceId],
+    myPlaceId !== undefined
   );
 
+  useEffect(() => {
+    setMapPosition({ lat: myCorp?.lat, lng: myCorp?.lng });
+    setQueryList([myCorp]);
+  }, [myCorp]);
+
+  // useEffect(() => {
+  //   if(queryResult){
+  //     setQueryList(queryResult?.data.slice(0, 20));
+  //   }
+  // }, [queryResult]);
+
+  const corpList = queryResult?.data.slice(0, 20);
   const container = document.getElementById('map');
 
   useEffect(() => {
     const options = {
-      center: new kakao.maps.LatLng(corpList?.[index]?.lat, corpList?.[index]?.lng),
+      center: new kakao.maps.LatLng(mapPosition?.lat, mapPosition?.lng),
       level: level
     };
-    const map = cPayload ? new kakao.maps.Map(container, options) : null;
+    const map = mapPosition ? new kakao.maps.Map(container, options) : null;
     if(!map) return;
     const zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
@@ -60,20 +78,20 @@ export default function Rank(){
       setLevel(map.getLevel());
     })
 
-    corpList?.forEach((corp, i) => {
+    queryList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
-      var markerContent =  `<style>#marker_${i}:after{ content: '${i ? i : '나'}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
+      var markerContent =  `<style>#marker_${i}:after{ content: '${i+1}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
                             `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #1d1d1fb3; transform: translateY(-24px) rotate(-45deg); backdrop-filter: saturate(180%) blur(20px);"></div>`;
       var marker = new kakao.maps.CustomOverlay({
         content: markerContent,
         position: markerPosition,
         zIndex: 3
       });
-      if(corp.corpName !== corpList[0].corpName || !i) marker.setMap(map);
+      marker.setMap(map);
     });
-    corpList?.forEach((corp, i) => {
+    queryList?.forEach((corp, i) => {
       var overlayContent = `<div>` + 
-                              `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${corp.corpName}</div>` + 
+                              `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${corp.name}</div>` + 
                               `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
                             `</div>`;
       var overlayPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
@@ -86,8 +104,6 @@ export default function Rank(){
       const markers = document.querySelectorAll('#marker_'+i);
       const marker = markers[markers.length - 1];
       marker?.addEventListener('click', () => {
-        setIndex(i);
-        setFold(false);
         overlay.setMap(map);
       });
       marker?.addEventListener('mouseover', () => {
@@ -105,7 +121,6 @@ export default function Rank(){
           const marker = markers[markers.length - 1];
           marker?.addEventListener('click', () => {
             setIndex(i);
-            setFold(false);
             overlay.setMap(map);
           });
           marker?.addEventListener('mouseover', () => {
@@ -122,15 +137,7 @@ export default function Rank(){
       const markers = document.querySelectorAll('div.marker');
       for(var i=0; markers[i]; i++) markers[i].remove();
     }
-  }, [index, cPayload, isCat]);
-
-  useEffect(() => {
-    setIndex(0);
-  }, [isCat]);
-
-  const [ hide, setHide ] = useState(false);
-  const [ input, setInput ] = useState('');
-  const [ keyword, setKeyword ] = useState('');
+  }, [mapPosition]);
 
   const onClickSearch = () => {
     if(keyword){
@@ -154,6 +161,17 @@ export default function Rank(){
           {
             !hide &&
             <S.Sidebar>
+              <S.Scroll>
+                {corpList?.map((corp, i) => (
+                  <S.ResultBox>
+                    <S.NameBox>
+                      <S.Name>{corp.name}</S.Name>
+                      <S.Rank>{corp.rank}{corp.rank !== '순위권 밖' && '위'}</S.Rank>
+                    </S.NameBox>
+                    <S.Addr>{corp.address}</S.Addr>
+                  </S.ResultBox>
+                ))}
+              </S.Scroll>
             </S.Sidebar>
           }
           <S.Hide hide={hide} onClick={() => setHide(h => !h)}>
@@ -162,13 +180,17 @@ export default function Rank(){
         </>
       }
       <S.Flex>
-        <S.SearchBar>
-          <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && setKeyword(input)} />
-          <S.Icon onClick={onClickSearch}>
-            <i className={keyword ? "fas fa-times" : "fas fa-search"}></i>
-          </S.Icon>
-        </S.SearchBar>
+        {
+          !hide &&
+          <S.SearchBar>
+            <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && setKeyword(input)} />
+            <S.Icon onClick={onClickSearch}>
+              <i className={keyword ? "fas fa-times" : "fas fa-search"}></i>
+            </S.Icon>
+          </S.SearchBar>
+        }
         <S.Button>내 매장</S.Button>
+        <S.Button>전국 Top 20</S.Button>
         <S.Button>
           주변 Top 20
           <S.DropBox>
@@ -190,11 +212,46 @@ S.Sidebar = styled.div`
   width: 320px;
   display: flex;
   flex-flow: column;
-  padding: 68px 10px 10px 10px;
+  padding: 68px 0 10px 0;
   background: white;
-  height: 100%;
+  height: calc(100vh - 48px);
   box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
   color: #1d1d1f;
+`;
+
+S.ResultBox = styled.div`
+  padding: 20px 15px;
+  border-bottom: 1px solid #d2d2d7;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+S.NameBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+S.Name = styled.div`
+  font-weight: bold;
+  color: #1d1d1f;
+  font-size: 15px;
+`;
+
+S.Rank = styled.div`
+  color: #515154;
+  font-size: 13px;
+`;
+
+S.Addr = styled.div`
+  margin-top: 30px;
+  font-size: 14px;
+`;
+
+S.Scroll = styled.div`
+  display: flex;
+  flex-flow: column;
+  overflow-y: auto;
 `;
 
 S.Hide = styled.div`
@@ -270,6 +327,7 @@ S.Button = styled.button`
   border: none;
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
   margin: 5px 0 5px 10px;
+  height: 38px;
   padding: 0 12px;
   border-radius: 8px;
   font-weight: bold;

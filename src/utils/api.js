@@ -40,6 +40,7 @@ export const RANK_CHART_URL = (id, keyword, cat) => BASE_URL + `rank/graph?id=${
 export const RANK_GET_PID_URL = BASE_URL + 'omrank/getid?corpId=';
 export const RANK_RIVALS_URL = BASE_URL + 'omrank/rivals?id=';
 export const RANK_OM_URL = BASE_URL + 'omrank/omrank?id=';
+export const RANK_QUERY_URL = BASE_URL + 'omrank/search';
 
 export const KS_CHART_URL = (corpId, keyword) => BASE_URL + `score/graph/${corpId}?keyword=` + keyword;
 export const KS_STAT_URL = (corpId, keyword) => BASE_URL + `score/keyword/${corpId}?keyword=` + keyword;
