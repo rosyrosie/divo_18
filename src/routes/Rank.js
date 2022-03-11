@@ -5,31 +5,42 @@ import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { RANK_GET_PID_URL, RANK_OM_URL, RANK_RIVALS_URL, RANK_QUERY_URL } from '@api';
 import { useFetch } from '@hooks';
+import MapRankBox from '@/components/rank/MapRankBox';
+import QueryBox from '@/components/rank/QueryBox';
 
 export default function Rank(){
   const { corpId } = useParams();
-  const [ index, setIndex ] = useState(0);
-  const [ level, setLevel ] = useState(3);
+  const [ selectedIndex, setSelectedIndex ] = useState(-1);
+  const [ hoverIndex, setHoverIndex ] = useState(-1);
+  const [ level, setLevel ] = useState(null);
   const [ mapPosition, setMapPosition ] = useState(null);
+  const [ map, configMap ] = useState(null);
 
   const [ hide, setHide ] = useState(false);
   const [ input, setInput ] = useState('');
   const [ keyword, setKeyword ] = useState('');
   const [ queryList, setQueryList ] = useState([]);
-  const [ selectedCorp, setSelectedCorp ] = useState(null);
+  const [ overlayList, setOverlayList ] = useState([]);
+  const [ selectedCorp, setSelectedCorp ] = useState(undefined);
   const [ showSelected, setShowSelected ] = useState(false);
+  const [ type, setType ] = useState('query');
+  const [ around, setAround ] = useState(null);
+  const [ category, setCategory ] = useState(null);
 
   const { payload: queryResult, error: queryError } = useFetch(
     RANK_QUERY_URL,
     {
       query: keyword,
       corpId: corpId,
-      around: null,
-      category: null,
+      around: around,
+      category: category,
+      type: type,
+      start: 1,
+      display: 20
     },
     'POST',
-    [keyword],
-    keyword
+    [keyword, around, category, type],
+    keyword || (around !== null || category !== null || type)
   );
 
   const { payload: myId, error: myIdError } = useFetch(
@@ -46,42 +57,81 @@ export default function Rank(){
     RANK_OM_URL + myPlaceId,
     null,
     'GET',
-    [myPlaceId],
-    myPlaceId !== undefined
+    [myId],
+    myPlaceId !== undefined && myPlaceId
+  );
+
+  const { payload: viewCorp, loading: viewLoading, error: viewCorpError } = useFetch(
+    RANK_OM_URL + selectedCorp,
+    null,
+    'GET',
+    [selectedCorp],
+    selectedCorp !== undefined
   );
 
   useEffect(() => {
     setMapPosition({ lat: myCorp?.lat, lng: myCorp?.lng });
-    setQueryList([myCorp]);
+    setLevel(3);
+    setSelectedCorp(myCorp?.id);
+    setShowSelected(true);
+    setHide(false);
   }, [myCorp]);
 
-  // useEffect(() => {
-  //   if(queryResult){
-  //     setQueryList(queryResult?.data.slice(0, 20));
-  //   }
-  // }, [queryResult]);
+  useEffect(() => {
+    if(queryResult){
+      setQueryList(queryResult?.data.data);
+      setMapPosition({lat: queryResult?.data.lat, lng: queryResult?.data.lng});
+      setLevel(queryResult?.data.zoom);
+    }
+  }, [queryResult]);
 
-  const corpList = queryResult?.data.slice(0, 20);
   const container = document.getElementById('map');
 
   useEffect(() => {
+    if(container) container.innerHTML = "";
     const options = {
       center: new kakao.maps.LatLng(mapPosition?.lat, mapPosition?.lng),
       level: level
     };
-    const map = mapPosition ? new kakao.maps.Map(container, options) : null;
-    if(!map) return;
-    const zoomControl = new kakao.maps.ZoomControl();
-    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    configMap(mapPosition&&level ? new kakao.maps.Map(container, options) : null);
+  }, [mapPosition, level]);
 
-    kakao.maps.event.addListener(map, 'zoom_changed', () => {
-      setLevel(map.getLevel());
-    })
+  useEffect(() => {
+    if(!map) return;
+    var markerPosition = new kakao.maps.LatLng(myCorp?.lat, myCorp?.lng);
+    var markerContent =  `<style>#marker_my:after{ content: '★'; font-weight: bold; background: white; color: #de071c; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_my:hover{cursor: pointer;}</style>` + 
+                          `<div id="marker_my" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #de071c; transform: translateY(-24px) rotate(-45deg);"></div>`;
+    var marker = new kakao.maps.CustomOverlay({
+      content: markerContent,
+      position: markerPosition,
+      zIndex: 3
+    });
+    marker.setMap(map);
+
+    const myMarker = document.querySelector('#marker_my');
+    myMarker?.addEventListener('click', () => {
+      setSelectedCorp(myCorp?.id);
+      setShowSelected(true);
+      setHide(false);
+      setSelectedIndex(-1);
+    });
+
+    var overlayContent = `<div>` + 
+      `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${myCorp?.name}</div>` + 
+        `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
+      `</div>`;
+    var overlayPosition = new kakao.maps.LatLng(myCorp?.lat, myCorp?.lng);
+    var overlay = new kakao.maps.CustomOverlay({
+      content: overlayContent,
+      position: overlayPosition,
+      zIndex: 4
+    });
+    overlay.setMap(map);
 
     queryList?.forEach((corp, i) => {
-      var markerPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
+      var markerPosition = new kakao.maps.LatLng(corp?.lat, corp?.lng);
       var markerContent =  `<style>#marker_${i}:after{ content: '${i+1}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
-                            `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #1d1d1fb3; transform: translateY(-24px) rotate(-45deg); backdrop-filter: saturate(180%) blur(20px);"></div>`;
+                            `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: rgb(76, 76, 76); transform: translateY(-24px) rotate(-45deg);"></div>`;
       var marker = new kakao.maps.CustomOverlay({
         content: markerContent,
         position: markerPosition,
@@ -89,89 +139,148 @@ export default function Rank(){
       });
       marker.setMap(map);
     });
+
+    let overlays = [];
+
     queryList?.forEach((corp, i) => {
       var overlayContent = `<div>` + 
                               `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${corp.name}</div>` + 
                               `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
                             `</div>`;
-      var overlayPosition = new kakao.maps.LatLng(corp.lat, corp.lng);
+      var overlayPosition = new kakao.maps.LatLng(corp?.lat, corp?.lng);
       var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
         position: overlayPosition,
         zIndex: 4
       });
-
-      const markers = document.querySelectorAll('#marker_'+i);
-      const marker = markers[markers.length - 1];
+      overlays.push(overlay);
+      const marker = document.querySelector('#marker_'+i);
       marker?.addEventListener('click', () => {
-        overlay.setMap(map);
+        setSelectedIndex(i);
+        setSelectedCorp(queryList[i].id);
+        setShowSelected(true);
+        setHide(false);
       });
-      marker?.addEventListener('mouseover', () => {
-        overlay.setMap(map);
+      marker?.addEventListener('mouseenter', () => {
+        setHoverIndex(i);
       });
       marker?.addEventListener('mouseout', () => {
-        if(i !== index) overlay.setMap(null);
+        setHoverIndex(-1);
       });
-
-      if(i === index) overlay.setMap(map);
 
       kakao.maps.event.addListener(map, 'bounds_changed', () => 
         {
           const markers = document.querySelectorAll('#marker_'+i);
           const marker = markers[markers.length - 1];
           marker?.addEventListener('click', () => {
-            setIndex(i);
-            overlay.setMap(map);
+            setSelectedIndex(i);
+            setSelectedCorp(queryList[i].id);
+            setShowSelected(true);
+            setHide(false);
           });
-          marker?.addEventListener('mouseover', () => {
-            overlay.setMap(map);
+          marker?.addEventListener('mouseenter', () => {
+            setHoverIndex(i);
           });
           marker?.addEventListener('mouseout', () => {
-            if(i !== index) overlay.setMap(null);
+            setHoverIndex(-1);
           });
         }
       );
     });
 
+    setOverlayList(overlays);
+
     return () => {
       const markers = document.querySelectorAll('div.marker');
-      for(var i=0; markers[i]; i++) markers[i].remove();
+      for(var i=0; markers[i]; i++){
+        markers[i].remove();
+      }
+      for(i=0; overlays[i]; i++) overlays[i].setMap(null);
     }
-  }, [mapPosition]);
+  }, [map, queryList]);
+
+  useEffect(() => {
+    for(var i=0; i<overlayList.length; i++){
+      if(i === selectedIndex || i === hoverIndex) overlayList[i].setMap(map);
+      else overlayList[i].setMap(null);
+    }
+  }, [overlayList, hoverIndex, selectedIndex]);
 
   const onClickSearch = () => {
-    if(keyword){
-      setInput('');
-      setKeyword('');
-    }
-    else{
-      setKeyword(input);
-    }
+    setType('query');
+    setKeyword(input);
+    setSelectedIndex(-1);
+    setShowSelected(false);
   }
 
   if(corpId === '0') return (
     <CorpRequired />
   );
 
+  const getMyCorp = e => {
+    e.preventDefault();
+    setMapPosition({ lat: myCorp?.lat, lng: myCorp?.lng });
+    setLevel(3);
+    setSelectedCorp(myCorp?.id);
+    setShowSelected(true);
+    setHide(false);
+    setQueryList([]);
+  };
+
+  const getTop = (isNear, sameCat = false) => {
+    if(!isNear){
+      setType('best');
+    }
+    else{
+      if(sameCat){
+        setType('common');
+        setCategory(0);
+        setAround([map.getCenter().getLat(), map.getCenter().getLng()]);
+      }
+      else{
+        setType('around');
+        setAround([map.getCenter().getLat(), map.getCenter().getLng()]);
+      }
+    }
+    setSelectedIndex(-1);
+    setShowSelected(false);
+    setInput('');
+  }
+
+  const moveToCorp = (i, corp) => {
+    setHide(false);
+    setSelectedIndex(i);
+    setSelectedCorp(corp.id);
+    setShowSelected(true);
+    const bounds = map.getBounds();
+    if(corp.lat >= bounds.qa && corp.lat <= bounds.pa && corp.lng >= bounds.ha && corp.lng <= bounds.oa) return;
+    setMapPosition({lat: corp.lat, lng: corp.lng});
+  }
+
   return ( 
     <>
       <S.Map id="map" />
-      {keyword &&
+      {(queryList.length || selectedCorp) &&
         <>
           {
             !hide &&
             <S.Sidebar>
-              <S.Scroll>
-                {corpList?.map((corp, i) => (
-                  <S.ResultBox>
-                    <S.NameBox>
-                      <S.Name>{corp.name}</S.Name>
-                      <S.Rank>{corp.rank}{corp.rank !== '순위권 밖' && '위'}</S.Rank>
-                    </S.NameBox>
-                    <S.Addr>{corp.address}</S.Addr>
-                  </S.ResultBox>
-                ))}
-              </S.Scroll>
+              {
+                showSelected ?
+                <MapRankBox corp={viewCorp} setShowSelected={setShowSelected} setSelectedIndex={setSelectedIndex} loading={viewLoading} />
+                :
+                <S.Scroll onMouseLeave={() => setHoverIndex(-1)}>
+                  {queryList?.map((corp, i) => (
+                    <S.ResultBox onClick={() => moveToCorp(i, corp)} onMouseEnter={() => setHoverIndex(i)}>
+                      <S.NameBox>
+                        <S.Name>{corp.name}</S.Name>
+                        <S.Rank>{corp.rank}{corp.rank !== '순위권 밖' && '위'}</S.Rank>
+                      </S.NameBox>
+                      <S.Addr>{corp.address}</S.Addr>
+                    </S.ResultBox>
+                  ))}
+                </S.Scroll>
+              }
             </S.Sidebar>
           }
           <S.Hide hide={hide} onClick={() => setHide(h => !h)}>
@@ -183,24 +292,28 @@ export default function Rank(){
         {
           !hide &&
           <S.SearchBar>
-            <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && setKeyword(input)} />
+            <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && onClickSearch()} />
             <S.Icon onClick={onClickSearch}>
-              <i className={keyword ? "fas fa-times" : "fas fa-search"}></i>
+              <i className="fas fa-search"></i>
             </S.Icon>
           </S.SearchBar>
         }
-        <S.Button>내 매장</S.Button>
-        <S.Button>전국 Top 20</S.Button>
+        <S.Button onClick={getMyCorp}>내 매장</S.Button>
+        <S.Button onClick={() => getTop(false)}>전국 Top 20</S.Button>
         <S.Button>
           주변 Top 20
           <S.DropBox>
             <S.Dropdown>
-              <S.Menu border>전체 업종</S.Menu>
-              <S.Menu>내 업종</S.Menu>
+              <S.Menu border onClick={() => getTop(true, false)}>전체 업종</S.Menu>
+              <S.Menu onClick={() => getTop(true, true)}>내 업종</S.Menu>
             </S.Dropdown>
           </S.DropBox>
         </S.Button>
       </S.Flex>
+      {
+        (showSelected && queryList.length) &&
+        <QueryBox queryList={queryList} keyword={keyword} setHoverIndex={setHoverIndex} moveToCorp={moveToCorp} />
+      }
     </>
   );
 }

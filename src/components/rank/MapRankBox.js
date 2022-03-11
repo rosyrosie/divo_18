@@ -2,74 +2,88 @@ import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
 import { lineOptions } from '@constants';
 import { applyStyleToChart } from '@functions';
+import Loading from '@/components/Loading';
 
-export default function MapRankBox({ corp, fold, setFold }){
+export default function MapRankBox({ corp, setShowSelected, setSelectedIndex, loading }){
+  if(loading) return (
+    <S.Center>
+      <Loading />
+    </S.Center>
+  );
   return (
-    <>
-      {!fold && 
-        <S.BrandInfo>
-          <S.InfoName>{corp?.corpName}</S.InfoName>
-          <S.InfoCat>{corp?.category}</S.InfoCat>
-          <S.InfoReview>
-            <S.Review>블로그리뷰 {corp?.blogReviewNum}개</S.Review>
-            <div>방문자리뷰 {corp?.visitorReviewNum}개</div>
-          </S.InfoReview>
-          <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
-          <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
-          <S.InfoDelta color={corp?.delta > 0 ? '#de071c' : corp?.delta === 0 ? '#1d1d1f' : '#06c'}>{corp?.delta !== 0 ? `${Math.abs(corp?.delta).toLocaleString()}위 ${corp?.delta >= 0 ? '상승' : '하락'}` : '변동 없음'}</S.InfoDelta>
-          <S.InfoChart>
-            {corp && <Line options={lineOptions('위', false, false, false, true)} data={applyStyleToChart(corp.chart, 'dark')} />}
-          </S.InfoChart>
-          <S.PartialRank>
-            <S.Flex>
-              <S.InfoIcon>
-                <i className="fas fa-globe"></i>
-              </S.InfoIcon>
-              내 상권에서
-            </S.Flex>
-            <S.Ratio>상위 {corp?.inAreaRatio}%</S.Ratio>
-          </S.PartialRank>
-          <S.PartialRank>
-            <S.Flex>
-              <S.InfoIcon>
-                <i className="fas fa-utensils"></i>
-              </S.InfoIcon>
-              내 업종에서
-            </S.Flex>
-            <S.Ratio>상위 {corp?.inCatRatio}%</S.Ratio>
-          </S.PartialRank>
-          <S.PartialRank>
-            <S.Flex>
-              <S.InfoIcon>
-                <i className="fas fa-map-marker-alt"></i>
-              </S.InfoIcon>
-              내 상권 속 업종에서
-            </S.Flex>
-            <S.Ratio>상위 {corp?.inAreaCatRatio}%</S.Ratio>
-          </S.PartialRank>
-        </S.BrandInfo>
-      }
-      <S.Fold onClick={() => setFold(f => !f)} fold={fold}>
-        <S.FoldIcon>
-          <i className={fold ? "fas fa-caret-right" : "fas fa-caret-left"}></i>
-        </S.FoldIcon>
-      </S.Fold>
-    </>
+    <S.BrandInfo>
+      <S.Goback>
+        <S.BackIcon onClick={() => {setShowSelected(false); setSelectedIndex(-1);}}>
+          <i className="fas fa-arrow-left"></i>
+        </S.BackIcon>
+      </S.Goback>
+      <S.InfoName>{corp?.name}</S.InfoName>
+      <S.InfoCat>{corp?.category}</S.InfoCat>
+      <S.InfoReview>
+        <S.Review>블로그리뷰 {corp?.blogReviewNum}개</S.Review>
+        <div>방문자리뷰 {corp?.visitorReviewNum}개</div>
+      </S.InfoReview>
+      <S.InfoRatio>상위 {corp?.ratio}%</S.InfoRatio>
+      <S.InfoRank>{corp?.rank}{corp?.rank === '순위권 밖' ? '' : '위'}</S.InfoRank>
+      <S.InfoDelta color={corp?.delta > 0 ? '#de071c' : corp?.delta === 0 ? '#1d1d1f' : '#06c'}>{corp?.delta !== 0 ? `${Math.abs(corp?.delta).toLocaleString()}위 ${corp?.delta >= 0 ? '상승' : '하락'}` : '변동 없음'}</S.InfoDelta>
+      <S.InfoChart>
+        {corp && <Line options={lineOptions('위', false, false, false, true)} data={applyStyleToChart(corp.chart, 'dark')} />}
+      </S.InfoChart>
+      <S.PartialRank>
+        <S.Flex>
+          <S.InfoIcon>
+            <i className="fas fa-globe"></i>
+          </S.InfoIcon>
+          내 상권에서
+        </S.Flex>
+        <S.Ratio>상위 {corp?.inAreaRatio}%</S.Ratio>
+      </S.PartialRank>
+      <S.PartialRank>
+        <S.Flex>
+          <S.InfoIcon>
+            <i className="fas fa-utensils"></i>
+          </S.InfoIcon>
+          내 업종에서
+        </S.Flex>
+        <S.Ratio>상위 {corp?.inCatRatio}%</S.Ratio>
+      </S.PartialRank>
+      <S.PartialRank>
+        <S.Flex>
+          <S.InfoIcon>
+            <i className="fas fa-map-marker-alt"></i>
+          </S.InfoIcon>
+          내 상권 속 업종에서
+        </S.Flex>
+        <S.Ratio>상위 {corp?.inAreaCatRatio}%</S.Ratio>
+      </S.PartialRank>
+    </S.BrandInfo>
   );
 }
 
 const S = {};
 
-S.BrandInfo = styled.div`
+S.Center = styled.div`
   position: absolute;
-  top: 88px;
-  left: 0;
-  bottom: 40px;
-  width: 288px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+S.Goback = styled.div`
+  padding: 10px 0 30px 0;
+`;
+
+S.BackIcon = styled.div`
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+S.BrandInfo = styled.div`
+  width: 320px;
   z-index: 1;
   background: white;
-  box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);
-  padding: 40px 20px;
+  padding: 0 20px;
   display: flex;
   flex-flow: column;
   color: #1d1d1f;
