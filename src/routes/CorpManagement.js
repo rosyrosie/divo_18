@@ -40,7 +40,7 @@ export default function CorpManagement(){
       <S.Flex>
         {payload?.corpList?.map(corp => (
           <S.Corp key={corp[0]}>
-            <S.Title>{corp[1]}</S.Title>
+            <S.Title onClick={() => navigate(`/cid=${corp[0]}`)}>{corp[1]}</S.Title>
             <S.Col>
               {corp[2]==='not Linked' ? 
                 <S.Link onClick={() => navigate(`/cid=${corp[0]}/sync-ys`)}>매출액 연동</S.Link> : 
@@ -145,4 +145,10 @@ S.Title = styled.div`
   font-weight: bold;
   font-size: 16px;
   flex-wrap: wrap;
+  &:hover{
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-color: #1d1d1f;
+    text-decoration-thickness: 2px; 
+  }
 `;

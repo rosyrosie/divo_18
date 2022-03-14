@@ -240,7 +240,7 @@ S.Triangle = styled.div`
 S.Brand = styled.div`
   font-size: 12px;
   margin-left: 10px;
-  width: 60px;
+  width: 100px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
