@@ -20,7 +20,7 @@ export default function Rank(){
   const [ hide, setHide ] = useState(false);
   const [ input, setInput ] = useState('');
   const [ keyword, setKeyword ] = useState('');
-  const [ queryList, setQueryList ] = useState([]);
+  const [ queryList, setQueryList ] = useState(null);
   const [ overlayList, setOverlayList ] = useState([]);
   const [ selectedCorp, setSelectedCorp ] = useState(undefined);
   const [ showSelected, setShowSelected ] = useState(false);
@@ -41,7 +41,7 @@ export default function Rank(){
     },
     'POST',
     [keyword, around, category, type],
-    keyword || (around !== null || category !== null || type)
+    keyword || (around !== null || category !== null || type === 'best')
   );
 
   const { payload: myId, error: myIdError } = useFetch(
@@ -100,12 +100,14 @@ export default function Rank(){
   useEffect(() => {
     if(!map) return;
     var markerPosition = new kakao.maps.LatLng(myCorp?.lat, myCorp?.lng);
-    var markerContent =  `<style>#marker_my:after{ content: '★'; font-weight: bold; background: white; color: #de071c; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_my:hover{cursor: pointer;}</style>` + 
-                          `<div id="marker_my" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #de071c; transform: translateY(-24px) rotate(-45deg);"></div>`;
+    var markerContent =  `<style>#marker_my::after{ content: '★'; font-weight: bold; background: white; color: #4c4c4c; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_my:hover{cursor: pointer;}</style>` + 
+                          `<div id="marker_my" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #4c4c4c; transform: rotate(-45deg);"></div>`;
     var marker = new kakao.maps.CustomOverlay({
       content: markerContent,
       position: markerPosition,
-      zIndex: 3
+      zIndex: 1,
+      clickable: true,
+      yAnchor: 1.1
     });
     marker.setMap(map);
 
@@ -118,25 +120,28 @@ export default function Rank(){
     });
 
     var overlayContent = `<div>` + 
-      `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${myCorp?.name}</div>` + 
-        `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
+      `<div style="padding: 8px 10px; color: #f5f5f7; border-radius: 10px; font-size: 12px; font-weight: bold; background: #4c4c4c; border: 1px solid #4c4c4c; box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);">${myCorp?.name}</div>` + 
+        `<div style="height: 10px; width: 10px; background: #4c4c4c; color: #f5f5f7; border-right: 1px solid #4c4c4c; border-bottom: 1px solid #4c4c4c; margin: 0 auto; transform: translateY(-5px) rotate(45deg); box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);"></div>` + 
       `</div>`;
     var overlayPosition = new kakao.maps.LatLng(myCorp?.lat, myCorp?.lng);
     var overlay = new kakao.maps.CustomOverlay({
       content: overlayContent,
       position: overlayPosition,
-      zIndex: 4
+      zIndex: 2,
+      yAnchor: 2.1
     });
     overlay.setMap(map);
 
     queryList?.forEach((corp, i) => {
       var markerPosition = new kakao.maps.LatLng(corp?.lat, corp?.lng);
-      var markerContent =  `<style>#marker_${i}:after{ content: '${i+1}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
-                            `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: rgb(76, 76, 76); transform: translateY(-24px) rotate(-45deg);"></div>`;
+      var markerContent =  `<style>#marker_${i}::after{ content: '${i+1}'; font-weight: bold; background: white; color: #1d1d1f; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_${i}:hover{cursor: pointer;}</style>` + 
+                            `<div id="marker_${i}" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #4c4c4c; transform: rotate(-45deg); box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);"></div>`;
       var marker = new kakao.maps.CustomOverlay({
         content: markerContent,
         position: markerPosition,
-        zIndex: 3
+        zIndex: 1,
+        clickable: true,
+        yAnchor: 1.1
       });
       marker.setMap(map);
     });
@@ -145,14 +150,15 @@ export default function Rank(){
 
     queryList?.forEach((corp, i) => {
       var overlayContent = `<div>` + 
-                              `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; transform: translateY(-65px); background: white; border: 1px solid #d2d2d7; box-shadow: 1px 1px 1px #d2d2d7; ">${corp.name}</div>` + 
-                              `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-70px) rotate(45deg); box-shadow: 1px 1px 1px #d2d2d7;"></div>` + 
+                              `<div style="padding: 8px 10px; color: #1d1d1f; border-radius: 10px; font-size: 12px; font-weight: bold; background: white; border: 1px solid #d2d2d7; box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);">${corp.name}</div>` + 
+                              `<div style="height: 10px; width: 10px; background: white; border-right: 1px solid #d2d2d7; border-bottom: 1px solid #d2d2d7; margin: 0 auto; transform: translateY(-5px) rotate(45deg); box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);"></div>` + 
                             `</div>`;
       var overlayPosition = new kakao.maps.LatLng(corp?.lat, corp?.lng);
       var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
         position: overlayPosition,
-        zIndex: 4
+        zIndex: 2,
+        yAnchor: 2.1
       });
       overlays.push(overlay);
       const marker = document.querySelector('#marker_'+i);
@@ -218,14 +224,15 @@ export default function Rank(){
     <CorpRequired />
   );
 
-  const getMyCorp = e => {
-    e.preventDefault();
+  const getMyCorp = () => {
     setMapPosition({ lat: myCorp?.lat, lng: myCorp?.lng });
     setLevel(3);
     setSelectedCorp(myCorp?.id);
     setShowSelected(true);
     setHide(false);
-    setQueryList([]);
+    setQueryList(null);
+    setInput('');
+    setKeyword('');
   };
 
   const getTop = (isNear, sameCat = false) => {
@@ -261,7 +268,7 @@ export default function Rank(){
   return ( 
     <>
       <S.Map id="map" />
-      {(queryList.length || selectedCorp) &&
+      {(queryList || (queryLoading && keyword) || (selectedCorp === myCorp?.id && showSelected)) &&
         <>
           {
             !hide &&
@@ -297,6 +304,7 @@ export default function Rank(){
           !hide &&
           <S.SearchBar>
             <S.Input placeholder="음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && onClickSearch()} />
+            {keyword && <S.Clear onClick={() => {setQueryList(null); setInput(''); setShowSelected(false); setKeyword(''); setSelectedIndex(-1); setHoverIndex(-1);}}><i className="fas fa-times"></i></S.Clear>}
             <S.Icon onClick={onClickSearch}>
               <i className="fas fa-search"></i>
             </S.Icon>
@@ -315,7 +323,7 @@ export default function Rank(){
         </S.Button>
       </S.Flex>
       {
-        (showSelected && queryList.length) &&
+        (showSelected && queryList?.length) &&
         <QueryBox queryList={queryList} keyword={keyword} setHoverIndex={setHoverIndex} moveToCorp={moveToCorp} />
       }
     </>
@@ -329,6 +337,17 @@ S.Center = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+S.Clear = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0 15px;
+  margin: 10px 0;
+  color: #515154;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.Sidebar = styled.div`
@@ -409,7 +428,7 @@ S.SearchBar = styled.div`
   height: 48px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
-  z-index: 4;
+  z-index: 3;
   width: 300px;
   margin-right: 10px;
 `;
