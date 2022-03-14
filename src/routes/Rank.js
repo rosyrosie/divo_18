@@ -95,10 +95,14 @@ export default function Rank(){
       level: level
     };
     configMap(mapPosition&&level ? new kakao.maps.Map(container, options) : null);
-  }, [mapPosition, level]);
+  }, [mapPosition]);
 
   useEffect(() => {
     if(!map) return;
+    kakao.maps.event.addListener(map, 'zoom_changed', () => {
+      var lvl = map.getLevel();
+      setLevel(lvl);
+    })
     var markerPosition = new kakao.maps.LatLng(myCorp?.lat, myCorp?.lng);
     var markerContent =  `<style>#marker_my::after{ content: '★'; font-weight: bold; background: white; color: #4c4c4c; transform: rotate(45deg); width: 28px; height: 28px; margin: 6px 0 0 6px; position: absolute; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;} #marker_my:hover{cursor: pointer;}</style>` + 
                           `<div id="marker_my" class="marker" style="width: 40px; height: 40px; border-radius: 50% 50% 50% 0; background: #4c4c4c; transform: rotate(-45deg);"></div>`;
@@ -239,6 +243,7 @@ export default function Rank(){
   const getTop = (isNear, sameCat = false) => {
     if(!isNear){
       setType('best');
+      setAround([myCorp?.lat, myCorp?.lng]);
     }
     else{
       if(sameCat){
