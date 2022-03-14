@@ -4,10 +4,10 @@ export default function KeywordBar({ payload, type, setType, setKeyword }){
   return (
     <S.Sidebar>
       <S.List>
-        <S.SearchBar>
+        {/* <S.SearchBar>
           <S.Icon><i className="fas fa-search"></i></S.Icon>
           <S.Input placeholder="키워드 검색"/>
-        </S.SearchBar>
+        </S.SearchBar> */}
         <S.KwTypes>
           <S.KwType isSelected={type === 'brand'} onClick={() => setType('brand')}>브랜드</S.KwType>
           <S.KwType isSelected={type === 'section'} onClick={() => setType('section')}>상권</S.KwType>
@@ -78,7 +78,8 @@ S.KwTypes = styled.div`
   display: flex;
   font-size: 13px;
   color: #515154;
-  margin-bottom: 20px;
+  margin: 10px 0 20px 0;
+  align-items: center;
 `;
 
 S.KwType = styled.div`

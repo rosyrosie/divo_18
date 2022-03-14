@@ -214,9 +214,10 @@ export default function Rank(){
   }, [overlayList, hoverIndex, selectedIndex]);
 
   const onClickSearch = () => {
+    setSelectedIndex(-1);
+    setHoverIndex(-1);
     setType('query');
     setKeyword(input);
-    setSelectedIndex(-1);
     setShowSelected(false);
   }
 
