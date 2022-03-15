@@ -133,7 +133,7 @@ export default function CommunityContent() {
               result?.lastCommentPage===1 ? null : <S.PrevCommentBox onClick={_onCommentPrevClick}>이전 댓글 보기...</S.PrevCommentBox>
             }
             { result?.comments.map((comObj, i) => (
-              <CommentComponent key={i} comment={comObj} index={i} contentId={contentId} aa={a} setAA={setA} />
+              <CommentComponent key={comObj.commentId} comment={comObj} index={i} contentId={contentId} aa={a} setAA={setA} />
             ))
           }
             {token && <S.ReplyWR>
@@ -186,7 +186,7 @@ S.PrevCommentBox = styled.div`
   width: 100%;
   background-color: #fefefe;
   border-bottom: 1px solid #cccccc;
-  font-size: 15px;
+  font-size: 13px;
   padding: 10px 0;
   &:hover{
     cursor: pointer;
