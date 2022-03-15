@@ -1,7 +1,7 @@
 import { ReactComponent as Like } from "@/assets/CommunityLike.svg";
 import { ReactComponent as Delete } from "@/assets/CommunityCommentDelete.svg";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import ReplyComponent from "@/components/community/Reply";
 import { useFetch } from "@hooks";
 import axios from "axios";
@@ -41,6 +41,9 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
     });
   };
 
+  const replyCommentList = useMemo(() => result?.replyCommentList, [result]);
+  const replyCommentCount = useMemo(() => comment.replyCommentCount, [result]);
+
   return error ? (
     <S.Error>Error Occured on Comment</S.Error>
   ) : (
@@ -64,7 +67,7 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
           </S.CommentLike>
           <S.CommentBottomS>{comment.isLiked ? (like ? comment.likeCount : comment.likeCount - 1) : like ? comment.likeCount + 1 : comment.likeCount}</S.CommentBottomS>
           <S.CommentBottomS> · </S.CommentBottomS>
-          {comment.replyCommentCount ? (
+          {replyCommentCount ? (
             <>
               <S.CommentBottom onClick={() => setShowReply(!showReply)}>
                 {showReply ? "답글 닫기 (" + comment.replyCommentCount + ")" : "답글 열기 (" + comment.replyCommentCount + ")"}
@@ -75,7 +78,7 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
           <S.CommentBottom onClick={_onWriteReplyClick}>{writeReply ? "닫기" : "답글 달기"}</S.CommentBottom>
         </S.CommentSecond>
       </S.Comment>
-      {showReply ? result?.replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} />) : null}
+      {showReply ? replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} />) : null}
       {writeReply ? (
         <S.Replywrite>
           <S.WhiteBoxwrite>
@@ -133,7 +136,7 @@ S.UpperBoxwrite = styled.div`
   justify-content: start;
   align-items: center;
   color: #1d1d1f;
-  padding: 2px 0 5px 0;
+  padding: 5px;
   font-size: 13px;
 `;
 
@@ -144,6 +147,8 @@ S.Textareawrite = styled.textarea`
   outline-color: #eeeeee;
   border-radius: 5px;
   resize: none;
+  padding: 5px;
+  margin: 5px 0;
 `;
 
 S.BottomBoxwrite = styled.div`
@@ -158,7 +163,9 @@ S.Buttonwrite = styled.div`
   display: flex;
   &:hover {
     cursor: pointer;
+    font-weight: bold;
   }
+  color: #1d1d1f;
 `;
 
 S.Comment = styled.div`

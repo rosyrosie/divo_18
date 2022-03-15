@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Viewer } from "@toast-ui/react-editor";
 import CommentComponent from "@/components/community/Comment";
@@ -75,6 +75,8 @@ export default function CommunityContent() {
     setA(!a);
   }
 
+  const commentList = useMemo(() => result?.comments, [result]);
+
   return error ? null : result ? (
     <S.Container>
       <S.Content>
@@ -132,7 +134,7 @@ export default function CommunityContent() {
           {
               result?.lastCommentPage===1 ? null : <S.PrevCommentBox onClick={_onCommentPrevClick}>이전 댓글 보기...</S.PrevCommentBox>
             }
-            { result?.comments.map((comObj, i) => (
+            { commentList?.map((comObj, i) => (
               <CommentComponent key={comObj.commentId} comment={comObj} index={i} contentId={contentId} aa={a} setAA={setA} />
             ))
           }
