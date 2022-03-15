@@ -90,6 +90,7 @@ export default function Rank(){
 
   useEffect(() => {
     if(container) container.innerHTML = "";
+    else return;
     const options = {
       center: new kakao.maps.LatLng(mapPosition?.lat, mapPosition?.lng),
       level: level
