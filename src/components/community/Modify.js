@@ -58,7 +58,7 @@ export default function CommunityModify() {
             </S.TagBox>
           </S.TitleBox>
           <S.EditBox>
-            <Editor height="550px" initialValue={state.mainText} initialEditType="wysiwyg" ref={editorRef} />
+            <Editor height="530px" initialValue={state.mainText} initialEditType="wysiwyg" ref={editorRef} />
           </S.EditBox>
         </S.Body>
       </S.Scroll>
