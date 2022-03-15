@@ -44,3 +44,16 @@ export const RANK_QUERY_URL = BASE_URL + 'omrank/search';
 
 export const KS_CHART_URL = (corpId, keyword) => BASE_URL + `score/graph/${corpId}?keyword=` + keyword;
 export const KS_STAT_URL = (corpId, keyword) => BASE_URL + `score/keyword/${corpId}?keyword=` + keyword;
+
+export const COMMUNITY_CONTENT_LIST_URL = "https://test.divo.kr/content/list?type=category&cat=";
+export const COMMUNITY_CONTENT_DETAIL_URL = "https://test.divo.kr/content/?content_id=";
+export const COMMUNITY_CONTENT_LIKE_URL = "https://test.divo.kr/content/like?content_id=";
+export const COMMUNITY_CONTENT_SCRAP_URL = "https://test.divo.kr/content/scrap?content_id=";
+export const COMMUNITY_COMMENT_POST_URL = "https://test.divo.kr/content/comment/?content_id=";
+export const COMMUNITY_REPLY_LIST_URL = "https://test.divo.kr/content/comment/reply/?comment_id=";
+export const COMMUNITY_COMMENT_LIKE_URL = "https://test.divo.kr/content/comment/like?comment_id=";
+export const COMMUNITY_COMMENT_DELETE_URL = "https://test.divo.kr/content/comment/?content_id=";
+export const COMMUNITY_CONTENT_POST_URL = "https://test.divo.kr/content/";
+export const COMMUNITY_CONTENT_MODIFY_URL = "https://test.divo.kr/content/?content_id=";
+export const COMMUNITY_MYPROFILE_URL = "https://test.divo.kr/content/list?type=";
+export const COMMUNITY_SEARCH_TITLE_URL = "https://test.divo.kr/content/list?type=searched&criteria=title&query=";

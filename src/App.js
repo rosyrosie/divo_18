@@ -13,6 +13,12 @@ import CorpAuth from "@/routes/CorpAuth";
 import SyncYeoshin from "@/routes/SyncYeoshin";
 import Rank from "@/routes/Rank";
 import Community from "@/routes/Community";
+import CommunityBoard from "@/components/community/Board";
+import CommunityPost from "@/components/community/Post";
+import CommunityContent from "@/components/community/Content";
+import CommunityModify from "./components/community/Modify";
+import CommunityMyProfile from "./components/community/MyProfile";
+import CommunitySearch from "./components/community/Search";
 import ViewPlaceRank from "@/routes/ViewPlaceRank";
 import FindIdPw from "@/routes/FindIdPw";
 import KeywordScore from "@/routes/KeywordScore";
@@ -35,9 +41,19 @@ export default function App(){
         { path: '/keyword-analysis/keyword=:keyword', element: <LoginRequired /> },
         { path: '/sales-analysis', element: <LoginRequired /> },
         { path: '/rank', element: <LoginRequired /> },
-        { path: '/community', element: <LoginRequired /> },
         { path: '/vp-rank', element: <LoginRequired /> },
         { path: '/keyword-score', element: <LoginRequired /> },
+        {
+          path: '/community',
+          element: <Community />,
+          children: [
+            { index: true, element: <NoAccess /> },
+            { path: '/community/board=:board', element: <CommunityBoard />},
+            { path: '/community/content=:contentId', element: <CommunityContent /> },
+            { path: '/community/search/criteria=:criteria&keyword=:keyword', element: <CommunitySearch /> },
+            { path: '/community/*', element: <NoAccess /> }
+          ]
+        },
         { path: '/*', element: <NoAccess /> },
       ],
     },
@@ -57,6 +73,20 @@ export default function App(){
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
+        { 
+          path: '/cid=:corpId/community',
+          element: <Community />,
+          children: [
+            { index: true, element: <NoAccess /> },
+            { path: '/cid=:corpId/community/board=:board', element: <CommunityBoard />},
+            { path: '/cid=:corpId/community/content=:contentId', element: <CommunityContent /> },
+            { path: '/cid=:corpId/community/post', element: <CommunityPost /> },
+            { path: '/cid=:corpId/community/my-profile/type=:type', element: <CommunityMyProfile /> },
+            { path: '/cid=:corpId/community/content-modify/contentId=:contentId', element: <CommunityModify /> },
+            { path: '/cid=:corpId/community/search/criteria=:criteria&keyword=:keyword', element: <CommunitySearch /> },
+            { path: '/cid=:corpId/community/*', element: <NoAccess /> },
+          ]
+        },
         { path: '/cid=:corpId/*', element: <NoAccess /> },
       ]
     },

@@ -32,6 +32,19 @@ const GlobalStyles = createGlobalStyle`
     background-color: rgb(0, 0, 0, 0.2);
     border-radius: 6px;
   }
+  .toastui-editor-contents{
+    font-family: 'SUIT';
+    font-size: 14px;
+  }
+  .toastui-editor-contents *{
+    color: #1d1d1f !important;
+  }
+  .toastui-editor-mode-switch{
+    display: none !important;
+  }
+  input.react-tag-input__input, input.react-tag-input__input::placeholder{
+    font-size: 14px;
+  }
 `;
 
 export default GlobalStyles;
