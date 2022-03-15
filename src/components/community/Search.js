@@ -11,15 +11,17 @@ export default function CommunitySearch() {
   const [ error, setError ] = useState(false);
   const [ data, setData ] = useState();
   const [ text, setText ] = useState(keyword);
+  const [ current, setCurrent ] = useState(1);
   const token = localStorage.getItem('token');
-  
+  const maxPage = data ? data.lastPage : 1;
+
   const navigate = useNavigate();  
 
   useEffect(() => {
-    axios.get(COMMUNITY_SEARCH_TITLE_URL+keyword)
+    axios.get(COMMUNITY_SEARCH_TITLE_URL+keyword + '&display=10&page=' + current)
     .then((res) => setData(res.data))
     .catch((e) => setError(true));
-  }, [keyword])
+  }, [keyword, current]);
 
   const goSearch = (e) => {
     if(token) {
@@ -29,30 +31,76 @@ export default function CommunitySearch() {
     }
   }
 
+  const getCurrentPages = (current) => {
+    if(maxPage<5) {
+      const result = [];
+      for(var i=0;i<maxPage;i++) {
+        result.push(i+1);
+      }
+      return result;
+    }
+    if(current===1 || current===2) {
+      return [1, 2, 3, 4, 5];
+    } else if(current===maxPage || current===maxPage-1){
+      return [maxPage-4, maxPage-3, maxPage-2, maxPage-1, maxPage];
+    } else {
+      return [current-2, current-1, current, current+1, current+2];
+    }
+  }
+
+  const _onNextClick = () => {
+    if(current===maxPage) {
+      return;
+    } else {
+      setCurrent(current+1);
+    }
+  }
+
+  const _onPrevClick = () => {
+    if(current===1) {
+      return;
+    } else {
+      setCurrent(current-1);
+    }
+  }
+
+  console.log(data);
+
   return (
     // error? null : Data ? 
     <S.Container>
+      <S.CHeader>
+        <S.HeaderBox>
+        <S.Title>총 {data?.contentList.length}건의 검색결과가 있습니다.</S.Title>
+        <S.Alarm onClick={()=>token? navigate(`/cid=${corpId}/community/board=information`) : navigate(`/community/board=information`)}>
+            게시판으로
+          </S.Alarm>
+        </S.HeaderBox>
+        <S.Flex>
+        <S.Search>
+          <S.SearchIcon>
+            <i className="fas fa-search"></i>
+          </S.SearchIcon>
+          <S.Input value={text} onChange={props => setText(props.target.value)} onKeyPress={e => e.key==='Enter' ?  goSearch(e) : null}/>
+        </S.Search>
+        </S.Flex>
+      </S.CHeader>
       <S.Scroll>
-        <S.CHeader>
-          <S.HeaderBox>
-          <S.Title>총 {data?.contentList.length}건의 검색결과가 있습니다.</S.Title>
-          <S.Alarm onClick={()=>token? navigate(`/cid=${corpId}/community/board=information`) : navigate(`/community/board=information`)}>
-              게시판으로
-            </S.Alarm>
-          </S.HeaderBox>
-          <S.Flex>
-          <S.Search>
-            <S.SearchIcon>
-              <i className="fas fa-search"></i>
-            </S.SearchIcon>
-            <S.Input value={text} onChange={props => setText(props.target.value)} onKeyPress={e => e.key==='Enter' ?  goSearch(e) : null}/>
-          </S.Search>
-          </S.Flex>
-        </S.CHeader>
         <S.Posts>
           {data?.contentList.map((sum, i) => (
             <PostComponent key = {i} sum = {sum} i = {i} />
           ))}
+          {data?.contentList.length > 0 && 
+            <S.PaginationBox>
+              <S.PaginationLetterButton onClick={()=>setCurrent(1)}>{"처음"}</S.PaginationLetterButton>
+              <S.PaginationLetterButton onClick={_onPrevClick}>{"<"}</S.PaginationLetterButton>
+              {getCurrentPages(current).map((n, i) => (
+                <S.PaginationNumberButton key={i} selected={current} index={n} onClick={() => setCurrent(n)}>{n}</S.PaginationNumberButton>
+                ))}
+              <S.PaginationLetterButton onClick={_onNextClick}>{">"}</S.PaginationLetterButton>
+              <S.PaginationLetterButton onClick={()=>setCurrent(maxPage)}>{"마지막"}</S.PaginationLetterButton>
+            </S.PaginationBox>
+          }
         </S.Posts>
       </S.Scroll>
       <S.CFooter>
@@ -87,9 +135,13 @@ S.MyProfile = styled.div`
   justify-content: center;
   align-items: center;
   margin-right: 25px;
-  opacity: 70%;
-  font-size: 14spx;
-  &:hover{cursor: pointer;opacity: 100%;}
+  opacity: .8;
+  font-size: 14px;
+  font-weight: 600;
+  &:hover{
+    cursor: pointer;
+    opacity: 100%;
+  }
 `;
 
 S.Container = styled.div`
@@ -168,6 +220,7 @@ S.Search = styled.div`
   background: white;
   align-items: center;
   height: 100%;
+  min-height: 40px;
   padding: 5px 0;
   border-radius: 10px;
   border: 1px solid #dddddd;
@@ -209,4 +262,40 @@ S.Button = styled.button`
   background: #06c;
   border: none;
   ${props => !props.error ? '&:hover{cursor:pointer; color: #f5f5f7;}' : 'opacity: .3;'};
+`;
+
+S.PaginationLetterButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 15px;
+  opacity: 70%;
+  &:hover{
+    cursor: pointer;
+    opacity: 100%;
+  }
+`;
+
+S.PaginationNumberButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border-radius: 20px;
+  margin: 0 5px;
+  width: 30px;
+  height: 30px;
+  ${(props) => (props.index===props.selected ? "background-color: #515154; color: #f5f5f7;": null)}
+  &:hover{
+    background-color: #515154;
+    color: #f5f5f7;
+    cursor: pointer;
+  }
+`;
+
+S.PaginationBox = styled.div`
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
 `;

@@ -106,15 +106,17 @@ export default function CommunityBoard() {
             {data?.contentList.map((sum, i) => (
               <PostComponent key = {i} sum = {sum} i = {i} />
             ))}
-            {data?.contentList.length > 0 && <S.PaginationBox>
-              <S.PaginationLetterButton onClick={()=>setCurrent(1)}>{"처음"}</S.PaginationLetterButton>
-              <S.PaginationLetterButton onClick={_onPrevClick}>{"<"}</S.PaginationLetterButton>
-              {getCurrentPages(current).map((n, i) => (
-                <S.PaginationNumberButton key={i} selected={current} index={n} onClick={() => setCurrent(n)}>{n}</S.PaginationNumberButton>
-                ))}
-              <S.PaginationLetterButton onClick={_onNextClick}>{">"}</S.PaginationLetterButton>
-              <S.PaginationLetterButton onClick={()=>setCurrent(maxPage)}>{"마지막"}</S.PaginationLetterButton>
-            </S.PaginationBox>}
+            {data?.contentList.length > 0 && 
+              <S.PaginationBox>
+                <S.PaginationLetterButton onClick={()=>setCurrent(1)}>{"처음"}</S.PaginationLetterButton>
+                <S.PaginationLetterButton onClick={_onPrevClick}>{"<"}</S.PaginationLetterButton>
+                {getCurrentPages(current).map((n, i) => (
+                  <S.PaginationNumberButton key={i} selected={current} index={n} onClick={() => setCurrent(n)}>{n}</S.PaginationNumberButton>
+                  ))}
+                <S.PaginationLetterButton onClick={_onNextClick}>{">"}</S.PaginationLetterButton>
+                <S.PaginationLetterButton onClick={()=>setCurrent(maxPage)}>{"마지막"}</S.PaginationLetterButton>
+              </S.PaginationBox>
+            }
             {data?.contentList.length === 0 && <S.Blank>작성된 게시물이 없습니다</S.Blank>}
           </S.Posts>
         </S.Scroll>
