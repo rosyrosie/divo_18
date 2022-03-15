@@ -25,13 +25,13 @@ export default function KeywordScore(){
   const ranges = ['30일', '3개월', '6개월', '1년', '2년', '전체'];
 
   const { payload, error } = useFetch(
-    PLACE_KEYWORD_URL(corpId),
+    PLACE_KEYWORD_URL(corpId, true),
     null,
     'GET',
     [corpId]
   );
 
-  const defaultKeyword = payload?.brand.length ? { word: payload?.brand[0], type: 'brand' } : payload?.section.length ? { word: payload?.section[0], type: 'section' } : payload?.category.length ? { word: payload?.category[0], type: 'category' } : null;
+  const defaultKeyword = payload?.brand.length ? { word: payload?.brand[0].keyword, type: 'brand' } : payload?.section.length ? { word: payload?.section[0].keyword, type: 'section' } : payload?.category.length ? { word: payload?.category[0].keyword, type: 'category' } : null;
 
   useEffect(() => setKeyword(defaultKeyword), [payload]);
 
@@ -72,7 +72,7 @@ export default function KeywordScore(){
             <S.Type>{typeToString[keyword?.type]} 키워드</S.Type>
           </S.Keyword>
           <S.Flex>
-            <S.Badges>
+            {/* <S.Badges>
               <S.Badge bg="#de071c">
                 <i className="fas fa-blog"></i>
                 <S.BadgePop>블로그·카페 마케팅 추천 키워드입니다.</S.BadgePop>
@@ -81,7 +81,7 @@ export default function KeywordScore(){
                 <i className="fas fa-map-marker-alt"></i>
                 <S.BadgePop>Place 마케팅 추천 키워드입니다.</S.BadgePop>
               </S.Badge>
-            </S.Badges>
+            </S.Badges> */}
             <S.Scales>
               {ranges.map((range, i) => (
                 <S.Scale key={i} isSelected={scale === i} onClick={() => setScale(i)}>{range}</S.Scale> 
@@ -107,9 +107,8 @@ S.View = styled.div`
 
 S.Flex = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
-  margin: 10px 0 5px 0;
 `;
 
 S.Body = styled.div`
@@ -146,7 +145,8 @@ S.Scales = styled.div`
   display: flex;
   justify-content: right;
   color: #515154;
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 `;
 
 S.Scale = styled.div`

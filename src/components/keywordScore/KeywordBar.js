@@ -13,18 +13,17 @@ export default function KeywordBar({ payload, type, setType, setKeyword }){
           <S.KwType isSelected={type === 'section'} onClick={() => setType('section')}>상권</S.KwType>
           <S.KwType isSelected={type === 'category'} onClick={() => setType('category')}>업종</S.KwType>
         </S.KwTypes>
+        <S.Flex>
+          <S.Word>키워드</S.Word>
+          <S.Qty>월간 검색량</S.Qty>
+        </S.Flex>
         <S.Scrolls>
           {payload?.[type].map((word, i) => (
-            <S.Cell onClick={() => setKeyword({ word, type })}>
-              <S.Word>{word}</S.Word>
-              <S.Badges>
-                <S.Badge bg="#de071c">
-                  <i className="fas fa-blog"></i>
-                </S.Badge>
-                <S.Badge bg="#06c">
-                  <i className="fas fa-map-marker-alt"></i>
-                </S.Badge>
-              </S.Badges>
+            <S.Cell onClick={() => setKeyword({ word: word.keyword, type })} key={word.keyword}>
+              <S.Word>{word.keyword}</S.Word>
+              <S.Qty>
+                {word.amount.toLocaleString()}
+              </S.Qty>
             </S.Cell>
           ))}
         </S.Scrolls>
@@ -35,10 +34,27 @@ export default function KeywordBar({ payload, type, setType, setKeyword }){
 
 const S = {};
 
+S.Qty = styled.div`
+  display: flex;
+  color: #1d1d1f;
+  margin-right: 10px;
+  flex-flow: column;
+  align-items: end;
+  font-family: 'Montserrat', 'SUIT';
+`;
+
+S.Flex = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 10px 0;
+  color: #515154;
+`;
+
 S.Sidebar = styled.div`
   flex: 1;
   display: flex;
   padding-top: 80px;
+  font-size: 13px;
 `;
 
 S.List = styled.div`
@@ -78,7 +94,7 @@ S.KwTypes = styled.div`
   display: flex;
   font-size: 13px;
   color: #515154;
-  margin: 10px 0 20px 0;
+  margin: 43px 0 20px 10px;
   align-items: center;
 `;
 
@@ -92,7 +108,6 @@ S.KwType = styled.div`
 
 S.Word = styled.div`
   color: #1d1d1f;
-  font-size: 14px;
   display: flex;
   align-items: center;
   padding-left: 10px;

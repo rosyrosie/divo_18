@@ -31,7 +31,7 @@ export const SA_RADAR_URL = corpId => BASE_URL + `corporation/sales/${corpId}/su
 export const SA_COMPARE_URL = corpId => BASE_URL + `corporation/sales/${corpId}/analysis`;
 export const SA_TREND_URL = corpId => BASE_URL + `corporation/sales/${corpId}/total?scale=`;
 
-export const PLACE_KEYWORD_URL = corpId => BASE_URL + 'placekeyword/list?id=' + corpId;
+export const PLACE_KEYWORD_URL = (corpId, amount = false) => BASE_URL + 'placekeyword/list?id=' + corpId + (amount ? '&amount=true' : '');
 export const UP_LIST_URL = BASE_URL + 'placekeyword/uplist';
 
 export const VIEW_PLACE_RANK_URL = BASE_URL + 'rank/rank?id=';

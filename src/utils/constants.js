@@ -97,44 +97,44 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       {
         statName: 'View 순위',
         pop: '키워드 검색 시 View 탭에서 내 브랜드 노출 순위로 30위까지 집계됩니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.view?.rank===31 ? '30+위' : stats?.view?.rank + '위'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.rank===31 ? '30+위' : stats?.score?.view?.rank + '위'
       },
       {
         statName: 'View EPR',
         pop: 'View EPR(Earning Per Rank)은 해당 키워드에서 View 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.view?.efficiency[0] + '원'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[0] + '원'
       },
       {
         statName: 'View LPR',
         pop: 'View LPR(Loss Per Rank)은 해당 키워드에서 View 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.view?.efficiency[1] + '원'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[1] + '원'
       },
       {
         statName: 'View CPR',
-        pop: 'View CPR(Cost Per Rank)은 해당 키워드에서 View 순위를 1위 상승시키기 위해 필요한 예상 비용입니다.',
-        index: loading ? <Loading size={16} align='left' /> : '-'
+        pop: 'View CPR(Cost Per Rank)은 해당 키워드에서 View 상위노출 난이도를 나타내는 지표로 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.cost?.viewCPR
       },
     ],
     [
       {
         statName: 'Place 순위',
         pop: '키워드 검색 시 Place 탭에서 내 브랜드 노출 순위로 50위까지 집계됩니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.place?.rank === 51 ? '51+위' : stats?.place?.rank + '위'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.rank === 51 ? '51+위' : stats?.score?.place?.rank + '위'
       },
       {
         statName: 'Place EPR',
         pop: 'Place EPR(Earning Per Rank)은 해당 키워드에서 Place 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.place?.efficiency[0] + '원'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[0] + '원'
       },
       {
         statName: 'Place LPR',
         pop: 'Place LPR(Loss Per Rank)은 해당 키워드에서 Place 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.place?.efficiency[1] + '원'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[1] + '원'
       },
       {
         statName: 'Place CPR',
-        pop: 'Place CPR(Cost Per Rank)은 해당 키워드에서 Place 순위를 1위 상승시키기 위해 필요한 예상 비용입니다.',
-        index: loading ? <Loading size={16} align='left' /> : '-'
+        pop: 'Place CPR(Cost Per Rank)은 해당 키워드에서 Place 상위노출 난이도를 나타내는 지표로 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.cost?.placeCPR
       },
     ]
   ],
@@ -143,22 +143,22 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       {
         statName: '평균 검색량',
         pop: '최근 6개월간 해당 키워드의 일평균 검색량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : (stats?.avgSearch + '건')
+        index: loading ? <Loading size={16} align='left' /> : (stats?.score?.avgSearch + '건')
       },
       {
         statName: '컨텐츠 포화도',
         pop: '컨텐츠 포화도는 해당 키워드의 검색량 대비 발행되는 컨텐츠 수를 나타낸 지표입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.contentSaturation*100 + '%'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.contentSaturation*100 + '%'
       },
       {
         statName: 'Brand EPS',
         pop: 'Brand EPS(Earning Per Search)는 해당 키워드의 검색량 1건을 매출액으로 환산한 지표입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.EPS + '원'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.EPS + '원'
       },
       {
         statName: 'Brand VPS',
         pop: 'Brand VPS(Visit Per Search)는 해당 키워드가 1건 검색되었을 때 예상되는 추가 방문자 수입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.VPS + '팀'
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.VPS + '팀'
       },
     ]
   ]
