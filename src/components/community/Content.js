@@ -97,7 +97,7 @@ export default function CommunityContent() {
             <S.NameBox>
               <S.Nickname>{result?.writer}</S.Nickname>
               <S.Stats last={false} first={true}>
-                {result?.lastEdited.replace("T", " ")} · 조회 {result?.viewCount} · 좋아요{" "}
+                {result?.lastEdited.replace("T", " ").slice(0, -4)} · 조회 {result?.viewCount} · 좋아요{" "}
                 {result?.isLiked ? (changeLike ? result?.likeCount - 1 : result?.likeCount) : changeLike ? result?.likeCount + 1 : result?.likeCount}
               </S.Stats>
             </S.NameBox>
