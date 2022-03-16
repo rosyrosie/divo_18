@@ -101,7 +101,7 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       },
       {
         statName: 'View DPR',
-        pop: 'View DPR(Delta Per Rank)은 해당 키워드에서 View 순위가 각각 1위 상승·하락했을 때 예상되는 매출액 변화량입니다.',
+        pop: 'View DPR(Delta Per Rank)은 해당 키워드에서 View 순위가 각각 1위 상승·하락했을 때 예상되는 주 매출액 변화량입니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[0] + '원 / ' + stats?.score?.view?.efficiency[1] + '원'
       },
       {
@@ -123,7 +123,7 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       },
       {
         statName: 'Place DPR',
-        pop: 'Place DPR(Delta Per Rank)은 해당 키워드에서 Place 순위가 각각 1위 상승·하락했을 때 예상되는 매출액 변화량입니다.',
+        pop: 'Place DPR(Delta Per Rank)은 해당 키워드에서 Place 순위가 각각 1위 상승·하락했을 때 예상되는 주 매출액 변화량입니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[0] + '원 / ' + stats?.score?.place?.efficiency[1] + '원'
       },
       {
@@ -152,12 +152,12 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       },
       {
         statName: 'Brand EPS',
-        pop: 'Brand EPS(Earning Per Search)는 해당 키워드의 검색량 1건을 매출액으로 환산한 지표입니다.',
+        pop: 'Brand EPS(Earning Per Search)는 해당 키워드 검색량이 1건 증가할 때 주 매출액 예상 증가량입니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.EPS + '원'
       },
       {
         statName: 'Brand VPS',
-        pop: 'Brand VPS(Visit Per Search)는 해당 키워드가 1건 검색되었을 때 예상되는 추가 방문자 수입니다.',
+        pop: 'Brand VPS(Visit Per Search)는 해당 키워드 검색량이 1건 증가할 때 예상되는 추가 방문자 수입니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.VPS + '팀'
       },
     ]
