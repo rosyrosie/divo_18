@@ -106,7 +106,7 @@ export default function CommunityContent() {
                 <S.Like width={24} height={24} fill={like ? "#F24E1E" : "none"} />
               </S.HeaderButton>
               <S.HeaderButton onClick={_onScrapClick}>{scrap ? <ScrapF /> : <Scrap />}</S.HeaderButton>
-              {result?.isMine ? (
+              {result?.isMine||(localStorage.getItem('isStaff')==='true') ? (
                 <S.HeaderButton pushed={showMenu} onClick={() => setShowMenu(!showMenu)}>
                   <Menu />
                 </S.HeaderButton>

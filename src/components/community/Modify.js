@@ -113,6 +113,7 @@ S.Scroll = styled.div`
 
 S.EditBox = styled.div`
   z-index: 2;
+  width: 100%;
 `;
 
 S.CHeader = styled.div`

@@ -1,11 +1,27 @@
 import styled from "styled-components";
+import { ReactComponent as Delete } from "@/assets/CommunityCommentDelete.svg";
 
-export default function ReplyComponent({reply, i}) {
+export default function ReplyComponent({ reply, i, aa, setAA }) {
+
+  //답글삭제링크 얻어서 삭제되는거 확인
+
+  // const _onCommentDeleteClick = () => {
+  //   if(!window.confirm('답글을 삭제하시겠습니까?')) return;
+  //   axios.delete(답글삭제링크, {headers: {"Authorization": `Token ${token}`}}).then(() => {
+  //     setAA(!aa);
+  //   });
+  // };
+
   return (
     <S.Reply>
       <S.CommentFirst>
-        <S.CommentWriter>{reply.writer}</S.CommentWriter>
-        <S.CommentDate>{reply.lastEdited}</S.CommentDate>
+        <S.WriterDateBox>
+          <S.CommentWriter>{reply.writer}</S.CommentWriter>
+          <S.CommentDate>{reply.lastEdited?.replaceAll('T', ' ').slice(0, -4)}</S.CommentDate>
+        </S.WriterDateBox>
+        {reply.isMine||(localStorage.getItem('isStaff')==='true') ?<S.ReplyDelete >
+          <Delete width={15} height={15} />
+        </S.ReplyDelete> : null}
       </S.CommentFirst>
       <S.ReplyContent>{reply.mainText}</S.ReplyContent>
     </S.Reply>
@@ -13,6 +29,17 @@ export default function ReplyComponent({reply, i}) {
 }
 
 const S = {};
+
+S.ReplyDelete = styled.div`
+  display: flex;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+S.WriterDateBox = styled.div`
+  display: flex;
+`;
 
 S.Reply = styled.div`
   display: flex;
@@ -26,6 +53,7 @@ S.CommentFirst = styled.div`
   display: flex;
   align-items: end;
   padding-bottom: 7px;
+  justify-content: space-between;
 `;
 
 S.CommentWriter = styled.div`

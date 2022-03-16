@@ -1,24 +1,35 @@
 import { ReactComponent as Like } from "@/assets/CommunityLike.svg";
 import { ReactComponent as Delete } from "@/assets/CommunityCommentDelete.svg";
 import styled from "styled-components";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ReplyComponent from "@/components/community/Reply";
 import { useFetch } from "@hooks";
 import axios from "axios";
-import { COMMUNITY_REPLY_LIST_URL, COMMUNITY_COMMENT_LIKE_URL, COMMUNITY_COMMENT_DELETE_URL } from "@api";
+import { COMMUNITY_REPLY_LIST_URL, COMMUNITY_COMMENT_LIKE_URL, COMMUNITY_COMMENT_DELETE_URL, COMMUNITY_COMMENT_WRITER_URL } from "@api";
 
 export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
   const [like, setLike] = useState(comment.isLiked);
   const [showReply, setShowReply] = useState(false);
   const [writeReply, setWriteReply] = useState(false);
   const [a, setA] = useState(false);
+  const [result, setResult] = useState();
+  const [error, setError] = useState(false);
   const [text, setText] = useState("");
   const token = localStorage.getItem('token');
 
-  const { payload: result, error } = useFetch(COMMUNITY_REPLY_LIST_URL + comment.commentId, null, "GET", [a], token);
+
+  //no token reply access should be done
+  //no like and write reply when no token
+  // const { payload: result, error } = useFetch(COMMUNITY_REPLY_LIST_URL + comment.commentId, null, "GET", [a], token);
+
+  useEffect(() => {
+    axios.get(COMMUNITY_REPLY_LIST_URL + comment.commentId).then(
+      (res) => setResult(res.data)
+    ).catch((e) => setError(true));
+  }, [a])
 
   const _onLikeClick = () => {
-    axios.post(COMMUNITY_COMMENT_LIKE_URL + comment.commentId, null, {headers: {"Authorization": `Token ${token}`}});
+    axios.post(COMMUNITY_COMMENT_LIKE_URL + comment.commentId, null, { headers: { "Authorization": `Token ${token}` } });
     setLike(!like);
   };
 
@@ -28,18 +39,27 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
   };
 
   const _onReplyPostClick = () => {
-    axios.post(COMMUNITY_REPLY_LIST_URL + comment.commentId, { mainText: text }, {headers: {"Authorization": `Token ${token}`}});
+    axios.post(COMMUNITY_REPLY_LIST_URL + comment.commentId, { mainText: text }, { headers: { "Authorization": `Token ${token}` } });
     setText("");
     setLike(false);
     setA(!a);
   };
 
   const _onCommentDeleteClick = () => {
-    if(!window.confirm('댓글을 삭제하시겠습니까?')) return;
-    axios.delete(COMMUNITY_COMMENT_DELETE_URL + contentId + "&comment_id=" + comment.commentId, {headers: {"Authorization": `Token ${token}`}}).then(() => {
+    if (!window.confirm('댓글을 삭제하시겠습니까?')) return;
+    axios.delete(COMMUNITY_COMMENT_DELETE_URL + contentId + "&comment_id=" + comment.commentId, { headers: { "Authorization": `Token ${token}` } }).then((res) => {
+      console.log(res.data);
       setAA(!aa);
     });
   };
+
+  const _onWriterClick = (e) => {
+    if(localStorage.getItem('isStaff')==='true') {
+      axios.post(COMMUNITY_COMMENT_WRITER_URL, {"userName": e.target.innerText}, { headers: { "Authorization": `Token ${token}` } } ).then(
+        (res) => {window.open('https://test.divo.kr/admin/model_corporation/divouser/'+res.data.email?.replaceAll('@', '_40')+'/change/', '_blank')}
+      )
+    } else return;
+  }
 
   const replyCommentList = useMemo(() => result?.replyCommentList, [result]);
   const replyCommentCount = useMemo(() => comment.replyCommentCount, [result]);
@@ -51,10 +71,10 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
       <S.Comment>
         <S.CommentFirst>
           <S.CommentFirstBox>
-            <S.CommentWriter>{comment.writer}</S.CommentWriter>
-            <S.CommentDate>{comment.lastEdited?.replaceAll('T', ' ')}</S.CommentDate>
+            <S.CommentWriter onClick={_onWriterClick} isStaff={localStorage.getItem('isStaff')}>{comment.writer}</S.CommentWriter>
+            <S.CommentDate>{comment.lastEdited?.replaceAll('T', ' ').slice(0, -4)}</S.CommentDate>
           </S.CommentFirstBox>
-          {comment.isMine ? (
+          {comment.isMine || (localStorage.getItem('isStaff') === 'true') ? (
             <S.CommentDelete onClick={_onCommentDeleteClick}>
               <Delete width={15} height={15} />
             </S.CommentDelete>
@@ -62,23 +82,26 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
         </S.CommentFirst>
         <S.CommentContent>{comment.mainText}</S.CommentContent>
         <S.CommentSecond>
-          <S.CommentLike onClick={_onLikeClick}>
-            <Like fill={like ? "#111111" : "none"} stroke={like ? "white" : "black"} width="18" height="18" />
-          </S.CommentLike>
-          <S.CommentBottomS>{comment.isLiked ? (like ? comment.likeCount : comment.likeCount - 1) : like ? comment.likeCount + 1 : comment.likeCount}</S.CommentBottomS>
-          <S.CommentBottomS> · </S.CommentBottomS>
+          {token ? <S.Flex>
+            <S.CommentLike onClick={_onLikeClick}>
+              <Like fill={like ? "#111111" : "none"} stroke={like ? "white" : "black"} width="18" height="18" />
+            </S.CommentLike>
+            <S.CommentBottomS>{comment.isLiked ? (like ? comment.likeCount : comment.likeCount - 1) : like ? comment.likeCount + 1 : comment.likeCount}</S.CommentBottomS>
+            <S.CommentBottomS> · </S.CommentBottomS>
+          </S.Flex> : null}
           {replyCommentCount ? (
             <>
               <S.CommentBottom onClick={() => setShowReply(!showReply)}>
                 {showReply ? "답글 닫기 (" + comment.replyCommentCount + ")" : "답글 열기 (" + comment.replyCommentCount + ")"}
               </S.CommentBottom>{" "}
-              <S.CommentBottomS> · </S.CommentBottomS>
+              {token ? <S.CommentBottomS> · </S.CommentBottomS> : null}
             </>
           ) : null}
-          <S.CommentBottom onClick={_onWriteReplyClick}>{writeReply ? "닫기" : "답글 달기"}</S.CommentBottom>
+          {token ? <S.CommentBottom onClick={_onWriteReplyClick}>{writeReply ? "닫기" : "답글 달기"}</S.CommentBottom>
+            : null}
         </S.CommentSecond>
       </S.Comment>
-      {showReply ? replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} />) : null}
+      {showReply ? replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} aa={a} setAA={setA} />) : null}
       {writeReply ? (
         <S.Replywrite>
           <S.WhiteBoxwrite>
@@ -95,6 +118,11 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
 }
 
 const S = {};
+
+S.Flex = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 S.CommentFirstBox = styled.div`
   display: flex;
@@ -187,6 +215,7 @@ S.CommentFirst = styled.div`
 S.CommentWriter = styled.div`
   font-size: 13px;
   padding-right: 3px;
+  ${(props) => props.isStaff==='true' ? "&:hover{cursor: pointer}": null}
 `;
 
 S.CommentDate = styled.div`
