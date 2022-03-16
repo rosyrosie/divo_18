@@ -5,6 +5,8 @@ import KeywordTable from './KeywordTable';
 
 export default function KeywordBar({ payload, type, setType, setKeyword }){
 
+  console.log(payload);
+
   const onClick = row => {
     setKeyword({
       word: row.cells[0].value,
@@ -88,6 +90,7 @@ S.KwTypes = styled.div`
   color: #515154;
   margin: 43px 0 20px 10px;
   align-items: center;
+  justify-content: right;
 `;
 
 S.KwType = styled.div`

@@ -110,9 +110,9 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
         index: loading ? <Loading size={16} align='left' /> : stats?.cost?.viewCPR
       },
       {
-        statName: 'View ?',
-        pop: 'View ?는 해당 키워드의 View DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 View 마케팅에 추천되는 키워드입니다.',
-        index: loading ? <Loading size={16} align='left' /> : '-'
+        statName: 'View RI',
+        pop: 'View RI(Recommendation Index)는 해당 키워드의 View DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 View 마케팅에 추천되는 키워드입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.difficulty?.viewRI
       },
     ],
     [
@@ -132,9 +132,9 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
         index: loading ? <Loading size={16} align='left' /> : stats?.cost?.placeCPR
       },
       {
-        statName: 'Place ?',
-        pop: 'Place ?는 해당 키워드의 Place DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 Place 마케팅에 추천되는 키워드입니다.',
-        index: loading ? <Loading size={16} align='left' /> : '-'
+        statName: 'Place RI',
+        pop: 'Place RI(Recommendation Index)는 해당 키워드의 Place DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 Place 마케팅에 추천되는 키워드입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.difficulty?.placeRI
       },
     ]
   ],
@@ -739,11 +739,12 @@ export const keywordScoreCols = type =>
     //   Header: '월간 검색량'
     // },
     {
-      accessor: 'viewRI',
-      Header: 'Brand EPS'
+      accessor: 'EPS',
+      Header: 'Brand EPS',
+      sortType: sortComma
     },
     {
-      accessor: 'placeRI',
+      accessor: 'VPS',
       Header: 'Brand VPS'
     }
   ] :
