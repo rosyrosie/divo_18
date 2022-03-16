@@ -62,7 +62,7 @@ export default function CommunityContent() {
         setLike(false);
         setChangeLike(false);
       })
-      .then(setA(!a));
+      .then(() => setA(!a));
   };
 
   const _onDeleteClick = () => {
@@ -131,13 +131,13 @@ export default function CommunityContent() {
             </S.CommentTitleBox>
           </S.BodyContainer>
           <S.CommentBox>
-          {
+            {
               result?.lastCommentPage===1 ? null : <S.PrevCommentBox onClick={_onCommentPrevClick}>이전 댓글 보기...</S.PrevCommentBox>
             }
             { commentList?.map((comObj, i) => (
               <CommentComponent key={comObj.commentId} comment={comObj} index={i} contentId={contentId} aa={a} setAA={setA} />
             ))
-          }
+            }
             {token && <S.ReplyWR>
               <S.WhiteBox>
                 <S.UpperBox>{localStorage.getItem('name')}</S.UpperBox>
