@@ -66,7 +66,7 @@ export default function CommunityPost(){
             </S.TagBox>
           </S.TitleBox>
           <S.EditBox>
-            <Editor height="530px" initialEditType="wysiwyg" ref={editorRef}/>
+            <Editor height="100%" initialEditType="wysiwyg" ref={editorRef}/>
           </S.EditBox>
         </S.Body>
       </S.Scroll>
@@ -122,6 +122,8 @@ S.Scroll = styled.div`
 S.EditBox = styled.div`
   z-index: 2;
   width: 100%;
+  height: 100%;  
+  padding-bottom: 20px;
 `;
 
 S.CHeader = styled.div`

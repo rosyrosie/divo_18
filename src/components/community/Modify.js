@@ -58,7 +58,7 @@ export default function CommunityModify() {
             </S.TagBox>
           </S.TitleBox>
           <S.EditBox>
-            <Editor height="530px" initialValue={state.mainText} initialEditType="wysiwyg" ref={editorRef} />
+            <Editor height="100%" initialValue={state.mainText} initialEditType="wysiwyg" ref={editorRef} />
           </S.EditBox>
         </S.Body>
       </S.Scroll>
@@ -114,6 +114,7 @@ S.Scroll = styled.div`
 S.EditBox = styled.div`
   z-index: 2;
   width: 100%;
+  padding-bottom: 20px;
 `;
 
 S.CHeader = styled.div`
