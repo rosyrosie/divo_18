@@ -58,3 +58,4 @@ export const COMMUNITY_CONTENT_MODIFY_URL = "https://test.divo.kr/content/?conte
 export const COMMUNITY_MYPROFILE_URL = "https://test.divo.kr/content/list?type=";
 export const COMMUNITY_SEARCH_TITLE_URL = "https://test.divo.kr/content/list?type=searched&criteria=title&query=";
 export const COMMUNITY_COMMENT_WRITER_URL = "https://test.divo.kr/auth/userinfo/";
+export const COMMUNITY_REPLY_DELETE_URL = "https://test.divo.kr/content/comment/reply/?reply_comment_id=";
