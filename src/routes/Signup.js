@@ -67,6 +67,10 @@ export default function Signup(){
         alert('회원가입이 완료되었습니다');
         navigate('/');
       }
+      else if(res.data.message === 'invalid userName'){
+        alert('사용할 수 없는 닉네임입니다');
+        return;
+      }
     }).catch(e => {
       console.log(e);
       alert('중복된 이메일입니다');
