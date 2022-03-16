@@ -39,9 +39,8 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
   };
 
   const _onReplyPostClick = () => {
-    axios.post(COMMUNITY_REPLY_LIST_URL + comment.commentId, { mainText: text }, { headers: { "Authorization": `Token ${token}` } }).then(() => setA(!a));
+    axios.post(COMMUNITY_REPLY_LIST_URL + comment.commentId, { mainText: text }, { headers: { "Authorization": `Token ${token}` } }).then(() => {setA(!a);setAA(!aa);});
     setText("");
-    setLike(false);
   };
 
   const _onCommentDeleteClick = () => {
