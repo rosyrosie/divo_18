@@ -120,7 +120,7 @@ S.Body = styled.div`
 `;
 
 S.Main = styled.div`
-  flex: 3;
+  flex: 2.5;
   display: flex;
   flex-flow: column;
 `;

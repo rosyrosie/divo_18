@@ -1,6 +1,19 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
+import { keywordScoreCols } from '@constants';
+import KeywordTable from './KeywordTable';
 
 export default function KeywordBar({ payload, type, setType, setKeyword }){
+
+  const onClick = row => {
+    setKeyword({
+      word: row.cells[0].value,
+      type
+    });
+  }
+
+  const columns = useMemo(() => keywordScoreCols(type), [type]);
+
   return (
     <S.Sidebar>
       <S.List>
@@ -13,42 +26,21 @@ export default function KeywordBar({ payload, type, setType, setKeyword }){
           <S.KwType isSelected={type === 'section'} onClick={() => setType('section')}>상권</S.KwType>
           <S.KwType isSelected={type === 'category'} onClick={() => setType('category')}>업종</S.KwType>
         </S.KwTypes>
-        <S.Flex>
-          <S.Word>키워드</S.Word>
-          <S.Qty>월간 검색량</S.Qty>
-        </S.Flex>
-        <S.Scrolls>
-          {payload?.[type].map((word, i) => (
-            <S.Cell onClick={() => setKeyword({ word: word.keyword, type })} key={word.keyword}>
-              <S.Word>{word.keyword}</S.Word>
-              <S.Qty>
-                {word.amount.toLocaleString()}
-              </S.Qty>
-            </S.Cell>
-          ))}
-        </S.Scrolls>
+        {/* {payload?.[type].map((word, i) => (
+          <S.Cell onClick={() => setKeyword({ word: word.keyword, type })} key={word.keyword}>
+            <S.Word>{word.keyword}</S.Word>
+            <S.Qty>
+              {word.amount.toLocaleString()}
+            </S.Qty>
+          </S.Cell>
+        ))} */}
+        {payload && <KeywordTable columns={columns} data={payload?.[type]} onClick={onClick} />}
       </S.List>
     </S.Sidebar>
   );
 }
 
 const S = {};
-
-S.Qty = styled.div`
-  display: flex;
-  color: #1d1d1f;
-  margin-right: 10px;
-  flex-flow: column;
-  align-items: end;
-  font-family: 'Montserrat', 'SUIT';
-`;
-
-S.Flex = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 0 10px 0;
-  color: #515154;
-`;
 
 S.Sidebar = styled.div`
   flex: 1;
@@ -59,7 +51,7 @@ S.Sidebar = styled.div`
 
 S.List = styled.div`
   flex: 1;
-  margin-left: 40px;
+  margin-left: 20px;
   display: flex;
   flex-flow: column;
 `;
@@ -106,13 +98,6 @@ S.KwType = styled.div`
   }
 `;
 
-S.Word = styled.div`
-  color: #1d1d1f;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-`;
-
 S.Cell = styled.div`
   font-weight: 600;
   display: flex;
@@ -145,11 +130,4 @@ S.Badge = styled.div`
   &:hover ${S.BadgePop}{
     display: flex;
   }
-`;
-
-S.Scrolls = styled.div`
-  display: flex;
-  flex-flow: column;
-  overflow-y: auto;
-  max-height: 100%;
 `;

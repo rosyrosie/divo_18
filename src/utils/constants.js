@@ -100,19 +100,19 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.rank===31 ? '30+위' : stats?.score?.view?.rank + '위'
       },
       {
-        statName: 'View EPR',
-        pop: 'View EPR(Earning Per Rank)은 해당 키워드에서 View 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[0] + '원'
-      },
-      {
-        statName: 'View LPR',
-        pop: 'View LPR(Loss Per Rank)은 해당 키워드에서 View 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[1] + '원'
+        statName: 'View DPR',
+        pop: 'View DPR(Delta Per Rank)은 해당 키워드에서 View 순위가 각각 1위 상승·하락했을 때 예상되는 매출액 변화량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.view?.efficiency[0] + '원 / ' + stats?.score?.view?.efficiency[1] + '원'
       },
       {
         statName: 'View CPR',
-        pop: 'View CPR(Cost Per Rank)은 해당 키워드에서 View 상위노출 난이도를 나타내는 지표로 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
+        pop: 'View CPR(Cost Per Rank)은 해당 키워드에서 View 상위노출 난이도를 나타내는 지표로 값이 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.cost?.viewCPR
+      },
+      {
+        statName: 'View ?',
+        pop: 'View ?는 해당 키워드의 View DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 View 마케팅에 추천되는 키워드입니다.',
+        index: loading ? <Loading size={16} align='left' /> : '-'
       },
     ],
     [
@@ -122,19 +122,19 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
         index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.rank === 51 ? '51+위' : stats?.score?.place?.rank + '위'
       },
       {
-        statName: 'Place EPR',
-        pop: 'Place EPR(Earning Per Rank)은 해당 키워드에서 Place 순위가 1위 상승했을 때 예상되는 매출액 증가량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[0] + '원'
-      },
-      {
-        statName: 'Place LPR',
-        pop: 'Place LPR(Loss Per Rank)은 해당 키워드에서 Place 순위가 1위 하락했을 때 예상되는 매출액 감소량입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[1] + '원'
+        statName: 'Place DPR',
+        pop: 'Place DPR(Delta Per Rank)은 해당 키워드에서 Place 순위가 각각 1위 상승·하락했을 때 예상되는 매출액 변화량입니다.',
+        index: loading ? <Loading size={16} align='left' /> : stats?.score?.place?.efficiency[0] + '원 / ' + stats?.score?.place?.efficiency[1] + '원'
       },
       {
         statName: 'Place CPR',
-        pop: 'Place CPR(Cost Per Rank)은 해당 키워드에서 Place 상위노출 난이도를 나타내는 지표로 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
+        pop: 'Place CPR(Cost Per Rank)은 해당 키워드에서 Place 상위노출 난이도를 나타내는 지표로 값이 클수록 상위노출이 어려운 키워드임을 뜻합니다.',
         index: loading ? <Loading size={16} align='left' /> : stats?.cost?.placeCPR
+      },
+      {
+        statName: 'Place ?',
+        pop: 'Place ?는 해당 키워드의 Place DPR·CPR로 계산된 마케팅 효율 지표입니다. 값이 클수록 Place 마케팅에 추천되는 키워드입니다.',
+        index: loading ? <Loading size={16} align='left' /> : '-'
       },
     ]
   ],
@@ -726,3 +726,42 @@ export const viewCols = [
     Header: '방문자 수'
   }
 ];
+
+export const keywordScoreCols = type => 
+  type === 'brand' ? 
+  [
+    {
+      accessor: 'keyword',
+      Header: '키워드'
+    },
+    // {
+    //   accessor: 'amount',
+    //   Header: '월간 검색량'
+    // },
+    {
+      accessor: 'viewRI',
+      Header: 'Brand EPS'
+    },
+    {
+      accessor: 'placeRI',
+      Header: 'Brand VPS'
+    }
+  ] :
+  [
+    {
+      accessor: 'keyword',
+      Header: '키워드'
+    },
+    // {
+    //   accessor: 'amount',
+    //   Header: '월간 검색량'
+    // },
+    {
+      accessor: 'viewRI',
+      Header: 'View RI'
+    },
+    {
+      accessor: 'placeRI',
+      Header: 'Place RI'
+    }
+  ];
