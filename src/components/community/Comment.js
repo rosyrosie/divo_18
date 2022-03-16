@@ -89,10 +89,10 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
             <S.CommentBottomS>{comment.isLiked ? (like ? comment.likeCount : comment.likeCount - 1) : like ? comment.likeCount + 1 : comment.likeCount}</S.CommentBottomS>
             <S.CommentBottomS> · </S.CommentBottomS>
           </S.Flex> : null}
-          {replyCommentCount ? (
+          {comment.replyCommentCount ? (
             <>
               <S.CommentBottom onClick={() => setShowReply(!showReply)}>
-                {showReply ? "답글 닫기 (" + comment.replyCommentCount + ")" : "답글 열기 (" + comment.replyCommentCount + ")"}
+                {showReply||comment.replyCommentCount===0 ? "답글 닫기 (" + comment.replyCommentCount + ")" : "답글 열기 (" + comment.replyCommentCount + ")"}
               </S.CommentBottom>{" "}
               {token ? <S.CommentBottomS> · </S.CommentBottomS> : null}
             </>
@@ -101,7 +101,7 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
             : null}
         </S.CommentSecond>
       </S.Comment>
-      {showReply ? replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} aa={a} setAA={setA} />) : null}
+      {showReply ? replyCommentList.map((reply, i) => <ReplyComponent reply={reply} index={i} key={i} aa={a} setAA={setA} aaa={aa} setAAA={setAA} />) : null}
       {writeReply ? (
         <S.Replywrite>
           <S.WhiteBoxwrite>

@@ -3,13 +3,14 @@ import { ReactComponent as Delete } from "@/assets/CommunityCommentDelete.svg";
 import { COMMUNITY_REPLY_DELETE_URL } from "@api";
 import axios from "axios";
 
-export default function ReplyComponent({ reply, i, aa, setAA }) {
+export default function ReplyComponent({ reply, i, aa, setAA, aaa, setAAA }) {
 
   const token = localStorage.getItem('token');
 
   const _onReplyDeleteClick = () => {
     if(!window.confirm('답글을 삭제하시겠습니까?')) return;
     axios.delete(COMMUNITY_REPLY_DELETE_URL+reply.commentId, {headers: {"Authorization": `Token ${token}`}}).then((res) => {
+      setAAA(!aaa);
       setAA(!aa);
     });
   };
