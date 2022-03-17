@@ -4,9 +4,6 @@ import { keywordScoreCols } from '@constants';
 import KeywordTable from './KeywordTable';
 
 export default function KeywordBar({ payload, type, setType, setKeyword }){
-
-  console.log(payload);
-
   const onClick = row => {
     setKeyword({
       word: row.cells[0].value,

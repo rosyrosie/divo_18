@@ -64,8 +64,6 @@ export default function CommunitySearch() {
     }
   }
 
-  console.log(data);
-
   return (
     // error? null : Data ? 
     <S.Container>

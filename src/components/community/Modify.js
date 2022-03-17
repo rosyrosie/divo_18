@@ -36,8 +36,6 @@ export default function CommunityModify() {
     });
   };
 
-  console.log(state);
-
   return (
     <>
       <S.Scroll>

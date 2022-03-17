@@ -46,7 +46,6 @@ export default function CommentComponent({ comment, i, contentId, aa, setAA }) {
   const _onCommentDeleteClick = () => {
     if (!window.confirm('댓글을 삭제하시겠습니까?')) return;
     axios.delete(COMMUNITY_COMMENT_DELETE_URL + contentId + "&comment_id=" + comment.commentId, { headers: { "Authorization": `Token ${token}` } }).then((res) => {
-      console.log(res.data);
       setAA(!aa);
     });
   };
