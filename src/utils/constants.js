@@ -148,7 +148,7 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
       {
         statName: '컨텐츠 포화도',
         pop: '컨텐츠 포화도는 해당 키워드의 검색량 대비 발행되는 컨텐츠 수를 나타낸 지표입니다.',
-        index: loading ? <Loading size={16} align='left' /> : stats?.score?.contentSaturation*100 + '%'
+        index: loading ? <Loading size={16} align='left' /> : Math.round(stats?.score?.contentSaturation*100) + '%'
       },
       {
         statName: 'Brand EPS',
