@@ -141,7 +141,7 @@ export default function CommunityContent() {
           </S.BodyContainer>
           <S.CommentBox>
             {
-              result?.lastCommentPage===1 ? null : <S.PrevCommentBox onClick={_onCommentPrevClick}>이전 댓글 보기...</S.PrevCommentBox>
+              (result?.lastCommentPage===1 || result?.lastCommentPage===0) ? null : <S.PrevCommentBox onClick={_onCommentPrevClick}>이전 댓글 보기...</S.PrevCommentBox>
             }
             { commentList?.map((comObj, i) => (
               <CommentComponent key={comObj.commentId} comment={comObj} index={i} contentId={contentId} aa={a} setAA={setA} />
