@@ -36,6 +36,8 @@ export default function CommunityModify() {
     });
   };
 
+  console.log(state);
+
   return (
     <>
       <S.Scroll>
@@ -115,6 +117,7 @@ S.EditBox = styled.div`
   z-index: 2;
   width: 100%;
   padding-bottom: 20px;
+  height: 100%;
 `;
 
 S.CHeader = styled.div`
