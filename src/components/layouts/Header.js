@@ -9,8 +9,10 @@ export default function Header({ sticky = false, dark = true, corpName }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
-
   const navigate = useNavigate();
+  // const isMobile = useMediaQuery({
+  //   query: "(max-width: 767px)"
+  // });
 
   const searchRef = useRef(null);
   const dropDownRef = useRef(null);
@@ -145,7 +147,6 @@ S.Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  //${props => props.dark ? 'box-shadow: 1px 1px 5px rgba(255, 255, 255, 0.3);' : 'box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);'}
   ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(245, 245, 247, 0.7); color: #1d1d1f;'}
   backdrop-filter: saturate(180%) blur(20px);
 `;
