@@ -1,23 +1,21 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Content from '@/components/indexMap/Content';
 
-export default function Sidebar({ query, map }){
+export default function Searchbar(){
   const [ input, setInput ] = useState('');
   const [ keyword, setKeyword ] = useState('');
 
   return (
     <>
       <S.Flex>
-        {/* <S.SearchBar>
+        <S.SearchBar>
           <S.Input placeholder="상권·업종·브랜드·음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? setKeyword(input) : null} />
           {keyword && <S.Clear onClick={() => { setInput(''); setKeyword(''); }}><i className="fas fa-times"></i></S.Clear>}
           <S.Icon onClick={() => input ? setKeyword(input) : null}>
             <i className="fas fa-search"></i>
           </S.Icon>
-        </S.SearchBar> */}
+        </S.SearchBar>
       </S.Flex>
-      {query && <Content query={query} map={map} />}
     </>
   );
 }
