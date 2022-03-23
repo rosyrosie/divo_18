@@ -166,6 +166,45 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
 
 //chart options
 
+export const mapLineOptions = {
+  responsive: true,
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      grid: {
+        drawBorder: false
+      },
+      ticks: {
+        font: {
+          size: 10
+        },
+        maxTicksLimit: 8,
+        padding: 7
+      },
+    }
+  },
+  plugins: {
+    legend: {
+      display: false
+    }
+  },
+  elements: {
+    line: {
+      tension: 0.2
+    }
+  },
+  pointRadius: 0.01,
+  pointHoverRadius: 3,
+  borderWidth: 2,
+  pointHoverBackgroundColor: 'white',
+}
+
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {
     maintainAspectRatio: maintainAspectRatio,
@@ -530,44 +569,25 @@ export const salesRadarData = {
   ]
 }
 
-export const salesLineData = [
-  {
-    labels: ['2022.02.16', '2022.02.17', '2022.02.18', '2022.02.19', '2022.02.20', '2022.02.21', '2022.02.22'],
-    datasets: [
-      {
-        label: '매출액',
-        data: [40, 30, 40, 50, 30, 20, 40],
-        borderColor: 'rgba(0, 99, 178)', 
-        backgroundColor: 'rgba(0, 99, 178, 0.5)',
-        fill: 'origin'
+export const mapLineData = {
+  labels: ['1월 1주차', '1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차', '2월 4주차', '3월 1주차', '3월 2주차', '3월 3주차'],
+  datasets: [
+    {
+      label: '매출액',
+      data: [10, 90, 30, 40, 30, 20, 30, 50, 10, 20, 30, 40],
+      borderColor: 'rgba(38, 59, 77)', 
+      backgroundColor: context => {
+        const chart = context.chart;
+        const { ctx } = chart;
+        const gradient = ctx.createLinearGradient(0, 0, 0, 135);
+        gradient.addColorStop(0, 'rgba(38, 59, 77, 1)');
+        gradient.addColorStop(1, 'rgba(38, 59, 77, 0)');
+        return gradient;
       },
-    ]
-  },
-  {
-    labels: ['1월 1주차', '1월 2주차', '1월 3주차', '1월 4주차', '1월 5주차', '2월 1주차', '2월 2주차', '2월 3주차', '2월 4주차', '3월 1주차', '3월 2주차', '3월 3주차'],
-    datasets: [
-      {
-        label: '매출액',
-        data: [10, 90, 30, 40, 30, 20, 30, 50, 10, 20, 30, 40],
-        borderColor: 'rgba(0, 99, 178)', 
-        backgroundColor: 'rgba(0, 99, 178, 0.5)',
-        fill: 'origin'
-      },
-    ]
-  },
-  {
-    labels: ['2021.02', '2021.03', '2021.04', '2021.05',' 2021.06', '2021.07', '2021.08', '2021.09', '2021.10', '2021.11', '2021.12', '2022.01'],
-    datasets: [
-      {
-        label: '매출액',
-        data: [10, 20, 30, 40, 50, 40, 30, 20, 10, 20, 30, 40],
-        borderColor: 'rgba(0, 99, 178)', 
-        backgroundColor: 'rgba(0, 99, 178, 0.5)',
-        fill: 'origin'
-      },
-    ]
-  },
-];
+      fill: 'start'
+    },
+  ]
+};
 
 export const salesCompareTitle = [
   ['점심', '저녁'],
@@ -766,3 +786,33 @@ export const keywordScoreCols = type =>
       Header: 'Place RI'
     }
   ];
+
+export const sampleQuery = [
+  {
+      "rank": 3,
+      "naverId": 1706029841,
+      "name": "선데이 버거 클럽",
+      "lng": 127.0367379,
+      "lat": 37.5266144,
+      "address": "서울 강남구 언주로170길 37 201호",
+      "id": 1706029841
+  },
+  {
+      "rank": 4,
+      "naverId": 56228015,
+      "name": "우와",
+      "lng": 126.9222234,
+      "lat": 37.5517143,
+      "address": "서울 마포구 와우산로21길 21-16 2층",
+      "id": 56228015
+  },
+  {
+      "rank": 5,
+      "naverId": 1298530125,
+      "name": "땀땀",
+      "lng": 127.0279819,
+      "lat": 37.5003861,
+      "address": "서울 강남구 강남대로98길 12-5",
+      "id": 1298530125
+  },
+];

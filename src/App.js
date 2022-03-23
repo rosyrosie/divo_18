@@ -26,6 +26,7 @@ import Inspection from "@/components/errorPage/Inspection";
 import LoginRequired from "@/components/errorPage/LoginRequired";
 import CorpRequired from "@/components/errorPage/CorpRequired";
 import NoAccess from "@/components/errorPage/NoAccess";
+import IndexMap from "@/routes/IndexMap";
 
 export default function App(){
 
@@ -73,6 +74,7 @@ export default function App(){
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
+        { path: '/cid=:corpId/index-map', element: <IndexMap /> },
         { 
           path: '/cid=:corpId/community',
           element: <Community />,
