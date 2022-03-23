@@ -13,6 +13,23 @@ export const applyStyleToChart = (chartData, mode) => {
   return chartData;
 }
 
+export const applyStyleToMapChart = (chartData) => {
+  chartData.datasets[0].data = chartData.datasets[0].data.slice(1);
+  chartData?.datasets?.forEach((element, index) => {
+    element.borderColor = 'rgb(38, 59, 77)';
+    element.backgroundColor = context => {
+      const chart = context.chart;
+      const { ctx } = chart;
+      const gradient = ctx.createLinearGradient(0, 0, 0, 100);
+      gradient.addColorStop(0, 'rgba(38, 59, 77, 0.8)');
+      gradient.addColorStop(1, 'rgba(38, 59, 77, 0)');
+      return gradient;
+    };
+    element.fill = 'start';
+  })
+  return chartData;
+}
+
 export const applyMultiAxisToChart = (chartData) => {
   chartData.datasets[0].yAxisID = 'y';
   chartData.datasets[1].yAxisID = 'y1';

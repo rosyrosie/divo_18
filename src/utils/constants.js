@@ -166,7 +166,7 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
 
 //chart options
 
-export const mapLineOptions = {
+export const mapLineOptions = (unit = '', reverse = false) => ({
   responsive: true,
   interaction: {
     intersect: false,
@@ -184,14 +184,21 @@ export const mapLineOptions = {
         font: {
           size: 10
         },
-        maxTicksLimit: 8,
-        padding: 7
+        maxTicksLimit: 7,
+        padding: 7,
+        callback: (val, index) => val >= 10000 ? (val/10000 + '만') : val >= 1000 ? (val/1000 + '천') : val
       },
+      reverse: reverse
     }
   },
   plugins: {
     legend: {
       display: false
+    },
+    tooltip: {
+      callbacks: {
+        label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+      }
     }
   },
   elements: {
@@ -203,7 +210,7 @@ export const mapLineOptions = {
   pointHoverRadius: 3,
   borderWidth: 2,
   pointHoverBackgroundColor: 'white',
-}
+});
 
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {
@@ -225,6 +232,13 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
     interaction: {
       intersect: false,
       mode: 'index'
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: (val, index) => val >= 10000 ? (val/10000 + '만') : val >= 1000 ? (val/1000 + '천') : val
+        }
+      }
     }
   };
 
@@ -248,7 +262,8 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
             tickColor: 'rgba(245, 245, 247, 0.3)'
           },
           ticks: {
-            color: 'rgba(245, 245, 247, 0.8)'
+            color: 'rgba(245, 245, 247, 0.8)',
+            ...options.scales.y.ticks
           }
         }
       },
@@ -260,9 +275,7 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
     options = { ...options, 
       scales: {
         y: {
-          ticks: {
-            stepSize: 1,
-          },
+          ...options.scales.y,
           reverse: true
         },
       }
@@ -279,6 +292,9 @@ export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAs
           position: 'right',
           grid: {
             drawOnChartArea: false
+          },
+          ticks: {
+            callback: (val, index) => val >= 10000 ? (val/10000 + '만') : val >= 1000 ? (val/1000 + '천') : val
           }
         },
         y: {

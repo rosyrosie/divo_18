@@ -5,6 +5,7 @@ import { mapLineData, mapLineOptions, sampleQuery } from '@constants';
 import { RANK_OM_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
+import { applyStyleToMapChart } from '@functions';
 
 export default function Content({ query, map, placeOverlay, setMapCenter }){
   const regionType = (code) => {
@@ -89,7 +90,7 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
         <S.Box>
           <S.Subtitle>소비자 관심도</S.Subtitle>
           <S.Chart>
-            <Line options={mapLineOptions} data={mapLineData} />
+            <Line options={mapLineOptions()} data={mapLineData} />
           </S.Chart>
           <S.Comment>
             <S.Icon><i className="fas fa-award"></i></S.Icon>
@@ -137,7 +138,7 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
             <S.Close onClick={() => setShowChart(false)}><i className="fas fa-times"></i></S.Close>
           </S.DetailTitle>
           <S.DetailChart>
-            <Line options={mapLineOptions} data={mapLineData} />
+            <Line options={mapLineOptions('위', true)} data={applyStyleToMapChart(place?.chart)} />
           </S.DetailChart>
         </S.DetailBox>
       }
