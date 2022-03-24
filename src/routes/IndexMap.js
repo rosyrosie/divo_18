@@ -14,7 +14,6 @@ export default function IndexMap(){
   });
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
-  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
   const [ query, setQuery ] = useState(null);
 
   useEffect(() => {
@@ -36,12 +35,6 @@ export default function IndexMap(){
       level: map.getLevel()*1
     });
     kakao.maps.event.addListener(map, 'tilesloaded', () => {
-      setMapRange({
-        bounds: map.getBounds(),
-        level: map.getLevel()*1
-      });
-    });
-    kakao.maps.event.addListener(map, 'zoom_changed', () => {
       setMapRange({
         bounds: map.getBounds(),
         level: map.getLevel()*1
@@ -83,12 +76,12 @@ export default function IndexMap(){
       let polygon = new kakao.maps.Polygon({
         map: map,
         path: paths,
-        strokeWeight: 0.5,
+        strokeWeight: 1,
         strokeColor: '#263b4d',
         strokeOpacity: 1,
         strokeStyle: 'solid',
         fillColor: '#f5f5f7',
-        fillOpacity: 0.5
+        fillOpacity: 0.4
       });
 
       kakao.maps.event.addListener(polygon, 'mouseover', e => {
@@ -104,7 +97,7 @@ export default function IndexMap(){
       })
 
       kakao.maps.event.addListener(polygon, 'mouseout', () => {
-        polygon.setOptions({ strokeWeight: 0.5, zIndex: 0, fillColor: '#f5f5f7' });
+        polygon.setOptions({ strokeWeight: 1, zIndex: 0, fillColor: '#f5f5f7' });
         overlay.setMap(null);
         map.setCursor(null);
       });
@@ -115,7 +108,7 @@ export default function IndexMap(){
           code: regionCode,
           name: name
         });
-        placeOverlay.setMap(null);
+        polygon.setOptions({ fillColor: '#d2d2d7', strokeWeight: 3 });
       });
 
       polygons.push(polygon);
@@ -141,7 +134,7 @@ export default function IndexMap(){
   return (
     <>
       <S.Map id="map" />
-      {query && <Content query={query} map={map} placeOverlay={placeOverlay} />}
+      {query && <Content query={query} map={map} />}
     </>
   );
 }

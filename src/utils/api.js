@@ -62,3 +62,4 @@ export const COMMUNITY_REPLY_DELETE_URL = BASE_URL + "content/comment/reply/?rep
 
 export const IM_DRAW_URL = BASE_URL + 'map/bound/';
 export const IM_KW_URL = BASE_URL + 'map/bound/keyword?area=';
+export const IM_PL_URL = BASE_URL + 'map/bound/place?area=';

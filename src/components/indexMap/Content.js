@@ -1,13 +1,13 @@
 /*global kakao*/
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { mapLineData, mapLineOptions, sampleQuery } from '@constants';
-import { RANK_OM_URL } from '@api';
+import { mapLineData, mapLineOptions } from '@constants';
+import { RANK_OM_URL, IM_PL_URL, IM_KW_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import { applyStyleToMapChart } from '@functions';
 
-export default function Content({ query, map, placeOverlay }){
+export default function Content({ query, map }){
   const regionType = (code) => {
     if(code.length === 2) return '시·도 ';
     else if(code.length === 5) return '시·군·구 ';
@@ -16,41 +16,77 @@ export default function Content({ query, map, placeOverlay }){
   }
 
   const [ id, setId ] = useState(null);
+  const [ preview, setPreview ] = useState(true);
 
   const getPlaceOverlay = place => {
-    return (
-      '<style>' +
-        '#close-overlay:hover{' +
-          'cursor: pointer;' +
-        '}' +
-        '#show-detail:hover{' +
-          'cursor: pointer;' +
-          'text-decoration: underline;' +
-        '}' +
-      '</style>' +
-      '<div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">' +
-        '<div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">' + 
-          '<div style="display: flex; font-weight: bold; align-items: end;">' + 
-            place.name +
-            `<div style="margin-left: 5px; font-size: 12px; font-weight: normal;">${place.category}</div>` +
-          '</div>' +
-          '<div style="font-size: 12px; padding: 0 0 5px 5px;" id="close-overlay"><i class="fas fa-times"></i></div>' +
-        '</div>' +
-        '<div style="font-size: 12px; color: #3166a1; margin-bottom: 5px;">' +
-          '블로그 리뷰 ' + place.blogReviewNum + '개' +
-        '</div>' +
-        '<div style="font-size: 12px; color: #3166a1; margin-bottom: 30px;">' +
-          '방문자 리뷰 ' + place.visitorReviewNum + '개' +
-        '</div>' +
-        '<div style="display: flex; justify-content: space-between; align-items: end;">' +
-          '<div style="font-family: \'Montserrat\', \'SUIT\'; font-weight: bold; font-size: 18px;">' +
-            place.rank + '위' + '<span style="font-size: 14px;">' + '(상위 ' + place.ratio + '%)' + '</span>' +
-          '</div>' +
-          '<div style="font-size: 12px; color: #3166a1;" id="show-detail">자세히 보기</div>' +
-        '</div>' +
-      '</div>' +
-      `<div style="height: 10px; width: 10px; background: rgba(255, 255, 255, 0.5); margin: 0 auto; transform: translateY(-5px) rotate(45deg); backdrop-filter: blur(12px); border-right: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 1px solid rgba(255, 255, 255, 0.18);"></div>`
-    );
+    return `
+      <style>
+        #close-overlay:hover{
+          cursor: pointer;
+        }
+        #show-detail:hover{
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      </style>
+      <div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">
+          <div style="display: flex; font-weight: bold; align-items: end;">
+            ${place.name}
+            <div style="margin-left: 5px; font-size: 12px; font-weight: normal;">${place.category}</div>
+          </div>
+          <div style="font-size: 12px; padding: 0 0 5px 5px;" id="close-overlay"><i class="fas fa-times"></i></div>
+        </div>
+        <div style="font-size: 12px; color: #3166a1; margin-bottom: 5px;">
+          블로그 리뷰 ${place.blogReviewNum}개
+        </div>
+        <div style="font-size: 12px; color: #3166a1; margin-bottom: 30px;">
+          방문자 리뷰 ${place.visitorReviewNum}개
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: end;">
+          <div style="font-family: \'Montserrat\', \'SUIT\'; font-weight: bold; font-size: 18px;">
+            ${place.rank}위<span style="font-size: 12px;">(상위 ${place.ratio}%)</span>
+          </div>
+          <div style="font-size: 12px; color: #3166a1;" id="show-detail"><i class="fas fa-external-link-alt"></i></div>
+        </div>
+      </div>
+      <div style="height: 10px; width: 10px; background: rgba(255, 255, 255, 0.5); margin: 0 auto; transform: translateY(-5px) rotate(45deg); backdrop-filter: blur(12px); border-right: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 1px solid rgba(255, 255, 255, 0.18);"></div>
+    `;
+  };
+
+  const [ markers, setMarkers ] = useState([]);
+  const [ polygon, setPolygon ] = useState(
+    new kakao.maps.Polygon({
+      strokeWeight: 2,
+      strokeColor: '#06c',
+      strokeOpacity: 1,
+      strokeStyle: 'solid',
+      fillColor: '#06c',
+      fillOpacity: 0.4
+    })
+  );
+  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
+  const [ clickedArea, setClickedArea ] = useState(null);
+
+  const showPopup = (popup, marker) => {
+    popup.open(map, marker);
+    let popupElement = document.querySelector('.popup');
+    popupElement.parentElement.previousSibling.style.display = "none";
+    popupElement.parentElement.parentElement.style.border = 'none';
+    popupElement.parentElement.parentElement.style.background = 'unset';
+    popupElement.parentElement.style.left = "50%";
+    popupElement.parentElement.style.marginLeft = "20px";
+    popupElement.parentElement.style.top = "40px";
+  };
+
+  const showArea = area => {
+    polygon.setMap(null);
+    let path = [];
+    area.convex.forEach(point => {
+      path.push(new kakao.maps.LatLng(point[0], point[1]));
+    });
+    polygon.setPath(path);
+    polygon.setMap(map);
   }
 
   const { payload: place, error } = useFetch(
@@ -61,77 +97,130 @@ export default function Content({ query, map, placeOverlay }){
     id
   );
 
+  const { payload: placeList, error: pLError } = useFetch(
+    IM_PL_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+
+  const { payload: areaList, error: aError } = useFetch(
+    IM_KW_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+
+  useEffect(() => {
+    polygon.setMap(null);
+    placeOverlay.setMap(null);
+    setClickedArea(null);
+    for(const marker of markers){
+      marker.marker.setMap(null);
+    }
+  }, [query]);
+
   useEffect(() => {
     if(!place) return;
     const content = getPlaceOverlay(place);
     placeOverlay.setPosition(new kakao.maps.LatLng(place.lat, place.lng));
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
-    document.getElementById('close-overlay')?.addEventListener('click', () => placeOverlay.setMap(null));
+    document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
     document.getElementById('show-detail')?.addEventListener('click', () => null);
   }, [place]);
 
   useEffect(() => {
-    let markers = [];
-    sampleQuery.forEach(corp => {
+    if(!placeList) return;
+    for(const marker of markers){
+      marker.marker.setMap(null);
+    }
+    let newMarkers = [];
+    placeList.placeList.forEach(corp => {
       let marker = new kakao.maps.Marker({ opacity: 1 });
+      let popup = new kakao.maps.InfoWindow({});
+
       marker.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
       marker.setMap(map);
-      markers.push(marker);
+      newMarkers.push({ marker, popup, id: corp.id });
 
-      let popup = new kakao.maps.InfoWindow({});
-      let popupContent = (`
+      let popupContent = `
         <style>
           .popup{
             display: block;
             color: #263b4d;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: saturate(180%) blur(40px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: white;
             text-align: center;
-            padding: 5px 10px;
+            padding: 8px;
+            border-radius: 5px;
             font-size: 12px;
             font-weight: bold;
-            box-shadow: 2px 4px 12px rgb(38 59 77 / 20%);
+            border: 1px solid rgba(38, 59, 77, 0.2);
+            box-shadow: 2px 4px 12px rgb(38 59 77 / 50%);
+            width: max-content;
           }
         </style>
-        <div class="popup">${corp.name}</div>
-      `);
+        <div class="popup">
+          ${corp.name}
+        </div>
+      `;
       popup.setContent(popupContent);
       popup.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
 
       kakao.maps.event.addListener(marker, 'click', () => {
         placeOverlay.setMap(null);
-        setId(corp.naverId);
+        setId(corp.id);
         map.panTo(new kakao.maps.LatLng(corp.lat, corp.lng));
         marker.setOpacity(1);
-      });
-
-      kakao.maps.event.addListener(marker, 'mouseover', () => {
-        popup.open(map, marker);
-        let popupElement = document.querySelector('.popup');
-        popupElement.parentElement.previousSibling.style.display = "none";
-        popupElement.parentElement.parentElement.style.height = 0;
-        popupElement.parentElement.parentElement.style.border = 'none';
       });
 
       kakao.maps.event.addListener(marker, 'mouseout', () => {
         popup.close();
       });
-      
     });
 
+    setMarkers(newMarkers);
+  }, [placeList]);
+
+  useEffect(() => {
+    let handlers = [];
+    for(const marker of markers){
+      if(id === marker.id) continue;
+      let handler = () => showPopup(marker.popup, marker.marker);
+      kakao.maps.event.addListener(marker.marker, 'mouseover', handler);
+      handlers[marker.id] = handler;
+    }
     return () => {
       for(const marker of markers){
-        marker.setMap(null);
+        kakao.maps.event.removeListener(marker.marker, 'mouseover', handlers[marker.id]);
       }
     }
-  }, [query]);
+  }, [markers, id]);
 
   const onClickCorp = place => {
     placeOverlay.setMap(null);
-    setId(place.naverId);
+    setId(place.id);
     map.panTo(new kakao.maps.LatLng(place.lat, place.lng));
+  }
+
+  const onMouseOver = id => {
+    for(const marker of markers){
+      if(id === marker.id){
+        showPopup(marker.popup, marker.marker);
+        return;
+      }
+    }
+  }
+
+  const onMouseOut = id => {
+    for(const marker of markers){
+      if(id === marker.id){
+        marker.popup.close();
+        return;
+      }
+    }
   }
 
   return (
@@ -160,25 +249,22 @@ export default function Content({ query, map, placeOverlay }){
         <S.Box>
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
-            <S.Blur>
-              <S.Rank>1</S.Rank>
-              샤로수길
-            </S.Blur>
-            <S.Blur>
-              <S.Rank>2</S.Rank>
-              관악구청
-            </S.Blur>
-            <S.Blur>
-              <S.Rank>3</S.Rank>
-              봉천사거리
-            </S.Blur>
+            {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
+              <S.Blur key={area.keyword} onClick={() => showArea(area)} >
+                <S.Rank>{index+1}</S.Rank>
+                {area.keyword}
+              </S.Blur>
+            ))}
           </S.RankBox>
         </S.Box>
         <S.Box>
-          <S.Subtitle>상위 20개 점포</S.Subtitle>
+          <S.CSubtitle onClick={() => setPreview(p => !p)}>
+            상위 {preview ? 5 : 20}개 점포
+            <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
+          </S.CSubtitle>
           <S.RankBox>
-            {sampleQuery.map((corp, i) => (
-              <S.Blur key={corp.naverId} onClick={() => onClickCorp(corp)}>
+            {placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
+              <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
                 <S.Rank>{i+1}</S.Rank>
                 {corp.name}
               </S.Blur>
@@ -219,6 +305,7 @@ S.Body = styled.div`
     border-radius: 10px;
   }
   overflow-y: auto;
+  scrollbar-gutter: stable both-edges;
 `;
 
 S.Title = styled.div`
@@ -242,6 +329,14 @@ S.Box = styled.div`
 
 S.Subtitle = styled.div`
   font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+`;
+
+S.CSubtitle = styled(S.Subtitle)`
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.Chart = styled.div`
