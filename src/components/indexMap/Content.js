@@ -2,21 +2,71 @@
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { mapLineData, mapLineOptions } from '@constants';
-import { RANK_OM_URL, IM_PL_URL, IM_KW_URL } from '@api';
+import { RANK_SS_URL, IM_PL_URL, IM_KW_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import { applyStyleToMapChart } from '@functions';
+import OMRankBox from '@/components/indexMap/OMRankBox';
 
 export default function Content({ query, map }){
+  const [ id, setId ] = useState(null);
+  const [ preview, setPreview ] = useState(true);
+  const [ showRankBox, setShowRankBox ] = useState(false);
+  const [ markers, setMarkers ] = useState([]);
+  const [ polygon, setPolygon ] = useState(
+    new kakao.maps.Polygon({
+      strokeWeight: 3,
+      strokeColor: '#263b4d',
+      strokeOpacity: 1,
+      strokeStyle: 'solid',
+      fillColor: '#263b4d',
+      fillOpacity: 0.4,
+      zIndex: 2
+    })
+  );
+  const [ tempPolygon, setTempPolygon ] = useState(
+    new kakao.maps.Polygon({
+      strokeWeight: 2,
+      strokeColor: '#263b4d',
+      strokeOpacity: 1,
+      strokeStyle: 'solid',
+      fillColor: '#263b4d',
+      fillOpacity: 0.4,
+      zIndex: 1
+    })
+  );
+  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
+  
+  const { payload: place, error } = useFetch(
+    RANK_SS_URL + id,
+    null,
+    'GET',
+    [id],
+    id
+  );
+  
+  const { payload: placeList, error: pLError } = useFetch(
+    IM_PL_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+  
+  const { payload: areaList, error: aError } = useFetch(
+    IM_KW_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+
   const regionType = (code) => {
     if(code.length === 2) return '시·도 ';
     else if(code.length === 5) return '시·군·구 ';
     else if(code.length === 8) return '읍·면·동 ';
     else return '세부 ';
   }
-
-  const [ id, setId ] = useState(null);
-  const [ preview, setPreview ] = useState(true);
 
   const getPlaceOverlay = place => {
     return `
@@ -54,20 +104,6 @@ export default function Content({ query, map }){
     `;
   };
 
-  const [ markers, setMarkers ] = useState([]);
-  const [ polygon, setPolygon ] = useState(
-    new kakao.maps.Polygon({
-      strokeWeight: 2,
-      strokeColor: '#06c',
-      strokeOpacity: 1,
-      strokeStyle: 'solid',
-      fillColor: '#06c',
-      fillOpacity: 0.4
-    })
-  );
-  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
-  const [ clickedArea, setClickedArea ] = useState(null);
-
   const showPopup = (popup, marker) => {
     popup.open(map, marker);
     let popupElement = document.querySelector('.popup');
@@ -79,7 +115,7 @@ export default function Content({ query, map }){
     popupElement.parentElement.style.top = "40px";
   };
 
-  const showArea = area => {
+  const showArea = (polygon, area) => {
     polygon.setMap(null);
     let path = [];
     area.convex.forEach(point => {
@@ -89,37 +125,14 @@ export default function Content({ query, map }){
     polygon.setMap(map);
   }
 
-  const { payload: place, error } = useFetch(
-    RANK_OM_URL + id,
-    null,
-    'GET',
-    [id],
-    id
-  );
-
-  const { payload: placeList, error: pLError } = useFetch(
-    IM_PL_URL + query.code,
-    null,
-    'GET',
-    [query],
-    query
-  );
-
-  const { payload: areaList, error: aError } = useFetch(
-    IM_KW_URL + query.code,
-    null,
-    'GET',
-    [query],
-    query
-  );
-
   useEffect(() => {
     polygon.setMap(null);
+    tempPolygon.setMap(null);
     placeOverlay.setMap(null);
-    setClickedArea(null);
     for(const marker of markers){
       marker.marker.setMap(null);
     }
+    setShowRankBox(false);
   }, [query]);
 
   useEffect(() => {
@@ -129,7 +142,7 @@ export default function Content({ query, map }){
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
     document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
-    document.getElementById('show-detail')?.addEventListener('click', () => null);
+    document.getElementById('show-detail')?.addEventListener('click', () => setShowRankBox(true));
   }, [place]);
 
   useEffect(() => {
@@ -203,7 +216,7 @@ export default function Content({ query, map }){
     placeOverlay.setMap(null);
     setId(place.id);
     map.panTo(new kakao.maps.LatLng(place.lat, place.lng));
-  }
+  };
 
   const onMouseOver = id => {
     for(const marker of markers){
@@ -212,7 +225,7 @@ export default function Content({ query, map }){
         return;
       }
     }
-  }
+  };
 
   const onMouseOut = id => {
     for(const marker of markers){
@@ -221,7 +234,7 @@ export default function Content({ query, map }){
         return;
       }
     }
-  }
+  };
 
   return (
     <>
@@ -250,7 +263,7 @@ export default function Content({ query, map }){
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
             {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
-              <S.Blur key={area.keyword} onClick={() => showArea(area)} >
+              <S.Blur key={area.keyword} onClick={() => showArea(polygon, area)} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                 <S.Rank>{index+1}</S.Rank>
                 {area.keyword}
               </S.Blur>
@@ -272,6 +285,7 @@ export default function Content({ query, map }){
           </S.RankBox>
         </S.Box>
       </S.Body>
+      {(showRankBox && id) && <OMRankBox id={id} setShowRankBox={setShowRankBox} />}
     </>
   );
 }

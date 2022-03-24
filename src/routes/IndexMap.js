@@ -7,14 +7,20 @@ import Content from '@/components/indexMap/Content';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
-  const [ mapLevel, setMapLevel ] = useState(12);
-  const [ mapCenter, setMapCenter ] = useState({
+  const mapLevel = 12;
+  const mapCenter = {
     lat: 36.266826,
     lng: 127.2786567
-  });
+  };
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
   const [ query, setQuery ] = useState(null);
+
+  const changeZoom = code => {
+    if(code.length === 2) return 11;
+    else if(code.length === 5) return 8;
+    else return 5;
+  }
 
   useEffect(() => {
     const mapContainer = document.getElementById('map');
@@ -26,7 +32,7 @@ export default function IndexMap(){
       mapContainer.innerHTML = "";
       showMap(new kakao.maps.Map(mapContainer, mapOption));
     }
-  }, [mapLevel, mapCenter]);
+  }, []);
 
   useEffect(() => {
     if(!map) return;
@@ -57,7 +63,7 @@ export default function IndexMap(){
     let regionCode = '';
     let polygons = [];
 
-    const displayArea = (coordinates, name, regionCode) => {
+    const displayArea = (coordinates, name, regionCode, center) => {
       let paths = [];
       let points = [];
 
@@ -109,6 +115,8 @@ export default function IndexMap(){
           name: name
         });
         polygon.setOptions({ fillColor: '#d2d2d7', strokeWeight: 3 });
+        map.setLevel(changeZoom(regionCode));
+        map.panTo(new kakao.maps.LatLng(center.lat, center.lon));
       });
 
       polygons.push(polygon);
@@ -122,7 +130,7 @@ export default function IndexMap(){
       regionCode = val.properties.CTPRVN_CD;
       if(!regionCode) regionCode = val.properties.SIG_CD;
       if(!regionCode) regionCode = val.properties.EMD_CD;
-      displayArea(coordinates, name, regionCode);
+      displayArea(coordinates, name, regionCode, val.center);
     });
 
     return () => {

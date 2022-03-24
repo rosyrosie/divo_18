@@ -13,16 +13,16 @@ export const applyStyleToChart = (chartData, mode) => {
   return chartData;
 }
 
-export const applyStyleToMapChart = (chartData) => {
+export const applyStyleToMapChart = (chartData, isWhite = false) => {
   chartData.datasets[0].data = chartData.datasets[0].data.slice(1);
   chartData?.datasets?.forEach((element, index) => {
-    element.borderColor = 'rgb(38, 59, 77)';
+    element.borderColor = isWhite ? '#f5f5f7' : 'rgb(38, 59, 77)';
     element.backgroundColor = context => {
       const chart = context.chart;
       const { ctx } = chart;
       const gradient = ctx.createLinearGradient(0, 0, 0, 100);
-      gradient.addColorStop(0, 'rgba(38, 59, 77, 0.8)');
-      gradient.addColorStop(1, 'rgba(38, 59, 77, 0)');
+      gradient.addColorStop(0, isWhite ? 'rgba(245, 245, 247, 0.8)' : 'rgba(38, 59, 77, 0.8)');
+      gradient.addColorStop(1, isWhite ? 'rgba(245, 245, 247, 0)' : 'rgba(38, 59, 77, 0)');
       return gradient;
     };
     element.fill = 'start';

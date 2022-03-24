@@ -166,51 +166,77 @@ export const statBoxTemplate = (stats, loading) => ({ // for StatBox.js
 
 //chart options
 
-export const mapLineOptions = (unit = '', reverse = false) => ({
-  responsive: true,
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
-  scales: {
-    x: {
-      display: false,
+export const mapLineOptions = (unit = '', reverse = false, isWhite = false) => {
+  let options = {
+    responsive: true,
+    interaction: {
+      intersect: false,
+      mode: 'index'
     },
-    y: {
-      grid: {
-        drawBorder: false
+    scales: {
+      x: {
+        display: false,
       },
-      ticks: {
-        font: {
-          size: 10
+      y: {
+        grid: {
+          drawBorder: false
         },
-        maxTicksLimit: 7,
-        padding: 7,
-        callback: (val, index) => val >= 10000 ? (val/10000 + '만') : val >= 1000 ? (val/1000 + '천') : val
-      },
-      reverse: reverse
-    }
-  },
-  plugins: {
-    legend: {
-      display: false
-    },
-    tooltip: {
-      callbacks: {
-        label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+        ticks: {
+          font: {
+            size: 10
+          },
+          maxTicksLimit: 7,
+          padding: 7,
+          callback: (val, index) => val >= 10000 ? (val/10000 + '만') : val >= 1000 ? (val/1000 + '천') : val
+        },
+        reverse: reverse
       }
+    },
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+        }
+      }
+    },
+    elements: {
+      line: {
+        tension: 0.2
+      }
+    },
+    pointRadius: 0.01,
+    pointHoverRadius: 3,
+    borderWidth: 2,
+    pointHoverBackgroundColor: 'white',
+  }
+
+  if(isWhite){
+    options = { ...options, 
+      scales: {
+        ...options.scales,
+        y: {
+          ...options.scales.y,
+          grid: {
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)',
+            ...options.scales.y.grid
+          },
+          ticks: {
+            color: 'rgba(245, 245, 247, 0.8)',
+            ...options.scales.y.ticks
+          }
+        }
+      },
+      color: 'rgba(245, 245, 247, 0.8)'
     }
-  },
-  elements: {
-    line: {
-      tension: 0.2
-    }
-  },
-  pointRadius: 0.01,
-  pointHoverRadius: 3,
-  borderWidth: 2,
-  pointHoverBackgroundColor: 'white',
-});
+  }
+
+  return options;
+};
 
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {

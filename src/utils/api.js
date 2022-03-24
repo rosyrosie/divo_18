@@ -41,9 +41,14 @@ export const RANK_GET_PID_URL = BASE_URL + 'omrank/getid?corpId=';
 export const RANK_RIVALS_URL = BASE_URL + 'omrank/rivals?id=';
 export const RANK_OM_URL = BASE_URL + 'omrank/omrank?id=';
 export const RANK_QUERY_URL = BASE_URL + 'omrank/search';
+export const RANK_SS_URL = BASE_URL + 'omrank/simpleSummary?id=';
 
 export const KS_CHART_URL = (corpId, keyword) => BASE_URL + `score/graph/${corpId}?keyword=` + keyword;
 export const KS_STAT_URL = (corpId, keyword) => BASE_URL + `score/keyword/${corpId}?keyword=` + keyword;
+
+export const IM_DRAW_URL = BASE_URL + 'map/bound/';
+export const IM_KW_URL = BASE_URL + 'map/bound/keyword?area=';
+export const IM_PL_URL = BASE_URL + 'map/bound/place?area=';
 
 export const COMMUNITY_CONTENT_LIST_URL = BASE_URL + "content/list?type=category&cat=";
 export const COMMUNITY_CONTENT_DETAIL_URL = BASE_URL + "content/?content_id=";
@@ -59,7 +64,3 @@ export const COMMUNITY_MYPROFILE_URL = BASE_URL + "content/list?type=";
 export const COMMUNITY_SEARCH_TITLE_URL = BASE_URL + "content/list?type=searched&criteria=title&query=";
 export const COMMUNITY_COMMENT_WRITER_URL = BASE_URL + "auth/userinfo/";
 export const COMMUNITY_REPLY_DELETE_URL = BASE_URL + "content/comment/reply/?reply_comment_id=";
-
-export const IM_DRAW_URL = BASE_URL + 'map/bound/';
-export const IM_KW_URL = BASE_URL + 'map/bound/keyword?area=';
-export const IM_PL_URL = BASE_URL + 'map/bound/place?area=';
