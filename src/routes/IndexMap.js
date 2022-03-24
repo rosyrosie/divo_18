@@ -14,7 +14,7 @@ export default function IndexMap(){
   });
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
-  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
+  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
   const [ query, setQuery ] = useState(null);
 
   useEffect(() => {
@@ -141,7 +141,7 @@ export default function IndexMap(){
   return (
     <>
       <S.Map id="map" />
-      {query && <Content query={query} map={map} setMapCenter={setMapCenter} placeOverlay={placeOverlay} />}
+      {query && <Content query={query} map={map} placeOverlay={placeOverlay} />}
     </>
   );
 }

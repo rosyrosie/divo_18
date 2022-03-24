@@ -7,7 +7,7 @@ import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import { applyStyleToMapChart } from '@functions';
 
-export default function Content({ query, map, placeOverlay, setMapCenter }){
+export default function Content({ query, map, placeOverlay }){
   const regionType = (code) => {
     if(code.length === 2) return '시·도 ';
     else if(code.length === 5) return '시·군·구 ';
@@ -16,7 +16,6 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
   }
 
   const [ id, setId ] = useState(null);
-  const [ showChart, setShowChart ] = useState(false);
 
   const getPlaceOverlay = place => {
     return (
@@ -29,7 +28,7 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
           'text-decoration: underline;' +
         '}' +
       '</style>' +
-      '<div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">' +
+      '<div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">' +
         '<div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">' + 
           '<div style="display: flex; font-weight: bold; align-items: end;">' + 
             place.name +
@@ -69,8 +68,65 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
     document.getElementById('close-overlay')?.addEventListener('click', () => placeOverlay.setMap(null));
-    document.getElementById('show-detail')?.addEventListener('click', () => setShowChart(true));
+    document.getElementById('show-detail')?.addEventListener('click', () => null);
   }, [place]);
+
+  useEffect(() => {
+    let markers = [];
+    sampleQuery.forEach(corp => {
+      let marker = new kakao.maps.Marker({ opacity: 1 });
+      marker.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
+      marker.setMap(map);
+      markers.push(marker);
+
+      let popup = new kakao.maps.InfoWindow({});
+      let popupContent = (`
+        <style>
+          .popup{
+            display: block;
+            color: #263b4d;
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: saturate(180%) blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 2px 4px 12px rgb(38 59 77 / 20%);
+          }
+        </style>
+        <div class="popup">${corp.name}</div>
+      `);
+      popup.setContent(popupContent);
+      popup.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
+
+      kakao.maps.event.addListener(marker, 'click', () => {
+        placeOverlay.setMap(null);
+        setId(corp.naverId);
+        map.panTo(new kakao.maps.LatLng(corp.lat, corp.lng));
+        marker.setOpacity(1);
+      });
+
+      kakao.maps.event.addListener(marker, 'mouseover', () => {
+        popup.open(map, marker);
+        let popupElement = document.querySelector('.popup');
+        popupElement.parentElement.previousSibling.style.display = "none";
+        popupElement.parentElement.parentElement.style.height = 0;
+        popupElement.parentElement.parentElement.style.border = 'none';
+      });
+
+      kakao.maps.event.addListener(marker, 'mouseout', () => {
+        popup.close();
+      });
+      
+    });
+
+    return () => {
+      for(const marker of markers){
+        marker.setMap(null);
+      }
+    }
+  }, [query]);
 
   const onClickCorp = place => {
     placeOverlay.setMap(null);
@@ -130,50 +186,11 @@ export default function Content({ query, map, placeOverlay, setMapCenter }){
           </S.RankBox>
         </S.Box>
       </S.Body>
-      {
-        showChart && 
-        <S.DetailBox>
-          <S.DetailTitle>
-            {place?.name}
-            <S.Close onClick={() => setShowChart(false)}><i className="fas fa-times"></i></S.Close>
-          </S.DetailTitle>
-          <S.DetailChart>
-            <Line options={mapLineOptions('위', true)} data={applyStyleToMapChart(place?.chart)} />
-          </S.DetailChart>
-        </S.DetailBox>
-      }
     </>
   );
 }
 
 const S = {};
-
-S.DetailChart = styled.div`
-  padding-top: 20px;
-`;
-
-S.DetailTitle = styled.div`
-  font-weight: bold;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-`;
-
-S.DetailBox = styled.div`
-  position: absolute;
-  top: 68px;
-  right: 20px;
-  width: 240px;
-  box-shadow: 2px 4px 12px rgb(38 59 77 / 8%);
-  color: #263b4d;
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-  backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 20px;
-  display: flex;
-  flex-flow: column;
-`;
 
 S.Close = styled.div`
   font-size: 12px;
@@ -189,15 +206,14 @@ S.Body = styled.div`
   padding: 20px;
   color: #263b4d;
   background: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-  backdrop-filter: blur(40px);
+  backdrop-filter: saturate(180%) blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.18);
   position: absolute;
-  top: 68px;
-  left: 20px;
-  bottom: 20px;
+  top: 48px;
+  left: 0;
+  bottom: 0;
   width: 320px;
-  box-shadow: 2px 4px 12px rgb(38 59 77 / 8%);
+  box-shadow: 2px 4px 12px rgb(38 59 77 / 20%);
   &::-webkit-scrollbar-thumb {
     background-color: rgb(255, 255, 255, 0.1);
     border-radius: 10px;

@@ -11,7 +11,7 @@ import ChartModal from '@/components/viewPlaceRank/ChartModal';
 export default function ViewPlaceRank(){
   const mode = ['view', 'place'];
   const [ tab, setTab ] = useState(0); //0: view, 1: place
-  const [ sort, setSort ] = useState("rank");
+  const [ sort, setSort ] = useState("searchAmount");
   const modalRef = useRef(null);
   const [ showModal, setShowModal ] = useDetectOutsideClick(modalRef, false);
   const [ chartKeyword, setChartKeyword ] = useState({
