@@ -7,11 +7,14 @@ import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import { applyStyleToMapChart } from '@functions';
 import OMRankBox from '@/components/indexMap/OMRankBox';
+import KeywordBox from '@/components/indexMap/KeywordBox';
 
 export default function Content({ query, map }){
   const [ id, setId ] = useState(null);
+  const [ keyword, setKeyword ] = useState('');
   const [ preview, setPreview ] = useState(true);
   const [ showRankBox, setShowRankBox ] = useState(false);
+  const [ showKwBox, setShowKwBox ] = useState(false);
   const [ markers, setMarkers ] = useState([]);
   const [ polygon, setPolygon ] = useState(
     new kakao.maps.Polygon({
@@ -133,6 +136,7 @@ export default function Content({ query, map }){
       marker.marker.setMap(null);
     }
     setShowRankBox(false);
+    setShowKwBox(false);
   }, [query]);
 
   useEffect(() => {
@@ -263,7 +267,7 @@ export default function Content({ query, map }){
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
             {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
-              <S.Blur key={area.keyword} onClick={() => showArea(polygon, area)} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+              <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setShowKwBox(true); setKeyword(area.keyword);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                 <S.Rank>{index+1}</S.Rank>
                 {area.keyword}
               </S.Blur>
@@ -272,7 +276,7 @@ export default function Content({ query, map }){
         </S.Box>
         <S.Box>
           <S.CSubtitle onClick={() => setPreview(p => !p)}>
-            상위 {preview ? 5 : 20}개 점포
+            상위 20개 점포
             <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
           </S.CSubtitle>
           <S.RankBox>
@@ -285,12 +289,24 @@ export default function Content({ query, map }){
           </S.RankBox>
         </S.Box>
       </S.Body>
-      {(showRankBox && id) && <OMRankBox id={id} setShowRankBox={setShowRankBox} />}
+      <S.RightBar>
+        {(showRankBox && id) && <OMRankBox id={id} setShowRankBox={setShowRankBox} />}
+        {showKwBox && <KeywordBox keyword={keyword} setShowKwBox={setShowKwBox} />}
+      </S.RightBar>
     </>
   );
 }
 
 const S = {};
+
+S.RightBar = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 280px;
+  display: flex;
+  flex-flow: column;
+`;
 
 S.Close = styled.div`
   font-size: 12px;
