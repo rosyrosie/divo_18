@@ -5,9 +5,9 @@ import { Line } from 'react-chartjs-2';
 import { mapLineOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import Loading from '@/components/Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function OMRankBox({ id, setShowRankBox }){
+export default function OMRankBox({ id, setRankBoxList, defaultOpen }){
   const { payload, loading, error } = useFetch(
     RANK_OM_URL + id,
     null,
@@ -16,34 +16,44 @@ export default function OMRankBox({ id, setShowRankBox }){
     id
   );
 
-  const [ open, setOpen ] = useState(true);
+  const [ open, setOpen ] = useState(defaultOpen);
+
+  const deleteFromList = () => {
+    setRankBoxList(list => list.filter(element => element !== id));
+  };
+
+  useEffect(() => setOpen(defaultOpen), [defaultOpen]);
 
   return (
-    <S.Box open={open} onToggle={e => setOpen(e.target.open)} >
+    <S.Box>
       {
         !loading ?
         <>
           <S.Title>
-            <S.Toggle>
+            <S.Toggle onClick={() => setOpen(o => !o)}>
               <S.Hide><i class={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
               {payload?.name}
             </S.Toggle>
-            <S.Close onClick={() => setShowRankBox(false)}><i className="fas fa-times"></i></S.Close>
+            <S.Close onClick={deleteFromList}><i className="fas fa-times"></i></S.Close>
           </S.Title>
-          <S.Ratio>상위 {payload?.ratio}%</S.Ratio>
-          <S.Rank>{payload?.rank}위</S.Rank>
-          <S.Delta>{Math.abs(payload?.delta)}위 {payload?.delta >= 0 ? '상승' : '하락'}</S.Delta>
-          <S.Chart>
-            {payload && <Line options={mapLineOptions('위', true, true)} data={applyStyleToMapChart(payload?.chart, true)}/>}
-          </S.Chart>
-          <S.AreaBox>
-            {payload?.areaRank.map(rank => (
-              <S.Arearank key={rank.name}>
-                <S.Area><S.AreaName>{rank.name}</S.AreaName>에서</S.Area>
-                <S.Stat>{rank.rank}위</S.Stat>
-              </S.Arearank>
-            ))}
-          </S.AreaBox>
+          {open &&
+            <>
+              <S.Ratio>상위 {payload?.ratio}%</S.Ratio>
+              <S.Rank>{payload?.rank}위</S.Rank>
+              <S.Delta>{Math.abs(payload?.delta)}위 {payload?.delta >= 0 ? '상승' : '하락'}</S.Delta>
+              <S.Chart>
+                {payload && <Line options={mapLineOptions('위', true, true)} data={applyStyleToMapChart(payload?.chart, true)}/>}
+              </S.Chart>
+              <S.AreaBox>
+                {payload?.areaRank.map(rank => (
+                  <S.Arearank key={rank.name}>
+                    <S.Area><S.AreaName>{rank.name}</S.AreaName>에서</S.Area>
+                    <S.Stat>{rank.rank}위</S.Stat>
+                  </S.Arearank>
+                ))}
+              </S.AreaBox>
+            </>
+          }
         </> :
         <S.Loading>
           <Loading isWhite />
@@ -67,7 +77,7 @@ S.Hide = styled.div`
   width: 6px;
 `;
 
-S.Box = styled.details`
+S.Box = styled.div`
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: saturate(180%) blur(12px);
   border-radius: 10px;
@@ -78,7 +88,7 @@ S.Box = styled.details`
   flex-flow: column;
 `;
 
-S.Title = styled.summary`
+S.Title = styled.div`
   font-size: 14px;
   font-weight: bold;
   display: flex;

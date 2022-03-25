@@ -10,10 +10,9 @@ import KeywordBox from '@/components/indexMap/KeywordBox';
 
 export default function Content({ query, map }){
   const [ id, setId ] = useState(null);
-  const [ keyword, setKeyword ] = useState('');
   const [ preview, setPreview ] = useState(true);
-  const [ showRankBox, setShowRankBox ] = useState(false);
-  const [ showKwBox, setShowKwBox ] = useState(false);
+  const [ rankBoxList, setRankBoxList ] = useState([]);
+  const [ kwBoxList, setKwBoxList ] = useState([]);
   const [ markers, setMarkers ] = useState([]);
   const [ polygon, setPolygon ] = useState(
     new kakao.maps.Polygon({
@@ -135,8 +134,6 @@ export default function Content({ query, map }){
     for(const marker of markers){
       marker.marker.setMap(null);
     }
-    setShowRankBox(false);
-    setShowKwBox(false);
   }, [query]);
 
   useEffect(() => {
@@ -146,7 +143,7 @@ export default function Content({ query, map }){
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
     document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
-    document.getElementById('show-detail')?.addEventListener('click', () => setShowRankBox(true));
+    document.getElementById('show-detail')?.addEventListener('click', () => {setRankBoxList(list => list.includes(place.id) ? list : [...list, place.id]);});
   }, [place]);
 
   useEffect(() => {
@@ -268,7 +265,7 @@ export default function Content({ query, map }){
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
             {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
-              <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setShowKwBox(true); setKeyword(area.keyword);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+              <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                 <S.Rank>{index+1}</S.Rank>
                 {area.keyword}
               </S.Blur>
@@ -291,8 +288,12 @@ export default function Content({ query, map }){
         </S.Box>
       </S.Body>
       <S.RightBar>
-        {(showRankBox && id) && <OMRankBox id={id} setShowRankBox={setShowRankBox} />}
-        {showKwBox && <KeywordBox keyword={keyword} setShowKwBox={setShowKwBox} />}
+        {rankBoxList.map((id, i) => (
+          <OMRankBox key={id} id={id} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
+        ))}
+        {kwBoxList.map((kw, i) => (
+          <KeywordBox keyword={kw} key={kw} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
+        ))}
       </S.RightBar>
     </>
   );
