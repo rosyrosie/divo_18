@@ -14,7 +14,6 @@ export const applyStyleToChart = (chartData, mode) => {
 }
 
 export const applyStyleToMapChart = (chartData, isWhite = false) => {
-  chartData.datasets[0].data = chartData.datasets[0].data.slice(1);
   chartData?.datasets?.forEach((element, index) => {
     element.borderColor = isWhite ? '#f5f5f7' : 'rgb(38, 59, 77)';
     element.backgroundColor = context => {

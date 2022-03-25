@@ -238,6 +238,46 @@ export const mapLineOptions = (unit = '', reverse = false, isWhite = false) => {
   return options;
 };
 
+export const mapBarOptions = unit => ({
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false
+    },
+    tooltip: {
+      callbacks: {
+        label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+      }
+    }
+  },
+  maxBarThickness: 15,
+  interaction: {
+    intersect: false,
+    mode: 'index'
+  },
+  scales: {
+    x: {
+      display: false,
+    },
+    y: {
+      grid: {
+        drawBorder: false,
+        borderColor: 'rgba(245, 245, 247, 0.3)',
+        color: 'rgba(245, 245, 247, 0.3)',
+        tickColor: 'rgba(245, 245, 247, 0.3)',
+      },
+      ticks: {
+        font: {
+          size: 10
+        },
+        maxTicksLimit: 7,
+        padding: 7,
+        color: 'rgba(245, 245, 247, 0.8)'
+      },
+    }
+  },
+});
+
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {
     maintainAspectRatio: maintainAspectRatio,
@@ -547,20 +587,15 @@ export const lineData = [
 ];
 
 export const barData = {
-  labels: ['PC', '모바일'],
+  labels: ['10대', '20대', '30대', '40대', '50대'],
   datasets: [
     {
-      label: '최근 30일',
-      data: [40, 60],
-      backgroundColor: 'rgba(0, 99, 178, 0.5)',
-      borderColor: '#0063b2'
+      label: '검색비율',
+      data: [40, 10, 15, 20, 15],
+      backgroundColor: '#f5f5f7b3',
+      borderColor: '#f5f5f7b3',
+      borderRadius: 2
     },
-    {
-      label: '최근 3개월',
-      data: [50, 50],
-      backgroundColor: 'rgba(156, 195, 213, 0.5)',
-      borderColor: '#9cc3d5'
-    }
   ]
 }
 

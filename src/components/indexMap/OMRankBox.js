@@ -5,6 +5,7 @@ import { Line } from 'react-chartjs-2';
 import { mapLineOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import Loading from '@/components/Loading';
+import { useState } from 'react';
 
 export default function OMRankBox({ id, setShowRankBox }){
   const { payload, loading, error } = useFetch(
@@ -15,13 +16,18 @@ export default function OMRankBox({ id, setShowRankBox }){
     id
   );
 
+  const [ open, setOpen ] = useState(true);
+
   return (
-    <S.Box>
+    <S.Box open={open} onToggle={e => setOpen(e.target.open)} >
       {
         !loading ?
         <>
           <S.Title>
-            {payload?.name}
+            <S.Toggle>
+              <S.Hide><i class={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
+              {payload?.name}
+            </S.Toggle>
             <S.Close onClick={() => setShowRankBox(false)}><i className="fas fa-times"></i></S.Close>
           </S.Title>
           <S.Ratio>상위 {payload?.ratio}%</S.Ratio>
@@ -49,19 +55,30 @@ export default function OMRankBox({ id, setShowRankBox }){
 
 const S = {};
 
-S.Box = styled.div`
+S.Toggle = styled.div`
+  display: flex;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+S.Hide = styled.div`
+  margin-right: 8px;
+  width: 6px;
+`;
+
+S.Box = styled.details`
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: saturate(180%) blur(12px);
   border-radius: 10px;
   padding: 20px;
-  margin: 20px;
+  margin: 20px 20px 0 20px;
   color: #f5f5f7;
-  padding: 20px;
   display: flex;
   flex-flow: column;
 `;
 
-S.Title = styled.div`
+S.Title = styled.summary`
   font-size: 14px;
   font-weight: bold;
   display: flex;

@@ -5,7 +5,6 @@ import { mapLineData, mapLineOptions } from '@constants';
 import { RANK_SS_URL, IM_PL_URL, IM_KW_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
-import { applyStyleToMapChart } from '@functions';
 import OMRankBox from '@/components/indexMap/OMRankBox';
 import KeywordBox from '@/components/indexMap/KeywordBox';
 
@@ -97,7 +96,7 @@ export default function Content({ query, map }){
           방문자 리뷰 ${place.visitorReviewNum}개
         </div>
         <div style="display: flex; justify-content: space-between; align-items: end;">
-          <div style="font-family: \'Montserrat\', \'SUIT\'; font-weight: bold; font-size: 18px;">
+          <div style="font-family: 'Montserrat', 'SUIT'; font-weight: bold; font-size: 18px;">
             ${place.rank}위<span style="font-size: 12px;">(상위 ${place.ratio}%)</span>
           </div>
           <div style="font-size: 12px; color: #3166a1;" id="show-detail"><i class="fas fa-external-link-alt"></i></div>
@@ -308,6 +307,12 @@ S.RightBar = styled.div`
   width: 280px;
   display: flex;
   flex-flow: column;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding-bottom: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 S.Close = styled.div`

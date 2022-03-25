@@ -1,5 +1,5 @@
 /*global kakao*/
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { IM_DRAW_URL } from '@api';
 import { useFetch } from '@hooks';
@@ -15,6 +15,7 @@ export default function IndexMap(){
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
   const [ query, setQuery ] = useState(null);
+  const [ trigger, setTrigger ] = useState(true);
 
   const changeZoom = code => {
     if(code.length === 2) return 11;
@@ -40,6 +41,12 @@ export default function IndexMap(){
       bounds: map.getBounds(),
       level: map.getLevel()*1
     });
+    kakao.maps.event.addListener(map, 'zoom_start', () => {
+      setTrigger(false);
+    });
+    kakao.maps.event.addListener(map, 'zoom_changed', () => {
+      setTrigger(true);
+    });
     kakao.maps.event.addListener(map, 'tilesloaded', () => {
       setMapRange({
         bounds: map.getBounds(),
@@ -53,7 +60,7 @@ export default function IndexMap(){
     mapRange,
     'POST',
     [mapRange],
-    mapRange
+    mapRange && trigger
   );
 
   useEffect(() => {
@@ -122,7 +129,7 @@ export default function IndexMap(){
       polygons.push(polygon);
     };
 
-    payload?.features?.forEach(val => {
+    if(trigger) payload?.features?.forEach(val => {
       coordinates = val.geometry.coordinates;
       name = val.properties.CTP_KOR_NM;
       if(!name) name = val.properties.SIG_KOR_NM;
@@ -137,7 +144,7 @@ export default function IndexMap(){
       for(var i=0; i<polygons.length; i++) polygons[i].setMap(null);
       polygons = [];
     };
-  }, [payload]);
+  }, [payload, trigger]);
 
   return (
     <>
