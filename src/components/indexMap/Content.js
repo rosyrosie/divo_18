@@ -289,10 +289,10 @@ export default function Content({ query, map }){
       </S.Body>
       <S.RightBar>
         {rankBoxList.map((id, i) => (
-          <OMRankBox key={id} id={id} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
+          <OMRankBox key={id} id={id} rankBoxList={rankBoxList} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
         ))}
         {kwBoxList.map((kw, i) => (
-          <KeywordBox keyword={kw} key={kw} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
+          <KeywordBox keyword={kw} key={kw} kwBoxList={kwBoxList} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
         ))}
       </S.RightBar>
     </>

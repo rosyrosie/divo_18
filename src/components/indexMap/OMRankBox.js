@@ -7,7 +7,7 @@ import { applyStyleToMapChart } from '@functions';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 
-export default function OMRankBox({ id, setRankBoxList, defaultOpen }){
+export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen }){
   const { payload, loading, error } = useFetch(
     RANK_OM_URL + id,
     null,
@@ -22,7 +22,7 @@ export default function OMRankBox({ id, setRankBoxList, defaultOpen }){
     setRankBoxList(list => list.filter(element => element !== id));
   };
 
-  useEffect(() => setOpen(defaultOpen), [defaultOpen]);
+  useEffect(() => setOpen(defaultOpen), [rankBoxList]);
 
   return (
     <S.Box>
