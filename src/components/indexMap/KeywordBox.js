@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useFetch } from '@hooks';
 import { RANK_OM_URL } from '@api';
 import { Line } from 'react-chartjs-2';
-import { mapLineOptions } from '@constants';
+import { mapLineOptions, mapLineData } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 
 export default function KeywordBox({ keyword, setShowKwBox }){
@@ -11,7 +11,42 @@ export default function KeywordBox({ keyword, setShowKwBox }){
       <S.Title>
         {keyword}
         <S.Close onClick={() => setShowKwBox(false)}><i className="fas fa-times"></i></S.Close>
-      </S.Title>                                                                                                                                                                             
+      </S.Title>
+      <S.StatBox>
+        <details open>
+          <S.Stat>
+            <S.StatName><S.Marker><i className="fas fa-caret-right"></i></S.Marker>검색량</S.StatName>
+            <S.StatNum>14,230건</S.StatNum>
+          </S.Stat>
+          <S.Chart>
+            <Line options={mapLineOptions('건', false, true)} data={applyStyleToMapChart(mapLineData, true)} />
+          </S.Chart> 
+        </details>
+        <details>
+          <S.Stat>
+            <S.StatName><S.Marker><i className="fas fa-caret-right"></i></S.Marker>컨텐츠 발행량</S.StatName>
+            <S.StatNum>312건</S.StatNum>
+          </S.Stat> 
+        </details>
+        <details>
+          <S.Stat>
+            <S.StatName><S.Marker><i className="fas fa-caret-right"></i></S.Marker>남성 검색 비율</S.StatName>
+            <S.StatNum>34.8%</S.StatNum>
+          </S.Stat>
+          <S.Chart>
+            <Line options={mapLineOptions('건', false, true)} data={applyStyleToMapChart(mapLineData, true)} />
+          </S.Chart> 
+        </details>
+        <details>
+          <S.Stat>
+            <S.StatName><S.Marker><i className="fas fa-caret-right"></i></S.Marker>PC 검색 비율</S.StatName>
+            <S.StatNum>10.1%</S.StatNum>
+          </S.Stat>    
+          <S.Chart>
+            <Line options={mapLineOptions('건', false, true)} data={applyStyleToMapChart(mapLineData, true)} />
+          </S.Chart> 
+        </details>
+      </S.StatBox>                                                                                                                                                                             
     </S.Box>
   );
 }
@@ -43,29 +78,32 @@ S.Close = styled.div`
   }
 `;
 
-S.Ratio = styled.div`
+S.StatBox = styled.div`
   display: flex;
-  justify-content: center;
+  flex-flow: column;
   margin-top: 30px;
-  font-size: 12px;
 `;
 
-S.Rank = styled.div`
+S.Stat = styled.summary`
   display: flex;
-  justify-content: center;
-  font-size: 20px;
+  justify-content: space-between;
+  font-size: 12px;
+  padding: 10px 0;
+`;
+
+S.StatName = styled.div`
   font-weight: 600;
-  font-family: 'Montserrat', 'SUIT';
-  margin-top: 10px;
+  font-size: 13px;
+  display: flex;
 `;
 
-S.Delta = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 10px;
-  font-size: 12px;
+S.StatNum = styled.div`
+  font-family: 'Montserrat', 'SUIT';
+`;
+
+S.Marker = styled.div`
+  margin-right: 7px;
 `;
 
 S.Chart = styled.div`
-  margin-top: 20px;
 `;

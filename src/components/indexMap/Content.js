@@ -116,6 +116,7 @@ export default function Content({ query, map }){
     popupElement.parentElement.style.left = "50%";
     popupElement.parentElement.style.marginLeft = "20px";
     popupElement.parentElement.style.top = "40px";
+    marker.setZIndex(2);
   };
 
   const showArea = (polygon, area) => {
@@ -157,7 +158,7 @@ export default function Content({ query, map }){
     let newMarkers = [];
     placeList.placeList.forEach(corp => {
       let marker = new kakao.maps.Marker({ opacity: 1 });
-      let popup = new kakao.maps.InfoWindow({});
+      let popup = new kakao.maps.InfoWindow({ zIndex: 1 });
 
       marker.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
       marker.setMap(map);
@@ -190,11 +191,11 @@ export default function Content({ query, map }){
         placeOverlay.setMap(null);
         setId(corp.id);
         map.panTo(new kakao.maps.LatLng(corp.lat, corp.lng));
-        marker.setOpacity(1);
       });
 
       kakao.maps.event.addListener(marker, 'mouseout', () => {
         popup.close();
+        marker.setZIndex(0);
       });
     });
 
@@ -235,6 +236,7 @@ export default function Content({ query, map }){
     for(const marker of markers){
       if(id === marker.id){
         marker.popup.close();
+        marker.marker.setZIndex(0);
         return;
       }
     }
