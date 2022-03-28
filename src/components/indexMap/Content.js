@@ -7,10 +7,12 @@ import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import OMRankBox from '@/components/indexMap/OMRankBox';
 import KeywordBox from '@/components/indexMap/KeywordBox';
+import Loading from '@/components/Loading';
 
 export default function Content({ query, map }){
   const [ id, setId ] = useState(null);
   const [ preview, setPreview ] = useState(true);
+  const [ areaPreview, setAreaPreview ] = useState(false);
   const [ rankBoxList, setRankBoxList ] = useState([]);
   const [ kwBoxList, setKwBoxList ] = useState([]);
   const [ markers, setMarkers ] = useState([]);
@@ -54,7 +56,7 @@ export default function Content({ query, map }){
     query
   );
   
-  const { payload: areaList, error: aError } = useFetch(
+  const { payload: areaList, loading: aLLoading, error: aError } = useFetch(
     IM_KW_URL + query.code,
     null,
     'GET',
@@ -70,7 +72,6 @@ export default function Content({ query, map }){
   }
 
   const getPlaceOverlay = place => {
-    console.log(place);
     return `
       <style>
         #close-overlay:hover{
@@ -263,14 +264,22 @@ export default function Content({ query, map }){
           </S.Comment>
         </S.Box>
         <S.Box>
-          <S.Subtitle>주요 상권</S.Subtitle>
+          <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
+            주요 상권
+            <i className={"fas fa-angle-" + (areaPreview ? "down" : "up")}></i>
+          </S.CSubtitle>
           <S.RankBox>
-            {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
-              <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
-                <S.Rank>{index+1}</S.Rank>
-                {area.keyword}
-              </S.Blur>
-            ))}
+            {aLLoading ? <Loading size={50} /> : 
+              areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
+                <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                  <S.Flex>
+                    <S.Rank>{index+1}</S.Rank>
+                    {area.keyword}
+                  </S.Flex>
+                  <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
+                </S.Blur>
+              ))
+            }
           </S.RankBox>
         </S.Box>
         <S.Box>
@@ -281,8 +290,10 @@ export default function Content({ query, map }){
           <S.RankBox>
             {placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
               <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
-                <S.Rank>{i+1}</S.Rank>
-                {corp.name}
+                <S.Flex>
+                  <S.Rank>{i+1}</S.Rank>
+                  {corp.name}
+                </S.Flex>
               </S.Blur>
             ))}
           </S.RankBox>
@@ -415,12 +426,22 @@ S.Blur = styled.div`
     opacity: 1;
   }
   transition: .2s;
+  justify-content: space-between;
+`;
+
+S.Qty = styled.span`
+  font-family: 'Montserrat', 'SUIT';
+  font-size: 13px;
+`;
+
+S.Flex = styled.div`
+  display: flex;
 `;
 
 S.Rank = styled.div`
   font-family: 'Montserrat';
   font-weight: bold;
-  width: 24px;
+  width: 26px;
 `;
 
 S.RankBox = styled.div`
