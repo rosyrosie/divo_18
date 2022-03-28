@@ -1,9 +1,10 @@
 /*global kakao*/
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IM_DRAW_URL } from '@api';
 import { useFetch } from '@hooks';
 import Content from '@/components/indexMap/Content';
+import Searchbar from '@/components/indexMap/Searchbar';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
@@ -149,6 +150,7 @@ export default function IndexMap(){
   return (
     <>
       <S.Map id="map" />
+      <Searchbar />
       {query && <Content query={query} map={map} />}
     </>
   );

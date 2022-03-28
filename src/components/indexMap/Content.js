@@ -264,7 +264,7 @@ export default function Content({ query, map }){
         <S.Box>
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
-            {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
+            {areaList?.keywordList?.map((area, index) => (
               <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                 <S.Rank>{index+1}</S.Rank>
                 {area.keyword}
@@ -327,7 +327,7 @@ S.Body = styled.div`
   flex: 1;
   display: flex;
   flex-flow: column;
-  padding: 20px;
+  padding: 68px 20px 20px 20px;
   color: #263b4d;
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: saturate(180%) blur(40px);
