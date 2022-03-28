@@ -70,6 +70,7 @@ export default function Content({ query, map }){
   }
 
   const getPlaceOverlay = place => {
+    console.log(place);
     return `
       <style>
         #close-overlay:hover{
@@ -83,7 +84,7 @@ export default function Content({ query, map }){
       <div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">
           <div style="display: flex; font-weight: bold; align-items: end;">
-            ${place.name}
+            <a href="${place.url}" target="_blank" style="color: inherit; text-decoration: none;">${place.name}</a>
             <div style="margin-left: 5px; font-size: 12px; font-weight: normal;">${place.category}</div>
           </div>
           <div style="font-size: 12px; padding: 0 0 5px 5px;" id="close-overlay"><i class="fas fa-times"></i></div>
@@ -264,7 +265,7 @@ export default function Content({ query, map }){
         <S.Box>
           <S.Subtitle>주요 상권</S.Subtitle>
           <S.RankBox>
-            {areaList?.keywordList?.map((area, index) => (
+            {areaList?.keywordList.slice(0, 3)?.map((area, index) => (
               <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                 <S.Rank>{index+1}</S.Rank>
                 {area.keyword}
@@ -339,8 +340,11 @@ S.Body = styled.div`
   width: 320px;
   box-shadow: 2px 4px 12px rgb(38 59 77 / 20%);
   &::-webkit-scrollbar-thumb {
-    background-color: rgb(255, 255, 255, 0.1);
+    background-color: rgb(255, 255, 255, 0.5);
     border-radius: 10px;
+  }
+  &::-webkit-scrollbar{
+    background-color: transparent;
   }
   overflow-y: auto;
   scrollbar-gutter: stable both-edges;

@@ -36,19 +36,19 @@ S.Clear = styled.div`
 S.Flex = styled.div`
   position: absolute;
   display: flex;
-  padding: 10px;
+  padding: 10px 10px 0 10px;
   top: 48px;
   left: 0;
   color: #263b4d;
+  z-index: 3;
+  backdrop-filter: blur(40px);
 `;
 
 S.SearchBar = styled.div`
   display: flex;
   height: 48px;
   border-radius: 8px;
-  z-index: 3;
   width: 300px;
-  margin-right: 10px;
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
