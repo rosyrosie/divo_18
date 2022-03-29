@@ -238,45 +238,66 @@ export const mapLineOptions = (unit = '', reverse = false, isWhite = false) => {
   return options;
 };
 
-export const mapBarOptions = unit => ({
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false
+export const mapBarOptions = (unit, thin = false, isWhite = true) => {
+  let options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+        }
+      }
     },
-    tooltip: {
-      callbacks: {
-        label: tooltipItem => tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue + unit
+    maxBarThickness: thin ? 7 : 15,
+    interaction: {
+      intersect: false,
+      mode: 'index'
+    },
+    scales: {
+      x: {
+        display: false,
+      },
+      y: {
+        grid: {
+          drawBorder: false,
+        },
+        ticks: {
+          font: {
+            size: 10
+          },
+          maxTicksLimit: 7,
+          padding: 7
+        },
+      }
+    },
+  }
+  if(isWhite){
+    options = {
+      ...options,
+      scales: {
+        ...options.scales,
+        y: {
+          ...options.scales.y,
+          grid: {
+            ...options.scales.y.grid,
+            borderColor: 'rgba(245, 245, 247, 0.3)',
+            color: 'rgba(245, 245, 247, 0.3)',
+            tickColor: 'rgba(245, 245, 247, 0.3)',
+          },
+          ticks: {
+            ...options.scales.y.ticks,
+            color: 'rgba(245, 245, 247, 0.8)'
+          }
+
+        }
       }
     }
-  },
-  maxBarThickness: 15,
-  interaction: {
-    intersect: false,
-    mode: 'index'
-  },
-  scales: {
-    x: {
-      display: false,
-    },
-    y: {
-      grid: {
-        drawBorder: false,
-        borderColor: 'rgba(245, 245, 247, 0.3)',
-        color: 'rgba(245, 245, 247, 0.3)',
-        tickColor: 'rgba(245, 245, 247, 0.3)',
-      },
-      ticks: {
-        font: {
-          size: 10
-        },
-        maxTicksLimit: 7,
-        padding: 7,
-        color: 'rgba(245, 245, 247, 0.8)'
-      },
-    }
-  },
-});
+  }
+  return options;
+};
 
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {

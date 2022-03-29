@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IM_DRAW_URL } from '@api';
 import { useFetch } from '@hooks';
-import Content from '@/components/indexMap/Content';
+import RegionContent from '@/components/indexMap/RegionContent';
 import Searchbar from '@/components/indexMap/Searchbar';
+import SearchResult from '@/components/indexMap/SearchResult';
+import OMRankBox from '@/components/indexMap/OMRankBox';
+import KeywordBox from '@/components/indexMap/KeywordBox';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
@@ -17,6 +20,11 @@ export default function IndexMap(){
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
   const [ query, setQuery ] = useState(null);
   const [ trigger, setTrigger ] = useState(true);
+  const [ rankBoxList, setRankBoxList ] = useState([]);
+  const [ kwBoxList, setKwBoxList ] = useState([]);
+  const [ hide, setHide ] = useState(false);
+
+  const [ searchInput, setSearchInput ] = useState('');
 
   const changeZoom = code => {
     if(code.length === 2) return 11;
@@ -147,11 +155,24 @@ export default function IndexMap(){
     };
   }, [payload, trigger]);
 
+  useEffect(() => {
+    setQuery(null);
+  }, [searchInput]);
+
   return (
     <>
       <S.Map id="map" />
-      <Searchbar />
-      {query && <Content query={query} map={map} />}
+      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} blur={query} />
+      {(!query && searchInput) && <SearchResult searchInput={searchInput} setQuery={setQuery} />}
+      {query?.type==='region' && <RegionContent query={query} map={map} setRankBoxList={setRankBoxList} setKwBoxList={setKwBoxList} hide={hide} setHide={setHide} />}
+      <S.RightBar>
+        {rankBoxList.map((id, i) => (
+          <OMRankBox key={id} id={id} rankBoxList={rankBoxList} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
+        ))}
+        {kwBoxList.map((kw, i) => (
+          <KeywordBox keyword={kw} key={kw} kwBoxList={kwBoxList} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
+        ))}
+      </S.RightBar>
     </>
   );
 }
@@ -165,4 +186,19 @@ S.Map = styled.div`
   right: 0;
   bottom: 0;
   z-index: 0;
+`;
+
+S.RightBar = styled.div`
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 280px;
+  display: flex;
+  flex-flow: column;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  padding-bottom: 20px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;

@@ -49,6 +49,9 @@ export const KS_STAT_URL = (corpId, keyword) => BASE_URL + `score/keyword/${corp
 export const IM_DRAW_URL = BASE_URL + 'map/bound/';
 export const IM_KW_URL = BASE_URL + 'map/bound/keyword?area=';
 export const IM_PL_URL = BASE_URL + 'map/bound/place?area=';
+export const IM_RG_URL = BASE_URL + 'map/bound/region?area=';
+export const IM_PLKW_URL = BASE_URL + 'map/bound/place/keyword?id=';
+export const IM_KS_URL = BASE_URL + 'map/bound/keywordstat?keyword=';
 
 export const COMMUNITY_CONTENT_LIST_URL = BASE_URL + "content/list?type=category&cat=";
 export const COMMUNITY_CONTENT_DETAIL_URL = BASE_URL + "content/?content_id=";

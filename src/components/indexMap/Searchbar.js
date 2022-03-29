@@ -1,17 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Searchbar(){
+export default function Searchbar({ searchInput, setSearchInput, blur }){
   const [ input, setInput ] = useState('');
-  const [ keyword, setKeyword ] = useState('');
-
   return (
     <>
-      <S.Flex>
+      <S.Flex blur={blur}>
         <S.SearchBar>
-          <S.Input placeholder="상권·업종·음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? setKeyword(input) : null} />
-          {keyword && <S.Clear onClick={() => { setInput(''); setKeyword(''); }}><i className="fas fa-times"></i></S.Clear>}
-          <S.Icon onClick={() => input ? setKeyword(input) : null}>
+          <S.Input placeholder="상권·업종·음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? setSearchInput(input) : null} />
+          {searchInput && <S.Clear onClick={() => { setInput(''); setSearchInput(''); }}><i className="fas fa-times"></i></S.Clear>}
+          <S.Icon onClick={() => input ? setSearchInput(input) : null}>
             <i className="fas fa-search"></i>
           </S.Icon>
         </S.SearchBar>
@@ -41,7 +39,6 @@ S.Flex = styled.div`
   left: 0;
   color: #263b4d;
   z-index: 3;
-  backdrop-filter: blur(40px);
 `;
 
 S.SearchBar = styled.div`
@@ -52,7 +49,7 @@ S.SearchBar = styled.div`
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 2px 4px 12px rgb(38 59 77 / 8%);
+  box-shadow: 0 2px 4px rgb(38 59 77 / 20%), 0 -1px 0 rgb(0 0 0 / 2%);
 `;
 
 S.Input = styled.input`

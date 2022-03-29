@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useFetch } from '@hooks';
-import { RANK_OM_URL } from '@api';
+import { RANK_OM_URL, IM_PLKW_URL } from '@api';
 import { Line } from 'react-chartjs-2';
 import { mapLineOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
@@ -16,6 +16,16 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
     id
   );
 
+  const { payload: keywordList, loading: kwLoading, error: kLError } = useFetch(
+    IM_PLKW_URL + id,
+    null,
+    'GET',
+    [id],
+    id
+  );
+
+  console.log(keywordList);
+
   const [ open, setOpen ] = useState(defaultOpen);
 
   const deleteFromList = () => {
@@ -27,7 +37,7 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
   return (
     <S.Box>
       {
-        !loading ?
+        !(loading || kwLoading) ?
         <>
           <S.Title>
             <S.Toggle onClick={() => setOpen(o => !o)}>
@@ -52,6 +62,10 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
                   </S.Arearank>
                 ))}
               </S.AreaBox>
+              <S.Keywords>
+                {keywordList?.keywordList?.map(keyword => <>#{keyword.keyword} </>)
+                }
+              </S.Keywords>
             </>
           }
         </> :
@@ -131,7 +145,7 @@ S.Chart = styled.div`
 S.AreaBox = styled.div`
   display: flex;
   flex-flow: column;
-  padding-top: 10px;
+  padding: 10px 0;
 `;
 
 S.Arearank = styled.div`
@@ -159,4 +173,11 @@ S.Stat = styled.div`
 
 S.Loading = styled.div`
   height: 240px;
+`;
+
+S.Keywords = styled.div`
+  border-top: 1px solid #f5f5f733;
+  padding: 22px 0 10px 0;
+  font-size: 12px;
+  line-height: 1.5;
 `;

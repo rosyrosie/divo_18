@@ -1,20 +1,20 @@
 /*global kakao*/
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { mapLineData, mapLineOptions } from '@constants';
-import { RANK_SS_URL, IM_PL_URL, IM_KW_URL } from '@api';
+import { mapLineOptions, mapBarOptions } from '@constants';
+import { applyStyleToMapChart } from '@functions';
+import { RANK_SS_URL, IM_PL_URL, IM_KW_URL, IM_RG_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
-import OMRankBox from '@/components/indexMap/OMRankBox';
-import KeywordBox from '@/components/indexMap/KeywordBox';
 import Loading from '@/components/Loading';
 
-export default function Content({ query, map }){
+export default function RegionContent({ query, map, setRankBoxList, setKwBoxList, hide, setHide }){
   const [ id, setId ] = useState(null);
   const [ preview, setPreview ] = useState(true);
-  const [ areaPreview, setAreaPreview ] = useState(false);
-  const [ rankBoxList, setRankBoxList ] = useState([]);
-  const [ kwBoxList, setKwBoxList ] = useState([]);
+  const [ areaPreview, setAreaPreview ] = useState(true);
+  const [ showAge, setShowAge ] = useState(false);
+  const [ showWeek, setShowWeek ] = useState(false);
+  const [ showMonth, setShowMonth ] = useState(false);
   const [ markers, setMarkers ] = useState([]);
   const [ polygon, setPolygon ] = useState(
     new kakao.maps.Polygon({
@@ -48,7 +48,7 @@ export default function Content({ query, map }){
     id
   );
   
-  const { payload: placeList, error: pLError } = useFetch(
+  const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
     null,
     'GET',
@@ -58,6 +58,14 @@ export default function Content({ query, map }){
   
   const { payload: areaList, loading: aLLoading, error: aError } = useFetch(
     IM_KW_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+
+  const { payload: regionStat, error: rSError } = useFetch(
+    IM_RG_URL + query.code,
     null,
     'GET',
     [query],
@@ -130,6 +138,7 @@ export default function Content({ query, map }){
   }
 
   useEffect(() => {
+    setHide(false);
     polygon.setMap(null);
     tempPolygon.setMap(null);
     placeOverlay.setMap(null);
@@ -242,76 +251,141 @@ export default function Content({ query, map }){
 
   return (
     <>
-      <S.Body>
-        <S.Title>
-          {query.name}
-          <S.Type>
-            {regionType(query.code)} 상권
-          </S.Type>
-        </S.Title>
-        <S.Box>
-          <S.Subtitle>소비자 관심도</S.Subtitle>
-          <S.Chart>
-            <Line options={mapLineOptions()} data={mapLineData} />
-          </S.Chart>
-          <S.Comment>
-            <S.Icon><i className="fas fa-award"></i></S.Icon>
-            {regionType(query.code)} 상권 중 소비자 관심도 12위입니다
-          </S.Comment>
-          <S.Comment>
-            <S.Icon><i className="fas fa-dice-d6"></i></S.Icon>
-            소비자 관심도가 꾸준히 하락 중입니다
-          </S.Comment>
-        </S.Box>
-        <S.Box>
-          <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
-            주요 상권
-            <i className={"fas fa-angle-" + (areaPreview ? "down" : "up")}></i>
-          </S.CSubtitle>
-          <S.RankBox>
-            {aLLoading ? <Loading size={50} /> : 
-              areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
-                <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
-                  <S.Flex>
-                    <S.Rank>{index+1}</S.Rank>
-                    {area.keyword}
-                  </S.Flex>
-                  <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
-                </S.Blur>
-              ))
-            }
-          </S.RankBox>
-        </S.Box>
-        <S.Box>
-          <S.CSubtitle onClick={() => setPreview(p => !p)}>
-            상위 20개 점포
-            <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
-          </S.CSubtitle>
-          <S.RankBox>
-            {placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
-              <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
+      <S.Hide onClick={() => setHide(h => !h)} hide={hide}>
+        <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
+      </S.Hide>
+      {!hide &&
+        <>
+          <S.Gradient /> 
+          <S.Body>
+            <S.Title>
+              {query.name}
+              <S.Type>
+                {regionType(query.code)} 상권
+              </S.Type>
+            </S.Title>
+            <S.Box>
+              <S.Subtitle>소비자 관심도</S.Subtitle>
+              <S.Chart>
+                {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
+              </S.Chart>
+              <S.Comment>
                 <S.Flex>
-                  <S.Rank>{i+1}</S.Rank>
-                  {corp.name}
+                  <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
+                  남성 관심도 비율
                 </S.Flex>
-              </S.Blur>
-            ))}
-          </S.RankBox>
-        </S.Box>
-      </S.Body>
-      <S.RightBar>
-        {rankBoxList.map((id, i) => (
-          <OMRankBox key={id} id={id} rankBoxList={rankBoxList} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
-        ))}
-        {kwBoxList.map((kw, i) => (
-          <KeywordBox keyword={kw} key={kw} kwBoxList={kwBoxList} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
-        ))}
-      </S.RightBar>
+                {regionStat?.data.genderGraph?.[0]}%
+              </S.Comment>
+              <S.Comment>
+                <S.Flex>
+                  <S.Icon><i className="fas fa-laptop"></i></S.Icon>
+                  PC 관심도 비율
+                </S.Flex>
+                {regionStat?.data.deviceGraph?.[0]}%
+              </S.Comment>
+              <S.Comment clickable onClick={() => setShowAge(s => !s)}>
+                <S.Flex>
+                  <S.Icon><i className="fas fa-user"></i></S.Icon>
+                  연령별 관심도 비율
+                </S.Flex>
+                <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
+              </S.Comment>
+              {
+                showAge &&
+                <S.ChartBox>
+                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.agesGraph, false, true)}/>}
+                </S.ChartBox>
+              }
+              <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
+                <S.Flex>
+                  <S.Icon><i className="fas fa-calendar-day"></i></S.Icon>
+                  요일별 관심도 비율
+                </S.Flex>
+                <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
+              </S.Comment>
+              {
+                showWeek &&
+                <S.ChartBox>
+                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.weekGraph, false, true)}/>}
+                </S.ChartBox>
+              }
+              <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
+                <S.Flex>
+                  <S.Icon><i className="fas fa-horse"></i></S.Icon>
+                  월별 관심도 비율
+                </S.Flex>
+                <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
+              </S.Comment>
+              {
+                showMonth &&
+                <S.ChartBox last>
+                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
+                </S.ChartBox>
+              }
+            </S.Box>
+            <S.Box>
+              <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
+                주요 상권
+                <i className={"fas fa-angle-" + (areaPreview ? "down" : "up")}></i>
+              </S.CSubtitle>
+              <S.RankBox>
+                {aLLoading ? <Loading size={50} /> : 
+                  areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
+                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                      <S.Flex>
+                        <S.Rank>{index+1}</S.Rank>
+                        {area.keyword}
+                      </S.Flex>
+                      <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
+                    </S.Blur>
+                  ))
+                }
+              </S.RankBox>
+            </S.Box>
+            <S.Box>
+              <S.CSubtitle onClick={() => setPreview(p => !p)}>
+                상위 20개 점포
+                <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
+              </S.CSubtitle>
+              <S.RankBox>
+                {pLLoading ? <Loading size={50} /> :
+                  placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
+                    <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
+                      <S.Flex>
+                        <S.Rank>{i+1}</S.Rank>
+                        {corp.name}
+                      </S.Flex>
+                    </S.Blur>
+                  ))
+                }
+              </S.RankBox>
+            </S.Box>
+          </S.Body>
+        </>
+      }
     </>
   );
 }
 
 const S = {};
+
+S.Hide = styled.div`
+  position: absolute;
+  top: calc(50% - 24px);
+  left: ${props => props.hide ? 0 : '320px'};
+  width: 23px;
+  height: 48px;
+  background: white;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #263b4d;
+  &:hover{
+    cursor: pointer;
+  }
+`;
 
 S.RightBar = styled.div`
   position: absolute;
@@ -335,6 +409,16 @@ S.Close = styled.div`
   }
 `;
 
+S.Gradient = styled.div`
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 320px;
+  height: 58px;
+  backdrop-filter: blur(12px);
+  z-index: 1;
+`;
+
 S.Body = styled.div`
   flex: 1;
   display: flex;
@@ -356,6 +440,7 @@ S.Body = styled.div`
   }
   &::-webkit-scrollbar{
     background-color: transparent;
+    width: 4px;
   }
   overflow-y: auto;
   scrollbar-gutter: stable both-edges;
@@ -396,18 +481,31 @@ S.Chart = styled.div`
   padding: 20px 10px 20px 0;
 `;
 
+S.ChartBox = styled.div`
+  padding-right: 10px;
+  ${props => !props.last && 'padding-bottom: 20px;'}
+`;
+
 S.Comment = styled.div`
   font-size: 14px;
   display: flex;
   align-items: center;
   font-family: 'Montserrat', 'SUIT';
-  margin-bottom: 10px;
+  margin-bottom: 16px;
+  justify-content: space-between;
+  ${props => props.clickable && '&:hover{cursor:pointer;}'}
+`;
+
+S.Flex = styled.div`
+  display: flex;
 `;
 
 S.Icon = styled.div`
   margin-right: 7px;
-  font-size: 16px;
-  width: 16px;
+  font-size: 14px;
+  width: 18px;
+  display: flex;
+  justify-content: center;
 `;
 
 S.Blur = styled.div`
