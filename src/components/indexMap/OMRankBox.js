@@ -6,6 +6,7 @@ import { mapLineOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen }){
   const { payload, loading, error } = useFetch(
@@ -24,7 +25,11 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
     id
   );
 
-  console.log(keywordList);
+  let copyString = '';
+
+  keywordList?.keywordList?.forEach(keyword => {
+    copyString = copyString + `#${keyword.keyword} `;
+  });
 
   const [ open, setOpen ] = useState(defaultOpen);
 
@@ -62,10 +67,11 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
                   </S.Arearank>
                 ))}
               </S.AreaBox>
-              <S.Keywords>
-                {keywordList?.keywordList?.map(keyword => <>#{keyword.keyword} </>)
-                }
-              </S.Keywords>
+              <CopyToClipboard text={copyString} onCopy={() => alert('클립보드에 복사되었습니다')}>
+                <S.Keywords>
+                  {copyString}
+                </S.Keywords>
+              </CopyToClipboard>
             </>
           }
         </> :
@@ -180,4 +186,8 @@ S.Keywords = styled.div`
   padding: 22px 0 10px 0;
   font-size: 12px;
   line-height: 1.5;
+  &:hover{
+    cursor: pointer;
+    font-weight: bold;
+  }
 `;
