@@ -127,7 +127,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     marker.setZIndex(2);
   };
 
-  const showArea = (polygon, area) => {
+  const showArea = (polygon, area, move = false) => {
     polygon.setMap(null);
     let path = [];
     area.convex.forEach(point => {
@@ -135,6 +135,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     });
     polygon.setPath(path);
     polygon.setMap(map);
+    if(move) map.panTo(new kakao.maps.LatLng(area.center.lat, area.center.lon));
   }
 
   useEffect(() => {
@@ -155,7 +156,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
     document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
-    document.getElementById('show-detail')?.addEventListener('click', () => {setBoxList(list => list.some(e => e.id === place.id) ? list : [{type: 'om', id: place.id}, ...list]);});
+    document.getElementById('show-detail')?.addEventListener('click', () => {setBoxList(list => list.some(e => e.id === place.id) ? list : [{type: 'om', id: place.id}, ...list.slice(0, 4)]);});
   }, [place]);
 
   useEffect(() => {
@@ -165,7 +166,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     }
     let newMarkers = [];
     placeList.placeList.forEach(corp => {
-      let marker = new kakao.maps.Marker({ opacity: 1 });
+      let marker = new kakao.maps.Marker({ opacity: 0.9 });
       let popup = new kakao.maps.InfoWindow({ zIndex: 1 });
 
       marker.setPosition(new kakao.maps.LatLng(corp.lat, corp.lng));
@@ -332,7 +333,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
               <S.RankBox>
                 {aLLoading ? <Loading size={50} /> : 
                   areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
-                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                       <S.Flex>
                         <S.Rank>{index+1}</S.Rank>
                         {area.keyword}
