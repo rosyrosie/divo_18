@@ -8,7 +8,7 @@ import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
 
-export default function RegionContent({ query, map, setRankBoxList, setKwBoxList, hide, setHide }){
+export default function RegionContent({ query, map, setBoxList, hide, setHide }){
   const [ id, setId ] = useState(null);
   const [ preview, setPreview ] = useState(true);
   const [ areaPreview, setAreaPreview ] = useState(true);
@@ -139,6 +139,7 @@ export default function RegionContent({ query, map, setRankBoxList, setKwBoxList
 
   useEffect(() => {
     setHide(false);
+    setId(null);
     polygon.setMap(null);
     tempPolygon.setMap(null);
     placeOverlay.setMap(null);
@@ -154,7 +155,7 @@ export default function RegionContent({ query, map, setRankBoxList, setKwBoxList
     placeOverlay.setContent(content);
     placeOverlay.setMap(map);
     document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
-    document.getElementById('show-detail')?.addEventListener('click', () => {setRankBoxList(list => list.includes(place.id) ? list : [...list, place.id]);});
+    document.getElementById('show-detail')?.addEventListener('click', () => {setBoxList(list => list.some(e => e.id === place.id) ? list : [{type: 'om', id: place.id}, ...list]);});
   }, [place]);
 
   useEffect(() => {
@@ -331,7 +332,7 @@ export default function RegionContent({ query, map, setRankBoxList, setKwBoxList
               <S.RankBox>
                 {aLLoading ? <Loading size={50} /> : 
                   areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
-                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setKwBoxList(list => list.includes(area.keyword) ? list : [...list, area.keyword]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                       <S.Flex>
                         <S.Rank>{index+1}</S.Rank>
                         {area.keyword}

@@ -8,7 +8,7 @@ import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen }){
+export default function OMRankBox({ id, rankBoxList, setRankBoxList, boxList, setBoxList, defaultOpen }){
   const { payload, loading, error } = useFetch(
     RANK_OM_URL + id,
     null,
@@ -34,10 +34,10 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, defaultOpen
   const [ open, setOpen ] = useState(defaultOpen);
 
   const deleteFromList = () => {
-    setRankBoxList(list => list.filter(element => element !== id));
+    setBoxList(list => list.filter(element => element.id !== id));
   };
 
-  useEffect(() => setOpen(defaultOpen), [rankBoxList]);
+  useEffect(() => setOpen(defaultOpen), [boxList]);
 
   return (
     <S.Box>

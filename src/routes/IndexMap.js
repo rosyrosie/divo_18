@@ -20,8 +20,7 @@ export default function IndexMap(){
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
   const [ query, setQuery ] = useState(null);
   const [ trigger, setTrigger ] = useState(true);
-  const [ rankBoxList, setRankBoxList ] = useState([]);
-  const [ kwBoxList, setKwBoxList ] = useState([]);
+  const [ boxList, setBoxList ] = useState([]);
   const [ hide, setHide ] = useState(false);
 
   const [ searchInput, setSearchInput ] = useState('');
@@ -159,19 +158,21 @@ export default function IndexMap(){
     setQuery(null);
   }, [searchInput]);
 
+  console.log(boxList);
+
   return (
     <>
       <S.Map id="map" />
       <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} blur={query} />
       {(!query && searchInput) && <SearchResult searchInput={searchInput} setQuery={setQuery} />}
-      {query?.type==='region' && <RegionContent query={query} map={map} setRankBoxList={setRankBoxList} setKwBoxList={setKwBoxList} hide={hide} setHide={setHide} />}
+      {query?.type==='region' && <RegionContent query={query} map={map} setBoxList={setBoxList} hide={hide} setHide={setHide} />}
       <S.RightBar>
-        {rankBoxList.map((id, i) => (
-          <OMRankBox key={id} id={id} rankBoxList={rankBoxList} setRankBoxList={setRankBoxList} defaultOpen={i === rankBoxList.length-1} />
-        ))}
-        {kwBoxList.map((kw, i) => (
-          <KeywordBox keyword={kw} key={kw} kwBoxList={kwBoxList} setKwBoxList={setKwBoxList} defaultOpen={i === kwBoxList.length-1} />
-        ))}
+        {
+          boxList.map((element, i) => (
+            element.type === 'kw' ? <KeywordBox keyword={element.id} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} /> :
+            <OMRankBox key={element.id} id={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} />
+          ))
+        }
       </S.RightBar>
     </>
   );

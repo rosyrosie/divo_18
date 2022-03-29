@@ -6,12 +6,12 @@ import { mapLineOptions, mapBarOptions, barData } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import { useEffect, useState } from 'react';
 
-export default function KeywordBox({ keyword, kwBoxList, setKwBoxList, defaultOpen }){
+export default function KeywordBox({ keyword, kwBoxList, setKwBoxList, boxList, setBoxList, defaultOpen }){
   const [ open, setOpen ] = useState(defaultOpen);
 
-  const deleteFromList = () => setKwBoxList(list => list.filter(element => element !== keyword));
+  const deleteFromList = () => setBoxList(list => list.filter(element => element.id !== keyword));
 
-  useEffect(() => setOpen(defaultOpen), [kwBoxList]);
+  useEffect(() => setOpen(defaultOpen), [boxList]);
 
   const { payload, error } = useFetch(
     IM_KS_URL + keyword,
