@@ -8,7 +8,7 @@ import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
-export default function OMRankBox({ id, rankBoxList, setRankBoxList, boxList, setBoxList, defaultOpen }){
+export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
   const { payload, loading, error } = useFetch(
     RANK_OM_URL + id,
     null,
@@ -25,11 +25,15 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, boxList, se
     id
   );
 
-  let copyString = '';
+  const copyString = list => {
+    let string = '';
+    list?.forEach(keyword => {
+      string = string + `#${keyword.keyword} `;
+    });
+    return string;
+  };
 
-  keywordList?.keywordList?.forEach(keyword => {
-    copyString = copyString + `#${keyword.keyword} `;
-  });
+  
 
   const [ open, setOpen ] = useState(defaultOpen);
 
@@ -46,7 +50,7 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, boxList, se
         <>
           <S.Title>
             <S.Toggle onClick={() => setOpen(o => !o)}>
-              <S.Hide><i class={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
+              <S.Hide><i className={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
               {payload?.name}
             </S.Toggle>
             <S.Close onClick={deleteFromList}><i className="fas fa-times"></i></S.Close>
@@ -67,9 +71,9 @@ export default function OMRankBox({ id, rankBoxList, setRankBoxList, boxList, se
                   </S.Arearank>
                 ))}
               </S.AreaBox>
-              <CopyToClipboard text={copyString} onCopy={() => alert('클립보드에 복사되었습니다')}>
+              <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
                 <S.Keywords>
-                  {copyString}
+                  {copyString(keywordList.keywordList)}
                 </S.Keywords>
               </CopyToClipboard>
             </>

@@ -6,7 +6,7 @@ import { mapLineOptions, mapBarOptions, barData } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import { useEffect, useState } from 'react';
 
-export default function KeywordBox({ keyword, kwBoxList, setKwBoxList, boxList, setBoxList, defaultOpen }){
+export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }){
   const [ open, setOpen ] = useState(defaultOpen);
 
   const deleteFromList = () => setBoxList(list => list.filter(element => element.id !== keyword));
@@ -25,7 +25,7 @@ export default function KeywordBox({ keyword, kwBoxList, setKwBoxList, boxList, 
     <S.Box>
       <S.Title>
         <S.Toggle onClick={() => setOpen(o => !o)}>
-          <S.Hide><i class={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
+          <S.Hide><i className={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
           {keyword}
         </S.Toggle>
         <S.Close onClick={deleteFromList}><i className="fas fa-times"></i></S.Close>

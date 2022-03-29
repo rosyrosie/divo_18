@@ -158,8 +158,6 @@ export default function IndexMap(){
     setQuery(null);
   }, [searchInput]);
 
-  console.log(boxList);
-
   return (
     <>
       <S.Map id="map" />
