@@ -192,6 +192,6 @@ S.Keywords = styled.div`
   line-height: 1.5;
   &:hover{
     cursor: pointer;
-    font-weight: bold;
+    font-weight: 600;
   }
 `;
