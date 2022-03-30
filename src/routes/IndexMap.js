@@ -145,7 +145,7 @@ export default function IndexMap(){
       regionCode = val.properties.CTPRVN_CD;
       if(!regionCode) regionCode = val.properties.SIG_CD;
       if(!regionCode) regionCode = val.properties.EMD_CD;
-      displayArea(coordinates, name, regionCode, val.center);
+      // displayArea(coordinates, name, regionCode, val.center);
     });
 
     return () => {
