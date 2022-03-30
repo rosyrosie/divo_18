@@ -99,7 +99,13 @@ export default function IndexMap(){
 
   useEffect(() => {
     setHide(false);
-    clearState();
+    setId(null);
+    polygon.setMap(null);
+    tempPolygon.setMap(null);
+    placeOverlay.setMap(null);
+    for(const marker of markers){
+      marker.marker.setMap(null);
+    }
   }, [query]);
 
   useEffect(() => {
