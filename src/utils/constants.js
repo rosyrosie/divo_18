@@ -914,3 +914,52 @@ export const sampleQuery = [
       "id": 1298530125
   },
 ];
+
+export const changeZoom = code => {
+  if(code.length === 2) return 11;
+  else if(code.length === 5) return 8;
+  else return 5;
+}
+
+export const getPlaceOverlay = place => {
+  return `
+    <style>
+      #close-overlay:hover{
+        cursor: pointer;
+      }
+      #show-detail:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    </style>
+    <div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">
+        <div style="display: flex; font-weight: bold; align-items: end;">
+          <a href="${place.url}" target="_blank" style="color: inherit; text-decoration: none;">${place.name}</a>
+          <div style="margin-left: 5px; font-size: 12px; font-weight: normal;">${place.category}</div>
+        </div>
+        <div style="font-size: 12px; padding: 0 0 5px 5px;" id="close-overlay"><i class="fas fa-times"></i></div>
+      </div>
+      <div style="font-size: 12px; color: #3166a1; margin-bottom: 5px;">
+        블로그 리뷰 ${place.blogReviewNum}개
+      </div>
+      <div style="font-size: 12px; color: #3166a1; margin-bottom: 30px;">
+        방문자 리뷰 ${place.visitorReviewNum}개
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: end;">
+        <div style="font-family: 'Montserrat', 'SUIT'; font-weight: bold; font-size: 18px;">
+          ${place.rank}위<span style="font-size: 12px;">(상위 ${place.ratio}%)</span>
+        </div>
+        <div style="font-size: 12px; color: #3166a1;" id="show-detail"><i class="fas fa-external-link-alt"></i></div>
+      </div>
+    </div>
+    <div style="height: 10px; width: 10px; background: rgba(255, 255, 255, 0.5); margin: 0 auto; transform: translateY(-5px) rotate(45deg); backdrop-filter: blur(12px); border-right: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 1px solid rgba(255, 255, 255, 0.18);"></div>
+  `;
+};
+
+export const regionType = (code) => {
+  if(code.length === 2) return '시·도 ';
+  else if(code.length === 5) return '시·군·구 ';
+  else if(code.length === 8) return '읍·면·동 ';
+  else return '세부 ';
+}

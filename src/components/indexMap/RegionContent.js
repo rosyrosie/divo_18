@@ -1,52 +1,20 @@
 /*global kakao*/
 import { Line, Bar } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { mapLineOptions, mapBarOptions } from '@constants';
+import { mapLineOptions, mapBarOptions, regionType } from '@constants';
 import { applyStyleToMapChart } from '@functions';
-import { RANK_SS_URL, IM_PL_URL, IM_KW_URL, IM_RG_URL } from '@api';
+import { IM_PL_URL, IM_KW_URL, IM_RG_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
+import { showPopup, showArea } from '@functions';
 
-export default function RegionContent({ query, map, setBoxList, hide, setHide }){
-  const [ id, setId ] = useState(null);
+export default function RegionContent({ query, map, setBoxList, hide, setHide, markers, setMarkers, id, setId, placeOverlay, polygon, tempPolygon, place }){
   const [ preview, setPreview ] = useState(true);
   const [ areaPreview, setAreaPreview ] = useState(true);
   const [ showAge, setShowAge ] = useState(false);
   const [ showWeek, setShowWeek ] = useState(false);
   const [ showMonth, setShowMonth ] = useState(false);
-  const [ markers, setMarkers ] = useState([]);
-  const [ polygon, setPolygon ] = useState(
-    new kakao.maps.Polygon({
-      strokeWeight: 3,
-      strokeColor: '#263b4d',
-      strokeOpacity: 1,
-      strokeStyle: 'solid',
-      fillColor: '#263b4d',
-      fillOpacity: 0.4,
-      zIndex: 2
-    })
-  );
-  const [ tempPolygon, setTempPolygon ] = useState(
-    new kakao.maps.Polygon({
-      strokeWeight: 2,
-      strokeColor: '#263b4d',
-      strokeOpacity: 1,
-      strokeStyle: 'solid',
-      fillColor: '#263b4d',
-      fillOpacity: 0.4,
-      zIndex: 1
-    })
-  );
-  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
-  
-  const { payload: place, error } = useFetch(
-    RANK_SS_URL + id,
-    null,
-    'GET',
-    [id],
-    id
-  );
   
   const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
@@ -71,93 +39,6 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     [query],
     query
   );
-
-  const regionType = (code) => {
-    if(code.length === 2) return '시·도 ';
-    else if(code.length === 5) return '시·군·구 ';
-    else if(code.length === 8) return '읍·면·동 ';
-    else return '세부 ';
-  }
-
-  const getPlaceOverlay = place => {
-    return `
-      <style>
-        #close-overlay:hover{
-          cursor: pointer;
-        }
-        #show-detail:hover{
-          cursor: pointer;
-          text-decoration: underline;
-        }
-      </style>
-      <div style="display: flex; flex-flow: column; min-width: 240px; color: #263b4d; background: rgba(255, 255, 255, 0.5); padding: 20px 15px; box-shadow: 2px 4px 12px rgb(38 59 77 / 30%); border-radius: 5px; backdrop-filter: saturate(180%) blur(40px); border: 1px solid rgba(255, 255, 255, 0.18); position: relative;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 15px; align-items: start;">
-          <div style="display: flex; font-weight: bold; align-items: end;">
-            <a href="${place.url}" target="_blank" style="color: inherit; text-decoration: none;">${place.name}</a>
-            <div style="margin-left: 5px; font-size: 12px; font-weight: normal;">${place.category}</div>
-          </div>
-          <div style="font-size: 12px; padding: 0 0 5px 5px;" id="close-overlay"><i class="fas fa-times"></i></div>
-        </div>
-        <div style="font-size: 12px; color: #3166a1; margin-bottom: 5px;">
-          블로그 리뷰 ${place.blogReviewNum}개
-        </div>
-        <div style="font-size: 12px; color: #3166a1; margin-bottom: 30px;">
-          방문자 리뷰 ${place.visitorReviewNum}개
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: end;">
-          <div style="font-family: 'Montserrat', 'SUIT'; font-weight: bold; font-size: 18px;">
-            ${place.rank}위<span style="font-size: 12px;">(상위 ${place.ratio}%)</span>
-          </div>
-          <div style="font-size: 12px; color: #3166a1;" id="show-detail"><i class="fas fa-external-link-alt"></i></div>
-        </div>
-      </div>
-      <div style="height: 10px; width: 10px; background: rgba(255, 255, 255, 0.5); margin: 0 auto; transform: translateY(-5px) rotate(45deg); backdrop-filter: blur(12px); border-right: 1px solid rgba(255, 255, 255, 0.18); border-bottom: 1px solid rgba(255, 255, 255, 0.18);"></div>
-    `;
-  };
-
-  const showPopup = (popup, marker) => {
-    popup.open(map, marker);
-    let popupElement = document.querySelector('.popup');
-    popupElement.parentElement.previousSibling.style.display = "none";
-    popupElement.parentElement.parentElement.style.border = 'none';
-    popupElement.parentElement.parentElement.style.background = 'unset';
-    popupElement.parentElement.style.left = "50%";
-    popupElement.parentElement.style.marginLeft = "20px";
-    popupElement.parentElement.style.top = "40px";
-    marker.setZIndex(2);
-  };
-
-  const showArea = (polygon, area, move = false) => {
-    polygon.setMap(null);
-    let path = [];
-    area.convex.forEach(point => {
-      path.push(new kakao.maps.LatLng(point[0], point[1]));
-    });
-    polygon.setPath(path);
-    polygon.setMap(map);
-    if(move) map.panTo(new kakao.maps.LatLng(area.center.lat, area.center.lon));
-  }
-
-  useEffect(() => {
-    setHide(false);
-    setId(null);
-    polygon.setMap(null);
-    tempPolygon.setMap(null);
-    placeOverlay.setMap(null);
-    for(const marker of markers){
-      marker.marker.setMap(null);
-    }
-  }, [query]);
-
-  useEffect(() => {
-    if(!place) return;
-    const content = getPlaceOverlay(place);
-    placeOverlay.setPosition(new kakao.maps.LatLng(place.lat, place.lng));
-    placeOverlay.setContent(content);
-    placeOverlay.setMap(map);
-    document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
-    document.getElementById('show-detail')?.addEventListener('click', () => {setBoxList(list => list.some(e => e.id === place.id) ? list : [{type: 'om', id: place.id}, ...list.slice(0, 4)]);});
-  }, [place]);
 
   useEffect(() => {
     if(!placeList) return;
@@ -211,21 +92,6 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
     setMarkers(newMarkers);
   }, [placeList]);
 
-  useEffect(() => {
-    let handlers = [];
-    for(const marker of markers){
-      if(id === marker.id) continue;
-      let handler = () => showPopup(marker.popup, marker.marker);
-      kakao.maps.event.addListener(marker.marker, 'mouseover', handler);
-      handlers[marker.id] = handler;
-    }
-    return () => {
-      for(const marker of markers){
-        kakao.maps.event.removeListener(marker.marker, 'mouseover', handlers[marker.id]);
-      }
-    }
-  }, [markers, id]);
-
   const onClickCorp = place => {
     placeOverlay.setMap(null);
     setId(place.id);
@@ -235,7 +101,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
   const onMouseOver = id => {
     for(const marker of markers){
       if(id === marker.id){
-        showPopup(marker.popup, marker.marker);
+        showPopup(map, marker.popup, marker.marker);
         return;
       }
     }
@@ -333,7 +199,7 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide })
               <S.RankBox>
                 {aLLoading ? <Loading size={50} /> : 
                   areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
-                    <S.Blur key={area.keyword} onClick={() => {showArea(polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                    <S.Blur key={area.keyword} onClick={() => {showArea(map, polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(map, tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                       <S.Flex>
                         <S.Rank>{index+1}</S.Rank>
                         {area.keyword}

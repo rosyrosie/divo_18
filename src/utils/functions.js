@@ -1,3 +1,4 @@
+/* global kakao */
 import { chartPalette } from "../styles/Colors";
 import { addDays } from 'date-fns';
 
@@ -102,3 +103,27 @@ export const sortComma = (rowA, rowB, id, desc) => {
   if(Number(a) < Number(b)) return -1;
   return 0;
 };
+
+
+export const showPopup = (map, popup, marker) => {
+  popup.open(map, marker);
+  let popupElement = document.querySelector('.popup');
+  popupElement.parentElement.previousSibling.style.display = "none";
+  popupElement.parentElement.parentElement.style.border = 'none';
+  popupElement.parentElement.parentElement.style.background = 'unset';
+  popupElement.parentElement.style.left = "50%";
+  popupElement.parentElement.style.marginLeft = "20px";
+  popupElement.parentElement.style.top = "40px";
+  marker.setZIndex(2);
+};
+
+export const showArea = (map, polygon, area, move = false) => {
+  polygon.setMap(null);
+  let path = [];
+  area.convex.forEach(point => {
+    path.push(new kakao.maps.LatLng(point[0], point[1]));
+  });
+  polygon.setPath(path);
+  polygon.setMap(map);
+  if(move) map.panTo(new kakao.maps.LatLng(area.center.lat, area.center.lon));
+}

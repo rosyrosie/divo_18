@@ -1,13 +1,15 @@
 /*global kakao*/
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { IM_DRAW_URL } from '@api';
+import { IM_DRAW_URL, RANK_SS_URL } from '@api';
 import { useFetch } from '@hooks';
 import RegionContent from '@/components/indexMap/RegionContent';
 import Searchbar from '@/components/indexMap/Searchbar';
 import SearchResult from '@/components/indexMap/SearchResult';
 import OMRankBox from '@/components/indexMap/OMRankBox';
 import KeywordBox from '@/components/indexMap/KeywordBox';
+import { changeZoom, getPlaceOverlay } from '@constants';
+import { showPopup } from '@functions';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
@@ -23,13 +25,77 @@ export default function IndexMap(){
   const [ boxList, setBoxList ] = useState([]);
   const [ hide, setHide ] = useState(false);
 
+  const [ markers, setMarkers ] = useState([]);
+  const [ id, setId ] = useState(null);
+  const [ placeOverlay, setPlaceOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.25 }));
+  const [ polygon, setPolygon ] = useState(
+    new kakao.maps.Polygon({
+      strokeWeight: 3,
+      strokeColor: '#263b4d',
+      strokeOpacity: 1,
+      strokeStyle: 'solid',
+      fillColor: '#263b4d',
+      fillOpacity: 0.4,
+      zIndex: 2
+    })
+  );
+  const [ tempPolygon, setTempPolygon ] = useState(
+    new kakao.maps.Polygon({
+      strokeWeight: 2,
+      strokeColor: '#263b4d',
+      strokeOpacity: 1,
+      strokeStyle: 'solid',
+      fillColor: '#263b4d',
+      fillOpacity: 0.4,
+      zIndex: 1
+    })
+  );
+
+  const { payload: place, error: placeError } = useFetch(
+    RANK_SS_URL + id,
+    null,
+    'GET',
+    [id],
+    id
+  );
+  
   const [ searchInput, setSearchInput ] = useState('');
 
-  const changeZoom = code => {
-    if(code.length === 2) return 11;
-    else if(code.length === 5) return 8;
-    else return 5;
-  }
+  useEffect(() => {
+    if(!place) return;
+    const content = getPlaceOverlay(place);
+    placeOverlay.setPosition(new kakao.maps.LatLng(place.lat, place.lng));
+    placeOverlay.setContent(content);
+    placeOverlay.setMap(map);
+    document.getElementById('close-overlay')?.addEventListener('click', () => { placeOverlay.setMap(null); setId(null); });
+    document.getElementById('show-detail')?.addEventListener('click', () => {setBoxList(list => list.some(e => e.id === place.id) ? list : [{type: 'om', id: place.id}, ...list.slice(0, 4)]);});
+  }, [place]);
+
+  useEffect(() => {
+    let handlers = [];
+    for(const marker of markers){
+      if(id === marker.id) continue;
+      let handler = () => showPopup(map, marker.popup, marker.marker);
+      kakao.maps.event.addListener(marker.marker, 'mouseover', handler);
+      handlers[marker.id] = handler;
+    }
+    return () => {
+      for(const marker of markers){
+        kakao.maps.event.removeListener(marker.marker, 'mouseover', handlers[marker.id]);
+      }
+    }
+  }, [markers, id]);
+
+  useEffect(() => {
+    setHide(false);
+    setId(null);
+    polygon.setMap(null);
+    tempPolygon.setMap(null);
+    placeOverlay.setMap(null);
+    for(const marker of markers){
+      marker.marker.setMap(null);
+    }
+  }, [query]);
 
   useEffect(() => {
     const mapContainer = document.getElementById('map');
@@ -55,7 +121,7 @@ export default function IndexMap(){
     kakao.maps.event.addListener(map, 'zoom_changed', () => {
       setTrigger(true);
     });
-    kakao.maps.event.addListener(map, 'idle', () => {
+    kakao.maps.event.addListener(map, 'tilesloaded', () => {
       setMapRange({
         bounds: map.getBounds(),
         level: map.getLevel()*1
@@ -154,16 +220,14 @@ export default function IndexMap(){
     };
   }, [payload, trigger]);
 
-  useEffect(() => {
-    setQuery(null);
-  }, [searchInput]);
+  useEffect(() => setQuery(null), [searchInput]);
 
   return (
     <>
       <S.Map id="map" />
-      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} blur={query} />
-      {(!query && searchInput) && <SearchResult searchInput={searchInput} setQuery={setQuery} />}
-      {query?.type==='region' && <RegionContent query={query} map={map} setBoxList={setBoxList} hide={hide} setHide={setHide} />}
+      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} blur={query || searchInput} />
+      {(!query && searchInput) && <SearchResult searchInput={searchInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />}
+      {query?.type==='region' && <RegionContent query={query} map={map} setBoxList={setBoxList} hide={hide} setHide={setHide} markers={markers} setMarkers={setMarkers} id={id} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} place={place} />}
       <S.RightBar>
         {
           boxList.map((element, i) => (
