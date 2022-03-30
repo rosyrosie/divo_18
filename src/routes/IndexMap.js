@@ -105,34 +105,34 @@ export default function IndexMap(){
         fillOpacity: 0.4
       });
 
-      kakao.maps.event.addListener(polygon, 'mouseover', e => {
-        polygon.setOptions({ strokeWeight: 3, zIndex: 1, fillColor: '#d2d2d7' });
-        overlay.setContent(`<div><div style="font-weight: bold; font-size: 14px; padding: 11px; border-radius: 3px; background: white; color: #263b4d; box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);">${name}</div><div style="height: 10px; width: 10px; background: white; margin: 0 auto; transform: translateY(-5px) rotate(45deg); box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);"></div></div>`);
-        overlay.setPosition(e.latLng);
-        overlay.setMap(map);
-        map.setCursor('pointer');
-      });
+      // kakao.maps.event.addListener(polygon, 'mouseover', e => {
+      //   polygon.setOptions({ strokeWeight: 3, zIndex: 1, fillColor: '#d2d2d7' });
+      //   overlay.setContent(`<div><div style="font-weight: bold; font-size: 14px; padding: 11px; border-radius: 3px; background: white; color: #263b4d; box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);">${name}</div><div style="height: 10px; width: 10px; background: white; margin: 0 auto; transform: translateY(-5px) rotate(45deg); box-shadow: 2px 4px 12px rgb(0 0 0 / 8%);"></div></div>`);
+      //   overlay.setPosition(e.latLng);
+      //   overlay.setMap(map);
+      //   map.setCursor('pointer');
+      // });
 
-      kakao.maps.event.addListener(polygon, 'mousemove', e => {
-        overlay.setPosition(e.latLng);
-      })
+      // kakao.maps.event.addListener(polygon, 'mousemove', e => {
+      //   overlay.setPosition(e.latLng);
+      // })
 
-      kakao.maps.event.addListener(polygon, 'mouseout', () => {
-        polygon.setOptions({ strokeWeight: 1, zIndex: 0, fillColor: '#f5f5f7' });
-        overlay.setMap(null);
-        map.setCursor(null);
-      });
+      // kakao.maps.event.addListener(polygon, 'mouseout', () => {
+      //   polygon.setOptions({ strokeWeight: 1, zIndex: 0, fillColor: '#f5f5f7' });
+      //   overlay.setMap(null);
+      //   map.setCursor(null);
+      // });
 
-      kakao.maps.event.addListener(polygon, 'click', () => {
-        setQuery({
-          type: 'region',
-          code: regionCode,
-          name: name
-        });
-        polygon.setOptions({ fillColor: '#d2d2d7', strokeWeight: 3 });
-        map.setLevel(changeZoom(regionCode));
-        map.panTo(new kakao.maps.LatLng(center.lat, center.lon));
-      });
+      // kakao.maps.event.addListener(polygon, 'click', () => {
+      //   setQuery({
+      //     type: 'region',
+      //     code: regionCode,
+      //     name: name
+      //   });
+      //   polygon.setOptions({ fillColor: '#d2d2d7', strokeWeight: 3 });
+      //   map.setLevel(changeZoom(regionCode));
+      //   map.panTo(new kakao.maps.LatLng(center.lat, center.lon));
+      // });
 
       polygons.push(polygon);
     };
@@ -145,7 +145,7 @@ export default function IndexMap(){
       regionCode = val.properties.CTPRVN_CD;
       if(!regionCode) regionCode = val.properties.SIG_CD;
       if(!regionCode) regionCode = val.properties.EMD_CD;
-      // displayArea(coordinates, name, regionCode, val.center);
+      displayArea(coordinates, name, regionCode, val.center);
     });
 
     return () => {
