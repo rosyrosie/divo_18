@@ -299,6 +299,33 @@ export const mapBarOptions = (unit, thin = false, isWhite = true) => {
   return options;
 };
 
+export const mapPieOptions = () => {
+  let options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false
+      },
+      datalabels: {
+        display: true,
+        formatter: (val, ctx) => {
+          return val>=3 ? ctx.chart.data.labels[ctx.dataIndex] : null;
+        },
+        color: '#f5f5f7',
+        font:{
+          size: 10
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: tooltipItem => tooltipItem.label + ': ' + tooltipItem.formattedValue + '%'
+        }
+      }
+    },
+  };
+  return options;
+}
+
 export const lineOptions = (unit, showLegend = true, isWhite = false, maintainAspectRatio = true, forRank = false, multiAxis = false) => {
   let options = {
     maintainAspectRatio: maintainAspectRatio,

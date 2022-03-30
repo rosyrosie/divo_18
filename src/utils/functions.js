@@ -1,5 +1,5 @@
 /* global kakao */
-import { chartPalette } from "../styles/Colors";
+import { chartPalette } from "@/styles/Colors";
 import { addDays } from 'date-fns';
 
 //chart functions
@@ -30,6 +30,14 @@ export const applyStyleToMapChart = (chartData, isWhite = false, isBar = false) 
     };
     element.fill = 'start';
     if(isBar) element.borderRadius = 2;
+  })
+  return chartData;
+}
+
+export const applyStyleToPieChart = (chartData) => {
+  chartData?.datasets?.forEach((element, index) => {
+    element.backgroundColor = chartPalette['map'];
+    element.borderColor = '#f5f5f733';
   })
   return chartData;
 }

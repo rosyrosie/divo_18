@@ -1,13 +1,13 @@
 /*global kakao*/
 import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { mapLineOptions, mapBarOptions, regionType } from '@constants';
-import { applyStyleToMapChart } from '@functions';
+import { mapLineOptions, mapBarOptions, regionType, mapPieOptions } from '@constants';
+import { applyStyleToPieChart, applyStyleToMapChart, showPopup, showArea } from '@functions';
 import { IM_PL_URL, IM_KW_URL, IM_RG_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
-import { showPopup, showArea } from '@functions';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 export default function RegionContent({ hide, query, setQuery, map, setBoxList, markers, setMarkers, setId, placeOverlay, polygon, tempPolygon }){
   const [ preview, setPreview ] = useState(true);
@@ -167,7 +167,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
           }
           <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
             <S.Flex>
-              <S.Icon><i className="fas fa-calendar-day"></i></S.Icon>
+              <S.Icon><i className="fas fa-calendar-week"></i></S.Icon>
               요일별 관심도 비율
             </S.Flex>
             <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
@@ -180,7 +180,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
           }
           <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
             <S.Flex>
-              <S.Icon><i className="fas fa-horse"></i></S.Icon>
+              <S.Icon><i className="fas fa-calendar"></i></S.Icon>
               월별 관심도 비율
             </S.Flex>
             <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
@@ -198,12 +198,12 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
             </S.Flex>
             <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
           </S.Comment>
-          {/* {
+          {
             showSubRegion &&
             <S.ChartBox last>
-              {regionStat && <Doughnut options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.subRegionGraph, false, true)}/>}
+              {regionStat && <Doughnut options={mapPieOptions()} plugins={[ChartDataLabels]} data={applyStyleToPieChart(regionStat?.data.subRegionGraph)}/>}
             </S.ChartBox>
-          } */}
+          }
         </S.Box>
         <S.Box>
           <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
