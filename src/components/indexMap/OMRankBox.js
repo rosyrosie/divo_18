@@ -71,6 +71,7 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
                   </S.Arearank>
                 ))}
               </S.AreaBox>
+              <S.SubTitle>추천 키워드</S.SubTitle>
               <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
                 <S.Keywords>
                   {copyString(keywordList.keywordList)}
@@ -186,7 +187,6 @@ S.Loading = styled.div`
 `;
 
 S.Keywords = styled.div`
-  border-top: 1px solid #f5f5f733;
   padding: 22px 0 10px 0;
   font-size: 12px;
   line-height: 1.5;
@@ -194,4 +194,11 @@ S.Keywords = styled.div`
     cursor: pointer;
     font-weight: 600;
   }
+`;
+
+S.SubTitle = styled.div`
+  border-top: 1px solid #f5f5f733;
+  font-size: 13px;
+  font-weight: bold;
+  padding-top: 22px;
 `;
