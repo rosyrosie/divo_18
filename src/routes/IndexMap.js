@@ -18,6 +18,11 @@ export default function IndexMap(){
     lat: 36.266826,
     lng: 127.2786567
   };
+  const defaultQuery = {
+    type: 'region',
+    code: 0,
+    name: '전국',
+  }
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
   const [ query, setQuery ] = useState(null);

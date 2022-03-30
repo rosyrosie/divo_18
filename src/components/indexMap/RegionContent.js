@@ -1,5 +1,5 @@
 /*global kakao*/
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { mapLineOptions, mapBarOptions, regionType } from '@constants';
 import { applyStyleToMapChart } from '@functions';
@@ -15,6 +15,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
   const [ showAge, setShowAge ] = useState(false);
   const [ showWeek, setShowWeek ] = useState(false);
   const [ showMonth, setShowMonth ] = useState(false);
+  const [ showSubRegion, setShowSubRegion ] = useState(false);
   
   const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
@@ -190,6 +191,19 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
               {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
             </S.ChartBox>
           }
+          <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
+            <S.Flex>
+              <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
+              지역 관심도 비율
+            </S.Flex>
+            <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
+          </S.Comment>
+          {/* {
+            showSubRegion &&
+            <S.ChartBox last>
+              {regionStat && <Doughnut options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.subRegionGraph, false, true)}/>}
+            </S.ChartBox>
+          } */}
         </S.Box>
         <S.Box>
           <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
@@ -310,7 +324,7 @@ S.Body = styled.div`
 S.Title = styled.div`
   font-weight: bold;
   padding: 20px 0 30px 0;
-  font-size: 24px;
+  font-size: 20px;
 `;
 
 S.Type = styled.div`
