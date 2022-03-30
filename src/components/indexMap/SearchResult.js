@@ -6,8 +6,7 @@ import { useEffect, useState } from 'react';
 import { changeZoom } from '@constants';
 import { showPopup, showArea } from '@functions';
 
-export default function SearchResult({ clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
-  const [ queryList, setQueryList ] = useState(null);
+export default function SearchResult({ queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
   const { payload: qList, error: qError } = useFetch(
     IM_QUERY_URL + searchInput,
     null,
@@ -194,7 +193,7 @@ export default function SearchResult({ clearState, hide, map, searchInput, setSe
           </S.Body>
         </>
       }
-      <S.Bound onClick={() => setBounds(map.getBounds())}><i className="fas fa-utensils"></i></S.Bound>
+      <S.Bound onClick={() => {setBounds(map.getBounds()); setSearchInput(null);}}><i className="fas fa-utensils"></i></S.Bound>
     </>
   );
 }

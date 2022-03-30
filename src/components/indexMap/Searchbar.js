@@ -7,7 +7,7 @@ export default function Searchbar({ input, setInput, searchInput, setSearchInput
       <S.Flex>
         <S.SearchBar>
           <S.Input placeholder="상권·업종·음식점 검색" value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key==='Enter' && input ? setSearchInput(input) : null} />
-          {searchInput && <S.Clear onClick={() => { setInput(''); setSearchInput(''); clearState(); }}><i className="fas fa-times"></i></S.Clear>}
+          {searchInput !== '' && <S.Clear onClick={() => { setInput(''); setSearchInput(''); clearState(); }}><i className="fas fa-times"></i></S.Clear>}
           <S.Icon onClick={() => input ? setSearchInput(input) : null}>
             <i className="fas fa-search"></i>
           </S.Icon>

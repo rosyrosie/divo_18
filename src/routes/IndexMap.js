@@ -29,6 +29,7 @@ export default function IndexMap(){
   const [ trigger, setTrigger ] = useState(true);
   const [ boxList, setBoxList ] = useState([]);
   const [ hide, setHide ] = useState(false);
+  const [ queryList, setQueryList ] = useState(null);
 
   const [ markers, setMarkers ] = useState([]);
   const [ id, setId ] = useState(null);
@@ -243,13 +244,13 @@ export default function IndexMap(){
     <>
       <S.Map id="map" />
       {
-        (query || searchInput) && 
+        (query || queryList) && 
         <S.Hide onClick={() => setHide(h => !h)} hide={hide}>
           <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
         </S.Hide>
       }
       <Searchbar input={input} setInput={setInput} searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
-      <SearchResult clearState={clearState} hide={hide} searchInput={searchInput} setSearchInput={setSearchInput} setInput={setInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
+      <SearchResult queryList={queryList} setQueryList={setQueryList} clearState={clearState} hide={hide} searchInput={searchInput} setSearchInput={setSearchInput} setInput={setInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
       {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {
