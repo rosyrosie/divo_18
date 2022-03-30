@@ -143,7 +143,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
               <S.Icon><i className="fas fa-random"></i></S.Icon>
               평균 점포 순위
             </S.Flex>
-            {placeList.avgRank.toLocaleString()}위
+            {placeList?.avgRank.toLocaleString()}위
           </S.Comment>
           <S.Comment>
             <S.Flex>
