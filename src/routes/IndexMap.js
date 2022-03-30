@@ -10,6 +10,7 @@ import OMRankBox from '@/components/indexMap/OMRankBox';
 import KeywordBox from '@/components/indexMap/KeywordBox';
 import { changeZoom, getPlaceOverlay } from '@constants';
 import { showPopup } from '@functions';
+import SearchBlock from '@/components/indexMap/SearchBlock';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
@@ -249,8 +250,9 @@ export default function IndexMap(){
           <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
         </S.Hide>
       }
-      <Searchbar input={input} setInput={setInput} searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
-      <SearchResult queryList={queryList} setQueryList={setQueryList} clearState={clearState} hide={hide} searchInput={searchInput} setSearchInput={setSearchInput} setInput={setInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
+      {/* <Searchbar input={input} setInput={setInput} searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
+      <SearchResult queryList={queryList} setQueryList={setQueryList} clearState={clearState} hide={hide} searchInput={searchInput} setSearchInput={setSearchInput} setInput={setInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} /> */}
+      <SearchBlock searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} queryList={queryList} setQueryList={setQueryList} hide={hide} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
       {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {
