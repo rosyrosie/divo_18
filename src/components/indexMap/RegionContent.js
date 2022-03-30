@@ -140,6 +140,13 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
           </S.Chart>
           <S.Comment>
             <S.Flex>
+              <S.Icon><i className="fas fa-random"></i></S.Icon>
+              평균 점포 순위
+            </S.Flex>
+            {placeList.avgRank.toLocaleString()}위
+          </S.Comment>
+          <S.Comment>
+            <S.Flex>
               <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
               남성 관심도 비율
             </S.Flex>
@@ -237,6 +244,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
                     <S.Rank>{i+1}</S.Rank>
                     {corp.name}
                   </S.Flex>
+                  <S.Qty>{corp.rank.toLocaleString()}위</S.Qty>
                 </S.Blur>
               ))
             }
