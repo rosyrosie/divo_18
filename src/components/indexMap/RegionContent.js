@@ -198,18 +198,22 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
               {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
             </S.ChartBox>
           }
-          <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
-            <S.Flex>
-              <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
-              지역 관심도 비율
-            </S.Flex>
-            <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
-          </S.Comment>
-          {
-            showSubRegion &&
-            <S.ChartBox last>
-              {regionStat && <Doughnut options={mapPieOptions()} plugins={[ChartDataLabels]} data={applyStyleToPieChart(regionStat?.data.subRegionGraph)}/>}
-            </S.ChartBox>
+          {regionStat?.data.subRegionGraph.labels.length > 0 && 
+            <>
+              <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
+                <S.Flex>
+                  <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
+                  지역 관심도 비율
+                </S.Flex>
+                <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
+              </S.Comment>
+              {
+                showSubRegion &&
+                <S.ChartBox last>
+                  {regionStat && <Doughnut options={mapPieOptions()} plugins={[ChartDataLabels]} data={applyStyleToPieChart(regionStat?.data.subRegionGraph)}/>}
+                </S.ChartBox>
+              }
+            </>
           }
         </S.Box>
         <S.Box>

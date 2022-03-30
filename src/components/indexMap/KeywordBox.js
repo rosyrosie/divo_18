@@ -59,13 +59,13 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
             <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.ages, true, true)} />
           </S.Chart> 
           <S.Stat>
-            <S.StatName><S.Marker><i className="fas fa-calendar-day"></i></S.Marker>요일별 검색 비율</S.StatName>
+            <S.StatName><S.Marker><i className="fas fa-calendar-week"></i></S.Marker>요일별 검색 비율</S.StatName>
           </S.Stat>
           <S.Chart>
             <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.weekday, true, true)} />
           </S.Chart> 
           <S.Stat>
-            <S.StatName><S.Marker><i className="fas fa-horse"></i></S.Marker>월별 검색 비율</S.StatName>
+            <S.StatName><S.Marker><i className="fas fa-calendar"></i></S.Marker>월별 검색 비율</S.StatName>
           </S.Stat>
           <S.Chart>
             <Bar options={mapBarOptions('%', true)} data={applyStyleToMapChart(payload?.month, true, true)} />
