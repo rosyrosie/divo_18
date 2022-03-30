@@ -8,7 +8,6 @@ export const OLD_AUTH_URL = BASE_URL + 'auth/account/find/';
 export const RESET_URL = BASE_URL + 'auth/account/reset/';
 export const CORP_AUTH_URL = BASE_URL + 'corporation/permission/?corp_id=';
 
-
 export const GET_YS_CAT_URL = BASE_URL + 'corporation/yeoshin/sync/';
 export const SYNC_YS_URL = BASE_URL + 'corporation/yeoshin/';
 export const SYNC_SALES_URL = BASE_URL + 'corporation/sales/sync/';
@@ -42,6 +41,7 @@ export const RANK_RIVALS_URL = BASE_URL + 'omrank/rivals?id=';
 export const RANK_OM_URL = BASE_URL + 'omrank/omrank?id=';
 export const RANK_QUERY_URL = BASE_URL + 'omrank/search';
 export const RANK_SS_URL = BASE_URL + 'omrank/simpleSummary?id=';
+export const RANK_BS_URL = BASE_URL + 'omrank/boundSearch';
 
 export const KS_CHART_URL = (corpId, keyword) => BASE_URL + `score/graph/${corpId}?keyword=` + keyword;
 export const KS_STAT_URL = (corpId, keyword) => BASE_URL + `score/keyword/${corpId}?keyword=` + keyword;

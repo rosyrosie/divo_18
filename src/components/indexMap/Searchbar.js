@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-export default function Searchbar({ searchInput, setSearchInput, clearState }){
-  const [ input, setInput ] = useState('');
-
+export default function Searchbar({ input, setInput, searchInput, setSearchInput, clearState }){
   return (
     <>
       <S.Flex>

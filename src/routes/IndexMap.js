@@ -64,6 +64,7 @@ export default function IndexMap(){
     id
   );
   
+  const [ input, setInput ] = useState('');
   const [ searchInput, setSearchInput ] = useState('');
 
   useEffect(() => {
@@ -247,8 +248,8 @@ export default function IndexMap(){
           <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
         </S.Hide>
       }
-      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
-      {searchInput && <SearchResult hide={hide} searchInput={searchInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />}
+      <Searchbar input={input} setInput={setInput} searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
+      <SearchResult clearState={clearState} hide={hide} searchInput={searchInput} setSearchInput={setSearchInput} setInput={setInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
       {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {

@@ -1,13 +1,14 @@
 /*global kakao*/
 import styled from 'styled-components';
 import { useFetch } from '@hooks';
-import { IM_QUERY_URL } from '@api';
+import { IM_QUERY_URL, RANK_BS_URL } from '@api';
 import { useEffect, useState } from 'react';
 import { changeZoom } from '@constants';
 import { showPopup, showArea } from '@functions';
 
-export default function SearchResult({ hide, map, searchInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
-  const { payload: queryList, error: qError } = useFetch(
+export default function SearchResult({ clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
+  const [ queryList, setQueryList ] = useState(null);
+  const { payload: qList, error: qError } = useFetch(
     IM_QUERY_URL + searchInput,
     null,
     'GET',
@@ -16,6 +17,7 @@ export default function SearchResult({ hide, map, searchInput, setQuery, markers
   );
 
   const [ queryType, setQueryType ] = useState('region'); //region, place, keyword
+  const [ bounds, setBounds ] = useState(null);
 
   const onClickQuery = query => {
     if(queryType === 'region'){
@@ -146,21 +148,68 @@ export default function SearchResult({ hide, map, searchInput, setQuery, markers
     tempPolygon.setMap(null);
   }, [queryList, queryType]);
 
-  if(hide) return <></>;
+  const { payload: boundList, error } = useFetch(
+    RANK_BS_URL,
+    { bounds },
+    'POST',
+    [bounds],
+    bounds
+  );
+
+  useEffect(() => {
+    setQueryList(qList);
+  }, [qList]);
+
+  useEffect(() => {
+    if(!boundList) return;
+    clearState();
+    setQueryList({
+      place: { result: boundList.data },
+      region: { result: [] },
+      keyword: { result: [] }
+    });
+    setSearchInput(null);
+    setInput('');
+    setQueryType('place');
+  }, [boundList]);
+
+  useEffect(() => {
+    if(searchInput === '') setQueryList(null);
+    clearState();
+  }, [searchInput]);
 
   return (
-    <S.Body>
-      <S.Tab>
-        <S.Button onClick={() => setQueryType('region')} selected={queryType==='region'}>지역</S.Button>
-        <S.Button onClick={() => setQueryType('keyword')} selected={queryType==='keyword'}>상권</S.Button>
-        <S.Button onClick={() => setQueryType('place')} selected={queryType==='place'}>점포</S.Button>
-      </S.Tab>
-      {queryResult(queryType)}
-    </S.Body>
+    <>
+      {
+        !hide && queryList && 
+        <>
+          <S.Gradient />
+          <S.Body>
+            <S.Tab>
+              <S.Button onClick={() => setQueryType('region')} selected={queryType==='region'}>지역</S.Button>
+              <S.Button onClick={() => setQueryType('keyword')} selected={queryType==='keyword'}>상권</S.Button>
+              <S.Button onClick={() => setQueryType('place')} selected={queryType==='place'}>점포</S.Button>
+            </S.Tab>
+            {queryResult(queryType)}
+          </S.Body>
+        </>
+      }
+      <S.Bound onClick={() => setBounds(map.getBounds())}><i className="fas fa-utensils"></i></S.Bound>
+    </>
   );
 }
 
 const S = {};
+
+S.Gradient = styled.div`
+  position: absolute;
+  top: 48px;
+  left: 0;
+  width: 320px;
+  height: 58px;
+  backdrop-filter: blur(12px);
+  z-index: 1;
+`;
 
 S.Body = styled.div`
   flex: 1;
@@ -245,4 +294,23 @@ S.Rank = styled.div`
 S.Addr = styled.div`
   font-size: 12px;
   margin-top: 20px;
+`;
+
+S.Bound = styled.button`
+  position: absolute;
+  top: 64px;
+  left: 330px;
+  height: 36px;
+  width: 36px;
+  background: white;
+  border: none;
+  border-radius: 20px;
+  color: #263b4dd3;
+  font-weight: bold;
+  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  font-size: 14px;
+  &:hover{
+    cursor: pointer;
+    color: #263b4d;
+  }
 `;
