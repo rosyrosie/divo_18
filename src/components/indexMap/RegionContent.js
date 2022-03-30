@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
 import { showPopup, showArea } from '@functions';
 
-export default function RegionContent({ query, map, setBoxList, hide, setHide, markers, setMarkers, id, setId, placeOverlay, polygon, tempPolygon, place }){
+export default function RegionContent({ hide, query, setQuery, map, setBoxList, markers, setMarkers, setId, placeOverlay, polygon, tempPolygon }){
   const [ preview, setPreview ] = useState(true);
   const [ areaPreview, setAreaPreview ] = useState(true);
   const [ showAge, setShowAge ] = useState(false);
@@ -117,142 +117,135 @@ export default function RegionContent({ query, map, setBoxList, hide, setHide, m
     }
   };
 
+  if(hide) return <></>;
+
   return (
     <>
-      <S.Hide onClick={() => setHide(h => !h)} hide={hide}>
-        <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
-      </S.Hide>
-      {!hide &&
-        <>
-          <S.Gradient /> 
-          <S.Body>
-            <S.Title>
-              {query.name}
-              <S.Type>
-                {regionType(query.code)} 상권
-              </S.Type>
-            </S.Title>
-            <S.Box>
-              <S.Subtitle>소비자 관심도</S.Subtitle>
-              <S.Chart>
-                {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
-              </S.Chart>
-              <S.Comment>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
-                  남성 관심도 비율
-                </S.Flex>
-                {regionStat?.data.genderGraph?.[0]}%
-              </S.Comment>
-              <S.Comment>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-laptop"></i></S.Icon>
-                  PC 관심도 비율
-                </S.Flex>
-                {regionStat?.data.deviceGraph?.[0]}%
-              </S.Comment>
-              <S.Comment clickable onClick={() => setShowAge(s => !s)}>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-user"></i></S.Icon>
-                  연령별 관심도 비율
-                </S.Flex>
-                <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
-              </S.Comment>
-              {
-                showAge &&
-                <S.ChartBox>
-                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.agesGraph, false, true)}/>}
-                </S.ChartBox>
-              }
-              <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-calendar-day"></i></S.Icon>
-                  요일별 관심도 비율
-                </S.Flex>
-                <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
-              </S.Comment>
-              {
-                showWeek &&
-                <S.ChartBox>
-                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.weekGraph, false, true)}/>}
-                </S.ChartBox>
-              }
-              <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-horse"></i></S.Icon>
-                  월별 관심도 비율
-                </S.Flex>
-                <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
-              </S.Comment>
-              {
-                showMonth &&
-                <S.ChartBox last>
-                  {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
-                </S.ChartBox>
-              }
-            </S.Box>
-            <S.Box>
-              <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
-                주요 상권
-                <i className={"fas fa-angle-" + (areaPreview ? "down" : "up")}></i>
-              </S.CSubtitle>
-              <S.RankBox>
-                {aLLoading ? <Loading size={50} /> : 
-                  areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
-                    <S.Blur key={area.keyword} onClick={() => {showArea(map, polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(map, tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
-                      <S.Flex>
-                        <S.Rank>{index+1}</S.Rank>
-                        {area.keyword}
-                      </S.Flex>
-                      <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
-                    </S.Blur>
-                  ))
-                }
-              </S.RankBox>
-            </S.Box>
-            <S.Box>
-              <S.CSubtitle onClick={() => setPreview(p => !p)}>
-                상위 20개 점포
-                <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
-              </S.CSubtitle>
-              <S.RankBox>
-                {pLLoading ? <Loading size={50} /> :
-                  placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
-                    <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
-                      <S.Flex>
-                        <S.Rank>{i+1}</S.Rank>
-                        {corp.name}
-                      </S.Flex>
-                    </S.Blur>
-                  ))
-                }
-              </S.RankBox>
-            </S.Box>
-          </S.Body>
-        </>
-      }
+      <S.Gradient />
+      <S.Body>
+        <S.Title>
+          <S.TitleBar>
+            {query.name}
+            <S.Back onClick={() => setQuery(null)}><i className="fas fa-times"></i></S.Back>
+          </S.TitleBar>
+          <S.Type>
+            {regionType(query.code)} 상권
+          </S.Type>
+        </S.Title>
+        <S.Box>
+          <S.Subtitle>소비자 관심도</S.Subtitle>
+          <S.Chart>
+            {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
+          </S.Chart>
+          <S.Comment>
+            <S.Flex>
+              <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
+              남성 관심도 비율
+            </S.Flex>
+            {regionStat?.data.genderGraph?.[0]}%
+          </S.Comment>
+          <S.Comment>
+            <S.Flex>
+              <S.Icon><i className="fas fa-laptop"></i></S.Icon>
+              PC 관심도 비율
+            </S.Flex>
+            {regionStat?.data.deviceGraph?.[0]}%
+          </S.Comment>
+          <S.Comment clickable onClick={() => setShowAge(s => !s)}>
+            <S.Flex>
+              <S.Icon><i className="fas fa-user"></i></S.Icon>
+              연령별 관심도 비율
+            </S.Flex>
+            <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
+          </S.Comment>
+          {
+            showAge &&
+            <S.ChartBox>
+              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.agesGraph, false, true)}/>}
+            </S.ChartBox>
+          }
+          <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
+            <S.Flex>
+              <S.Icon><i className="fas fa-calendar-day"></i></S.Icon>
+              요일별 관심도 비율
+            </S.Flex>
+            <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
+          </S.Comment>
+          {
+            showWeek &&
+            <S.ChartBox>
+              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.weekGraph, false, true)}/>}
+            </S.ChartBox>
+          }
+          <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
+            <S.Flex>
+              <S.Icon><i className="fas fa-horse"></i></S.Icon>
+              월별 관심도 비율
+            </S.Flex>
+            <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
+          </S.Comment>
+          {
+            showMonth &&
+            <S.ChartBox last>
+              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
+            </S.ChartBox>
+          }
+        </S.Box>
+        <S.Box>
+          <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
+            주요 상권
+            <i className={"fas fa-angle-" + (areaPreview ? "down" : "up")}></i>
+          </S.CSubtitle>
+          <S.RankBox>
+            {aLLoading ? <Loading size={50} /> : 
+              areaList?.keywordList.slice(0, areaPreview ? 5 : 100)?.map((area, index) => (
+                <S.Blur key={area.keyword} onClick={() => {showArea(map, polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(map, tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
+                  <S.Flex>
+                    <S.Rank>{index+1}</S.Rank>
+                    {area.keyword}
+                  </S.Flex>
+                  <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
+                </S.Blur>
+              ))
+            }
+          </S.RankBox>
+        </S.Box>
+        <S.Box>
+          <S.CSubtitle onClick={() => setPreview(p => !p)}>
+            상위 20개 점포
+            <i className={"fas fa-angle-" + (preview ? "down" : "up")}></i>
+          </S.CSubtitle>
+          <S.RankBox>
+            {pLLoading ? <Loading size={50} /> :
+              placeList?.placeList?.slice(0, preview ? 5 : 20).map((corp, i) => (
+                <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
+                  <S.Flex>
+                    <S.Rank>{i+1}</S.Rank>
+                    {corp.name}
+                  </S.Flex>
+                </S.Blur>
+              ))
+            }
+          </S.RankBox>
+        </S.Box>
+      </S.Body>
     </>
   );
 }
 
 const S = {};
 
-S.Hide = styled.div`
-  position: absolute;
-  top: calc(50% - 24px);
-  left: ${props => props.hide ? 0 : '320px'};
-  width: 23px;
-  height: 48px;
-  background: white;
-  border-radius: 0 8px 8px 0;
-  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #263b4d;
+S.Back = styled.div`
   &:hover{
     cursor: pointer;
   }
+  font-size: 16px;
+`;
+
+S.TitleBar = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 S.RightBar = styled.div`

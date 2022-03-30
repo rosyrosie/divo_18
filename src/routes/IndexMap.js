@@ -86,8 +86,7 @@ export default function IndexMap(){
     }
   }, [markers, id]);
 
-  useEffect(() => {
-    setHide(false);
+  const clearState = () => {
     setId(null);
     polygon.setMap(null);
     tempPolygon.setMap(null);
@@ -95,6 +94,12 @@ export default function IndexMap(){
     for(const marker of markers){
       marker.marker.setMap(null);
     }
+    setQuery(null);
+  }
+
+  useEffect(() => {
+    setHide(false);
+    clearState();
   }, [query]);
 
   useEffect(() => {
@@ -225,9 +230,15 @@ export default function IndexMap(){
   return (
     <>
       <S.Map id="map" />
-      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} blur={query || searchInput} />
-      {(!query && searchInput) && <SearchResult searchInput={searchInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />}
-      {query?.type==='region' && <RegionContent query={query} map={map} setBoxList={setBoxList} hide={hide} setHide={setHide} markers={markers} setMarkers={setMarkers} id={id} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} place={place} />}
+      {
+        (query || searchInput) && 
+        <S.Hide onClick={() => setHide(h => !h)} hide={hide}>
+          <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
+        </S.Hide>
+      }
+      <Searchbar searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} />
+      {searchInput && <SearchResult hide={hide} searchInput={searchInput} setQuery={setQuery} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />}
+      {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {
           boxList.map((element, i) => (
@@ -263,5 +274,23 @@ S.RightBar = styled.div`
   padding-bottom: 20px;
   &::-webkit-scrollbar {
     display: none;
+  }
+`;
+
+S.Hide = styled.div`
+  position: absolute;
+  top: calc(50% - 24px);
+  left: ${props => props.hide ? 0 : '320px'};
+  width: 23px;
+  height: 48px;
+  background: white;
+  border-radius: 0 8px 8px 0;
+  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #263b4d;
+  &:hover{
+    cursor: pointer;
   }
 `;

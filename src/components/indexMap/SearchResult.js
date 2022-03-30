@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { changeZoom } from '@constants';
 import { showPopup, showArea } from '@functions';
 
-export default function SearchResult({ map, searchInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
+export default function SearchResult({ hide, map, searchInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
   const { payload: queryList, error: qError } = useFetch(
     IM_QUERY_URL + searchInput,
     null,
@@ -57,33 +57,36 @@ export default function SearchResult({ map, searchInput, setQuery, markers, setM
     if(!queryList) return null;
     switch(queryType){
       case 'place':
-        return queryList[queryType]?.result.map(e => (
-          <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => onMouseOver(e.code)} onMouseOut={() => onMouseOut(e.code)}>
-            <S.Title>
-              {e.name}
-              <S.Rank>{e.rank}위</S.Rank>
-            </S.Title>
-            <S.Addr>{e.address}</S.Addr>
-          </S.QueryBox>
-        ));
+        if(queryList[queryType].result.length !== 0){ 
+          return queryList[queryType]?.result.map(e => (
+            <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => onMouseOver(e.code)} onMouseOut={() => onMouseOut(e.code)}>
+              <S.Title>
+                {e.name}
+                <S.Rank>{e.rank}위</S.Rank>
+              </S.Title>
+              <S.Addr>{e.address}</S.Addr>
+            </S.QueryBox>
+          ));
+        }
+        return <S.Empty>검색 결과가 없습니다</S.Empty>;
       
       case 'region':
-        return queryList[queryType].result.map(e => (
+        return queryList[queryType].result.length > 0 ? queryList[queryType].result.map(e => (
           <S.QueryBox onClick={() => onClickQuery(e)} key={e.code}>
             <S.Title>
               {e.name}
             </S.Title>
           </S.QueryBox>
-        ));
+        )) : <S.Empty>검색 결과가 없습니다</S.Empty>;
 
       case 'keyword':
-        return queryList[queryType].result.map(e => (
+        return queryList[queryType].result.length > 0 ? queryList[queryType].result.map(e => (
           <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => showArea(map, tempPolygon, e)} onMouseOut={() => tempPolygon.setMap(null)}>
             <S.Title>
               {e.name}
             </S.Title>
           </S.QueryBox>
-        ));
+        )) : <S.Empty>검색 결과가 없습니다</S.Empty>;
       
       default:
         return null;
@@ -143,6 +146,8 @@ export default function SearchResult({ map, searchInput, setQuery, markers, setM
     tempPolygon.setMap(null);
   }, [queryList, queryType]);
 
+  if(hide) return <></>;
+
   return (
     <S.Body>
       <S.Tab>
@@ -181,6 +186,13 @@ S.Body = styled.div`
   }
   overflow-y: auto;
   //scrollbar-gutter: stable both-edges;
+`;
+
+S.Empty = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 S.Tab = styled.div`
