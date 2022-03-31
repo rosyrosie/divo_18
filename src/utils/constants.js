@@ -944,8 +944,8 @@ export const sampleQuery = [
 
 export const changeZoom = code => {
   if(code.length === 2) return 11;
-  else if(code.length === 5) return 8;
-  else return 5;
+  else if(code.length === 5) return 9;
+  else return 6;
 }
 
 export const getPlaceOverlay = place => {

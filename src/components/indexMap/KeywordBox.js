@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { useFetch } from '@hooks';
-import { IM_KS_URL } from '@api';
+import { IM_KS_URL, IM_RANK_URL } from '@api';
 import { Line, Bar } from 'react-chartjs-2';
-import { mapLineOptions, mapBarOptions, barData } from '@constants';
+import { mapLineOptions, mapBarOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import { useEffect, useState } from 'react';
 
 export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }){
   const [ open, setOpen ] = useState(defaultOpen);
+  const [ showPlace, setShowPlace ] = useState(false);
 
   const deleteFromList = () => setBoxList(list => list.filter(element => element.id !== keyword));
 
@@ -20,6 +21,16 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
     [keyword],
     keyword
   );
+
+  const { payload: placeList, error: pError } = useFetch(
+    IM_RANK_URL + keyword,
+    null,
+    'GET',
+    [keyword],
+    keyword
+  );
+
+  console.log(placeList);
 
   return (
     <S.Box>
@@ -69,7 +80,23 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
           </S.Stat>
           <S.Chart>
             <Bar options={mapBarOptions('%', true)} data={applyStyleToMapChart(payload?.month, true, true)} />
-          </S.Chart> 
+          </S.Chart>
+          <S.Border />
+          <S.Stat clickable  onClick={() => setShowPlace(s => !s)}>
+            <S.StatName>
+              상위 20개 점포
+            </S.StatName>
+            <div><i className={"fas fa-angle-" + (showPlace ? 'up' : 'down')}></i></div>
+          </S.Stat>
+          {showPlace && placeList?.placeList?.map((place, i) => (
+            <S.Place>
+              <S.Flex>
+                <S.Number>{i+1}</S.Number>
+                <S.Ellipsis>{place.name}</S.Ellipsis>
+              </S.Flex>
+              <S.Rank>{place.rank}위</S.Rank>
+            </S.Place>
+          ))} 
         </S.StatBox>
       }                                                                                                                                                                           
     </S.Box>
@@ -133,6 +160,7 @@ S.Stat = styled.div`
   justify-content: space-between;
   font-size: 12px;
   padding: 10px 0;
+  ${props => props.clickable && '&:hover{cursor:pointer;}'}
 `;
 
 S.StatName = styled.div`
@@ -153,4 +181,34 @@ S.Marker = styled.div`
 `;
 
 S.Chart = styled.div`
+`;
+
+S.Border = styled.div`
+  padding-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f5f5f733;
+`;
+
+S.Place = styled.div`
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+`;
+
+S.Number = styled.div`
+  font-family: 'Montserrat';
+  width: 24px;
+  font-weight: 600;
+`;
+
+S.Flex = styled.div`
+  display: flex;
+  min-width: 0;
+`;
+
+S.Rank = styled.div`
+  margin-left: 10px;
+  min-width: max-content;
+  font-family: 'Montserrat', 'SUIT';
 `;
