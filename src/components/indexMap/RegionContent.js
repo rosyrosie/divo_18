@@ -16,13 +16,6 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
   const [ showWeek, setShowWeek ] = useState(false);
   const [ showMonth, setShowMonth ] = useState(false);
   const [ showSubRegion, setShowSubRegion ] = useState(false);
-  
-  const defaultQuery = {
-    type: 'region',
-    code: 0,
-    name: '전국',
-  }
-
   const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
     null,
@@ -46,8 +39,6 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
     [query],
     query
   );
-
-  console.log(areaList);
 
   useEffect(() => {
     if(!placeList) return;

@@ -33,8 +33,6 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
     return string;
   };
 
-  
-
   const [ open, setOpen ] = useState(defaultOpen);
 
   const deleteFromList = () => {

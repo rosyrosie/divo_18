@@ -985,8 +985,15 @@ export const getPlaceOverlay = place => {
 };
 
 export const regionType = (code) => {
-  if(code.length === 2) return '시·도 ';
+  if(code === 0) return '전국';
+  else if(code.length === 2) return '시·도 ';
   else if(code.length === 5) return '시·군·구 ';
   else if(code.length === 8) return '읍·면·동 ';
   else return '세부 ';
+}
+
+export const defaultQuery = {
+  type: 'region',
+  code: 0,
+  name: '전국',
 }

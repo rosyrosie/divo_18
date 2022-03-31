@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { useFetch } from '@hooks';
 import { IM_QUERY_URL, RANK_BS_URL } from '@api';
 import { useEffect, useState } from 'react';
-import { changeZoom } from '@constants';
+import { changeZoom, defaultQuery } from '@constants';
 import { showPopup, showArea } from '@functions';
 
-export default function SearchResult({ queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
+export default function SearchResult({ query, queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
   const { payload: qList, error: qError } = useFetch(
     IM_QUERY_URL + searchInput,
     null,
@@ -62,7 +62,7 @@ export default function SearchResult({ queryList, setQueryList, clearState, hide
           return queryList[queryType]?.result.map(e => (
             <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => onMouseOver(e.code)} onMouseOut={() => onMouseOut(e.code)}>
               <S.Title>
-                {e.name}
+                <S.Ellipsis>{e.name}</S.Ellipsis>
                 <S.Rank>{e.rank}위</S.Rank>
               </S.Title>
               <S.Addr>{e.address}</S.Addr>
@@ -145,7 +145,7 @@ export default function SearchResult({ queryList, setQueryList, clearState, hide
     setMarkers(newMarkers);
     polygon.setMap(null);
     tempPolygon.setMap(null);
-  }, [queryList, queryType]);
+  }, [queryList, queryType, query]);
 
   const { payload: boundList, error } = useFetch(
     RANK_BS_URL,
@@ -174,7 +174,7 @@ export default function SearchResult({ queryList, setQueryList, clearState, hide
 
   useEffect(() => {
     if(searchInput === '') setQueryList(null);
-    clearState();
+    if(searchInput !== '') clearState();
   }, [searchInput]);
 
   return (
@@ -194,6 +194,7 @@ export default function SearchResult({ queryList, setQueryList, clearState, hide
         </>
       }
       <S.Bound onClick={() => {setBounds(map.getBounds()); setSearchInput(null);}}><i className="fas fa-utensils"></i></S.Bound>
+      <S.Korea onClick={() => setQuery(defaultQuery)}><i className="fas fa-chart-pie"></i></S.Korea>
     </>
   );
 }
@@ -233,7 +234,6 @@ S.Body = styled.div`
     background-color: transparent;
   }
   overflow-y: auto;
-  //scrollbar-gutter: stable both-edges;
 `;
 
 S.Empty = styled.div`
@@ -282,12 +282,20 @@ S.Title = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-width: 0;
 `;
 
 S.Rank = styled.div`
   font-weight: normal;
   font-family: 'Montserrat', 'SUIT';
   font-size: 12px;
+  flex-shrink: 0;
+`;
+
+S.Ellipsis = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 S.Addr = styled.div`
@@ -295,10 +303,9 @@ S.Addr = styled.div`
   margin-top: 20px;
 `;
 
-S.Bound = styled.button`
+S.Click = styled.button`
   position: absolute;
   top: 64px;
-  left: 330px;
   height: 36px;
   width: 36px;
   background: white;
@@ -312,4 +319,12 @@ S.Bound = styled.button`
     cursor: pointer;
     color: #263b4d;
   }
+`;
+
+S.Bound = styled(S.Click)`
+  left: 330px;
+`;
+
+S.Korea = styled(S.Click)`
+  left: 376px;
 `;

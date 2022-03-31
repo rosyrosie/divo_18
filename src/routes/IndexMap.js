@@ -6,7 +6,7 @@ import { useFetch } from '@hooks';
 import RegionContent from '@/components/indexMap/RegionContent';
 import OMRankBox from '@/components/indexMap/OMRankBox';
 import KeywordBox from '@/components/indexMap/KeywordBox';
-import { changeZoom, getPlaceOverlay } from '@constants';
+import { changeZoom, getPlaceOverlay, defaultQuery } from '@constants';
 import { showPopup } from '@functions';
 import SearchBlock from '@/components/indexMap/SearchBlock';
 
@@ -17,14 +17,9 @@ export default function IndexMap(){
     lat: 36.266826,
     lng: 127.2786567
   };
-  const defaultQuery = {
-    type: 'region',
-    code: 0,
-    name: '전국',
-  }
   const [ mapRange, setMapRange ] = useState(null);
   const [ overlay, setOverlay ] = useState(new kakao.maps.CustomOverlay({ yAnchor: 1.2 }));
-  const [ query, setQuery ] = useState(null);
+  const [ query, setQuery ] = useState(defaultQuery);
   const [ trigger, setTrigger ] = useState(true);
   const [ boxList, setBoxList ] = useState([]);
   const [ hide, setHide ] = useState(false);
@@ -236,8 +231,6 @@ export default function IndexMap(){
     };
   }, [payload, trigger]);
 
-  useEffect(() => setQuery(null), [searchInput]);
-
   return (
     <>
       <S.Map id="map" />
@@ -247,7 +240,7 @@ export default function IndexMap(){
           <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
         </S.Hide>
       }
-      <SearchBlock searchInput={searchInput} setSearchInput={setSearchInput} setQuery={setQuery} clearState={clearState} queryList={queryList} setQueryList={setQueryList} hide={hide} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
+      <SearchBlock searchInput={searchInput} setSearchInput={setSearchInput} query={query} setQuery={setQuery} clearState={clearState} queryList={queryList} setQueryList={setQueryList} hide={hide} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
       {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {
