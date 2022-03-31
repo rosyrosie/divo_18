@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { changeZoom, defaultQuery } from '@constants';
 import { showPopup, showArea } from '@functions';
 
-export default function SearchResult({ query, queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
+export default function SearchResult({ query, queryType, setQueryType, queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
   const { payload: qList, error: qError } = useFetch(
     IM_QUERY_URL + searchInput,
     null,
@@ -15,7 +15,6 @@ export default function SearchResult({ query, queryList, setQueryList, clearStat
     searchInput
   );
 
-  const [ queryType, setQueryType ] = useState('region'); //region, place, keyword
   const [ bounds, setBounds ] = useState(null);
 
   const onClickQuery = query => {

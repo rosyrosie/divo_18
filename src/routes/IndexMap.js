@@ -60,7 +60,9 @@ export default function IndexMap(){
     id
   );
   
+  const [ input, setInput ] = useState('');
   const [ searchInput, setSearchInput ] = useState('');
+  const [ queryType, setQueryType ] = useState('region'); //region, place, keyword
 
   useEffect(() => {
     if(!place) return;
@@ -244,12 +246,12 @@ export default function IndexMap(){
           <i className={"fas fa-caret-" + (hide ? 'right' : 'left')}></i>
         </S.Hide>
       }
-      <SearchBlock searchInput={searchInput} setSearchInput={setSearchInput} query={query} setQuery={setQuery} clearState={clearState} queryList={queryList} setQueryList={setQueryList} hide={hide} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
+      <SearchBlock input={input} setInput={setInput} searchInput={searchInput} setSearchInput={setSearchInput} query={query} setQuery={setQuery} queryType={queryType} setQueryType={setQueryType} clearState={clearState} queryList={queryList} setQueryList={setQueryList} hide={hide} map={map} placeOverlay={placeOverlay} markers={markers} setMarkers={setMarkers} setId={setId} place={place} setBoxList={setBoxList} polygon={polygon} tempPolygon={tempPolygon} />
       {query?.type==='region' && <RegionContent hide={hide} query={query} setQuery={setQuery} map={map} setBoxList={setBoxList} markers={markers} setMarkers={setMarkers} setId={setId} placeOverlay={placeOverlay} polygon={polygon} tempPolygon={tempPolygon} />}
       <S.RightBar>
         {
           boxList.map((element, i) => (
-            element.type === 'kw' ? <KeywordBox keyword={element.id} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} /> :
+            element.type === 'kw' ? <KeywordBox keyword={element.id} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} setInput={setInput} setSearchInput={setSearchInput} setQueryType={setQueryType} /> :
             <OMRankBox key={element.id} id={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} />
           ))
         }

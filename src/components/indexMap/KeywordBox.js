@@ -6,7 +6,7 @@ import { mapLineOptions, mapBarOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import { useEffect, useState } from 'react';
 
-export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }){
+export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, setInput, setSearchInput, setQueryType }){
   const [ open, setOpen ] = useState(defaultOpen);
   const [ showPlace, setShowPlace ] = useState(false);
 
@@ -29,8 +29,6 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
     [keyword],
     keyword
   );
-
-  console.log(placeList);
 
   return (
     <S.Box>
@@ -89,7 +87,7 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
             <div><i className={"fas fa-angle-" + (showPlace ? 'up' : 'down')}></i></div>
           </S.Stat>
           {showPlace && placeList?.placeList?.map((place, i) => (
-            <S.Place>
+            <S.Place key={place.id} onClick={() => {setInput(place.name); setSearchInput(place.name); setQueryType('place');}}>
               <S.Flex>
                 <S.Number>{i+1}</S.Number>
                 <S.Ellipsis>{place.name}</S.Ellipsis>
@@ -194,6 +192,9 @@ S.Place = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.Number = styled.div`
