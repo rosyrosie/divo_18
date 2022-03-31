@@ -24,6 +24,7 @@ export default function IndexMap(){
   const [ boxList, setBoxList ] = useState([]);
   const [ hide, setHide ] = useState(false);
   const [ queryList, setQueryList ] = useState(null);
+  const [ mapScale, setMapScale ] = useState('manual');
 
   const [ markers, setMarkers ] = useState([]);
   const [ id, setId ] = useState(null);
@@ -142,9 +143,12 @@ export default function IndexMap(){
 
   const { payload, error } = useFetch(
     IM_DRAW_URL,
-    mapRange,
+    mapScale === 'manual' ? mapRange : {
+      bounds: mapRange.bounds,
+      level: mapScale
+    },
     'POST',
-    [mapRange],
+    [mapRange, mapScale],
     mapRange && trigger
   );
 
@@ -250,6 +254,20 @@ export default function IndexMap(){
           ))
         }
       </S.RightBar>
+      <S.Setting>
+        <details>
+          <S.Summary><i className="fas fa-cog"></i></S.Summary>
+          <S.SettingPopup>
+            지역경계
+            <S.Flex>
+              <S.First selected={mapScale === 'manual'} onClick={() => setMapScale('manual')}>자동</S.First>
+              <S.Option selected={mapScale === 'CTP'} onClick={() => setMapScale('CTP')}>시도</S.Option>
+              <S.Option selected={mapScale === 'SIG'} onClick={() => setMapScale('SIG')}>시군구</S.Option>
+              <S.Last selected={mapScale === 'EMD'} onClick={() => setMapScale('EMD')}>읍면동</S.Last>
+            </S.Flex>
+          </S.SettingPopup>
+        </details>
+      </S.Setting>
     </>
   );
 }
@@ -296,4 +314,74 @@ S.Hide = styled.div`
   &:hover{
     cursor: pointer;
   }
+`;
+
+S.Click = styled.button`
+  position: absolute;
+  top: 64px;
+  height: 36px;
+  width: 36px;
+  background: white;
+  border: none;
+  border-radius: 20px;
+  color: #263b4dd3;
+  font-weight: bold;
+  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  font-size: 14px;
+  &:hover{
+    cursor: pointer;
+    color: #263b4d;
+  }
+`;
+
+S.Setting = styled(S.Click)`
+  left: 422px;
+`;
+
+S.Summary = styled.summary`
+  &::-webkit-details-marker{
+    display: none;
+  }
+  list-style: none;
+`;
+
+S.SettingPopup = styled.div`
+  position: absolute;
+  background: white;
+  border-radius: 10px;
+  top: 50px;
+  box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
+  padding: 15px;
+  width: max-content;
+  font-size: 14px;
+  display: flex;
+  flex-flow: column;
+  align-items: start;
+  color: #263b4d;
+`;
+
+S.Flex = styled.div`
+  display: flex;
+  margin-top: 10px;
+  border-radius: 7px;
+`;
+
+S.Option = styled.div`
+  color: #263b4d;
+  padding: 5px 8px;
+  border: 1px solid #263b4da3;
+  font-weight: normal;
+  font-size: 12px;
+  border-right: none;
+  ${props => props.selected && 'background: #263b4d; color: #f5f5f7;'}
+`;
+
+S.First = styled(S.Option)`
+  border-radius: 7px 0 0 7px;
+  border-right: none;
+`;
+
+S.Last = styled(S.Option)`
+  border-radius: 0 7px 7px 0;
+  border-right: 1px solid #263b4da3;
 `;
