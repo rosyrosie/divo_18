@@ -6,7 +6,7 @@ import { mapLineOptions, mapBarOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
 import { useEffect, useState } from 'react';
 
-export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, setInput, setSearchInput, setQueryType }){
+export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, setInput, setSearchInput, setQueryType, clearState, setQueryList }){
   const [ open, setOpen ] = useState(defaultOpen);
   const [ showPlace, setShowPlace ] = useState(false);
 
@@ -29,6 +29,18 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, 
     [keyword],
     keyword
   );
+
+  const showRankQuery = () => {
+    clearState();
+    setQueryList({
+      place: { result: placeList.placeList },
+      region: { result: [] },
+      keyword: { result: [] }
+    });
+    setSearchInput(null);
+    setInput('');
+    setQueryType('place');
+  }
 
   return (
     <S.Box>
@@ -87,14 +99,15 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, 
             <div><i className={"fas fa-angle-" + (showPlace ? 'up' : 'down')}></i></div>
           </S.Stat>
           {showPlace && placeList?.placeList?.map((place, i) => (
-            <S.Place key={place.id} onClick={() => {setInput(place.name); setSearchInput(place.name); setQueryType('place');}}>
+            <S.Place key={place.id}>
               <S.Flex>
                 <S.Number>{i+1}</S.Number>
                 <S.Ellipsis>{place.name}</S.Ellipsis>
               </S.Flex>
               <S.Rank>{place.rank}위</S.Rank>
             </S.Place>
-          ))} 
+          ))}
+          <S.Link onClick={showRankQuery}>지도에서 보기</S.Link> 
         </S.StatBox>
       }                                                                                                                                                                           
     </S.Box>
@@ -109,6 +122,17 @@ S.Toggle = styled.div`
     cursor: pointer;
   }
   min-width: 0;
+`;
+
+S.Link = styled.div`
+  font-size: 12px;
+  display: flex;
+  justify-content: right;
+  margin-top: 10px;
+  &:hover{
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;
 
 S.Hide = styled.div`
@@ -192,9 +216,6 @@ S.Place = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  &:hover{
-    cursor: pointer;
-  }
 `;
 
 S.Number = styled.div`

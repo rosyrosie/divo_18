@@ -251,7 +251,7 @@ export default function IndexMap(){
       <S.RightBar>
         {
           boxList.map((element, i) => (
-            element.type === 'kw' ? <KeywordBox keyword={element.id} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} setInput={setInput} setSearchInput={setSearchInput} setQueryType={setQueryType} /> :
+            element.type === 'kw' ? <KeywordBox keyword={element.id} clearState={clearState} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} setInput={setInput} setSearchInput={setSearchInput} setQueryType={setQueryType} setQueryList={setQueryList} /> :
             <OMRankBox key={element.id} id={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} />
           ))
         }
