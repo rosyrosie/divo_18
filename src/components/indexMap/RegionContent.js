@@ -17,6 +17,12 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
   const [ showMonth, setShowMonth ] = useState(false);
   const [ showSubRegion, setShowSubRegion ] = useState(false);
   
+  const defaultQuery = {
+    type: 'region',
+    code: 0,
+    name: '전국',
+  }
+
   const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
     null,
@@ -33,13 +39,15 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
     query
   );
 
-  const { payload: regionStat, error: rSError } = useFetch(
+  const { payload: regionStat, loading: rSLoading, error: rSError } = useFetch(
     IM_RG_URL + query.code,
     null,
     'GET',
     [query],
     query
   );
+
+  console.log(areaList);
 
   useEffect(() => {
     if(!placeList) return;
@@ -134,87 +142,90 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
           </S.Type>
         </S.Title>
         <S.Box>
-          <S.Subtitle>소비자 관심도</S.Subtitle>
-          <S.Chart>
-            {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
-          </S.Chart>
-          <S.Comment>
-            <S.Flex>
-              <S.Icon><i className="fas fa-random"></i></S.Icon>
-              평균 점포 순위
-            </S.Flex>
-            {placeList?.avgRank.toLocaleString()}위
-          </S.Comment>
-          <S.Comment>
-            <S.Flex>
-              <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
-              남성 관심도 비율
-            </S.Flex>
-            {regionStat?.data.genderGraph?.[0]}%
-          </S.Comment>
-          <S.Comment>
-            <S.Flex>
-              <S.Icon><i className="fas fa-laptop"></i></S.Icon>
-              PC 관심도 비율
-            </S.Flex>
-            {regionStat?.data.deviceGraph?.[0]}%
-          </S.Comment>
-          <S.Comment clickable onClick={() => setShowAge(s => !s)}>
-            <S.Flex>
-              <S.Icon><i className="fas fa-user"></i></S.Icon>
-              연령별 관심도 비율
-            </S.Flex>
-            <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
-          </S.Comment>
-          {
-            showAge &&
-            <S.ChartBox>
-              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.agesGraph, false, true)}/>}
-            </S.ChartBox>
-          }
-          <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
-            <S.Flex>
-              <S.Icon><i className="fas fa-calendar-week"></i></S.Icon>
-              요일별 관심도 비율
-            </S.Flex>
-            <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
-          </S.Comment>
-          {
-            showWeek &&
-            <S.ChartBox>
-              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.weekGraph, false, true)}/>}
-            </S.ChartBox>
-          }
-          <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
-            <S.Flex>
-              <S.Icon><i className="fas fa-calendar"></i></S.Icon>
-              월별 관심도 비율
-            </S.Flex>
-            <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
-          </S.Comment>
-          {
-            showMonth &&
-            <S.ChartBox last>
-              {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
-            </S.ChartBox>
-          }
-          {regionStat?.data.subRegionGraph.labels.length > 0 && 
-            <>
-              <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
-                <S.Flex>
-                  <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
-                  지역 관심도 비율
-                </S.Flex>
-                <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
-              </S.Comment>
-              {
-                showSubRegion &&
-                <S.ChartBox last>
-                  {regionStat && <Doughnut options={mapPieOptions()} plugins={[ChartDataLabels]} data={applyStyleToPieChart(regionStat?.data.subRegionGraph)}/>}
-                </S.ChartBox>
-              }
-            </>
-          }
+          {rSLoading ? <Loading size={50} /> : 
+          <>
+            <S.Subtitle>소비자 관심도</S.Subtitle>
+            <S.Chart>
+              {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
+            </S.Chart>
+            <S.Comment>
+              <S.Flex>
+                <S.Icon><i className="fas fa-random"></i></S.Icon>
+                평균 점포 순위
+              </S.Flex>
+              {placeList?.avgRank.toLocaleString()}위
+            </S.Comment>
+            <S.Comment>
+              <S.Flex>
+                <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
+                남성 관심도 비율
+              </S.Flex>
+              {regionStat?.data.genderGraph?.[0]}%
+            </S.Comment>
+            <S.Comment>
+              <S.Flex>
+                <S.Icon><i className="fas fa-laptop"></i></S.Icon>
+                PC 관심도 비율
+              </S.Flex>
+              {regionStat?.data.deviceGraph?.[0]}%
+            </S.Comment>
+            <S.Comment clickable onClick={() => setShowAge(s => !s)}>
+              <S.Flex>
+                <S.Icon><i className="fas fa-user"></i></S.Icon>
+                연령별 관심도 비율
+              </S.Flex>
+              <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
+            </S.Comment>
+            {
+              showAge &&
+              <S.ChartBox>
+                {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.agesGraph, false, true)}/>}
+              </S.ChartBox>
+            }
+            <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
+              <S.Flex>
+                <S.Icon><i className="fas fa-calendar-week"></i></S.Icon>
+                요일별 관심도 비율
+              </S.Flex>
+              <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
+            </S.Comment>
+            {
+              showWeek &&
+              <S.ChartBox>
+                {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.weekGraph, false, true)}/>}
+              </S.ChartBox>
+            }
+            <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
+              <S.Flex>
+                <S.Icon><i className="fas fa-calendar"></i></S.Icon>
+                월별 관심도 비율
+              </S.Flex>
+              <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
+            </S.Comment>
+            {
+              showMonth &&
+              <S.ChartBox last>
+                {regionStat && <Bar options={mapBarOptions('%', false, false)} data={applyStyleToMapChart(regionStat?.data.monthGraph, false, true)}/>}
+              </S.ChartBox>
+            }
+            {regionStat?.data.subRegionGraph.labels.length > 0 && 
+              <>
+                <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
+                  <S.Flex>
+                    <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
+                    지역 관심도 비율
+                  </S.Flex>
+                  <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
+                </S.Comment>
+                {
+                  showSubRegion &&
+                  <S.ChartBox last>
+                    {regionStat && <Doughnut options={mapPieOptions()} plugins={[ChartDataLabels]} data={applyStyleToPieChart(regionStat?.data.subRegionGraph)}/>}
+                  </S.ChartBox>
+                }
+              </>
+            }
+          </>}
         </S.Box>
         <S.Box>
           <S.CSubtitle onClick={() => setAreaPreview(p => !p)}>
