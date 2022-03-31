@@ -1,12 +1,14 @@
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home(){
+  const navigate = useNavigate();
   return (
     <S.Content>
       <S.Box>
         <S.Title>당신의 매장을 책임질</S.Title>
         <S.Title>단 하나의 솔루션</S.Title>
-        <S.SubTitle>매출 관리부터 마케팅까지</S.SubTitle>
+        <S.SubTitle onClick={() => navigate('index-map')}>매출 관리부터 마케팅까지</S.SubTitle>
         <S.Down><i className="fas fa-chevron-down"></i></S.Down>
       </S.Box>
       <S.ImgBox>
