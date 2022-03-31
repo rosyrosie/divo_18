@@ -238,7 +238,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
                 <S.Blur key={area.keyword} onClick={() => {showArea(map, polygon, area, true); setBoxList(list => list.some(e => e.id === area.keyword) ? list : [{type: 'kw', id: area.keyword}, ...list.slice(0, 4)]);}} onMouseOver={() => showArea(map, tempPolygon, area)} onMouseOut={() => tempPolygon.setMap(null)}>
                   <S.Flex>
                     <S.Rank>{index+1}</S.Rank>
-                    {area.keyword}
+                    <S.Ellipsis>{area.keyword}</S.Ellipsis>
                   </S.Flex>
                   <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
                 </S.Blur>
@@ -257,7 +257,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
                 <S.Blur key={corp.id} onClick={() => onClickCorp(corp)} onMouseOver={() => onMouseOver(corp.id)} onMouseOut={() => onMouseOut(corp.id)}>
                   <S.Flex>
                     <S.Rank>{i+1}</S.Rank>
-                    {corp.name}
+                    <S.Ellipsis>{corp.name}</S.Ellipsis>
                   </S.Flex>
                   <S.Qty>{corp.rank.toLocaleString()}위</S.Qty>
                 </S.Blur>
@@ -396,6 +396,13 @@ S.Comment = styled.div`
 
 S.Flex = styled.div`
   display: flex;
+  min-width: 0;
+`;
+
+S.Ellipsis = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 S.Icon = styled.div`
@@ -428,10 +435,8 @@ S.Blur = styled.div`
 S.Qty = styled.span`
   font-family: 'Montserrat', 'SUIT';
   font-size: 13px;
-`;
-
-S.Flex = styled.div`
-  display: flex;
+  min-width: max-content;
+  flex-shrink: 0;
 `;
 
 S.Rank = styled.div`

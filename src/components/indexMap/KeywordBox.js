@@ -26,7 +26,7 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen }
       <S.Title>
         <S.Toggle onClick={() => setOpen(o => !o)}>
           <S.Hide><i className={"fas fa-caret-" + (open ? "right" : "down")}></i></S.Hide>
-          {keyword}
+          <S.Ellipsis>{keyword}</S.Ellipsis>
         </S.Toggle>
         <S.Close onClick={deleteFromList}><i className="fas fa-times"></i></S.Close>
       </S.Title>
@@ -83,11 +83,13 @@ S.Toggle = styled.div`
   &:hover{
     cursor: pointer;
   }
+  min-width: 0;
 `;
 
 S.Hide = styled.div`
   margin-right: 8px;
   width: 6px;
+  flex-shrink: 0;
 `;
 
 S.Box = styled.div`
@@ -106,6 +108,12 @@ S.Title = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-between;
+`;
+
+S.Ellipsis = styled.div`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 S.Close = styled.div`
