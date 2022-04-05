@@ -15,7 +15,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
   const [ showAge, setShowAge ] = useState(false);
   const [ showWeek, setShowWeek ] = useState(false);
   const [ showMonth, setShowMonth ] = useState(false);
-  const [ showSubRegion, setShowSubRegion ] = useState(false);
+  const [ showSubRegion, setShowSubRegion ] = useState(true);
   const { payload: placeList, loading: pLLoading, error: pLError } = useFetch(
     IM_PL_URL + query.code,
     null,
