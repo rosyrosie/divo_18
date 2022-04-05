@@ -69,6 +69,12 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
                   </S.Arearank>
                 ))}
               </S.AreaBox>
+              <S.SubTitle>업종 분류</S.SubTitle>
+              <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
+                <S.Keywords>
+                  {copyString(keywordList.keywordList)}
+                </S.Keywords>
+              </CopyToClipboard>
               <S.SubTitle>추천 키워드</S.SubTitle>
               <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
                 <S.Keywords>

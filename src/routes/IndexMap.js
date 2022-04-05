@@ -331,13 +331,12 @@ S.Click = styled.button`
   box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
   font-size: 14px;
   &:hover{
-    cursor: pointer;
     color: #263b4d;
   }
 `;
 
 S.Setting = styled(S.Click)`
-  left: 422px;
+  left: 468px;
 `;
 
 S.Summary = styled.summary`
@@ -345,6 +344,9 @@ S.Summary = styled.summary`
     display: none;
   }
   list-style: none;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.SettingPopup = styled.div`
@@ -376,6 +378,9 @@ S.Option = styled.div`
   font-size: 12px;
   border-right: none;
   ${props => props.selected && 'background: #263b4d; color: #f5f5f7;'}
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.First = styled(S.Option)`

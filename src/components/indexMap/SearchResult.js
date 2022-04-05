@@ -5,6 +5,7 @@ import { IM_QUERY_URL, RANK_BS_URL } from '@api';
 import { useEffect, useState } from 'react';
 import { changeZoom, defaultQuery } from '@constants';
 import { showPopup, showArea } from '@functions';
+import FilterModal from '@/components/indexMap/FilterModal';
 
 export default function SearchResult({ query, queryType, setQueryType, queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
   const { payload: qList, error: qError } = useFetch(
@@ -192,6 +193,12 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
           </S.Body>
         </>
       }
+      <S.Filter>
+        <details>
+          <S.Summary><i className="fas fa-sliders-h"></i></S.Summary>
+          <FilterModal />
+        </details>
+      </S.Filter>
       <S.Bound onClick={() => {setBounds(map.getBounds()); setSearchInput(null);}}><i className="fas fa-utensils"></i></S.Bound>
       <S.Korea onClick={() => setQuery(defaultQuery)}><i className="fas fa-chart-pie"></i></S.Korea>
     </>
@@ -315,15 +322,34 @@ S.Click = styled.button`
   box-shadow: 0 1px 2px rgb(60 64 67 / 30%), 0 1px 3px 1px rgb(60 64 67 / 15%);
   font-size: 14px;
   &:hover{
-    cursor: pointer;
     color: #263b4d;
   }
 `;
 
 S.Bound = styled(S.Click)`
-  left: 330px;
+  left: 376px;
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 S.Korea = styled(S.Click)`
-  left: 376px;
+  left: 422px;
+  &:hover{
+    cursor: pointer;
+  }
+`;
+
+S.Filter = styled(S.Click)`
+  left: 330px;
+`;
+
+S.Summary = styled.summary`
+  &::-webkit-details-marker{
+    display: none;
+  }
+  list-style: none;
+  &:hover{
+    cursor: pointer;
+  }
 `;
