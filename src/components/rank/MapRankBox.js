@@ -10,6 +10,9 @@ export default function MapRankBox({ corp, setShowSelected, setSelectedIndex, lo
       <Loading />
     </S.Center>
   );
+
+  console.log(corp);
+
   return (
     <S.BrandInfo>
       <S.Goback>
@@ -17,7 +20,7 @@ export default function MapRankBox({ corp, setShowSelected, setSelectedIndex, lo
           <i className="fas fa-arrow-left"></i>
         </S.BackIcon>
       </S.Goback>
-      <S.InfoName>{corp?.name}</S.InfoName>
+      <S.InfoName><S.A href={corp?.url} target="_blank">{corp?.name}</S.A></S.InfoName>
       <S.InfoCat>{corp?.category}</S.InfoCat>
       <S.InfoReview>
         <S.Review>블로그리뷰 {corp?.blogReviewNum}개</S.Review>
@@ -61,6 +64,11 @@ export default function MapRankBox({ corp, setShowSelected, setSelectedIndex, lo
 }
 
 const S = {};
+
+S.A = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;
 
 S.Center = styled.div`
   position: absolute;
