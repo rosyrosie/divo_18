@@ -257,7 +257,7 @@ export default function IndexMap(){
         }
       </S.RightBar>
       <S.Setting>
-        <details>
+        <S.Details>
           <S.Summary><i className="fas fa-cog"></i></S.Summary>
           <S.SettingPopup>
             지역경계
@@ -268,7 +268,7 @@ export default function IndexMap(){
               <S.Last selected={mapScale === 'EMD'} onClick={() => setMapScale('EMD')}>읍면동</S.Last>
             </S.Flex>
           </S.SettingPopup>
-        </details>
+        </S.Details>
       </S.Setting>
     </>
   );
@@ -318,7 +318,7 @@ S.Hide = styled.div`
   }
 `;
 
-S.Click = styled.button`
+S.Click = styled.div`
   position: absolute;
   top: 64px;
   height: 36px;
@@ -333,6 +333,9 @@ S.Click = styled.button`
   &:hover{
     color: #263b4d;
   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 S.Setting = styled(S.Click)`
@@ -347,6 +350,16 @@ S.Summary = styled.summary`
   &:hover{
     cursor: pointer;
   }
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+S.Details = styled.details`
+  height: 100%;
+  width: 100%;
 `;
 
 S.SettingPopup = styled.div`

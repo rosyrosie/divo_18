@@ -194,10 +194,10 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
         </>
       }
       <S.Filter>
-        <details>
+        <S.Details>
           <S.Summary><i className="fas fa-sliders-h"></i></S.Summary>
           <FilterModal />
-        </details>
+        </S.Details>
       </S.Filter>
       <S.Bound onClick={() => {setBounds(map.getBounds()); setSearchInput(null);}}><i className="fas fa-utensils"></i></S.Bound>
       <S.Korea onClick={() => setQuery(defaultQuery)}><i className="fas fa-chart-pie"></i></S.Korea>
@@ -309,7 +309,7 @@ S.Addr = styled.div`
   margin-top: 20px;
 `;
 
-S.Click = styled.button`
+S.Click = styled.div`
   position: absolute;
   top: 64px;
   height: 36px;
@@ -324,6 +324,9 @@ S.Click = styled.button`
   &:hover{
     color: #263b4d;
   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 S.Bound = styled(S.Click)`
@@ -352,4 +355,14 @@ S.Summary = styled.summary`
   &:hover{
     cursor: pointer;
   }
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+S.Details = styled.details`
+  width: 100%;
+  height: 100%;
 `;
