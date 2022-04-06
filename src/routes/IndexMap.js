@@ -98,6 +98,7 @@ export default function IndexMap(){
       marker.marker.setMap(null);
     }
     setQuery(null);
+    setQueryList(null);
   }
 
   useEffect(() => {
