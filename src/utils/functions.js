@@ -115,13 +115,15 @@ export const sortComma = (rowA, rowB, id, desc) => {
 
 export const showPopup = (map, popup, marker) => {
   popup.open(map, marker);
-  let popupElement = document.querySelector('.popup');
-  popupElement.parentElement.previousSibling.style.display = "none";
-  popupElement.parentElement.parentElement.style.border = 'none';
-  popupElement.parentElement.parentElement.style.background = 'unset';
-  popupElement.parentElement.style.left = "50%";
-  popupElement.parentElement.style.marginLeft = "20px";
-  popupElement.parentElement.style.top = "40px";
+  let popupList = document.querySelectorAll('.popup');
+  for(const popupElement of popupList){
+    popupElement.parentElement.previousSibling.style.display = "none";
+    popupElement.parentElement.parentElement.style.border = 'none';
+    popupElement.parentElement.parentElement.style.background = 'unset';
+    popupElement.parentElement.style.left = "50%";
+    popupElement.parentElement.style.marginLeft = "20px";
+    popupElement.parentElement.style.top = "40px";
+  }
   marker.setZIndex(2);
 };
 

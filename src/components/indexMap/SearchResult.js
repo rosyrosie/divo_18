@@ -8,15 +8,26 @@ import { showPopup, showArea } from '@functions';
 import FilterModal from '@/components/indexMap/FilterModal';
 
 export default function SearchResult({ query, queryType, setQueryType, queryList, setQueryList, clearState, hide, map, searchInput, setSearchInput, setInput, setQuery, markers, setMarkers, placeOverlay, setId, setBoxList, polygon, tempPolygon }){
+  const [ bounds, setBounds ] = useState(null);
+  const [ regionFilter, setRegionFilter ] = useState({ code: 0, name: '전국' });
+  
+  const removeSharp = string => {
+    if(string[0] === '#') return string.substring(1);
+    return string;
+  };
+
+  const realQueryType = (queryType, key) => {
+    if(key === '#' && queryType === 'place') return 'tag';
+    return queryType;
+  };
+
   const { payload: qList, error: qError } = useFetch(
-    IM_QUERY_URL + searchInput,
+    IM_QUERY_URL + removeSharp(searchInput) + '&rf=' + regionFilter.code,
     null,
     'GET',
-    [searchInput],
+    [searchInput, regionFilter],
     searchInput
   );
-
-  const [ bounds, setBounds ] = useState(null);
 
   const onClickQuery = query => {
     if(queryType === 'region'){
@@ -53,13 +64,15 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
       }
     }
   };
+  
+  let qType = realQueryType(queryType, searchInput[0]);
 
   const queryResult = queryType => {
     if(!queryList) return null;
     switch(queryType){
       case 'place':
-        if(queryList[queryType].result.length !== 0){ 
-          return queryList[queryType]?.result.map(e => (
+        if(queryList[qType].result.length !== 0){ 
+          return queryList[qType]?.result.map(e => (
             <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => onMouseOver(e.code)} onMouseOut={() => onMouseOut(e.code)}>
               <S.Title>
                 <S.Ellipsis>{e.name}</S.Ellipsis>
@@ -100,7 +113,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
       marker.marker.setMap(null);
     }
     let newMarkers = [];
-    if(queryType==='place') queryList[queryType].result.forEach(corp => {
+    if(queryType==='place') queryList[qType].result.forEach(corp => {
       let marker = new kakao.maps.Marker({ opacity: 0.9 });
       let popup = new kakao.maps.InfoWindow({ zIndex: 1 });
 
@@ -196,7 +209,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
       <S.Filter>
         <S.Details>
           <S.Summary><i className="fas fa-sliders-h"></i></S.Summary>
-          <FilterModal />
+          <FilterModal regionFilter={regionFilter} setRegionFilter={setRegionFilter} />
         </S.Details>
       </S.Filter>
       <S.Bound onClick={() => {setBounds(map.getBounds()); setSearchInput(null);}}><i className="fas fa-utensils"></i></S.Bound>

@@ -3,14 +3,13 @@ import styled from 'styled-components';
 import { useFetch } from '@hooks';
 import { IM_QUERY_URL } from '@api';
 
-export default function FilterModal(){
+export default function FilterModal({ regionFilter, setRegionFilter }){
   const [ input, setInput ] = useState('');
   const [ filter, setFilter ] = useState('');
-  const [ region, setRegion ] = useState(null);
-  const [ showInput, setShowInput ] = useState(true);
+  const [ showInput, setShowInput ] = useState(false);
 
   const { payload, error } = useFetch(
-    IM_QUERY_URL + filter,
+    IM_QUERY_URL + filter + '&rf=0',
     null,
     'GET',
     [filter],
@@ -18,7 +17,7 @@ export default function FilterModal(){
   );
 
   const onClickRegion = (code, name) => {
-    setRegion({code, name});
+    setRegionFilter({code, name});
     setInput('');
     setFilter('');
     setShowInput(false);
@@ -34,10 +33,10 @@ export default function FilterModal(){
     <S.Modal>
       <S.FilterTitle>
         지역필터
-        <S.Reset onClick={() => {setRegion(null); setShowInput(true);}}><i className="fas fa-redo"></i></S.Reset>
+        <S.Reset onClick={() => {setRegionFilter({ code: 0, name: '전국' });}}><i className="fas fa-redo"></i></S.Reset>
       </S.FilterTitle>
-      {region && <S.Selected>
-        {region.name}
+      {regionFilter && <S.Selected>
+        {regionFilter.name}
         <S.Button onClick={() => setShowInput(true)}>변경</S.Button>
       </S.Selected>}
       {showInput && <S.Flex>

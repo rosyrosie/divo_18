@@ -25,10 +25,10 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
     id
   );
 
-  const copyString = list => {
+  const copyString = (list, type) => {
     let string = '';
     list?.forEach(keyword => {
-      string = string + `#${keyword.keyword} `;
+      string = string + `#${type === 'keyword' ? keyword[type] : keyword} `;
     });
     return string;
   };
@@ -40,6 +40,8 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
   };
 
   useEffect(() => setOpen(defaultOpen), [boxList]);
+
+  console.log(keywordList);
 
   return (
     <S.Box>
@@ -70,14 +72,15 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
                 ))}
               </S.AreaBox>
               <S.SubTitle>업종 분류</S.SubTitle>
-              <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
+              <CopyToClipboard text={copyString(keywordList.tagList, 'tag')} onCopy={() => alert('클립보드에 복사되었습니다')}>
                 <S.Keywords>
+                  {copyString(keywordList.tagList, 'tag')}
                 </S.Keywords>
               </CopyToClipboard>
               <S.SubTitle>추천 키워드</S.SubTitle>
-              <CopyToClipboard text={copyString(keywordList.keywordList)} onCopy={() => alert('클립보드에 복사되었습니다')}>
+              <CopyToClipboard text={copyString(keywordList.keywordList, 'keyword')} onCopy={() => alert('클립보드에 복사되었습니다')}>
                 <S.Keywords>
-                  {copyString(keywordList.keywordList)}
+                  {copyString(keywordList.keywordList, 'keyword')}
                 </S.Keywords>
               </CopyToClipboard>
             </>
