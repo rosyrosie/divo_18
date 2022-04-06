@@ -158,7 +158,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
     setMarkers(newMarkers);
     polygon.setMap(null);
     tempPolygon.setMap(null);
-  }, [queryList, queryType, query]);
+  }, [queryList, queryType, query, regionFilter]);
 
   const { payload: boundList, error } = useFetch(
     RANK_BS_URL,
@@ -188,7 +188,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
   useEffect(() => {
     if(searchInput === '') setQueryList(null);
     if(searchInput !== '') clearState();
-  }, [searchInput]);
+  }, [searchInput, regionFilter]);
 
   return (
     <>
