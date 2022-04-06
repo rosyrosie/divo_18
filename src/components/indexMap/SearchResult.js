@@ -12,7 +12,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
   const [ regionFilter, setRegionFilter ] = useState({ code: 0, name: '전국' });
   
   const removeSharp = string => {
-    if(string[0] === '#') return string.substring(1);
+    if(string?.[0] === '#') return string.substring(1);
     return string;
   };
 
@@ -65,7 +65,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
     }
   };
   
-  let qType = realQueryType(queryType, searchInput[0]);
+  let qType = realQueryType(queryType, searchInput?.[0]);
 
   const queryResult = queryType => {
     if(!queryList) return null;
