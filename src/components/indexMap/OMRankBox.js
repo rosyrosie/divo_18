@@ -71,18 +71,22 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
                   </S.Arearank>
                 ))}
               </S.AreaBox>
-              <S.SubTitle>업종 분류</S.SubTitle>
-              <CopyToClipboard text={copyString(keywordList.tagList, 'tag')} onCopy={() => alert('클립보드에 복사되었습니다')}>
-                <S.Keywords>
-                  {copyString(keywordList.tagList, 'tag')}
-                </S.Keywords>
-              </CopyToClipboard>
-              <S.SubTitle>추천 키워드</S.SubTitle>
-              <CopyToClipboard text={copyString(keywordList.keywordList, 'keyword')} onCopy={() => alert('클립보드에 복사되었습니다')}>
-                <S.Keywords>
-                  {copyString(keywordList.keywordList, 'keyword')}
-                </S.Keywords>
-              </CopyToClipboard>
+              <details>
+                <S.Summary><S.SubTitle>업종 분류</S.SubTitle></S.Summary>
+                <CopyToClipboard text={copyString(keywordList.tagList, 'tag')} onCopy={() => alert('클립보드에 복사되었습니다')}>
+                  <S.Keywords>
+                    {copyString(keywordList.tagList, 'tag')}
+                  </S.Keywords>
+                </CopyToClipboard>
+              </details>
+              <details>
+                <S.Summary><S.SubTitle>추천 키워드</S.SubTitle></S.Summary>
+                <CopyToClipboard text={copyString(keywordList.keywordList, 'keyword')} onCopy={() => alert('클립보드에 복사되었습니다')}>
+                  <S.Keywords>
+                    {copyString(keywordList.keywordList, 'keyword')}
+                  </S.Keywords>
+                </CopyToClipboard>
+              </details>
             </>
           }
         </> :
@@ -201,7 +205,7 @@ S.Loading = styled.div`
 `;
 
 S.Keywords = styled.div`
-  padding: 22px 0 10px 0;
+  padding: 0 0 10px 0;
   font-size: 12px;
   line-height: 1.5;
   &:hover{
@@ -215,4 +219,15 @@ S.SubTitle = styled.div`
   font-size: 13px;
   font-weight: bold;
   padding-top: 22px;
+`;
+
+S.Summary = styled.summary`
+  &::-webkit-details-marker{
+    display: none;
+  }
+  list-style: none;
+  &:hover{
+    cursor: pointer;
+  }
+  margin-bottom: 22px;
 `;

@@ -3,7 +3,7 @@ import { Line, Bar, Doughnut } from 'react-chartjs-2';
 import styled from 'styled-components';
 import { mapLineOptions, mapBarOptions, regionType, mapPieOptions } from '@constants';
 import { applyStyleToPieChart, applyStyleToMapChart, showPopup, showArea } from '@functions';
-import { IM_PL_URL, IM_KW_URL, IM_RG_URL } from '@api';
+import { IM_PL_URL, IM_KW_URL, IM_RG_URL, IM_CAT_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/Loading';
@@ -12,6 +12,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 export default function RegionContent({ hide, query, setQuery, map, setBoxList, markers, setMarkers, setId, placeOverlay, polygon, tempPolygon }){
   const [ preview, setPreview ] = useState(true);
   const [ areaPreview, setAreaPreview ] = useState(true);
+  const [ catPreview, setCatPreview ] = useState(true);
   const [ showAge, setShowAge ] = useState(false);
   const [ showWeek, setShowWeek ] = useState(false);
   const [ showMonth, setShowMonth ] = useState(false);
@@ -34,6 +35,14 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
 
   const { payload: regionStat, loading: rSLoading, error: rSError } = useFetch(
     IM_RG_URL + query.code,
+    null,
+    'GET',
+    [query],
+    query
+  );
+
+  const { payload: categoryList, loading: cLLoading, error: cLError } = useFetch(
+    IM_CAT_URL + query.code,
     null,
     'GET',
     [query],
@@ -232,6 +241,25 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
                     <S.Ellipsis>{area.keyword}</S.Ellipsis>
                   </S.Flex>
                   <S.Qty>{area.searchAmount.toLocaleString()}</S.Qty>
+                </S.Blur>
+              ))
+            }
+          </S.RankBox>
+        </S.Box>
+        <S.Box>
+          <S.CSubtitle onClick={() => setCatPreview(p => !p)}>
+            주요 업종
+            <i className={"fas fa-angle-" + (catPreview ? "down" : "up")}></i>
+          </S.CSubtitle>
+          <S.RankBox>
+            {cLLoading ? <Loading size={50} /> : 
+              categoryList?.data.slice(0, catPreview ? 5 : 100)?.map((cat, index) => (
+                <S.Blur key={cat}>
+                  <S.Flex>
+                    <S.Rank>{index+1}</S.Rank>
+                    <S.Ellipsis>{cat}</S.Ellipsis>
+                  </S.Flex>
+                  <S.Qty></S.Qty>
                 </S.Blur>
               ))
             }

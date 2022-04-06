@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useFetch } from '@hooks';
-import { IM_KS_URL, IM_RANK_URL } from '@api';
+import { IM_KS_URL, IM_RANK_URL, IM_CAT_URL } from '@api';
 import { Line, Bar } from 'react-chartjs-2';
 import { mapLineOptions, mapBarOptions } from '@constants';
 import { applyStyleToMapChart } from '@functions';
@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, setInput, setSearchInput, setQueryType, clearState, setQueryList }){
   const [ open, setOpen ] = useState(defaultOpen);
   const [ showPlace, setShowPlace ] = useState(false);
+  const [ showCat, setShowCat ] = useState(false);
 
   const deleteFromList = () => setBoxList(list => list.filter(element => element.id !== keyword));
 
@@ -24,6 +25,14 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, 
 
   const { payload: placeList, error: pError } = useFetch(
     IM_RANK_URL + keyword,
+    null,
+    'GET',
+    [keyword],
+    keyword
+  );
+
+  const { payload: categoryList, error: cLError } = useFetch(
+    IM_CAT_URL + keyword,
     null,
     'GET',
     [keyword],
@@ -73,24 +82,52 @@ export default function KeywordBox({ keyword, boxList, setBoxList, defaultOpen, 
             <S.StatName><S.Marker><i className="fas fa-laptop"></i></S.Marker>PC 검색 비율</S.StatName>
             <S.StatNum>{payload?.device}%</S.StatNum>
           </S.Stat> 
-          <S.Stat>
-            <S.StatName><S.Marker><i className="fas fa-user"></i></S.Marker>연령별 검색 비율</S.StatName>
+          <details>
+            <S.Summary>
+              <S.Stat>
+                <S.StatName><S.Marker><i className="fas fa-user"></i></S.Marker>연령별 검색 비율</S.StatName>
+              </S.Stat>
+            </S.Summary>
+            <S.Chart>
+              <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.ages, true, true)} />
+            </S.Chart> 
+          </details>
+          <details>
+            <S.Summary>
+            <S.Stat>
+              <S.StatName><S.Marker><i className="fas fa-calendar-week"></i></S.Marker>요일별 검색 비율</S.StatName>
+            </S.Stat>
+            </S.Summary>  
+            <S.Chart>
+              <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.weekday, true, true)} />
+            </S.Chart> 
+          </details>
+          <details>
+            <S.Summary>
+              <S.Stat>
+                <S.StatName><S.Marker><i className="fas fa-calendar"></i></S.Marker>월별 검색 비율</S.StatName>
+              </S.Stat>
+            </S.Summary>
+            <S.Chart>
+              <Bar options={mapBarOptions('%', true)} data={applyStyleToMapChart(payload?.month, true, true)} />
+            </S.Chart>
+          </details>
+          <S.Border />
+          <S.Stat clickable onClick={() => setShowCat(s => !s)}>
+            <S.StatName>
+              주요 업종
+            </S.StatName>
+            <div><i className={"fas fa-angle-" + (showCat ? 'up' : 'down')}></i></div>
           </S.Stat>
-          <S.Chart>
-            <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.ages, true, true)} />
-          </S.Chart> 
-          <S.Stat>
-            <S.StatName><S.Marker><i className="fas fa-calendar-week"></i></S.Marker>요일별 검색 비율</S.StatName>
-          </S.Stat>
-          <S.Chart>
-            <Bar options={mapBarOptions('%')} data={applyStyleToMapChart(payload?.weekday, true, true)} />
-          </S.Chart> 
-          <S.Stat>
-            <S.StatName><S.Marker><i className="fas fa-calendar"></i></S.Marker>월별 검색 비율</S.StatName>
-          </S.Stat>
-          <S.Chart>
-            <Bar options={mapBarOptions('%', true)} data={applyStyleToMapChart(payload?.month, true, true)} />
-          </S.Chart>
+          {showCat && categoryList?.data?.slice(0, 10)?.map((cat, i) => (
+            <S.Place key={cat}>
+              <S.Flex>
+                <S.Number>{i+1}</S.Number>
+                <S.Ellipsis>{cat}</S.Ellipsis>
+              </S.Flex>
+              <S.Rank></S.Rank>
+            </S.Place>
+          ))}
           <S.Border />
           <S.Stat clickable  onClick={() => setShowPlace(s => !s)}>
             <S.StatName>
@@ -233,4 +270,14 @@ S.Rank = styled.div`
   margin-left: 10px;
   min-width: max-content;
   font-family: 'Montserrat', 'SUIT';
+`;
+
+S.Summary = styled.summary`
+  &::-webkit-details-marker{
+    display: none;
+  }
+  list-style: none;
+  &:hover{
+    cursor: pointer;
+  }
 `;
