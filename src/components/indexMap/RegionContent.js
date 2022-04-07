@@ -254,7 +254,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
           <S.RankBox>
             {cLLoading ? <Loading size={50} /> : 
               categoryList?.data.slice(0, catPreview ? 5 : 100)?.map((cat, index) => (
-                <S.Blur key={cat}>
+                <S.Blur key={cat} onClick={() => setBoxList(list => list.some(e => e.id === cat) ? list : [{type: 'cat', id: cat}, ...list.slice(0, 4)])}>
                   <S.Flex>
                     <S.Rank>{index+1}</S.Rank>
                     <S.Ellipsis>{cat}</S.Ellipsis>

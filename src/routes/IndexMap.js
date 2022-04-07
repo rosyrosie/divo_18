@@ -9,6 +9,7 @@ import KeywordBox from '@/components/indexMap/KeywordBox';
 import { changeZoom, getPlaceOverlay, defaultQuery } from '@constants';
 import { showPopup } from '@functions';
 import SearchBlock from '@/components/indexMap/SearchBlock';
+import CategoryBox from '@/components/indexMap/CategoryBox';
 
 export default function IndexMap(){
   const [ map, showMap ] = useState(null);
@@ -253,6 +254,7 @@ export default function IndexMap(){
         {
           boxList.map((element, i) => (
             element.type === 'kw' ? <KeywordBox keyword={element.id} clearState={clearState} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} setInput={setInput} setSearchInput={setSearchInput} setQueryType={setQueryType} setQueryList={setQueryList} /> :
+            element.type === 'cat' ? <CategoryBox keyword={element.id} key={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} /> :
             <OMRankBox key={element.id} id={element.id} boxList={boxList} setBoxList={setBoxList} defaultOpen={!i} />
           ))
         }

@@ -55,6 +55,7 @@ export const IM_KS_URL = BASE_URL + 'map/bound/keywordstat?keyword=';
 export const IM_QUERY_URL = BASE_URL + 'map/bound/search?query=';
 export const IM_RANK_URL = BASE_URL + 'map/bound/keyword/rank?keyword=';
 export const IM_CAT_URL = BASE_URL + 'map/bound/category/rank?area=';
+export const IM_CS_URL = BASE_URL + 'map/bound/categorystat?keyword=';
 
 export const COMMUNITY_CONTENT_LIST_URL = BASE_URL + "content/list?type=category&cat=";
 export const COMMUNITY_CONTENT_DETAIL_URL = BASE_URL + "content/?content_id=";

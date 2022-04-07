@@ -67,11 +67,11 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
   
   let qType = realQueryType(queryType, searchInput?.[0]);
 
-  const queryResult = queryType => {
+  const queryResult = (queryList, queryType) => {
     if(!queryList) return null;
     switch(queryType){
       case 'place':
-        if(queryList[qType].result.length !== 0){ 
+        if(queryList[qType]?.result.length !== 0){ 
           return queryList[qType]?.result.map(e => (
             <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => onMouseOver(e.code)} onMouseOut={() => onMouseOut(e.code)}>
               <S.Title>
@@ -202,7 +202,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
               <S.Button onClick={() => setQueryType('keyword')} selected={queryType==='keyword'}>상권</S.Button>
               <S.Button onClick={() => setQueryType('place')} selected={queryType==='place'}>점포</S.Button>
             </S.Tab>
-            {queryResult(queryType)}
+            {queryResult(queryList, queryType)}
           </S.Body>
         </>
       }
