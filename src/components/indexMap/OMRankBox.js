@@ -41,8 +41,6 @@ export default function OMRankBox({ id, boxList, setBoxList, defaultOpen }){
 
   useEffect(() => setOpen(defaultOpen), [boxList]);
 
-  console.log(keywordList);
-
   return (
     <S.Box>
       {

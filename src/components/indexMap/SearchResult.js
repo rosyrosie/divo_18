@@ -12,12 +12,13 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
   const [ regionFilter, setRegionFilter ] = useState({ code: 0, name: '전국' });
   
   const removeSharp = string => {
-    if(string?.[0] === '#') return string.substring(1);
+    if(string?.[0] === '#' || string?.[0] === '@') return string.substring(1);
     return string;
   };
 
   const realQueryType = (queryType, key) => {
     if(key === '#' && queryType === 'place') return 'tag';
+    else if(key === '@' && queryType === 'place') return 'influencer';
     return queryType;
   };
 
@@ -43,6 +44,9 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
     else if(queryType === 'keyword'){
       showArea(map, polygon, query, true);
       setBoxList(list => list.some(e => e.id === query.code) ? list : [{type: 'kw', id: query.code}, ...list.slice(0, 4)]);
+    }
+    else if(queryType === 'category'){
+      setBoxList(list => list.some(e => e.id === query) ? list : [{type: 'cat', id: query}, ...list.slice(0, 4)]);
     }
   }
 
@@ -98,6 +102,15 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
           <S.QueryBox onClick={() => onClickQuery(e)} key={e.code} onMouseOver={() => showArea(map, tempPolygon, e)} onMouseOut={() => tempPolygon.setMap(null)}>
             <S.Title>
               {e.name}
+            </S.Title>
+          </S.QueryBox>
+        )) : <S.Empty>검색 결과가 없습니다</S.Empty>;
+
+      case 'category':
+        return queryList[queryType].result.length > 0 ? queryList[queryType].result.map(e => (
+          <S.QueryBox onClick={() => onClickQuery(e)} key={e}>
+            <S.Title>
+              {e}
             </S.Title>
           </S.QueryBox>
         )) : <S.Empty>검색 결과가 없습니다</S.Empty>;
@@ -200,6 +213,7 @@ export default function SearchResult({ query, queryType, setQueryType, queryList
             <S.Tab>
               <S.Button onClick={() => setQueryType('region')} selected={queryType==='region'}>지역</S.Button>
               <S.Button onClick={() => setQueryType('keyword')} selected={queryType==='keyword'}>상권</S.Button>
+              <S.Button onClick={() => setQueryType('category')} selected={queryType==='category'}>업종</S.Button>
               <S.Button onClick={() => setQueryType('place')} selected={queryType==='place'}>점포</S.Button>
             </S.Tab>
             {queryResult(queryList, queryType)}
