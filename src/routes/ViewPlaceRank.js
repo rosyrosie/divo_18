@@ -79,7 +79,7 @@ export default function ViewPlaceRank(){
           <div>
             <S.Select value={sort} onChange={e => setSort(e.target.value)}>
               <option value="rank">노출도 순</option>
-              <option value="searchQty">검색량 순</option>
+              <option value="searchAmount">검색량 순</option>
             </S.Select>
           </div>
         </S.Toggles>
