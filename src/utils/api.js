@@ -71,3 +71,5 @@ export const COMMUNITY_MYPROFILE_URL = BASE_URL + "content/list?type=";
 export const COMMUNITY_SEARCH_TITLE_URL = BASE_URL + "content/list?type=searched&criteria=title&query=";
 export const COMMUNITY_COMMENT_WRITER_URL = BASE_URL + "auth/userinfo/";
 export const COMMUNITY_REPLY_DELETE_URL = BASE_URL + "content/comment/reply/?reply_comment_id=";
+
+export const SYS_GET_REG_URL = BASE_URL + 'map/bound/region/subset?id=';
