@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from 'styled-components';
-import { SYS_GET_REG_URL } from "@api";
-import { useFetch } from "@hooks";
 import LegalArea from "@/components/system/LegalArea";
+import KeywordArea from "@/components/system/KeywordArea";
 
 export default function System(){
   const [ regionType, setRegionType ] = useState('legal');
@@ -23,31 +22,30 @@ export default function System(){
       {regionType==='legal' ? 
         <LegalArea codeList={codeList} setCodeList={setCodeList} />
       : 
-        <S.Flex>
-          <input placeholder="키워드 상권 검색"/>
-        </S.Flex>
+        <KeywordArea />
       }
+      <S.Submit>상권 분석</S.Submit>
     </>
   );
 }
 
 const S = {};
 
-S.Label = styled.label`
-  margin: 5px 0;
-`;
-
-S.RegionList = styled.div`
-  display: flex;
-  max-height: 300px;
-  flex-flow: column;
-  overflow-y: auto;
-`;
-
 S.Toggle = styled.div`
   margin: 0 auto;
   padding: 20px 0;
   display: flex;
+`;
+
+S.Submit = styled.button`
+  width: 100px;
+  margin: 20px auto 0 auto;
+  padding: 10px 0;
+  border-radius: 20px;
+  background: #06c;
+  color: #f5f5f7;
+  border: none;
+  cursor: pointer;
 `;
 
 S.Button = styled.div`
@@ -61,32 +59,4 @@ S.Button = styled.div`
     border-bottom: 1.5px solid;
   `}
   cursor: pointer;
-`;
-
-S.Flex = styled.div`
-  display: flex;
-  width: 60%;
-  max-width: 1200px;
-  margin: 0 auto;
-  justify-content: center;
-`;
-
-S.CheckBox = styled.div`
-  display: flex;
-  flex-flow: column;
-  flex: 1;
-  padding: 0 10px;
-`;
-
-S.Title = styled.div`
-  margin: 10px 0;
-  padding: 10px 0;
-  font-weight: bold;
-  color: #1d1d1f;
-  border-right: 1px solid #d2d2d7;
-`;
-
-S.Region = styled.span`
-  margin-left: 5px;
-  font-size: 14px;
 `;
