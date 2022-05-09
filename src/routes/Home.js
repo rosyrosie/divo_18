@@ -9,35 +9,7 @@ export default function Home(){
         <S.Title>당신의 매장을 책임질</S.Title>
         <S.Title>단 하나의 솔루션</S.Title>
         <S.SubTitle onClick={() => navigate('index-map')}>매출 관리부터 마케팅까지</S.SubTitle>
-        <S.Down><i className="fas fa-chevron-down"></i></S.Down>
       </S.Box>
-      <S.ImgBox>
-        <S.Flex>
-          <S.TextBox flex={2} color={['#2a3142', '#f5f5f7']}>
-            <S.Text>매일매일,</S.Text>
-            <S.Text>내 점포를 한 눈에</S.Text>
-            <S.RowBlank />
-            <S.SubText size={28}>마케팅 진단부터</S.SubText>
-            <S.SubText size={28}>매출 요인 분석까지</S.SubText>
-          </S.TextBox>
-          <S.ColBlank />
-          <S.TextBox flex={1} color={['#f5f5f7', '#1d1d1f']}>
-            <S.Text>이 가게,</S.Text>
-            <S.Text>차려도 될까?</S.Text>
-            <S.RowBlank />
-            <S.SubText size={28}>트렌드 예측부터</S.SubText>
-            <S.SubText size={28}>수명주기 진단까지</S.SubText>
-          </S.TextBox>
-        </S.Flex>
-        <S.RowBlank />
-        <S.TextBox flex={1} color={['rgba(0, 0, 0, 0.7)', '#f5f5f7']}>
-          <S.Text>내 매장은</S.Text>
-          <S.Text>전국 몇 등일까?</S.Text>
-          <S.RowBlank />
-          <S.SubText size={28}>키워드 빅데이터 기반</S.SubText>
-          <S.SubText size={28}>전국 음식점 랭킹</S.SubText>
-        </S.TextBox>
-      </S.ImgBox>
     </S.Content>
   );
 }
@@ -58,7 +30,7 @@ S.Box = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  padding: 280px 0;
+  height: 100%;
   position: relative;
   position: sticky;
   top: 48px;

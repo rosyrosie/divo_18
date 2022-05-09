@@ -22,11 +22,11 @@ import CommunitySearch from "./components/community/Search";
 import ViewPlaceRank from "@/routes/ViewPlaceRank";
 import FindIdPw from "@/routes/FindIdPw";
 import KeywordScore from "@/routes/KeywordScore";
-import Inspection from "@/components/errorPage/Inspection";
 import LoginRequired from "@/components/errorPage/LoginRequired";
 import CorpRequired from "@/components/errorPage/CorpRequired";
 import NoAccess from "@/components/errorPage/NoAccess";
 import IndexMap from "@/routes/IndexMap";
+import System from "@/routes/System";
 
 export default function App(){
 
@@ -75,6 +75,7 @@ export default function App(){
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
         { path: '/cid=:corpId/index-map', element: <IndexMap /> },
+        { path: '/cid=:corpId/system', element: <System /> },
         { 
           path: '/cid=:corpId/community',
           element: <Community />,
