@@ -68,7 +68,7 @@ export default function System(){
             <S.Title>전국</S.Title>
             <S.RegionList>
               <S.Label>
-                <input type="checkbox" value={'0'} checked={!(codeList.ctp.length || codeList.sig.length || codeList.emd.length)} />
+                <input type="checkbox" value={'0'} checked={!(codeList.ctp.length)} />
                 <S.Region>전국</S.Region>
               </S.Label>
             </S.RegionList>
