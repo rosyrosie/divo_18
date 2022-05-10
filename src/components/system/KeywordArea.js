@@ -3,10 +3,9 @@ import styled from "styled-components";
 import { useFetch } from "@hooks";
 import { IM_QUERY_URL } from "@api";
 
-export default function KeywordArea(){
+export default function KeywordArea({ keywordList, setKeywordList }){
   const [ input, setInput ] = useState('');
   const [ query, setQuery ] = useState('');
-  const [ keywordList, setKeywordList ] = useState([]);
   const { payload: searchResult } = useFetch(
     IM_QUERY_URL + query + '&rf=0',
     null,

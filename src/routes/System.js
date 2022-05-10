@@ -2,6 +2,10 @@ import { useState } from "react";
 import styled from 'styled-components';
 import LegalArea from "@/components/system/LegalArea";
 import KeywordArea from "@/components/system/KeywordArea";
+import Table from "@/components/system/Table";
+import { sampleData } from "@constants";
+import { IM_RG_URL } from "@api";
+import { useFetch } from "@hooks";
 
 export default function System(){
   const [ regionType, setRegionType ] = useState('legal');
@@ -10,11 +14,29 @@ export default function System(){
     sig: [],
     emd: []
   });
+  const [ tableInput, setTableInput ] = useState(['0']);
+  const [ keywordList, setKeywordList ] = useState([]);
 
-  const dataInput = codeList.emd.length ? codeList.emd : codeList.sig.length ? codeList.sig : codeList.ctp.length ? codeList.ctp : ['0'];
+  const onSubmit = () => {
+    const legalInput = codeList.emd.length ? codeList.emd : codeList.sig.length ? codeList.sig : codeList.ctp.length ? codeList.ctp : ['0'];
+    setTableInput(regionType === 'legal' ? legalInput : keywordList);
+  };
+
+  const { payload: tableData } = useFetch(
+    IM_RG_URL + '0',
+    {
+      regionCodes: tableInput
+    },
+    'POST',
+    [tableInput],
+    tableInput.length
+  );
 
   return (
     <>
+      <S.Table>
+        {tableData && <Table data={tableData.data} />}
+      </S.Table>
       <S.Toggle>
         <S.Button selected={regionType === 'legal'} onClick={() => setRegionType('legal')}>행정구역</S.Button>
         <S.Button selected={regionType === 'keyword'} onClick={() => setRegionType('keyword')}>키워드상권</S.Button>
@@ -22,14 +44,18 @@ export default function System(){
       {regionType==='legal' ? 
         <LegalArea codeList={codeList} setCodeList={setCodeList} />
       : 
-        <KeywordArea />
+        <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />
       }
-      <S.Submit>상권 분석</S.Submit>
+      <S.Submit onClick={onSubmit}>상권 분석</S.Submit>
     </>
   );
 }
 
 const S = {};
+
+S.Table = styled.div`
+  margin: 20px auto 0 auto;
+`;
 
 S.Toggle = styled.div`
   margin: 0 auto;
@@ -39,7 +65,7 @@ S.Toggle = styled.div`
 
 S.Submit = styled.button`
   width: 100px;
-  margin: 20px auto 0 auto;
+  margin: 20px auto;
   padding: 10px 0;
   border-radius: 20px;
   background: #06c;
