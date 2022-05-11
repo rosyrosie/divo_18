@@ -6,7 +6,7 @@ export default function Home(){
   return (
     <S.Content>
       <S.Box>
-        <S.Title>당신의 매장을 책임질</S.Title>
+        <S.Title onClick={() => navigate('system')}>당신의 매장을 책임질</S.Title>
         <S.Title>단 하나의 솔루션</S.Title>
         <S.SubTitle onClick={() => navigate('index-map')}>매출 관리부터 마케팅까지</S.SubTitle>
       </S.Box>

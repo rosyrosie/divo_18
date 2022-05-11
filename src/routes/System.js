@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import LegalArea from "@/components/system/LegalArea";
 import KeywordArea from "@/components/system/KeywordArea";
 import Table from "@/components/system/Table";
-import { sampleData } from "@constants";
 import { IM_RG_URL } from "@api";
 import { useFetch } from "@hooks";
 
@@ -16,6 +15,10 @@ export default function System(){
   });
   const [ tableInput, setTableInput ] = useState(['0']);
   const [ keywordList, setKeywordList ] = useState([]);
+  const [ startDate, setStartDate ] = useState('2021-05-01');
+  const [ endDate, setEndDate ] = useState('2022-05-01');
+
+  const [ popupCode, setPopupCode ] = useState(null);
 
   const onSubmit = () => {
     const legalInput = codeList.emd.length ? codeList.emd : codeList.sig.length ? codeList.sig : codeList.ctp.length ? codeList.ctp : ['0'];
@@ -41,6 +44,11 @@ export default function System(){
         <S.Button selected={regionType === 'legal'} onClick={() => setRegionType('legal')}>행정구역</S.Button>
         <S.Button selected={regionType === 'keyword'} onClick={() => setRegionType('keyword')}>키워드상권</S.Button>
       </S.Toggle>
+      <S.DateRange>
+        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+        {'~'}
+        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+      </S.DateRange>
       {regionType==='legal' ? 
         <LegalArea codeList={codeList} setCodeList={setCodeList} />
       : 
@@ -52,6 +60,14 @@ export default function System(){
 }
 
 const S = {};
+
+S.DateRange = styled.div`
+  display: flex;
+  margin: 5px auto 20px auto;
+  width: 60%;
+  max-width: 1200px;
+  justify-content: right;
+`;
 
 S.Table = styled.div`
   margin: 20px auto 0 auto;

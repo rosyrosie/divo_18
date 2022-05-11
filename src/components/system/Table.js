@@ -73,14 +73,14 @@ export default function Table({ data }){
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {'>>'}
         </button>{'  '}
-        <span>
+        <S.Page>
           <strong>
             {pageIndex + 1} / {pageOptions.length} 페이지
           </strong>{' '}
-        </span>
+        </S.Page>
         <span>
           | {' '}
-          <input
+          <S.PageInput
             type="number"
             defaultValue={pageIndex + 1}
             onChange={e => {
@@ -109,14 +109,22 @@ export default function Table({ data }){
 
 const S = {};
 
+S.PageInput = styled.input`
+  width: 50px;
+`;
+
+S.Page = styled.span`
+  margin: 0 10px;
+`;
+
 S.Table = styled.div`
   padding: 1rem;
 
-  font-size: 14px;
+  font-size: 12px;
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
+    border: 1px solid #515154;
 
     tr {
       :last-child {
@@ -134,8 +142,8 @@ S.Table = styled.div`
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 1px solid #515154;
+      border-right: 1px solid #515154;
 
       :last-child {
         border-right: 0;
