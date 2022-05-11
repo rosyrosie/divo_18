@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import LegalArea from "@/components/system/LegalArea";
 import KeywordArea from "@/components/system/KeywordArea";
 import Table from "@/components/system/Table";
+import Loading from "@/components/Loading";
 import { IM_RG_URL } from "@api";
 import { useFetch } from "@hooks";
 
@@ -25,20 +26,22 @@ export default function System(){
     setTableInput(regionType === 'legal' ? legalInput : keywordList);
   };
 
-  const { payload: tableData } = useFetch(
+  const { payload: tableData, loading: tableLoading } = useFetch(
     IM_RG_URL + '0',
     {
-      regionCodes: tableInput
+      regionCodes: tableInput,
+      startDate,
+      endDate
     },
     'POST',
-    [tableInput],
+    [tableInput, startDate, endDate],
     tableInput.length
   );
 
   return (
     <>
       <S.Table>
-        {tableData && <Table data={tableData.data} />}
+        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table data={tableData.data} setPopupCode={setPopupCode} />}
       </S.Table>
       <S.Toggle>
         <S.Button selected={regionType === 'legal'} onClick={() => setRegionType('legal')}>행정구역</S.Button>
@@ -67,6 +70,10 @@ S.DateRange = styled.div`
   width: 60%;
   max-width: 1200px;
   justify-content: right;
+`;
+
+S.Loading = styled.div`
+  margin: 20px 0;
 `;
 
 S.Table = styled.div`
