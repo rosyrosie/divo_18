@@ -1276,3 +1276,83 @@ export const csvHeader = [
     key: 'dec'
   }
 ];
+
+export const detailCols = [
+  {
+    Header: '순위',
+    accessor: 'rank'
+  },
+  {
+    Header: '상권',
+    accessor: 'area'
+  },
+  {
+    Header: '업종',
+    accessor: 'type'
+  },
+  {
+    Header: '점포',
+    accessor: 'restaurant'
+  }
+];
+
+export const searchQtyCols = [
+  {
+    Header: '기간',
+    accessor: 'date'
+  },
+  {
+    Header: '검색량',
+    accessor: 'searchQty'
+  }
+];
+
+export const qtyData = [
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+  {
+    date: '2022-01-01',
+    searchQty: 123
+  },
+]
+
+export const detailRankCsvHeader = [
+  {
+    label: '순위',
+    key: 'rank'
+  },
+  {
+    label: '상권',
+    key: 'area'
+  },
+  {
+    label: '업종',
+    key: 'type'
+  },
+  {
+    label: '점포',
+    key: 'restaurant'
+  }
+];

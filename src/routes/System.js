@@ -4,8 +4,10 @@ import LegalArea from "@/components/system/LegalArea";
 import KeywordArea from "@/components/system/KeywordArea";
 import Table from "@/components/system/Table";
 import Loading from "@/components/Loading";
-import { IM_RG_URL } from "@api";
+import { IM_RG_URL, SYS_KW_RANK_URL } from "@api";
 import { useFetch } from "@hooks";
+import DetailPopup from "@/components/system/DetailPopup";
+import { systemCols } from "@constants";
 
 export default function System(){
   const [ regionType, setRegionType ] = useState('legal');
@@ -29,7 +31,7 @@ export default function System(){
   const { payload: tableData, loading: tableLoading } = useFetch(
     IM_RG_URL + '0',
     {
-      regionCodes: tableInput,
+      [regionType === 'legal' ? 'regionCodes' : 'keywords']: tableInput,
       startDate,
       endDate
     },
@@ -41,7 +43,7 @@ export default function System(){
   return (
     <>
       <S.Table>
-        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table data={tableData.data} setPopupCode={setPopupCode} />}
+        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={systemCols} data={tableData.data} setPopupCode={setPopupCode} />}
       </S.Table>
       <S.Toggle>
         <S.Button selected={regionType === 'legal'} onClick={() => setRegionType('legal')}>행정구역</S.Button>
@@ -58,6 +60,7 @@ export default function System(){
         <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />
       }
       <S.Submit onClick={onSubmit}>상권 분석</S.Submit>
+      {popupCode && <DetailPopup popupCode={popupCode} setPopupCode={setPopupCode} />}
     </>
   );
 }

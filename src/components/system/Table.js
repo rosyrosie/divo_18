@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import { usePagination, useSortBy, useTable } from "react-table";
 import styled from 'styled-components';
-import { systemCols, csvHeader } from "@constants";
+import { csvHeader } from "@constants";
 import { CSVLink } from "react-csv";
 
-export default function Table({ data, setPopupCode }){
+export default function Table({ column, data, csvHeaders = csvHeader, setPopupCode = () => {} }){
   const columns = useMemo(
-    () => systemCols
+    () => column
   );
 
   const {
@@ -109,7 +109,7 @@ export default function Table({ data, setPopupCode }){
             ))}
           </select>
         </div>
-        <CSVLink data={data} headers={csvHeader} filename={"상권통계.csv"}><button>CSV 다운받기</button></CSVLink>
+        <CSVLink data={data} headers={csvHeaders} filename={"상권통계.csv"}><button>CSV 다운받기</button></CSVLink>
       </S.BottomBar>
      
     </S.Table>
@@ -133,13 +133,12 @@ S.Page = styled.span`
 `;
 
 S.Table = styled.div`
-  padding: 1rem;
-
   font-size: 12px;
 
   table {
     border-spacing: 0;
     border: 1px solid #515154;
+    width: 100%;
 
     tr {
       :last-child {
