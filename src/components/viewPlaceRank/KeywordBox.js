@@ -76,7 +76,7 @@ S.Fit = styled.div`
 
 S.Rank = styled.div`
   font-weight: 600;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 28px;
   margin-top: 30px;
   display: flex;

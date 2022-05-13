@@ -20,7 +20,7 @@ ChartJS.register(
   Legend,
 );
 
-ChartJS.defaults.font.family = 'SUIT';
+ChartJS.defaults.font.family = 'Pretendard';
 ChartJS.defaults.plugins.legend.labels.usePointStyle = true;
 
 export default function Layout({ sticky = false }){

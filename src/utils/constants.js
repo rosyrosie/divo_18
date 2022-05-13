@@ -974,7 +974,7 @@ export const getPlaceOverlay = place => {
         방문자 리뷰 ${place.visitorReviewNum}개
       </div>
       <div style="display: flex; justify-content: space-between; align-items: end;">
-        <div style="font-family: 'Montserrat', 'SUIT'; font-weight: bold; font-size: 18px;">
+        <div style="font-family: 'Montserrat', 'Pretendard'; font-weight: bold; font-size: 18px;">
           ${place.rank}위<span style="font-size: 12px;">(상위 ${place.ratio}%)</span>
         </div>
         <div style="font-size: 12px; color: #3166a1;" id="show-detail"><i class="fas fa-external-link-alt"></i></div>

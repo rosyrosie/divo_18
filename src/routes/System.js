@@ -93,7 +93,7 @@ S.Submit = styled.button`
   width: 100px;
   margin: 20px auto;
   padding: 10px 0;
-  border-radius: 20px;
+  border-radius: 5px;
   background: #06c;
   color: #f5f5f7;
   border: none;

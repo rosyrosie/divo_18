@@ -154,7 +154,7 @@ S.Rank = styled.div`
   justify-content: center;
   font-size: 20px;
   font-weight: 600;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   margin-top: 10px;
 `;
 
@@ -195,7 +195,7 @@ S.Area = styled.div`
 `;
 
 S.Stat = styled.div`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
 `;
 
 S.Loading = styled.div`

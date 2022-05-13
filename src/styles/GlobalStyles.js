@@ -5,10 +5,10 @@ const GlobalStyles = createGlobalStyle`
   ${reset}
   *{
     box-sizing: border-box;
-    font-family: 'SUIT';
+    font-family: 'Pretendard';
   }
   html, body, #root{
-    font-family: 'SUIT' !important;
+    font-family: 'Pretendard' !important;
     -webkit-user-select: none; 
     -moz-user-select: none;
     -ms-user-select: none;
@@ -33,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
     border-radius: 6px;
   }
   .toastui-editor-contents{
-    font-family: 'SUIT';
+    font-family: 'Pretendard';
     font-size: 14px;
   }
   .toastui-editor-contents *{

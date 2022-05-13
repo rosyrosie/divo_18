@@ -166,7 +166,7 @@ S.StatName = styled.div`
 `;
 
 S.StatNum = styled.div`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
 `;
 
 S.Marker = styled.div`
@@ -206,7 +206,7 @@ S.Flex = styled.div`
 S.Rank = styled.div`
   margin-left: 10px;
   min-width: max-content;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
 `;
 
 S.Summary = styled.summary`

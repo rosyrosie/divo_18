@@ -407,7 +407,7 @@ S.Comment = styled.div`
   font-size: 14px;
   display: flex;
   align-items: center;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   margin-bottom: 16px;
   justify-content: space-between;
   ${props => props.clickable && '&:hover{cursor:pointer;}'}
@@ -452,7 +452,7 @@ S.Blur = styled.div`
 `;
 
 S.Qty = styled.span`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 13px;
   min-width: max-content;
   flex-shrink: 0;

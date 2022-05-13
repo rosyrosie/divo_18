@@ -163,7 +163,7 @@ S.Menu = styled.div`
 `;
 
 S.Logo = styled(S.Menu)`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 17px;
   font-weight: bold;
   display: flex;

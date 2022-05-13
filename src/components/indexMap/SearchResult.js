@@ -320,7 +320,7 @@ S.Title = styled.div`
 
 S.Rank = styled.div`
   font-weight: normal;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 12px;
   flex-shrink: 0;
 `;

@@ -150,7 +150,7 @@ S.Stat = styled.div`
   justify-content: center;
   font-weight: 500;
   ${props => props.isTitle ? 'font-size: 24px; font-weight: normal;' : 'font-size: 36px;'}
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
 `;
 
 S.Menu = styled.div`

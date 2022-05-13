@@ -155,7 +155,7 @@ S.InfoRatio = styled.div`
 S.InfoRank = styled.div`
   display: flex;
   justify-content: center;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   margin: 10px 0;
   font-size: 32px;
   font-weight: bold;
@@ -164,7 +164,7 @@ S.InfoRank = styled.div`
 S.InfoDelta = styled.div`
   display: flex;
   justify-content: center;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 14px;
   color: ${props => props.color};
   padding-bottom: 30px;

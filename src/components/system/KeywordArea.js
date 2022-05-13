@@ -14,10 +14,16 @@ export default function KeywordArea({ keywordList, setKeywordList }){
     query
   );
 
+  const onKeyPress = e => {
+    if(e.key === 'Enter'){
+      setQuery(input);
+    }
+  }
+
   return (
     <S.Flex>
       <S.Search>
-        <S.Input placeholder="상권 키워드 입력" value={input} onChange={e => setInput(e.target.value)} />
+        <S.Input placeholder="상권 키워드 입력" value={input} onChange={e => setInput(e.target.value)} onKeyPress={onKeyPress} />
         <S.Button onClick={() => setQuery(input)}><i className="fas fa-search"></i></S.Button>
       </S.Search>
       <S.Result>

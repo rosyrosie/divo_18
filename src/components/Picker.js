@@ -74,12 +74,12 @@ S.CalStyle = styled.div`
   }
 
   .rdrMonthPicker select, .rdrMonthPicker select option{
-    font-family: 'SUIT';
+    font-family: 'Pretendard';
     color: #1d1d1f;
   }
 
   .rdrYearPicker select, .rdrYearPicker select option{
-    font-family: 'SUIT';
+    font-family: 'Pretendard';
     color: #1d1d1f;
   }
 

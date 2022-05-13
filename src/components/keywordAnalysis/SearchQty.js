@@ -257,7 +257,7 @@ S.Stat = styled.div`
   font-size: 36px;
   font-weight: 600;
   margin-bottom: 40px;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   display: flex;
   ${props => props.isWhite ? 'margin: 0;' : ''}
   color: #1d1d1f;
@@ -270,7 +270,7 @@ S.Compare = styled.div`
   color: #515154;
   margin-bottom: 10px;
   align-items: center;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
 `;
 
 S.Delta = styled.div`
@@ -281,7 +281,7 @@ S.Delta = styled.div`
 `;
 
 S.Scale = styled.div`
-  font-family: 'SUIT';
+  font-family: 'Pretendard';
   font-size: 20px;
   padding-bottom: 5px;
   padding-left: 5px;

@@ -82,7 +82,7 @@ S.Input = styled.input`
 `;
 
 S.Logo = styled.div`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-size: 17px;
   font-weight: bold;
 `;

@@ -99,7 +99,7 @@ S.Sales = styled.div`
   margin: 30px 0 15px 0;
   font-size: 24px;
   font-weight: bold;
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   color: #1d1d1f;
 `;
 
@@ -110,7 +110,7 @@ S.Compare = styled.div`
 `;
 
 S.Delta = styled.div`
-  font-family: 'Montserrat', 'SUIT';
+  font-family: 'Montserrat', 'Pretendard';
   font-weight: 400;
   margin-left: 5px;
   font-weight: 600;

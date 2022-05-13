@@ -134,6 +134,7 @@ S.Page = styled.span`
 
 S.Table = styled.div`
   font-size: 12px;
+  overflow-y: auto;
 
   table {
     border-spacing: 0;
