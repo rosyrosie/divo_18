@@ -54,8 +54,14 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
+                  console.log(cell);
                   return (
-                    <td {...cell.getCellProps()} onClick={() => {cell.column.id === 'region' && setPopupCode(cell.row.original.regionCode || cell.row.original.region)}}>
+                    <td {...cell.getCellProps()} onClick={
+                      () => {
+                        if(cell.column.id === 'region') setPopupCode(cell.row.original.regionCode || cell.row.original.region);
+                        if(cell.column.id === 'restaurant') window.open(cell.row.original.url);
+                      }
+                    }>
                       {cell.render('Cell')}
                     </td>
                   )
