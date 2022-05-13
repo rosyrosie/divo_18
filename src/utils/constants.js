@@ -1278,22 +1278,38 @@ export const csvHeader = [
 ];
 
 export const detailCols = [
-  {
-    Header: '순위',
-    accessor: 'rank'
-  },
-  {
-    Header: '상권',
-    accessor: 'area'
-  },
-  {
-    Header: '업종',
-    accessor: 'type'
-  },
-  {
-    Header: '점포',
-    accessor: 'restaurant'
-  }
+  [
+    {
+      Header: '순위',
+      accessor: 'rank'
+    },
+    {
+      Header: '업종',
+      accessor: 'type'
+    },
+    {
+      Header: '점포',
+      accessor: 'restaurant'
+    }
+  ],
+  [
+    {
+      Header: '순위',
+      accessor: 'rank'
+    },
+    {
+      Header: '상권',
+      accessor: 'area'
+    },
+    {
+      Header: '업종',
+      accessor: 'type'
+    },
+    {
+      Header: '점포',
+      accessor: 'restaurant'
+    }
+  ]
 ];
 
 export const searchQtyCols = [

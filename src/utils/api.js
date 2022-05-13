@@ -73,5 +73,6 @@ export const COMMUNITY_COMMENT_WRITER_URL = BASE_URL + "auth/userinfo/";
 export const COMMUNITY_REPLY_DELETE_URL = BASE_URL + "content/comment/reply/?reply_comment_id=";
 
 export const SYS_GET_REG_URL = BASE_URL + 'map/bound/region/subset?id=';
-export const SYS_DETAIL_URL = BASE_URL + 'map/bound/system/section/rank/region?regionCode=';
+export const SYS_DETAIL_URL = BASE_URL + 'map/bound/system/section/rank/region?area=';
 export const SYS_KW_RANK_URL = BASE_URL + 'map/bound/system/keyword/rank';
+export const SYS_QTY_URL = BASE_URL + 'map/bound/system/amount?area=';

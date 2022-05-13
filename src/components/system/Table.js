@@ -36,13 +36,13 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
               {headerGroup.headers.map(column => (
                 <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                   {column.render('Header')}
-                  <span>
+                  <S.Sort>
                     {column.isSorted
                       ? column.isSortedDesc
-                        ? ' 🔽'
-                        : ' 🔼'
+                        ? <i className="fas fa-sort-down"></i>
+                        : <i className="fas fa-sort-up"></i>
                       : ''}
-                  </span>
+                  </S.Sort>
                 </th>
               ))}
             </tr>
@@ -55,7 +55,7 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td {...cell.getCellProps()} onClick={() => {cell.column.id === 'region' && setPopupCode(cell.row.original.regionCode)}}>
+                    <td {...cell.getCellProps()} onClick={() => {cell.column.id === 'region' && setPopupCode(cell.row.original.regionCode || cell.row.original.region)}}>
                       {cell.render('Cell')}
                     </td>
                   )
@@ -118,6 +118,10 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
 
 const S = {};
 
+S.Sort = styled.span`
+  margin-left: 5px;
+`;
+
 S.BottomBar = styled.div`
   display: flex;
   justify-content: space-between;
@@ -138,7 +142,6 @@ S.Table = styled.div`
 
   table {
     border-spacing: 0;
-    border: 1px solid #515154;
     width: 100%;
 
     tr {
@@ -149,20 +152,22 @@ S.Table = styled.div`
       }
     }
 
-    tbody{
-      text-align: right;
-    }
-
     th,
     td {
       margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid #515154;
-      border-right: 1px solid #515154;
+      padding: 0.5rem 0.7rem;
+      border-bottom: 1px solid #d2d2d7;
+    }
 
-      :last-child {
-        border-right: 0;
-      }
+    thead{
+      color: #1d1d1f;
+      font-weight: bold;
+      background: #f5f5f7;
+    }
+
+    td{
+      color: #515154;
+      font-weight: 500;
     }
   }
 `;

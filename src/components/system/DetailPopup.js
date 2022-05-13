@@ -2,12 +2,20 @@ import styled from "styled-components";
 import { detailCols, searchQtyCols, qtyData, detailRankCsvHeader } from "@constants";
 import Table from "@/components/system/Table";
 import { useFetch } from "@hooks";
-import { SYS_DETAIL_URL } from "@api";
+import { SYS_DETAIL_URL, SYS_QTY_URL } from "@api";
 import Loading from "@/components/Loading";
 
 export default function DetailPopup({ popupCode, setPopupCode }){
   const { payload, loading } = useFetch(
     SYS_DETAIL_URL + popupCode,
+    null,
+    'GET',
+    [popupCode],
+    popupCode
+  );
+
+  const { payload: searchQty, loading: qLoading } = useFetch(
+    SYS_QTY_URL + popupCode,
     null,
     'GET',
     [popupCode],
@@ -23,11 +31,11 @@ export default function DetailPopup({ popupCode, setPopupCode }){
       <S.Tables>
         <S.TableBox wide>
           <S.SubTitle>주요 상권·지역·업종·점포</S.SubTitle>
-          {loading ? <Loading /> : <Table column={detailCols} data={payload?.data} csvHeaders={detailRankCsvHeader} />}
+          {loading ? <Loading /> : <Table column={detailCols[payload?.data[0].area ? 1 : 0]} data={payload?.data} csvHeaders={detailRankCsvHeader} />}
         </S.TableBox>
         <S.TableBox>
           <S.SubTitle>고객관심도</S.SubTitle>
-          <Table column={searchQtyCols} data={qtyData} />
+          {qLoading ? <Loading /> : <Table column={searchQtyCols} data={searchQty?.data} />}
         </S.TableBox>
       </S.Tables>
     </S.Popup>
