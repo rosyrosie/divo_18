@@ -1008,7 +1008,7 @@ export const systemCols = [
     accessor: 'region'
   },
   {
-    Header: '고객관심도',
+    Header: '외식소비의도',
     accessor: 'searchQty'
   },
   {
@@ -1160,7 +1160,7 @@ export const csvHeader = [
     key: 'region'
   },
   {
-    label: '고객관심도',
+    label: '외식소비의도',
     key: 'searchQty'
   },
   {

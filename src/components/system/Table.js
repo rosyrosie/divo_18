@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { csvHeader } from "@constants";
 import { CSVLink } from "react-csv";
 
-export default function Table({ column, data, csvHeaders = csvHeader, setPopupCode = () => {} }){
+export default function Table({ column, data, csvHeaders = csvHeader, setPopupCode = () => {}, csvTitle = "상권통계" }){
   const columns = useMemo(
     () => column
   );
@@ -115,7 +115,7 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
             ))}
           </select>
         </div>
-        <CSVLink data={data} headers={csvHeaders} filename={"상권통계.csv"}><button>CSV 다운받기</button></CSVLink>
+        <CSVLink data={data} headers={csvHeaders} filename={csvTitle}><button>CSV 다운받기</button></CSVLink>
       </S.BottomBar>
      
     </S.Table>

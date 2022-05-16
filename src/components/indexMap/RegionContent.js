@@ -144,7 +144,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
         <S.Box>
           {rSLoading ? <Loading size={50} /> : 
           <>
-            <S.Subtitle>소비자 관심도</S.Subtitle>
+            <S.Subtitle>외식소비의도</S.Subtitle>
             <S.Chart>
               {regionStat && <Line options={mapLineOptions()} data={applyStyleToMapChart(regionStat?.data.searchAmountGraph)} />}
             </S.Chart>
@@ -158,21 +158,21 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
             <S.Comment>
               <S.Flex>
                 <S.Icon><i className="fas fa-venus-mars"></i></S.Icon>
-                남성 관심도 비율
+                남성 비율
               </S.Flex>
               {regionStat?.data.genderGraph?.[0]}%
             </S.Comment>
             <S.Comment>
               <S.Flex>
                 <S.Icon><i className="fas fa-laptop"></i></S.Icon>
-                PC 관심도 비율
+                PC 비율
               </S.Flex>
               {regionStat?.data.deviceGraph?.[0]}%
             </S.Comment>
             <S.Comment clickable onClick={() => setShowAge(s => !s)}>
               <S.Flex>
                 <S.Icon><i className="fas fa-user"></i></S.Icon>
-                연령별 관심도 비율
+                연령별 비율
               </S.Flex>
               <i className={"fas fa-angle-" + (!showAge ? "down" : "up")}></i>
             </S.Comment>
@@ -185,7 +185,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
             <S.Comment clickable onClick={() => setShowWeek(s => !s)}>
               <S.Flex>
                 <S.Icon><i className="fas fa-calendar-week"></i></S.Icon>
-                요일별 관심도 비율
+                요일별 비율
               </S.Flex>
               <i className={"fas fa-angle-" + (!showWeek ? "down" : "up")}></i>
             </S.Comment>
@@ -198,7 +198,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
             <S.Comment clickable onClick={() => setShowMonth(s => !s)}>
               <S.Flex>
                 <S.Icon><i className="fas fa-calendar"></i></S.Icon>
-                월별 관심도 비율
+                월별 비율
               </S.Flex>
               <i className={"fas fa-angle-" + (!showMonth ? "down" : "up")}></i>
             </S.Comment>
@@ -213,7 +213,7 @@ export default function RegionContent({ hide, query, setQuery, map, setBoxList, 
                 <S.Comment clickable onClick={() => setShowSubRegion(s => !s)}>
                   <S.Flex>
                     <S.Icon><i className="fas fa-globe-asia"></i></S.Icon>
-                    지역 관심도 비율
+                    지역 비율
                   </S.Flex>
                   <i className={"fas fa-angle-" + (!showSubRegion ? "down" : "up")}></i>
                 </S.Comment>

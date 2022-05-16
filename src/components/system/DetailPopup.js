@@ -31,11 +31,11 @@ export default function DetailPopup({ popupCode, setPopupCode }){
       <S.Tables>
         <S.TableBox wide>
           <S.SubTitle>주요 상권·지역·업종·점포</S.SubTitle>
-          {loading ? <Loading /> : <Table column={detailCols[payload?.data[0].area ? 1 : 0]} data={payload?.data} csvHeaders={detailRankCsvHeader} />}
+          {loading ? <Loading /> : <Table column={detailCols[payload?.data[0].area ? 1 : 0]} data={payload?.data} csvHeaders={detailRankCsvHeader} csvTitle={payload?.name + "_주요 순위"}/>}
         </S.TableBox>
         <S.TableBox>
-          <S.SubTitle>고객관심도</S.SubTitle>
-          {qLoading ? <Loading /> : <Table column={searchQtyCols} data={searchQty?.data} />}
+          <S.SubTitle>외식소비의도</S.SubTitle>
+          {qLoading ? <Loading /> : <Table column={searchQtyCols} data={searchQty?.data} csvTitle={payload?.name + "_외식소비의도"} />}
         </S.TableBox>
       </S.Tables>
     </S.Popup>
