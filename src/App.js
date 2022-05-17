@@ -27,6 +27,7 @@ import CorpRequired from "@/components/errorPage/CorpRequired";
 import NoAccess from "@/components/errorPage/NoAccess";
 import IndexMap from "@/routes/IndexMap";
 import System from "@/routes/System";
+import Growth from "@/routes/Growth";
 
 export default function App(){
 
@@ -76,6 +77,7 @@ export default function App(){
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
         { path: '/cid=:corpId/index-map', element: <IndexMap /> },
         { path: '/cid=:corpId/system', element: <System /> },
+        { path: '/cid=:corpId/growth', element: <Growth />},
         { 
           path: '/cid=:corpId/community',
           element: <Community />,

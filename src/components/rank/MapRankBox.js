@@ -11,8 +11,6 @@ export default function MapRankBox({ corp, setShowSelected, setSelectedIndex, lo
     </S.Center>
   );
 
-  console.log(corp);
-
   return (
     <S.BrandInfo>
       <S.Goback>

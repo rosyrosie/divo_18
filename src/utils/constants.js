@@ -1372,3 +1372,65 @@ export const detailRankCsvHeader = [
     key: 'restaurant'
   }
 ];
+
+export const subjectName = {
+  area: '상권',
+  category: '업종',
+  omrank: '점포'
+}
+
+export const growthCols = (subject) => [
+  {
+    Header: '순위',
+    accessor: 'rank'
+  },
+  {
+    Header: '급상승',
+    columns: [
+      {
+        Header: subjectName[subject],
+        accessor: 'uname'
+      },
+      {
+        Header: '상승률',
+        accessor: 'ugrowth'
+      }
+    ]
+  },
+  {
+    Header: '급하락',
+    columns: [
+      {
+        Header: subjectName[subject],
+        accessor: 'dname'
+      },
+      {
+        Header: '하락률',
+        accessor: 'dgrowth'
+      }
+    ]
+  }
+]
+
+export const growthCSVHeader = (subject) => [
+  {
+    label: '순위',
+    key: 'rank'
+  },
+  {
+    label: '급상승' + subjectName[subject],
+    key: 'uname'
+  },
+  {
+    label: '상승률',
+    key: 'ugrowth'
+  },
+  {
+    label: '급하락' + subjectName[subject],
+    key: 'dname'
+  },
+  {
+    label: '하락률',
+    key: 'dgrowth'
+  }
+]

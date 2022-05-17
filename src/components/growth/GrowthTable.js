@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { usePagination, useSortBy, useTable } from "react-table";
 import styled from 'styled-components';
-import { csvHeader } from "@constants";
 import { CSVLink } from "react-csv";
+import { growthCols, growthCSVHeader, subjectName } from "@constants";
 
-export default function Table({ column, data, csvHeaders = csvHeader, setPopupCode = () => {}, csvTitle = "상권통계" }){
+export default function GrowthTable({ subject, data }){
   const columns = useMemo(
-    () => column
-  );
+    () => growthCols(subject),
+  [subject]);
 
   const {
     getTableProps,
@@ -34,15 +34,8 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                <th {...column.getHeaderProps()}>
                   {column.render('Header')}
-                  <S.Sort>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? <i className="fas fa-sort-down"></i>
-                        : <i className="fas fa-sort-up"></i>
-                      : ''}
-                  </S.Sort>
                 </th>
               ))}
             </tr>
@@ -55,12 +48,7 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
               <tr {...row.getRowProps()}>
                 {row.cells.map(cell => {
                   return (
-                    <td {...cell.getCellProps()} onClick={
-                      () => {
-                        if(cell.column.id === 'region') setPopupCode(cell.row.original.regionCode || cell.row.original.region);
-                        if(cell.column.id === 'restaurant') window.open(cell.row.original.url);
-                      }
-                    }>
+                    <td {...cell.getCellProps()}>
                       {cell.render('Cell')}
                     </td>
                   )
@@ -114,9 +102,8 @@ export default function Table({ column, data, csvHeaders = csvHeader, setPopupCo
             ))}
           </select>
         </div>
-        <CSVLink data={data} headers={csvHeaders} filename={csvTitle}><button>CSV 다운받기</button></CSVLink>
+        <CSVLink data={data} headers={growthCSVHeader(subject)} filename={`${subjectName[subject]}변화.csv`}><button>CSV 다운받기</button></CSVLink>
       </S.BottomBar>
-     
     </S.Table>
   );
 }
@@ -148,6 +135,7 @@ S.Table = styled.div`
   table {
     border-spacing: 0;
     width: 100%;
+    text-align: center;
 
     tr {
       :last-child {
