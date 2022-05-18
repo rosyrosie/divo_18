@@ -1393,7 +1393,7 @@ export const growthCols = (subject) => [
       },
       {
         Header: '과거',
-        accessor: 'uPrev'
+        accessor: 'uPrv'
       },
       {
         Header: '현재',
@@ -1414,7 +1414,7 @@ export const growthCols = (subject) => [
       },
       {
         Header: '과거',
-        accessor: 'dPrev'
+        accessor: 'dPrv'
       },
       {
         Header: '현재',
@@ -1439,7 +1439,7 @@ export const growthCSVHeader = (subject) => [
   },
   {
     label: '과거',
-    key: 'uPrev'
+    key: 'uPrv'
   },
   {
     label: '현재',
@@ -1455,7 +1455,7 @@ export const growthCSVHeader = (subject) => [
   },
   {
     label: '과거',
-    key: 'dPrev'
+    key: 'dPrv'
   },
   {
     label: '현재',
