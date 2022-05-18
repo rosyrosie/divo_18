@@ -1374,9 +1374,10 @@ export const detailRankCsvHeader = [
 ];
 
 export const subjectName = {
-  area: '상권',
+  area: '행정구역',
   category: '업종',
-  omrank: '점포'
+  omrank: '점포',
+  keyword: '키워드'
 }
 
 export const growthCols = (subject) => [

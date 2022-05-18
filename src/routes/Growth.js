@@ -28,7 +28,8 @@ export default function Growth(){
           <option value="year">년</option>
         </select>
         <select onChange={e => setSubject(e.target.value)} defaultValue="category">
-          <option value="area">상권</option>
+          <option value="keyword">키워드</option>
+          <option value="area">행정구역</option>
           <option value="category">업종</option>
           <option value="omrank">음식점</option>
         </select>
