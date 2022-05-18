@@ -1392,6 +1392,14 @@ export const growthCols = (subject) => [
         accessor: 'uname'
       },
       {
+        Header: '과거',
+        accessor: 'uPrev'
+      },
+      {
+        Header: '현재',
+        accessor: 'uNow'
+      },
+      {
         Header: '상승률',
         accessor: 'ugrowth'
       }
@@ -1403,6 +1411,14 @@ export const growthCols = (subject) => [
       {
         Header: subjectName[subject],
         accessor: 'dname'
+      },
+      {
+        Header: '과거',
+        accessor: 'dPrev'
+      },
+      {
+        Header: '현재',
+        accessor: 'dNow'
       },
       {
         Header: '하락률',
@@ -1422,12 +1438,28 @@ export const growthCSVHeader = (subject) => [
     key: 'uname'
   },
   {
+    label: '과거',
+    key: 'uPrev'
+  },
+  {
+    label: '현재',
+    key: 'uNow'
+  },
+  {
     label: '상승률',
     key: 'ugrowth'
   },
   {
     label: '급하락' + subjectName[subject],
     key: 'dname'
+  },
+  {
+    label: '과거',
+    key: 'dPrev'
+  },
+  {
+    label: '현재',
+    key: 'dNow'
   },
   {
     label: '하락률',

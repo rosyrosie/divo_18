@@ -3,14 +3,15 @@ import styled from 'styled-components';
 import GrowthTable from "@/components/growth/GrowthTable";
 import { useFetch } from "@hooks";
 import { GROWTH_URL } from "@api";
+import Loading from '@/components/Loading';
 
 export default function Growth(){
   const [ range, setRange ] = useState('day');
-  const [ subject, setSubject ] = useState('area');
+  const [ subject, setSubject ] = useState('category');
   const [ trigger, setTrigger ] = useState(true);
 
-  const { payload } = useFetch(
-    GROWTH_URL(range, 'category'),
+  const { payload, loading } = useFetch(
+    GROWTH_URL(range, subject),
     null,
     'GET',
     [trigger]
@@ -26,7 +27,7 @@ export default function Growth(){
           <option value="quarter">분기</option>
           <option value="year">년</option>
         </select>
-        <select onChange={e => setSubject(e.target.value)}>
+        <select onChange={e => setSubject(e.target.value)} defaultValue="category">
           <option value="area">상권</option>
           <option value="category">업종</option>
           <option value="omrank">음식점</option>
@@ -34,7 +35,7 @@ export default function Growth(){
       </S.Flex>
       <S.Flex><button onClick={() => setTrigger(t => !t)}>검색</button></S.Flex>
       <S.Flex>
-        {payload && <GrowthTable subject={payload.data.type} data={payload.data.data} />}
+        {loading ? <Loading /> : <GrowthTable subject={payload.data.type} data={payload.data.data} />}
       </S.Flex>
     </>
   );
