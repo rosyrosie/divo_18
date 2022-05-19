@@ -1,10 +1,10 @@
 import { useMemo } from "react";
-import { usePagination, useSortBy, useTable } from "react-table";
+import { useSortBy, useTable } from "react-table";
 import styled from 'styled-components';
 import { CSVLink } from "react-csv";
 import { growthCols, growthCSVHeader, subjectName } from "@constants";
 
-export default function GrowthTable({ subject, data }){
+export default function GrowthTable({ subject, data, start, setStart, display, setDisplay, maxPage }){
   const columns = useMemo(
     () => growthCols(subject),
   [subject]);
@@ -14,18 +14,8 @@ export default function GrowthTable({ subject, data }){
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page,
-
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: { pageIndex, pageSize }
-  } = useTable({ columns, data, initialState: { pageIndex: 0 } }, useSortBy, usePagination);
+    rows
+  } = useTable({ columns, data }, useSortBy);
 
   return (
     <S.Table>
@@ -42,7 +32,7 @@ export default function GrowthTable({ subject, data }){
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map((row, i) => {
+          {rows.map((row, i) => {
             prepareRow(row)
             return (
               <tr {...row.getRowProps()}>
@@ -60,39 +50,39 @@ export default function GrowthTable({ subject, data }){
       </table>
       <S.BottomBar>
         <div>
-          <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          <button onClick={() => setStart(0)} disabled={!start}>
             {'<<'}
           </button>{' '}
-          <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          <button onClick={() => setStart(s => s-1)} disabled={!start}>
             {'<'}
           </button>{' '}
-          <button onClick={() => nextPage()} disabled={!canNextPage}>
+          <button onClick={() => setStart(s => s+1)} disabled={start==maxPage}>
             {'>'}
           </button>{' '}
-          <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          <button onClick={() => setStart(maxPage)} disabled={start==maxPage}>
             {'>>'}
           </button>{'  '}
           <S.Page>
             <strong>
-              {pageIndex + 1} / {pageOptions.length} 페이지
+              {start + 1} / {maxPage} 페이지
             </strong>{' '}
           </S.Page>
           <span>
             | {' '}
             <S.PageInput
               type="number"
-              defaultValue={pageIndex + 1}
+              defaultValue={start + 1}
               onChange={e => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0
-                gotoPage(page)
+                setStart(page)
               }}
             />
             {' '}페이지로 이동
           </span>{' '} | {' '}
           <select
-            value={pageSize}
+            value={display}
             onChange={e => {
-              setPageSize(Number(e.target.value))
+              setDisplay(Number(e.target.value))
             }}
           >
             {[10, 20, 30, 40, 50].map(pageSize => (
@@ -102,7 +92,7 @@ export default function GrowthTable({ subject, data }){
             ))}
           </select>
         </div>
-        <CSVLink data={data} headers={growthCSVHeader(subject)} filename={`${subjectName[subject]}변화.csv`}><button>CSV 다운받기</button></CSVLink>
+        <CSVLink data={data} headers={growthCSVHeader(subject)} filename={`${subjectName[subject]}변화(${1+start*display}-${(start+1)*display}위).csv`}><button>CSV 다운받기</button></CSVLink>
       </S.BottomBar>
     </S.Table>
   );

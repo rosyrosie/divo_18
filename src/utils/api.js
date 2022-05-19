@@ -77,4 +77,4 @@ export const SYS_DETAIL_URL = BASE_URL + 'map/bound/system/section/rank/region?a
 export const SYS_KW_RANK_URL = BASE_URL + 'map/bound/system/keyword/rank';
 export const SYS_QTY_URL = BASE_URL + 'map/bound/system/amount?area=';
 
-export const GROWTH_URL = (scale, type) => BASE_URL + 'map/bound/system/trend?scale=' + scale + '&type=' + type;
+export const GROWTH_URL = (scale, type, start, display) => BASE_URL + 'map/bound/system/trend?scale=' + scale + '&type=' + type + '&start=' + start + '&display=' + display;

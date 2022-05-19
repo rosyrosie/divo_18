@@ -9,12 +9,14 @@ export default function Growth(){
   const [ range, setRange ] = useState('day');
   const [ subject, setSubject ] = useState('category');
   const [ trigger, setTrigger ] = useState(true);
+  const [ start, setStart ] = useState(0);
+  const [ display, setDisplay ] = useState(10);
 
   const { payload, loading } = useFetch(
-    GROWTH_URL(range, subject),
+    GROWTH_URL(range, subject, start, display),
     null,
     'GET',
-    [trigger]
+    [trigger, start, display]
   );
 
   return (
@@ -34,9 +36,9 @@ export default function Growth(){
           <option value="omrank">음식점</option>
         </select>
       </S.Flex>
-      <S.Flex><button onClick={() => setTrigger(t => !t)}>검색</button></S.Flex>
+      <S.Flex><button onClick={() => {setTrigger(t => !t); setStart(0);}}>검색</button></S.Flex>
       <S.Flex>
-        {loading ? <Loading /> : <GrowthTable subject={payload.data.type} data={payload.data.data} />}
+        {loading ? <Loading /> : <GrowthTable subject={payload.data.type} data={payload.data.data} start={start} setStart={setStart} display={display} setDisplay={setDisplay} maxPage={payload.data.maxPage} />}
       </S.Flex>
     </>
   );
