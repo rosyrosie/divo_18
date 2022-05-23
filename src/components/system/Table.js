@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { csvHeader } from "@constants";
 import { CSVLink } from "react-csv";
 
-export default function Table({ column, data, csvHeaders = csvHeader, setPopupCode = () => {}, csvTitle = "상권통계" }){
+export default function Table({ column, data, csvHeaders, setPopupCode = () => {}, csvTitle }){
   const columns = useMemo(
     () => column
   );
@@ -144,7 +144,7 @@ S.Page = styled.span`
 S.Table = styled.div`
   font-size: 12px;
   overflow-y: auto;
-
+  width: 1700px;
   table {
     border-spacing: 0;
     width: 100%;

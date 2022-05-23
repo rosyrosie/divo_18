@@ -7,10 +7,10 @@ import Loading from "@/components/Loading";
 import { IM_RG_URL, SYS_KW_RANK_URL } from "@api";
 import { useFetch } from "@hooks";
 import DetailPopup from "@/components/system/DetailPopup";
-import { systemCols } from "@constants";
+import { systemCols, systemQCols, csvHeader, csvQHeader } from "@constants";
 
 export default function System(){
-  const [ regionType, setRegionType ] = useState('legal');
+  const [ regionType, setRegionType ] = useState('regionCodes');
   const [ codeList, setCodeList ] = useState({
     ctp: [],
     sig: [],
@@ -18,6 +18,7 @@ export default function System(){
   });
   const [ tableInput, setTableInput ] = useState(['0']);
   const [ keywordList, setKeywordList ] = useState([]);
+  const [ Query, setQuery ] = useState("");
   const [ startDate, setStartDate ] = useState('2021-05-01');
   const [ endDate, setEndDate ] = useState('2022-05-01');
 
@@ -25,13 +26,21 @@ export default function System(){
 
   const onSubmit = () => {
     const legalInput = codeList.emd.length ? codeList.emd : codeList.sig.length ? codeList.sig : codeList.ctp.length ? codeList.ctp : ['0'];
-    setTableInput(regionType === 'legal' ? legalInput : keywordList);
+    if(regionType === 'regionCodes') setTableInput(legalInput);
+    else if(regionType === 'keywords') setTableInput(keywordList);
+    else {
+      if(Query.length>2) {
+        setTableInput(Query);
+      } else {
+        alert("3글자 이상 입력해 주세요.");
+      }
+    }
   };
 
   const { payload: tableData, loading: tableLoading } = useFetch(
     IM_RG_URL + '0',
     {
-      [regionType === 'legal' ? 'regionCodes' : 'keywords']: tableInput,
+      [regionType] : tableInput,
       startDate,
       endDate
     },
@@ -40,30 +49,44 @@ export default function System(){
     tableInput.length
   );
 
+  const onKeyPress = e => {
+    if(e.key === 'Enter'){
+      if(Query.length>2) {
+        onSubmit();
+      } else {
+        alert("3글자 이상 입력해 주세요.");
+      }
+    }
+  }
+
   return (
     <>
       <S.Table>
-        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={systemCols} data={tableData.data} setPopupCode={setPopupCode} />}
+        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={regionType === 'query' ? systemQCols : systemCols} data={tableData.data} setPopupCode={setPopupCode} csvHeaders={regionType === 'query' ? csvQHeader : csvHeader} csvTitle={regionType=='query' ? "음식점 통계" : "상권 통계"}/>}
       </S.Table>
       <S.Toggle>
-        <S.Button selected={regionType === 'legal'} onClick={() => setRegionType('legal')}>행정구역</S.Button>
-        <S.Button selected={regionType === 'keyword'} onClick={() => setRegionType('keyword')}>키워드상권</S.Button>
+        <S.Button selected={regionType === 'regionCodes'} onClick={() => setRegionType('regionCodes')}>행정구역</S.Button>
+        <S.Button selected={regionType === 'keywords'} onClick={() => setRegionType('keywords')}>키워드상권</S.Button>
+        <S.Button selected={regionType === 'query'} onClick={() => setRegionType('query')}>음식점</S.Button>
       </S.Toggle>
       <S.DateRange>
         <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
         {'~'}
         <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
       </S.DateRange>
-      {regionType==='legal' ? 
-        <LegalArea codeList={codeList} setCodeList={setCodeList} />
-      : 
-        <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />
-      }
+        {regionType==='regionCodes' && <LegalArea codeList={codeList} setCodeList={setCodeList} />}
+        {regionType==='keywords' && <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />}
+        {regionType==='query' && <S.qBox><S.Search>
+        <S.Input placeholder="음식점 이름 입력(4자 이상)" value={Query} onChange={e => setQuery(e.target.value)} onKeyPress={onKeyPress} />
+        <S.qButton onClick={onSubmit}><i className="fas fa-search"></i></S.qButton>
+      </S.Search></S.qBox>}
       <S.Submit onClick={onSubmit}>상권 분석</S.Submit>
       {popupCode && <DetailPopup popupCode={popupCode} setPopupCode={setPopupCode} />}
     </>
   );
 }
+
+
 
 const S = {};
 
@@ -111,4 +134,37 @@ S.Button = styled.div`
     border-bottom: 1.5px solid;
   `}
   cursor: pointer;
+`;
+
+S.Input = styled.input`
+  padding: 12px;
+  flex: 1;
+  border: none;
+  background: none;
+  border-radius: 10px;
+  &:focus{
+    outline: none;
+  }
+`;
+
+S.qButton = styled.button`
+  background: none;
+  border: none;
+  padding-right: 12px;
+  cursor: pointer;
+`;
+
+S.Search = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 450px;
+  border-radius: 10px;
+  border: 1px solid #d2d2d7;
+  margin-top: 10px;
+`;
+
+S.qBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
 `;
