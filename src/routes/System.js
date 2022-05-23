@@ -51,11 +51,7 @@ export default function System(){
 
   const onKeyPress = e => {
     if(e.key === 'Enter'){
-      if(Query.length>2) {
-        onSubmit();
-      } else {
-        alert("3글자 이상 입력해 주세요.");
-      }
+      onSubmit();
     }
   }
 
@@ -77,7 +73,7 @@ export default function System(){
         {regionType==='regionCodes' && <LegalArea codeList={codeList} setCodeList={setCodeList} />}
         {regionType==='keywords' && <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />}
         {regionType==='query' && <S.qBox><S.Search>
-        <S.Input placeholder="음식점 이름 입력(4자 이상)" value={Query} onChange={e => setQuery(e.target.value)} onKeyPress={onKeyPress} />
+        <S.Input placeholder="음식점 이름 입력(3자 이상)" value={Query} onChange={e => setQuery(e.target.value)} onKeyPress={onKeyPress} />
         <S.qButton onClick={onSubmit}><i className="fas fa-search"></i></S.qButton>
       </S.Search></S.qBox>}
       <S.Submit onClick={onSubmit}>상권 분석</S.Submit>
