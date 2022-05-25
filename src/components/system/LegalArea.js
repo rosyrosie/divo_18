@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { SYS_GET_REG_URL } from "@api";
 import { useFetch } from "@hooks";
 
-export default function LegalArea({ codeList, setCodeList }){
+export default function LegalArea({ codeList, setCodeList, all = true }){
   const [ sigCode, setSigCode ] = useState(null);
   const [ ctpCode, setCtpCode ] = useState(null);
 
@@ -81,10 +81,10 @@ export default function LegalArea({ codeList, setCodeList }){
       <S.CheckBox>
         <S.Title>시.도</S.Title>
         <S.RegionList>
-          <S.Label>
+          {all && <S.Label>
             <input type="checkbox" onClick={e => onClickWhole(e, 'ctp')}/>
             <S.Region>전체</S.Region>
-          </S.Label>
+          </S.Label>}
           {ctpList?.subset?.map(ctp => (
             <S.Label key={ctp.regionCode}>
               <input type="checkbox" value={ctp.regionCode} checked={codeList.ctp.includes(ctp.regionCode)} onChange={e => onClickRegion(e, 'ctp')}/>
@@ -98,10 +98,10 @@ export default function LegalArea({ codeList, setCodeList }){
         <S.RegionList>
           {ctpCode && 
           <>
-            <S.Label>
+            {all && <S.Label>
               <input type="checkbox" onClick={e => onClickWhole(e, 'sig')}/>
               <S.Region>전체</S.Region>
-            </S.Label>
+            </S.Label>}
             {sigList?.subset?.map(sig => (
               <S.Label key={sig.regionCode}>
                 <input type="checkbox" value={sig.regionCode} checked={codeList.sig.includes(sig.regionCode)} onChange={e => onClickRegion(e, 'sig')}/>
@@ -117,10 +117,10 @@ export default function LegalArea({ codeList, setCodeList }){
         <S.RegionList>
           {(ctpCode && sigCode) && 
           <>
-            <S.Label>
+            {all && <S.Label>
               <input type="checkbox"  onClick={e => onClickWhole(e, 'emd')}/>
               <S.Region>전체</S.Region>
-            </S.Label>
+            </S.Label>}
             {emdList?.subset?.map(emd => (
               <S.Label key={emd.regionCode}>
                 <input type="checkbox" value={emd.regionCode} checked={codeList.emd.includes(emd.regionCode)} onChange={e => onClickRegion(e, 'emd')}/>

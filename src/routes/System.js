@@ -58,7 +58,7 @@ export default function System(){
   return (
     <>
       <S.Table>
-        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={regionType === 'query' ? systemQCols : systemCols} data={tableData.data} setPopupCode={setPopupCode} csvHeaders={regionType === 'query' ? csvQHeader : csvHeader} csvTitle={regionType=='query' ? "음식점 통계" : "상권 통계"}/>}
+        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={regionType === 'query' ? systemQCols : systemCols} data={tableData.data} setPopupCode={setPopupCode} csvHeaders={regionType === 'query' ? csvQHeader : csvHeader} csvTitle={regionType==='query' ? "음식점 통계" : "상권 통계"}/>}
       </S.Table>
       <S.Toggle>
         <S.Button selected={regionType === 'regionCodes'} onClick={() => setRegionType('regionCodes')}>행정구역</S.Button>
