@@ -18,7 +18,7 @@ export default function System(){
   });
   const [ tableInput, setTableInput ] = useState(['0']);
   const [ keywordList, setKeywordList ] = useState([]);
-  const [ Query, setQuery ] = useState("");
+  const [ query, setQuery ] = useState("");
   const [ startDate, setStartDate ] = useState('2021-05-01');
   const [ endDate, setEndDate ] = useState('2022-05-01');
 
@@ -29,8 +29,8 @@ export default function System(){
     if(regionType === 'regionCodes') setTableInput(legalInput);
     else if(regionType === 'keywords') setTableInput(keywordList);
     else {
-      if(Query.length>2) {
-        setTableInput(Query);
+      if(query.length>2) {
+        setTableInput(query);
       } else {
         alert("3글자 이상 입력해 주세요.");
       }
@@ -58,7 +58,7 @@ export default function System(){
   return (
     <>
       <S.Table>
-        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={regionType === 'query' ? systemQCols : systemCols} data={tableData.data} setPopupCode={setPopupCode} csvHeaders={regionType === 'query' ? csvQHeader : csvHeader} csvTitle={regionType==='query' ? "음식점 통계" : "상권 통계"}/>}
+        {tableLoading ? <S.Loading><Loading size={40} /></S.Loading> : tableData && <Table column={regionType === 'query' ? systemQCols : systemCols} data={tableData.data} setPopupCode={setPopupCode} csvHeaders={regionType === 'query' ? csvQHeader : csvHeader} csvTitle={regionType==='query' ? "음식점 통계" : "상권 통계"} fixed />}
       </S.Table>
       <S.Toggle>
         <S.Button selected={regionType === 'regionCodes'} onClick={() => setRegionType('regionCodes')}>행정구역</S.Button>
@@ -72,10 +72,14 @@ export default function System(){
       </S.DateRange>
         {regionType==='regionCodes' && <LegalArea codeList={codeList} setCodeList={setCodeList} />}
         {regionType==='keywords' && <KeywordArea keywordList={keywordList} setKeywordList={setKeywordList} />}
-        {regionType==='query' && <S.qBox><S.Search>
-        <S.Input placeholder="음식점 이름 입력(3자 이상)" value={Query} onChange={e => setQuery(e.target.value)} onKeyPress={onKeyPress} />
-        <S.qButton onClick={onSubmit}><i className="fas fa-search"></i></S.qButton>
-      </S.Search></S.qBox>}
+        {regionType==='query' && 
+        <S.QBox>
+          <S.Search>
+            <S.Input placeholder="음식점 이름 입력(3자 이상)" value={query} onChange={e => setQuery(e.target.value)} onKeyPress={onKeyPress} />
+            <S.QButton onClick={onSubmit}><i className="fas fa-search"></i></S.QButton>
+          </S.Search>
+        </S.QBox>
+      }
       <S.Submit onClick={onSubmit}>상권 분석</S.Submit>
       {popupCode && <DetailPopup popupCode={popupCode} setPopupCode={setPopupCode} />}
     </>
@@ -143,7 +147,7 @@ S.Input = styled.input`
   }
 `;
 
-S.qButton = styled.button`
+S.QButton = styled.button`
   background: none;
   border: none;
   padding-right: 12px;
@@ -159,7 +163,7 @@ S.Search = styled.div`
   margin-top: 10px;
 `;
 
-S.qBox = styled.div`
+S.QBox = styled.div`
   display: flex;
   justify-content: center;
   margin-bottom: 35px;

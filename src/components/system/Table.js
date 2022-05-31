@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { csvHeader } from "@constants";
 import { CSVLink } from "react-csv";
 
-export default function Table({ column, data, csvHeaders, setPopupCode = () => {}, csvTitle }){
+export default function Table({ column, data, csvHeaders, setPopupCode = () => {}, csvTitle, fixed = false }){
   const columns = useMemo(
     () => column
   );
@@ -28,7 +28,7 @@ export default function Table({ column, data, csvHeaders, setPopupCode = () => {
   } = useTable({ columns, data, initialState: { pageIndex: 0 } }, useSortBy, usePagination);
 
   return (
-    <S.Table>
+    <S.Table fixed={fixed}>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map(headerGroup => (
@@ -144,7 +144,7 @@ S.Page = styled.span`
 S.Table = styled.div`
   font-size: 12px;
   overflow-y: auto;
-  width: 1700px;
+  ${props => props.fixed && 'width: 1700px;'}
   table {
     border-spacing: 0;
     width: 100%;
