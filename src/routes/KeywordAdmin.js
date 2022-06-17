@@ -19,13 +19,14 @@ export default function KeywordAdmin(){
   const [ newBrand, setNewBrand ] = useState('');
   const [ newSec, setNewSec ] = useState('');
   const [ newCat, setNewCat ] = useState('');
+  const [ newRival, setNewRival ] = useState('');
 
   const [ isChanging, setIsChanging ] = useState(false);
 
-  const [ keywordSet, setKeywordSet ] = useState({brand: [], rel: [], section: [], category: []});
+  const [ keywordSet, setKeywordSet ] = useState({brand: [], rel: [], section: [], category: [], rival: []});
 
   useEffect(() => {
-    setKeywordSet({ brand: payload?.brand, rel: payload?.rel, section: payload?.section, category: payload?.category });
+    setKeywordSet({ brand: payload?.brand, rel: payload?.rel, section: payload?.section, category: payload?.category, rival: payload?.rival });
   }, [payload]);
 
   const addBrand = e => {
@@ -46,9 +47,16 @@ export default function KeywordAdmin(){
     setNewCat('');
   }
 
+  const addRival = e => {
+    if(e.key !== 'Enter' || !newRival || keywordSet.rival.includes(newRival)) return;
+    setKeywordSet(set => ({ ...set, rival: [newRival, ...set.rival ] }));
+    setNewRival('');
+  }
+
   const delBrand = word => setKeywordSet(set => ({ ...set, brand : [...set.brand].filter(e => e !== word) }));
   const delSec = word => setKeywordSet(set => ({ ...set, section: [...set.section].filter(e => e !== word) }));
   const delCat = word => setKeywordSet(set => ({ ...set, category: [...set.category].filter(e => e !== word) }));
+  const delRival = word => setKeywordSet(set => ({ ...set, rival: [...set.rival].filter(e => e !== word) }));
 
   const onSubmit = e => {
     e.preventDefault();
@@ -97,6 +105,17 @@ export default function KeywordAdmin(){
               ))}
             </S.Scroll>
             <S.Input value={newCat} onChange={e => setNewCat(e.target.value)} onKeyPress={addCat} />
+          </S.Words>
+        </S.Box>
+        <S.Box>
+          <S.Title>경쟁 키워드</S.Title>
+          <S.Words>
+            <S.Scroll>
+              {keywordSet?.rival?.map(word => (
+                <S.Word onClick={() => delRival(word)} key={word}>{word}</S.Word>
+              ))}
+            </S.Scroll>
+            <S.Input value={newRival} onChange={e => setNewRival(e.target.value)} onKeyPress={addRival} />
           </S.Words>
         </S.Box>
       </S.Flex>
