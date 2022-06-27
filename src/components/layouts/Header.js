@@ -10,9 +10,6 @@ export default function Header({ sticky = false, dark = true, corpName }){
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
   const navigate = useNavigate();
-  // const isMobile = useMediaQuery({
-  //   query: "(max-width: 767px)"
-  // });
 
   const searchRef = useRef(null);
   const dropDownRef = useRef(null);

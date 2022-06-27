@@ -8,6 +8,8 @@ export const OLD_AUTH_URL = BASE_URL + 'auth/account/find/';
 export const RESET_URL = BASE_URL + 'auth/account/reset/';
 export const CORP_AUTH_URL = BASE_URL + 'corporation/permission/?corp_id=';
 
+export const IS_ADMIN_URL = BASE_URL + 'model/isAdmin';
+
 export const GET_YS_CAT_URL = BASE_URL + 'corporation/yeoshin/sync/';
 export const SYNC_YS_URL = BASE_URL + 'corporation/yeoshin/';
 export const SYNC_SALES_URL = BASE_URL + 'corporation/sales/sync/';

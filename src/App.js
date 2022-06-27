@@ -75,7 +75,7 @@ export default function App(){
         { path: '/cid=:corpId/community', element: <Community /> },
         { path: '/cid=:corpId/vp-rank', element: <ViewPlaceRank /> },
         { path: '/cid=:corpId/keyword-score', element: <KeywordScore /> },
-        { path: '/cid=:corpId/index-map', element: <IndexMap /> },
+        // { path: '/cid=:corpId/index-map', element: <IndexMap /> },
         { path: '/cid=:corpId/system', element: <System /> },
         { path: '/cid=:corpId/growth', element: <Growth />},
         { 

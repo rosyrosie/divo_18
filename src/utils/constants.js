@@ -13,7 +13,7 @@ export const menuList = [
   {title: '매출액 분석', url: '/sales-analysis'},
   // {title: '트렌드 분석', url: '/'},
   // {title: '키워드 매출 연관성', url: '/'},
-  {title: '음식점 순위', url: '/rank'},
+  // {title: '음식점 순위', url: '/rank'},
   {title: '커뮤니티', url: '/community/board=information'},
 ];
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { CORPLIST_URL, DEL_CORP_URL } from '@api';
+import { CORPLIST_URL, DEL_CORP_URL, IS_ADMIN_URL } from '@api';
 import { useFetch } from '@hooks';
 import { useState, useEffect } from 'react';
 
@@ -17,6 +17,12 @@ export default function CorpManagement(){
     null,
     'GET',
     [sortType, trigger]
+  );
+
+  const { payload: isAdmin } = useFetch(
+    IS_ADMIN_URL,
+    null,
+    'GET'
   );
 
   const deleteCorp = id => {
@@ -61,7 +67,7 @@ export default function CorpManagement(){
         </S.Sorts>
       }
       {(payload?.corpList?.length === 0) && <S.Text>등록된 브랜드가 없습니다</S.Text>}
-      <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>
+      {isAdmin?.isAdmin && <S.Add onClick={() => navigate(`/cid=${corpId}/corp-addition`)}>브랜드 추가하기</S.Add>}
     </S.Content>
   );
 }
