@@ -3,13 +3,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { menuList  } from '@constants';
 import CorpListModal from '@/components/CorpListModal';
-import { useDetectOutsideClick } from '@hooks';
+import { useDetectOutsideClick, useFetch } from '@hooks';
+import { IS_ADMIN_URL } from "@api";
 
 export default function Header({ sticky = false, dark = true, corpName }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
   const navigate = useNavigate();
+
+  const { payload: isAdmin } = useFetch(
+    IS_ADMIN_URL,
+    null,
+    'GET',
+    [token]
+  );
 
   const searchRef = useRef(null);
   const dropDownRef = useRef(null);
@@ -82,6 +90,7 @@ export default function Header({ sticky = false, dark = true, corpName }){
               <S.Dropdown ref={dropDownRef}>
                 <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
                 <S.Drop onClick={() => { navigate('corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
+                {isAdmin?.isAdmin && <S.Drop onClick={() => { navigate('user-management'); setShowDropDown(false); }}>회원 관리</S.Drop>}
                 <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
               </S.Dropdown>)
             }

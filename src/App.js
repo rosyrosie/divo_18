@@ -25,9 +25,9 @@ import KeywordScore from "@/routes/KeywordScore";
 import LoginRequired from "@/components/errorPage/LoginRequired";
 import CorpRequired from "@/components/errorPage/CorpRequired";
 import NoAccess from "@/components/errorPage/NoAccess";
-import IndexMap from "@/routes/IndexMap";
 import System from "@/routes/System";
 import Growth from "@/routes/Growth";
+import UserManagement from "@/routes/UserManagement";
 
 export default function App(){
 
@@ -67,6 +67,7 @@ export default function App(){
         { path: '/cid=:corpId/keyword-analysis/keyword=:keyword', element: <KeywordAnalysis /> },
         { path: '/cid=:corpId/sales-analysis', element: <SalesAnalysis /> },
         { path: '/cid=:corpId/corp-management', element: <CorpManagement /> },
+        { path: '/cid=:corpId/user-management', element: <UserManagement /> },
         { path: '/cid=:corpId/corp-addition', element: <CorpAddition /> },
         { path: '/cid=:corpId/keyword-admin', element: <KeywordAdmin /> },
         { path: '/cid=:corpId/corp-auth', element: <CorpAuth /> },
