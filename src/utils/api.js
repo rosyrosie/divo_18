@@ -10,6 +10,7 @@ export const CORP_AUTH_URL = BASE_URL + 'corporation/permission/?corp_id=';
 
 export const IS_ADMIN_URL = BASE_URL + 'model/isAdmin';
 export const USER_LIST_URL = BASE_URL + 'model/getEveryUser';
+export const USER_TOGGLE_URL = BASE_URL + 'model/userSetting/toggle?email=';
 
 export const GET_YS_CAT_URL = BASE_URL + 'corporation/yeoshin/sync/';
 export const SYNC_YS_URL = BASE_URL + 'corporation/yeoshin/';
