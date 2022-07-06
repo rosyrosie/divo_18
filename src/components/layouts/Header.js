@@ -155,7 +155,7 @@ S.Header = styled.div`
   justify-content: space-between;
   ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(245, 245, 247, 0.7); color: #1d1d1f;'}
   backdrop-filter: saturate(180%) blur(20px);
-  padding: 0 40px;
+  padding: 0 20px;
   ${props => props.align && 'justify-content: center;'}
 `;
 

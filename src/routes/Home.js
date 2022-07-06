@@ -1,5 +1,5 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
 
 export default function Home(){
   const navigate = useNavigate();
@@ -8,7 +8,17 @@ export default function Home(){
       <S.Box>
         <S.Title>당신의 매장을 책임질</S.Title>
         <S.Title>단 하나의 솔루션</S.Title>
-        <S.SubTitle>매출 관리부터 마케팅까지</S.SubTitle>
+        <S.SubTitle>
+          매출관리 등 더 다양한 기능을 사용하고 싶다면?
+          <S.Links>
+            <S.A href="https://corp.divo.kr" target="_blank" rel="noopener noreferrer"> 보러가기 {'>'} </S.A>
+            <S.A onClick={() => navigate('community/board=qna')}> 질문하기 {'>'} </S.A>
+          </S.Links>
+        </S.SubTitle>
+        <S.Cf>
+          사용문의
+          <S.Email>webkim@naver.com</S.Email>
+        </S.Cf>
       </S.Box>
     </S.Content>
   );
@@ -22,6 +32,19 @@ S.Content = styled.div`
   flex-flow: column;
   align-items: center;
   color: #1d1d1f;
+`;
+
+S.Cf = styled.div`
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin-top: 72px;
+  font-weight: bold;
+`;
+
+S.Email = styled.div`
+  margin-top: 8px;
+  font-weight: normal;
 `;
 
 S.Box = styled.div`
@@ -39,16 +62,35 @@ S.Box = styled.div`
 
 S.Title = styled.div`
   font-weight: 900;
-  font-size: 54px;
+  font-size: 48px;
   margin-bottom: 10px;
   ${props => props.isWhite ? 'color: #f5f5f7;' : ''}
 `;
 
 S.SubTitle = styled.div`
-  font-weight: 400;
-  font-size: 24px;
+  font-weight: 600;
+  font-size: 20px;
   margin-top: 60px;
   color: #515154;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+`;
+
+S.A = styled.a`
+  text-decoration: none;
+  cursor: pointer;
+  color: #06c;
+  font-weight: normal;
+  font-size: 18px;
+  margin-right: 12px;
+  &:hover{
+    text-decoration: underline;
+  }
+`;
+
+S.Links = styled.span`
+  margin-top: 24px;
 `;
 
 S.FeatureBox = styled.div`
