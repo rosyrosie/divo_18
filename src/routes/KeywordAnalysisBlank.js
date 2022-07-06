@@ -77,6 +77,7 @@ S.Content = styled.div`
   align-items: center;
   color: #1d1d1f;
   flex-flow: column;
+  background: #f5f5f7;
 `;
 
 S.Flex = styled.div`

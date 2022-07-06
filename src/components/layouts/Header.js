@@ -6,7 +6,7 @@ import CorpListModal from '@/components/CorpListModal';
 import { useDetectOutsideClick, useFetch } from '@hooks';
 import { IS_ADMIN_URL } from "@api";
 
-export default function Header({ sticky = false, dark = true, corpName }){
+export default function Header({ sticky = false, dark = false, corpName }){
   const { corpId } = useParams();
   const [ input, setInput ] = useState('');
   let token = localStorage.getItem('token');
@@ -71,42 +71,40 @@ export default function Header({ sticky = false, dark = true, corpName }){
       <S.Flex sticky={sticky}>
         {!isSearching ? 
         <S.Header dark={dark}>
-          <S.Logo onClick={() => navigate(corpId!==undefined ? `/cid=${corpId}` : '/')}>Divo</S.Logo>
-          {menuList.map((menuObj, i) => (
-            <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(CORP_URL + menuObj.url)}>{menuObj.title}</S.Menu>
-          ))}
-          <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>
-          <S.LogoBox>
-            <S.Logo onClick={() => setShowDropDown(d => !d)}>
-              <i className="fas fa-user"></i>
-              <S.Brand>{corpName}</S.Brand>
-            </S.Logo>
-            {showDropDown && 
-              (!token ?
-              <S.Dropdown ref={dropDownRef}>
-                <S.Drop onClick={handleLogin}>로그인</S.Drop>
-                <S.Drop onClick={handleSignup}>회원가입</S.Drop>
-              </S.Dropdown> :
-              <S.Dropdown ref={dropDownRef}>
-                <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
-                <S.Drop onClick={() => { navigate('corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
-                {isAdmin?.isAdmin && <S.Drop onClick={() => { navigate('user-management'); setShowDropDown(false); }}>회원 관리</S.Drop>}
-                <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
-              </S.Dropdown>)
-            }
-          </S.LogoBox>
+            <S.Logo onClick={() => navigate(corpId!==undefined ? `/cid=${corpId}` : '/')}>Divo</S.Logo>
+          <S.Left>
+            {menuList.map((menuObj, i) => (
+              <S.Menu dark={dark} key={menuObj.title} onClick={() => navigate(CORP_URL + menuObj.url)}>{menuObj.title}</S.Menu>
+            ))}
+            {isAdmin?.isAdmin && <S.Logo onClick={() => {setIsSearching(true);}}><i className="fas fa-search"></i></S.Logo>}
+            <S.LogoBox>
+              <S.Logo onClick={() => setShowDropDown(d => !d)}>
+                <i className="fas fa-user"></i>
+                <S.Brand>{corpName}</S.Brand>
+              </S.Logo>
+              {showDropDown && 
+                (!token ?
+                <S.Dropdown ref={dropDownRef}>
+                  <S.Drop onClick={handleLogin}>로그인</S.Drop>
+                  <S.Drop onClick={handleSignup}>회원가입</S.Drop>
+                </S.Dropdown> :
+                <S.Dropdown ref={dropDownRef}>
+                  <S.Drop onClick={() => setShowModal(true)}>브랜드 전환</S.Drop>
+                  <S.Drop onClick={() => { navigate('corp-management'); setShowDropDown(false); }}>브랜드 관리</S.Drop>
+                  {isAdmin?.isAdmin && <S.Drop onClick={() => { navigate('user-management'); setShowDropDown(false); }}>회원 관리</S.Drop>}
+                  <S.Drop onClick={handleLogout}>로그아웃</S.Drop>
+                </S.Dropdown>)
+              }
+            </S.LogoBox>
+          </S.Left>
         </S.Header> :
-        <S.Header dark={dark} ref={searchRef}>
-          <S.Logo onClick={handleSearch}><i className="fas fa-search"></i></S.Logo>
-          <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={handleKeyPressSearch} />
-          <S.Logo onClick={() => setIsSearching(false)}><i className="fas fa-times"></i></S.Logo>
+        <S.Header dark={dark} ref={searchRef} align={true}>
+          <S.Left>
+            <S.Logo onClick={handleSearch}><i className="fas fa-search"></i></S.Logo>
+            <S.Input dark={dark} placeholder="분석할 키워드를 입력하세요" value={input} onChange={e => setInput(e.target.value)} onKeyPress={handleKeyPressSearch} />
+            <S.Logo onClick={() => setIsSearching(false)}><i className="fas fa-times"></i></S.Logo>
+          </S.Left>
         </S.Header>}
-        {/* {menu>=0 && 
-        <S.SubMenus>
-          {subMenuList[menu].map((subMenu, i) => (
-            <S.SubMenu key={subMenu} onClick={() => navigate(subMenuUrlList[menu][i])}>{subMenu}</S.SubMenu>
-          ))}
-        </S.SubMenus>} */}
       </S.Flex>
       {showModal && <CorpListModal setShowModal={setShowModal} modalRef={modalRef} />} 
     </>
@@ -120,14 +118,16 @@ S.Flex = styled.div`
   ${props => props.sticky ? 'position: sticky; top: 0;' : ''}
 `;
 
+S.Left = styled.div`
+  display: flex;
+`;
+
 S.SubMenus = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  //background: rgba(245, 245, 247, 0.7);
   background: rgba(0, 0, 0, 0.7);
-  //color: #1d1d1f;
   color: #f5f5f7;
   padding: 20px 0;
   font-size: 12px;
@@ -152,26 +152,31 @@ S.Header = styled.div`
   font-size: 12px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   ${props => props.dark ? 'background: rgba(0, 0, 0, 0.7); color: #f5f5f7;' : 'background: rgba(245, 245, 247, 0.7); color: #1d1d1f;'}
   backdrop-filter: saturate(180%) blur(20px);
+  padding: 0 40px;
+  ${props => props.align && 'justify-content: center;'}
 `;
 
 S.Menu = styled.div`
   margin: 0 20px;
   opacity: .8;
   transition: opacity 0.3s;
-  //font-weight: bold;
+  font-weight: bold;
+  font-size: 13px;
   &:hover{
     cursor: pointer;
     opacity: 1;
   }
+  display: flex;
+  align-items: center;
 `;
 
 S.Logo = styled(S.Menu)`
   font-family: 'Montserrat', 'Pretendard';
-  font-size: 17px;
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 800;
   display: flex;
   align-items: center;
 `;
@@ -247,7 +252,7 @@ S.Triangle = styled.div`
 S.Brand = styled.div`
   font-size: 12px;
   margin-left: 10px;
-  width: 100px;
+  max-width: 100px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

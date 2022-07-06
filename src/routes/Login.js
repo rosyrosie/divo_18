@@ -57,6 +57,7 @@ S.Content = styled.div`
   align-items: center;
   flex-flow: column;
   color: #1d1d1f;
+  background: #f5f5f7;
 `;
 
 S.Button = styled.button`
