@@ -845,6 +845,29 @@ export const keywordCols = [
   },
 ];
 
+export const keywordCSVCols = [
+  {
+    key: 'keyword',
+    label: '키워드'
+  },
+  {
+    key: 'pcSearch',
+    label: '월간 검색량(PC)',
+  }, 
+  {
+    key: 'mobileSearch',
+    label: '월간 검색량(Mobile)',
+  },
+  {
+    key: 'totalSearch',
+    label: '월간 검색량(전체)',
+  },
+  {
+    key: 'totalBlog',
+    label: '월간 블로그 발행량',
+  },
+];
+
 export const viewCols = [
   {
     accessor: 'rank',
@@ -869,6 +892,33 @@ export const viewCols = [
   {
     accessor: 'visitor',
     Header: '방문자 수'
+  }
+];
+
+export const viewCSVCols = [
+  {
+    key: 'rank',
+    label: '순위'
+  },
+  {
+    key: 'type',
+    label: '유형'
+  }, 
+  {
+    key: 'author',
+    label: '작성자'
+  },
+  {
+    key: 'title',
+    label: '제목'
+  },
+  {
+    key: 'date',
+    label: '콘텐츠 발행일'
+  },
+  {
+    key: 'visitor',
+    label: '방문자 수'
   }
 ];
 

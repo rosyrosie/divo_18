@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 import { useState, useMemo } from 'react';
 import { KA_VIEW_URL, KA_RELATIVE_URL } from '@api';
-import { keywordCols, viewCols } from '@constants';
+import { keywordCols, viewCols, keywordCSVCols, viewCSVCols } from '@constants';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@hooks';
 import { useTable, useGlobalFilter, useSortBy } from "react-table"
 import ViewTable from '@/components/keywordAnalysis/ViewTable';
 import RelTable from '@/components/keywordAnalysis/RelTable';
 import Loading from '@/components/Loading';
+import { CSVLink } from "react-csv";
 
 export default function TableBox(){
   const [ tab, setTab ] = useState(0);
@@ -68,6 +69,15 @@ export default function TableBox(){
                 />
               }
             </S.Table>
+            <S.Download>
+              <CSVLink
+                data={data}
+                headers={tab ? keywordCSVCols : viewCSVCols}
+                filename={`${keyword}_${tab ? '연관검색어' : 'View 검색결과'}.csv`}
+              >
+                <button>다운로드</button>
+              </CSVLink>
+            </S.Download>
             <S.No>{!data.length && '검색 결과가 없습니다'}</S.No>
           </> : 
         <Loading />}
@@ -81,6 +91,13 @@ const S = {};
 S.Flex = styled.div`
   display: flex;
   flex-flow: column;
+`;
+
+S.Download = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  margin-top: 24px;
 `;
 
 S.Section = styled.div`
