@@ -13,6 +13,7 @@ export default function Home(){
           <S.Links>
             <S.A href="https://corp.divo.kr" target="_blank" rel="noopener noreferrer"> 보러가기 {'>'} </S.A>
             <S.A onClick={() => navigate('community/board=qna')}> 질문하기 {'>'} </S.A>
+            <S.A href="https://www.notion.so/divo-user-guide/Divo-ef2c048d77134022b1828499dc77e59b" target="_blank" rel="noopener noreferrer"> 설명서 보기 {'>'} </S.A>
           </S.Links>
         </S.SubTitle>
         <S.Cf>
